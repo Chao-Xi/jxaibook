@@ -521,3 +521,6 @@ print(f'{summoner_name} has a {win_percentage:.2f}% win rate in ranked solo queu
 ```
 
 ![Alt Image Text](../images/chap3_1_28.png "Body image")
+
+
+
