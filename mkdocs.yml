@@ -58,6 +58,8 @@ nav:
     - '1 谷歌 A2A （Agent2Agent）架构设计深度剖析': 'chap7_a2a/1a2a_intro.md'
     - '2 关于A2A、MCP、Agent、LLM的6条极简事实': 'chap7_a2a/2a2a_intro2.md'
     - '3 谷歌 A2A 与 Anthropic MCP 协议深度解析' : 'chap7_a2a/3a2a_intro3.md'
+  - 'Agentic LLMs for Developers':
+    - '1 Introduction to Developing AI Agents': 'chap8_agllm/1ai_agent.md'
 
 repo_url: https://github.com/Chao-Xi/jxaibook.git
 repo_name: "jxaibook"
