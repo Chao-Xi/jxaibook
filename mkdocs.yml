@@ -60,6 +60,8 @@ nav:
     - '3 谷歌 A2A 与 Anthropic MCP 协议深度解析' : 'chap7_a2a/3a2a_intro3.md'
   - 'Agentic LLMs for Developers':
     - '1 Introduction to Developing AI Agents': 'chap8_agllm/1ai_agent.md'
+    - '第一章 初识智能体': 'chap8_agllm/2ai_agents.md'
+    - '第二章 智能体发展史': 'chap8_agllm/3ai_agents_his.md'
 
 repo_url: https://github.com/Chao-Xi/jxaibook.git
 repo_name: "jxaibook"
