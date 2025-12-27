@@ -1,6 +1,8 @@
 # **从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践**
 
-[agentic_app(OpenAI API)](./agentic_app)
+**项目代码:**
+
+[agentic_app(OpenAI API)](https://github.com/Chao-Xi/jxaibook/tree/main/docs/chap8_agllm/agentic_app)
 
 ## Part 1 - 架构分析
 
@@ -428,7 +430,7 @@ handoffs=[packager_agent]
 
 
 
-### 五、整体设计亮点总结（可直接写进博客）
+### 五、整体设计亮点总结
 
  ✅ 1. Agent 单一职责原则（SRP）
 
@@ -486,6 +488,11 @@ output_type=PlannerOut
 
 
 ## Part 3 - 云端 Agent 项目”真正落地成本地可控系统
+
+
+**项目代码:**
+
+[agentic_app(OpenAI API)](https://github.com/Chao-Xi/jxaibook/tree/main/docs/chap8_agllm/agentic_app_local)
 
 
 把整个项目**从 OpenAI 云端模型 → 本地 Ollama + qwen2.5**，**系统性地改一遍**。
