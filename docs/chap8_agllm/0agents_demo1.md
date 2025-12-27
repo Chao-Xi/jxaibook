@@ -492,7 +492,7 @@ output_type=PlannerOut
 
 **项目代码:**
 
-[agentic_app(OpenAI API)](https://github.com/Chao-Xi/jxaibook/tree/main/docs/chap8_agllm/agentic_app_local)
+[agentic_app(Local Model Qwen)](https://github.com/Chao-Xi/jxaibook/tree/main/docs/chap8_agllm/agentic_app_local)
 
 
 把整个项目**从 OpenAI 云端模型 → 本地 Ollama + qwen2.5**，**系统性地改一遍**。
