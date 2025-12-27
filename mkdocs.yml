@@ -59,6 +59,8 @@ nav:
     - '2 关于A2A、MCP、Agent、LLM的6条极简事实': 'chap7_a2a/2a2a_intro2.md'
     - '3 谷歌 A2A 与 Anthropic MCP 协议深度解析' : 'chap7_a2a/3a2a_intro3.md'
   - 'Agentic LLMs for Developers':
+    - '0 OpenAI Responses API 与 Agents SDK': 'chap8_agllm/0responseApi.md'
+    - '0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践': 'chap8_agllm/0agents_demo1.md'
     - '1 Introduction to Developing AI Agents': 'chap8_agllm/1ai_agent.md'
     - '第一章 初识智能体': 'chap8_agllm/2ai_agents.md'
     - '第二章 智能体发展史': 'chap8_agllm/3ai_agents_his.md'
