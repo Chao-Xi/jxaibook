@@ -1,0 +1,6397 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../../chap7_a2a/3a2a_intro3/">
+      
+      
+        <link rel="next" href="../0agents_demo1/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>0 OpenAI Responses API 与 Agents SDK - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#openai-responses-api-agents-sdk" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              0 OpenAI Responses API 与 Agents SDK
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/3OpenaiModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/4chatgpt_translate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/3AmazonBedrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/4assistantapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/2agent_buildout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-what-is-the-responses-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1 What Is the Responses API?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chat-completions-api-responses-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二 Chat Completions API 与 Responses API 技术对比表
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-making-your-first-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 Making Your First Call
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Making Your First Call">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-with-system-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example with system + user:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inspecting-the-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspecting the response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-reasoning-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using reasoning models
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 保留客户端历史
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3 保留客户端历史">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#professional-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        可用于技术文章的专业表述（Professional Lines）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        如何用本地模型实现保留客户端历史
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="如何用本地模型实现保留客户端历史">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ollama-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❗ 本地 Ollama / LLM 的基本事实
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、为什么你“以为”它会有历史？
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、为什么你“以为”它会有历史？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ 误区 1：以为 client 会保存上下文
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-responses-api-chat-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ 误区 2：以为 Responses API / Chat API 会“自动接着聊”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="❌ 误区 2：以为 Responses API / Chat API 会“自动接着聊”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-openai-assistants-chatgpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ 误区 3：把 OpenAI Assistants / ChatGPT 的体验，误认为是模型能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#99" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、99% 出问题的代码结构（你可以对照）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、99% 出问题的代码结构（你可以对照）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ 常见错误写法（没有历史）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、正确做法（必须你自己维护历史）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、正确做法（必须你自己维护历史）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 正确模式：客户端显式保存 history
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-messages-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1️⃣ 用 messages / input 列表累积上下文
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-chat-completions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2️⃣ 如果你用的是 Chat Completions 风格
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#responses-api-responseid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、为什么 Responses API 里的 response.id 也没帮你？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chatgpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、如果你想要“更像 ChatGPT”的体验，该怎么做？
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、如果你想要“更像 ChatGPT”的体验，该怎么做？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐 3 个工程级方案（从简单到专业）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 方案 1：最简单（列表累积）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2conversation-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 方案 2：Conversation Manager（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 方案 3：Agent 架构（你已经很接近了）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        七、为什么这个问题非常关键（说句实话）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conversation-state-with-openai-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conversation State with OpenAI API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conversation State with OpenAI API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simulate-a-conversation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulate a conversation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keep-a-client-side-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keep a client side history
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai-apis-for-conversation-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenAI APIs for conversation state
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fork-a-response-at-any-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fork a response at any point
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai-api-ollama" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、为什么这段代码「在 OpenAI 官方 API 能工作，但在 Ollama 一定不行」
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integrating-tools-web-functions-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integrating Tools: Web, Functions, Code
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integrating Tools: Web, Functions, Code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#responses-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        从文本到行动：Responses API 工具能力全解析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#responses-api_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具即能力：Responses API 的核心设计理念
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        函数调用：连接模型与真实系统的桥梁
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网页搜索：获取实时信息，但需要成本意识
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        图像生成与多轮编辑：从一次生成到持续创作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-interpreter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Interpreter：让模型“会算、能跑、可解释”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-toolsipynb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code - tools.ipynb
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Code - tools.ipynb">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-calling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Function Calling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Image Generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#follow-up-image-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Follow up image instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-interpreter_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Interpreter
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基于 File Search 的知识型智能助手实践
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基于 File Search 的知识型智能助手实践">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-the-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create the file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-vector-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a vector store
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-the-file-to-the-vector-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Add the file to the vector store
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check status
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-the-openai-agents-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Is the OpenAI Agents SDK?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Is the OpenAI Agents SDK?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building Agents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        内容总结（概述）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="内容总结（概述）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、整体架构总览（从系统视角）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、核心概念逐一拆解
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、核心概念逐一拆解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-agent-prompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1️⃣ Agent：不是 Prompt，而是「角色 + 能力 + 边界」
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-guardrail-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2️⃣ Guardrail Agent：把“安全”从业务逻辑中剥离
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2️⃣ Guardrail Agent：把“安全”从业务逻辑中剥离">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-guardrailfunctionoutput" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3️⃣ GuardrailFunctionOutput：控制流“闸门”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-triage-agentagent-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4️⃣ Triage Agent：真正的“Agent Manager”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-runnerrun" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5️⃣ Runner.run：一次“受控自治执行”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、从系统工程角度的评价
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、从系统工程角度的评价">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1️⃣ 职责分离极其清晰
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2️⃣ 可扩展性极强
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3️⃣ 真实生产级思路
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ 潜在问题（专家视角）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚠️ 潜在问题（专家视角）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1️⃣ 推理成本偏高（本地模型尤其明显）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-guardrail-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2️⃣ Guardrail 的 JSON 稳定性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-triage-agent-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3️⃣ Triage Agent 的 instructions 偏弱
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openai-agents-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        可配置化智能体：OpenAI Agents SDK 的工程能力解析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="可配置化智能体：OpenAI Agents SDK 的工程能力解析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        代码要点（可用于博客说明）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agents-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        这段代码在 Agents SDK 中的技术含义（非常适合写进博客）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic Instructions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dynamic Instructions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agents-sdk_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 这段代码在 Agents SDK 中的核心意义（博客可直接使用）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forcing-tool-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forcing Tool Use
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#orchestrating-multi-step-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Orchestrating Multi-step Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Orchestrating Multi-step Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manage-agent-conversation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manage Agent Conversation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Manage Agent Conversation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        代码要点说明（简要）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automatically-manage-conversations-with-sessions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatically Manage Conversations with Sessions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0agents_demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1ai_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2ai_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3ai_agents_his/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-what-is-the-responses-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1 What Is the Responses API?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chat-completions-api-responses-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二 Chat Completions API 与 Responses API 技术对比表
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-making-your-first-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 Making Your First Call
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Making Your First Call">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-with-system-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example with system + user:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inspecting-the-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspecting the response
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-reasoning-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using reasoning models
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 保留客户端历史
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3 保留客户端历史">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#professional-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        可用于技术文章的专业表述（Professional Lines）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        如何用本地模型实现保留客户端历史
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="如何用本地模型实现保留客户端历史">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ollama-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❗ 本地 Ollama / LLM 的基本事实
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、为什么你“以为”它会有历史？
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、为什么你“以为”它会有历史？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ 误区 1：以为 client 会保存上下文
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-responses-api-chat-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ 误区 2：以为 Responses API / Chat API 会“自动接着聊”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="❌ 误区 2：以为 Responses API / Chat API 会“自动接着聊”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-openai-assistants-chatgpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ 误区 3：把 OpenAI Assistants / ChatGPT 的体验，误认为是模型能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#99" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、99% 出问题的代码结构（你可以对照）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、99% 出问题的代码结构（你可以对照）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ❌ 常见错误写法（没有历史）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、正确做法（必须你自己维护历史）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、正确做法（必须你自己维护历史）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 正确模式：客户端显式保存 history
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-messages-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1️⃣ 用 messages / input 列表累积上下文
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-chat-completions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2️⃣ 如果你用的是 Chat Completions 风格
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#responses-api-responseid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、为什么 Responses API 里的 response.id 也没帮你？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chatgpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、如果你想要“更像 ChatGPT”的体验，该怎么做？
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、如果你想要“更像 ChatGPT”的体验，该怎么做？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        推荐 3 个工程级方案（从简单到专业）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 方案 1：最简单（列表累积）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2conversation-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ 方案 2：Conversation Manager（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 方案 3：Agent 架构（你已经很接近了）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        七、为什么这个问题非常关键（说句实话）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conversation-state-with-openai-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conversation State with OpenAI API
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conversation State with OpenAI API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simulate-a-conversation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulate a conversation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keep-a-client-side-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keep a client side history
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai-apis-for-conversation-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenAI APIs for conversation state
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fork-a-response-at-any-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fork a response at any point
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openai-api-ollama" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、为什么这段代码「在 OpenAI 官方 API 能工作，但在 Ollama 一定不行」
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integrating-tools-web-functions-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integrating Tools: Web, Functions, Code
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integrating Tools: Web, Functions, Code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#responses-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        从文本到行动：Responses API 工具能力全解析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#responses-api_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具即能力：Responses API 的核心设计理念
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        函数调用：连接模型与真实系统的桥梁
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网页搜索：获取实时信息，但需要成本意识
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        图像生成与多轮编辑：从一次生成到持续创作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-interpreter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Interpreter：让模型“会算、能跑、可解释”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-toolsipynb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code - tools.ipynb
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Code - tools.ipynb">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#function-calling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Function Calling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Image Generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#follow-up-image-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Follow up image instructions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code-interpreter_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Interpreter
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基于 File Search 的知识型智能助手实践
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基于 File Search 的知识型智能助手实践">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-the-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create the file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-vector-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a vector store
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-the-file-to-the-vector-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Add the file to the vector store
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check status
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-the-openai-agents-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Is the OpenAI Agents SDK?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What Is the OpenAI Agents SDK?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building Agents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        内容总结（概述）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="内容总结（概述）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、整体架构总览（从系统视角）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、核心概念逐一拆解
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、核心概念逐一拆解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-agent-prompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1️⃣ Agent：不是 Prompt，而是「角色 + 能力 + 边界」
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-guardrail-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2️⃣ Guardrail Agent：把“安全”从业务逻辑中剥离
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2️⃣ Guardrail Agent：把“安全”从业务逻辑中剥离">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-guardrailfunctionoutput" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3️⃣ GuardrailFunctionOutput：控制流“闸门”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-triage-agentagent-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4️⃣ Triage Agent：真正的“Agent Manager”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-runnerrun" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5️⃣ Runner.run：一次“受控自治执行”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、从系统工程角度的评价
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、从系统工程角度的评价">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1️⃣ 职责分离极其清晰
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2️⃣ 可扩展性极强
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3️⃣ 真实生产级思路
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ 潜在问题（专家视角）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚠️ 潜在问题（专家视角）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1️⃣ 推理成本偏高（本地模型尤其明显）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-guardrail-json" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2️⃣ Guardrail 的 JSON 稳定性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-triage-agent-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3️⃣ Triage Agent 的 instructions 偏弱
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openai-agents-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        可配置化智能体：OpenAI Agents SDK 的工程能力解析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="可配置化智能体：OpenAI Agents SDK 的工程能力解析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        代码要点（可用于博客说明）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agents-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        这段代码在 Agents SDK 中的技术含义（非常适合写进博客）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamic-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamic Instructions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dynamic Instructions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agents-sdk_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 这段代码在 Agents SDK 中的核心意义（博客可直接使用）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forcing-tool-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forcing Tool Use
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#orchestrating-multi-step-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Orchestrating Multi-step Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Orchestrating Multi-step Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manage-agent-conversation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Manage Agent Conversation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Manage Agent Conversation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        代码要点说明（简要）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automatically-manage-conversations-with-sessions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatically Manage Conversations with Sessions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="openai-responses-api-agents-sdk">OpenAI Responses API 与 Agents SDK</h1>
+<h2 id="1-what-is-the-responses-api">1 What Is the Responses API?</h2>
+<p>Responses API 是 OpenAI 推出的新一代核心 API，旨在统一并升级现有的多种接口能力，为构建现代化、具备行动能力（agentic）的 AI 应用提供基础设施。</p>
+<p>在早期阶段，OpenAI 先后推出了 <strong>Completions API</strong>（文本生成）、<strong>Chat Completions API</strong>（对话交互）以及 <strong>Assistants API</strong>（工具调用与代理能力）。这些 API 各自服务于不同场景，但也给开发者带来了选择成本和架构复杂性。</p>
+<p>Responses API 的核心目标是 <strong>“一体化”</strong> —— 将文本生成、对话、多轮状态管理、工具调用（如网页搜索、文件访问、代码执行）以及代理式工作流统一到一个 API 中。<strong>它不仅继承了 Chat Completions 的易用性，还整合了 Assistants API 的高级能力，并被官方定位为后者的替代方案</strong>。</p>
+<p>根据 OpenAI 公告，Assistants API 计划于 2026 年逐步弃用，开发者应开始向 Responses API 迁移。</p>
+<p>与 Chat Completions API 相比，Responses API 在文本生成质量上并无差异，但在功能层面显著增强：它原生支持工具调用、内建状态管理（无需手动维护对话上下文）、支持 MCP（Model Context Protocol），并可用于构建多步骤决策与执行的智能体工作流。</p>
+<p>因此，Responses API 特别适合需要 <strong>浏览网页、解析文件、执行代码、自动规划与决策</strong> 的应用场景，也被视为 OpenAI 平台未来 Agent 架构的核心基石。</p>
+<h2 id="chat-completions-api-responses-api">二 Chat Completions API 与 Responses API 技术对比表</h2>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>Chat Completions API</th>
+<th>Responses API</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>API 定位</strong></td>
+<td>对话式文本生成接口</td>
+<td>统一的智能体（Agent）核心 API</td>
+</tr>
+<tr>
+<td><strong>设计目标</strong></td>
+<td>简单对话与文本生成</td>
+<td>面向行动的 AI 应用与 Agent 工作流</td>
+</tr>
+<tr>
+<td><strong>文本生成能力</strong></td>
+<td>✅ 高质量文本生成</td>
+<td>✅ 同等高质量文本生成</td>
+</tr>
+<tr>
+<td><strong>多轮对话支持</strong></td>
+<td>✅ 支持</td>
+<td>✅ 支持</td>
+</tr>
+<tr>
+<td><strong>状态管理</strong></td>
+<td>❌ 需开发者手动维护上下文</td>
+<td>✅ 内建状态管理（Response / Conversation ID）</td>
+</tr>
+<tr>
+<td><strong>工具调用（Tools）</strong></td>
+<td>❌ 不支持</td>
+<td>✅ 原生支持</td>
+</tr>
+<tr>
+<td><strong>内建工具类型</strong></td>
+<td>❌ 无</td>
+<td>✅ Web Search / File Read / Code Execution / Computer Use</td>
+</tr>
+<tr>
+<td><strong>文件处理能力</strong></td>
+<td>❌ 不支持</td>
+<td>✅ 支持读取与解析文件（如 PDF）</td>
+</tr>
+<tr>
+<td><strong>代码执行能力</strong></td>
+<td>❌ 不支持</td>
+<td>✅ 内建 Code Interpreter</td>
+</tr>
+<tr>
+<td><strong>Agentic Workflow</strong></td>
+<td>❌ 不适合</td>
+<td>✅ 原生支持多步骤决策与执行</td>
+</tr>
+<tr>
+<td><strong>规划与推理能力</strong></td>
+<td>⚠️ 需自行封装</td>
+<td>✅ 内建 Reason → Plan → Act → Observe 模式</td>
+</tr>
+<tr>
+<td><strong>MCP 支持</strong></td>
+<td>❌ 不支持</td>
+<td>✅ 支持 Model Context Protocol</td>
+</tr>
+<tr>
+<td><strong>输出结构</strong></td>
+<td>以 <code>message</code> 为主</td>
+<td>多类型输出（text / tool-call / search-call 等）</td>
+</tr>
+<tr>
+<td><strong>引用 / 注解（Citations）</strong></td>
+<td>❌ 无</td>
+<td>✅ 支持 annotations（如搜索引用）</td>
+</tr>
+<tr>
+<td><strong>模型可用性</strong></td>
+<td>文本模型为主</td>
+<td>部分带工具模型仅支持 Responses API</td>
+</tr>
+<tr>
+<td><strong>复杂度</strong></td>
+<td>⭐ 简单、易上手</td>
+<td>⭐⭐ 功能强、结构更丰富</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>聊天机器人、文本生成</td>
+<td>智能助手、自动化任务、AI Agent</td>
+</tr>
+<tr>
+<td><strong>未来发展方向</strong></td>
+<td>长期持续支持</td>
+<td>OpenAI Agent 生态的核心 API</td>
+</tr>
+<tr>
+<td><strong>官方态度</strong></td>
+<td>继续维护</td>
+<td>推荐作为主力开发接口</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Text generation comparison in Python</strong> </p>
+<p><img alt="Alt Image Text" src="../../images/chap8_0_1.png" title="Body image" /></p>
+<p><strong>Output Comparison</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap8_0_2.png" title="Body image" />  </p>
+<h2 id="2-making-your-first-call">2 Making Your First Call</h2>
+<p>本节内容围绕 Responses API 的基本使用流程与返回结果解析 展开，通过实操演示帮助学习者理解从环境准备到首次 API 调用的完整链路。</p>
+<p>在实际工程实践中，本课程示例已调整为 使用 Ollama 运行本地模型（如 qwen2.5:7b、deepseek-r1），以替代远程 OpenAI API。这种方式具有以下特点：</p>
+<p>推理与生成完全在本地完成，适用于对数据隐私和离线能力要求较高的场景</p>
+<p>API 调用方式在语义上保持一致，但不依赖 OpenAI 账户、API Key 或计费体系</p>
+<p>部分 OpenAI Responses API 的高级特性（如结构化 reasoning 字段）在本地模型中以“文本推理”的形式体现，需要通过 Prompt 设计进行引导</p>
+<p>这一实践路径更贴近企业内网部署、私有化 AI Agent 系统和成本可控的生产环境。       </p>
+<pre><code>import json
+from openai import OpenAI
+
+client = OpenAI(
+    api_key=&quot;ollama&quot;,  # 随便写
+    base_url=&quot;http://localhost:11434/v1&quot;
+)
+</code></pre>
+<pre><code>response = client.responses.create(
+    model=&quot;qwen2.5:7b&quot;,
+    input=&quot;Write one sentence about OpenAI Responses API.&quot;
+)
+
+print(response.output_text)
+</code></pre>
+<blockquote>
+<p>The OpenAI Responses API enables developers to integrate sophisticated text generation and conversational AI capabilities into their applications by accessing a powerful language model.</p>
+</blockquote>
+<h3 id="instructions">Instructions</h3>
+<pre><code>response = client.responses.create(
+    model=&quot;qwen2.5:7b&quot;,
+    instructions=&quot;Talk like a pirate.&quot;,
+    input=&quot;How are you?&quot;,
+)
+
+print(response.output_text)
+</code></pre>
+<blockquote>
+<p>Arrr, matey! How be ye doin' today? Be ye feelin' swashbucklin' or perhaps ye be landlubberin'?</p>
+</blockquote>
+<h3 id="example-with-system-user">Example with system + user:</h3>
+<pre><code>response = client.responses.create(
+    model=&quot;qwen2.5:7b&quot;,
+    input=[
+        {
+            &quot;role&quot;: &quot;system&quot;,
+            &quot;content&quot;: &quot;You are a helpful assistant who replies in bullet points.&quot;,
+        },
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Give me tips to focus better while studying.&quot;},
+    ],
+)
+</code></pre>
+<pre><code>print(response.output_text)  # Main assistant reply (shortcut)
+</code></pre>
+<pre><code>- Set clear goals for each study session
+- Create a dedicated and organized study space
+- Use a timer for focused work intervals (e.g., Pomodoro Technique)
+- Minimize distractions by turning off notifications
+- Maintain good posture to improve mental clarity
+- Take regular breaks to avoid burnout
+- Stay hydrated and eat healthily
+- Use flashcards or quizzes to test retention
+- Break large tasks into smaller, manageable parts
+</code></pre>
+<h3 id="inspecting-the-response">Inspecting the response</h3>
+<pre><code>print(response.output)  # Full structured output
+</code></pre>
+<blockquote>
+<p>[ResponseOutputMessage(id='msg_619012', content=[ResponseOutputText(annotations=None, text='- Set clear goals for each study session\n- Create a dedicated and organized study space\n- Use a timer for focused work intervals (e.g., Pomodoro Technique)\n- Minimize distractions by turning off notifications\n- Maintain good posture to improve mental clarity\n- Take regular breaks to avoid burnout\n- Stay hydrated and eat healthily\n- Use flashcards or quizzes to test retention\n- Break large tasks into smaller, manageable parts', type='output_text', logprobs=None)], role='assistant', status='completed', type='message')]</p>
+</blockquote>
+<pre><code>from pprint import pprint
+
+pprint(response.model_dump())
+</code></pre>
+<pre><code>{'background': None,
+ 'conversation': None,
+ 'created_at': 1765721564.0,
+ 'error': None,
+ 'id': 'resp_100363',
+ 'incomplete_details': None,
+ 'instructions': None,
+ 'max_output_tokens': None,
+ 'max_tool_calls': None,
+ 'metadata': None,
+ 'model': 'qwen2.5:7b',
+ 'object': 'response',
+ 'output': [{'content': [{'annotations': None,
+                          'logprobs': None,
+                          'text': '- Set clear goals for each study session\n'
+                                  '- Create a dedicated and organized study '
+                                  'space\n'
+                                  '- Use a timer for focused work intervals '
+                                  '(e.g., Pomodoro Technique)\n'
+                                  '- Minimize distractions by turning off '
+                                  'notifications\n'
+                                  '- Maintain good posture to improve mental '
+                                  'clarity\n'
+                                  '- Take regular breaks to avoid burnout\n'
+                                  '- Stay hydrated and eat healthily\n'
+                                  '- Use flashcards or quizzes to test '
+                                  'retention\n'
+                                  '- Break large tasks into smaller, '
+                                  'manageable parts',
+                          'type': 'output_text'}],
+             'id': 'msg_619012',
+             'role': 'assistant',
+             'status': 'completed',
+             'type': 'message'}],
+ 'parallel_tool_calls': None,
+ 'previous_response_id': None,
+ 'prompt': None,
+ 'prompt_cache_key': None,
+ 'prompt_cache_retention': None,
+ 'reasoning': None,
+ 'safety_identifier': None,
+ 'service_tier': None,
+ 'status': 'completed',
+ 'temperature': None,
+ 'text': None,
+ 'tool_choice': None,
+ 'tools': None,
+ 'top_logprobs': None,
+ 'top_p': None,
+ 'truncation': None,
+ 'usage': {'input_tokens': 33,
+           'input_tokens_details': None,
+           'output_tokens': 90,
+           'output_tokens_details': None,
+           'total_tokens': 123},
+ 'user': None}
+</code></pre>
+<pre><code># You can also inspect:
+print(response.usage.output_tokens)  # Token usage
+print(response.usage.total_tokens)  # Total token usage
+# print(response.reasoning.effort)
+print(response.id)
+</code></pre>
+<pre><code>90
+123
+resp_100363
+</code></pre>
+<h3 id="using-reasoning-models">Using reasoning models</h3>
+<p>✅ 只有 OpenAI 官方 reasoning 模型 才支持：</p>
+<table>
+<thead>
+<tr>
+<th>OpenAI reasoning</th>
+<th>本地模型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>推理 token 单独解码</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>推理结构化返回</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>控制推理强度</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>推理与回答分离</td>
+<td>❌</td>
+</tr>
+</tbody>
+</table>
+<p><strong>既然模型不支持 reasoning.effort，那就用自然语言提示：</strong></p>
+<pre><code>prompt = &quot;&quot;&quot;
+Please reason step by step and explain your logic clearly.
+
+Question:
+What’s the next number in the sequence: 2, 6, 12, 20, ...?
+&quot;&quot;&quot;
+
+
+response = client.responses.create(
+    model=&quot;deepseek-r1:1.5b&quot;,
+    # reasoning={&quot;effort&quot;: &quot;medium&quot;},
+    input=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}],
+)
+
+# ✅ 只有 OpenAI 官方 reasoning 模型 才支持：
+
+# reasoning.effort
+
+# response.reasoning
+
+# 可控推理强度
+
+print(response.output_text)
+</code></pre>
+<pre><code>&lt;think&gt;
+First, I'll look at the given numbers: 2, 6, 12, 20.
+
+Next, I'll calculate the differences between each consecutive pair to find a pattern:
+
+- 6 - 2 = 4
+- 12 - 6 = 6
+- 20 - 12 = 8
+
+The differences are 4, 6, and 8. These numbers increase by 2 each time.
+
+To determine the next difference, I'll add 2 to the last difference:
+
+4 (previous difference) + 2 = 6
+
+Finally, I'll add this new difference to the last number in the sequence to find the fifth term:
+
+20 + 6 = 26
+&lt;/think&gt;
+
+**Solution:**
+
+The given sequence is:  
+2, 6, 12, 20, ...
+
+To find the next number in the sequence, let's analyze the pattern.
+
+1. **Calculate the Differences Between Consecutive Terms:**
+   - First difference: \( 6 - 2 = 4 \)
+   - Second difference: \( 12 - 6 = 6 \)
+   - Third difference: \( 20 - 12 = 8 \)
+
+2. **Identify the Pattern in Differences:**
+   - The differences are increasing by **2** each time**:  
+     4, 6, 8, ...
+
+3. **Predict the Next Difference:**
+   - Following the pattern, the next difference will be \( 8 + 2 = 10 \).
+
+4. **Determine the Next Term in the Sequence:**
+   - Add this new difference to the last term:  
+     \( 20 + 10 = 30 \)
+
+**Final Answer:**  
+\boxed{30}
+</code></pre>
+<pre><code>print(response.usage)  # Token usage
+# print(response.reasoning.effort)
+</code></pre>
+<blockquote>
+<p>ResponseUsage(input_tokens=42, input_tokens_details=None, output_tokens=390, output_tokens_details=None, total_tokens=432)</p>
+</blockquote>
+<p>Responses API 为构建面向行动的 AI 应用提供了统一接口，而在本地化实践中，结合 Ollama 运行 qwen2.5 与 deepseek-r1 等模型，可以在保持 Agent 架构一致性的同时，实现更高的数据可控性与部署灵活性。</p>
+<p><strong>通过解析 Responses API 的返回结构，开发者不仅可以获取模型输出结果，还能够系统性地管理请求状态、上下文信息与推理成本，这为构建复杂的 Agent 工作流奠定了工程基础</strong>。</p>
+<p>在本地大模型环境下，推理能力更多体现在生成过程本身，而非结构化字段配置，因此 Prompt 设计成为影响推理质量与响应稳定性的关键因素。</p>
+<p>相较于传统的文本生成接口，面向 Agent 的 API 设计更强调“规划—行动—反馈”的闭环，这一思想同样适用于本地大模型驱动的智能体系统。</p>
+<h2 id="3">3 保留客户端历史</h2>
+<p>本段内容围绕 <strong>对话状态（Conversation State）管理</strong> 展开，系统阐述了其重要性、实现方式以及在 Responses API 中的具体应用与取舍。</p>
+<p>首先强调了对话状态的价值并不仅限于“记住用户说过的话”，而是直接影响到多轮交互中的<strong>准确性、一致性与推理能力</strong>。</p>
+<p>良好的上下文管理可以帮助模型在连续对话中保持正确理解，降低重复输入带来的 Token 消耗与成本，<strong>同时支持从任意历史节点进行对话分支（fork），并为更复杂的推理和工具调用打下基础</strong>。</p>
+<p>随后，内容通过代码示例展示了<strong>手动管理上下文</strong>的基本思路：将用户与助手的每一轮消息按顺序存储在客户端，并在每次请求时将完整的消息数组作为输入发送给模型。</p>
+<p>通过这种方式，模型能够理解完整的对话历史，从而在“再来一个”“继续刚才的话题”等模糊指令下给出符合语境的回应。这种方式灵活、可控，但需要开发者自行维护上下文结构。</p>
+<p>在此基础上，介绍了 Responses API 提供的 <strong>自动化上下文管理机制</strong>。</p>
+<p>通过在请求中传入 <code>previous_response_id</code>，开发者无需手动拼接历史消息，API 会自动将当前请求与指定的历史响应串联起来，形成同一条对话链。<strong>示例中通过“苹果问题”清晰地演示了多轮推理能力：即使后续问题中未显式重复上下文信息，模型仍能基于先前状态给出正确结果</strong>。</p>
+<p>Responses API 的另一项重要能力是 <strong>对话分支（Forking）</strong>。开发者可以基于任意历史响应创建新的对话分支，这种机制类似于在 ChatGPT Web UI 中“编辑历史消息后重新生成”，非常适合探索不同推理路径或假设场景。</p>
+<p>最后，内容指出了自动上下文管理的<strong>潜在成本问题</strong>。随着对话链不断增长，输入 Token 数量会持续累积，进而显著提高调用成本，并最终触及模型的上下文长度上限。对此，课程展示了一种折中方案：通过删除早期响应来截断对话链，从而降低 Token 使用量。但代价是模型将不再“记得”被删除的历史内容。由此得出结论：在实际项目中，<strong>手动管理上下文并结合截断、摘要等策略，往往在成本与控制力之间更具优势</strong>。</p>
+<h3 id="professional-lines">可用于技术文章的专业表述（Professional Lines）</h3>
+<blockquote>
+<p>对话状态管理不仅决定了多轮交互的连贯性，也直接影响模型推理准确性、Token 使用效率以及整体调用成本。</p>
+<p>Responses API 通过 <code>previous_response_id</code> 提供了自动化的上下文串联机制，使多轮对话与分支探索在工程实现上更加简洁。</p>
+<p>对话分支能力为开发者提供了类似版本控制的交互体验，能够在同一上下文基础上并行探索不同推理路径。</p>
+<p>自动上下文管理虽然降低了开发复杂度，但随着对话链增长，Token 成本也会线性上升，因此在生产环境中需要结合截断或摘要策略进行优化。</p>
+<p>在复杂或长周期对话场景下，显式的客户端侧上下文管理往往能在可控性与成本之间取得更好的平衡。</p>
+</blockquote>
+<h3 id="_1">如何用本地模型实现保留客户端历史</h3>
+<h4 id="ollama-llm">❗ 本地 Ollama / LLM 的基本事实</h4>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>是否存在</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自动记住上一次请求</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>客户端自动会话管理</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>类似 ChatGPT 的“对话记忆”</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>服务端保存 conversation</td>
+<td>❌</td>
+</tr>
+</tbody>
+</table>
+<p>👉 <strong>每一次调用都是全新的推理</strong></p>
+<h3 id="_2">二、为什么你“以为”它会有历史？</h3>
+<p>你很可能遇到了下面之一（或多个）👇</p>
+<h4 id="1-client">❌ 误区 1：以为 <code>client</code> 会保存上下文</h4>
+<pre><code class="language-python">client = OpenAI(...)
+</code></pre>
+<p>或（Ollama 兼容写法）</p>
+<pre><code class="language-python">client = OpenAI(base_url=&quot;http://localhost:11434/v1&quot;)
+</code></pre>
+<p>👉 <strong>client 只是 HTTP 客户端，不是会话对象</strong></p>
+<p>它不会保存：</p>
+<ul>
+<li>上一次 prompt</li>
+<li>上一次 response</li>
+<li>上一次 token</li>
+</ul>
+<h3 id="2-responses-api-chat-api">❌ 误区 2：以为 Responses API / Chat API 会“自动接着聊”</h3>
+<p>比如类似：</p>
+<pre><code class="language-python">response = client.responses.create(
+    model=&quot;qwen2.5:7b&quot;,
+    input=&quot;继续刚才的话&quot;
+)
+</code></pre>
+<p>模型实际收到的是：</p>
+<pre><code>“继续刚才的话”
+</code></pre>
+<p>但它<strong>根本不知道“刚才的话”是什么</strong>。</p>
+<h4 id="3-openai-assistants-chatgpt">❌ 误区 3：把 OpenAI Assistants / ChatGPT 的体验，误认为是模型能力</h4>
+<p>ChatGPT 能“记住”是因为：</p>
+<ul>
+<li>浏览器在<strong>不断把完整历史发回服务器</strong></li>
+<li>你看到的是 <strong>UI 层做的状态管理</strong></li>
+<li>不是模型自己“记得”</li>
+</ul>
+<h3 id="99">三、99% 出问题的代码结构（你可以对照）</h3>
+<h4 id="_3">❌ 常见错误写法（没有历史）</h4>
+<pre><code class="language-python">def ask_llm(prompt):
+    response = client.responses.create(
+        model=&quot;deepseek-r1&quot;,
+        input=prompt
+    )
+    return response.output_text
+</code></pre>
+<p>然后：</p>
+<pre><code class="language-python">ask_llm(&quot;你好&quot;)
+ask_llm(&quot;我刚才说了什么？&quot;)
+</code></pre>
+<p>👉 第二次调用 <strong>完全不知道第一次发生了什么</strong></p>
+<h3 id="_4">四、正确做法（必须你自己维护历史）</h3>
+<h4 id="history">✅ 正确模式：客户端显式保存 history</h4>
+<h4 id="1-messages-input">1️⃣ 用 messages / input 列表累积上下文</h4>
+<pre><code class="language-python">conversation = []
+
+def chat(user_input):
+    conversation.append({
+        &quot;role&quot;: &quot;user&quot;,
+        &quot;content&quot;: user_input
+    })
+
+    response = client.responses.create(
+        model=&quot;qwen2.5:7b&quot;,
+        input=conversation
+    )
+
+    assistant_reply = response.output_text
+
+    conversation.append({
+        &quot;role&quot;: &quot;assistant&quot;,
+        &quot;content&quot;: assistant_reply
+    })
+
+    return assistant_reply
+</code></pre>
+<p>这样才是<strong>真正的“对话”</strong>。</p>
+<h4 id="2-chat-completions">2️⃣ 如果你用的是 Chat Completions 风格</h4>
+<pre><code class="language-python">messages = [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are a helpful assistant.&quot;}
+]
+
+def chat(user_msg):
+    messages.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_msg})
+
+    resp = client.chat.completions.create(
+        model=&quot;qwen2.5:7b&quot;,
+        messages=messages
+    )
+
+    reply = resp.choices[0].message.content
+    messages.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: reply})
+    return reply
+</code></pre>
+<h3 id="responses-api-responseid">五、为什么 Responses API 里的 <code>response.id</code> 也没帮你？</h3>
+<p>你可能注意到返回里有：</p>
+<pre><code class="language-json">&quot;id&quot;: &quot;resp-xxxxx&quot;
+</code></pre>
+<p>⚠️ <strong>注意这个重要事实</strong>：</p>
+<blockquote>
+<p>在 Ollama / 本地模型中，<code>response.id</code>
+❌ 不代表会话
+❌ 不代表 conversation
+❌ 不能自动续聊</p>
+</blockquote>
+<p>它只是一次请求的 ID，用于日志或调试。</p>
+<h3 id="chatgpt">六、如果你想要“更像 ChatGPT”的体验，该怎么做？</h3>
+<h4 id="3_1">推荐 3 个工程级方案（从简单到专业）</h4>
+<hr />
+<h4 id="1">✅ 方案 1：最简单（列表累积）</h4>
+<p>适合 Notebook / Demo / 学习</p>
+<pre><code class="language-python">history = []
+</code></pre>
+<h4 id="2conversation-manager">✅ 方案 2：Conversation Manager（推荐）</h4>
+<pre><code class="language-python">class Conversation:
+    def __init__(self, system_prompt):
+        self.messages = [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: system_prompt}]
+
+    def ask(self, user_input):
+        self.messages.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_input})
+        resp = client.responses.create(
+            model=&quot;deepseek-r1&quot;,
+            input=self.messages
+        )
+        reply = resp.output_text
+        self.messages.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: reply})
+        return reply
+</code></pre>
+<h4 id="3agent">🚀 方案 3：Agent 架构（你已经很接近了）</h4>
+<ul>
+<li>Memory 模块</li>
+<li>Planner</li>
+<li>Tool Router</li>
+<li>History Truncation（防 token 爆炸）</li>
+</ul>
+<h3 id="_5">七、为什么这个问题<strong>非常关键</strong>（说句实话）</h3>
+<p>你现在问的这个问题，<strong>正好是从“会调用模型” → “会做 Agent 系统” 的分水岭</strong>。</p>
+<blockquote>
+<p><strong>90% 的初学者都以为是模型不行
+其实是自己没做状态管理</strong></p>
+</blockquote>
+<h3 id="conversation-state-with-openai-api">Conversation State with OpenAI API</h3>
+<p><strong>Why Conversation State Is Critical</strong></p>
+<ul>
+<li>Accuracy across multiple turns</li>
+<li>Reducing token usage</li>
+<li>Fork and continue</li>
+<li>Deeper reasoning and tool use</li>
+</ul>
+<pre><code>import json
+from openai import OpenAI
+
+with open(&quot;../config.json&quot;) as f:
+    config = json.load(f)
+
+# Access API key
+api_key = config[&quot;openai_api_key&quot;]
+
+client = OpenAI(api_key=api_key)
+</code></pre>
+<h4 id="simulate-a-conversation">Simulate a conversation</h4>
+<pre><code>response = client.responses.create(
+    model=&quot;gpt-4.1&quot;,
+    input=[
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What is 5+5?&quot;},
+        {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;10&quot;},
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Now subtract 2 from it.&quot;},
+    ],
+)
+
+print(response.output_text)
+</code></pre>
+<blockquote>
+<p>10 - 2 = <strong>8</strong></p>
+</blockquote>
+<h4 id="keep-a-client-side-history">Keep a client side history</h4>
+<pre><code>history = [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;tell me a joke&quot;}]
+
+response = client.responses.create(model=&quot;gpt-4o-mini&quot;, input=history, store=False)
+
+print(response.output_text)
+
+# Add the response to the conversation
+history += [{&quot;role&quot;: el.role, &quot;content&quot;: el.content} for el in response.output]
+
+history.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;tell me another&quot;})
+
+second_response = client.responses.create(
+    model=&quot;gpt-4o-mini&quot;, input=history, store=False
+)
+
+print(second_response.output_text)
+</code></pre>
+<p>Output</p>
+<pre><code>Why did the scarecrow win an award?  
+
+Because he was outstanding in his field!
+Why don’t skeletons fight each other?  
+
+They don’t have the guts!
+</code></pre>
+<h4 id="openai-apis-for-conversation-state">OpenAI APIs for conversation state</h4>
+<pre><code># Message 1: John receives apples
+first_response = client.responses.create(
+    model=&quot;gpt-4o&quot;,
+    input=&quot;John has 5 apples. Emma has 10. Emma gives him 3 apples. How many apples do John and Emma have now?&quot;,
+)
+print(&quot;Response 1:&quot;, first_response.output_text)
+</code></pre>
+<pre><code>10 - 2 = **8**
+
+Why did the scarecrow win an award?  
+
+Because he was outstanding in his field!
+Why don’t skeletons fight each other?  
+
+They don’t have the guts!
+Response 1: Initially, John has 5 apples and Emma has 10 apples. If Emma gives John 3 apples:
+
+- John will have: 5 + 3 = 8 apples
+- Emma will have: 10 - 3 = 7 apples
+
+So, John now has 8 apples and Emma has 7 apples.
+</code></pre>
+<pre><code># Message 2: John eats apples, continuing the thread
+second_response = client.responses.create(
+    model=&quot;gpt-4o-mini&quot;,
+    previous_response_id=first_response.id,
+    input=[
+        {
+            &quot;role&quot;: &quot;user&quot;,
+            &quot;content&quot;: &quot;Then he eats 2 apples. How many does he have left?&quot;,
+        }
+    ],
+)
+print(&quot;Response 2:&quot;, second_response.output_text)
+</code></pre>
+<pre><code>Response 2: If John has 8 apples and he eats 2, he will have:
+
+8 - 2 = 6 apples left.
+
+So, John now has 6 apples.
+</code></pre>
+<pre><code># Message 3: John gives half to Emma
+third_response = client.responses.create(
+    model=&quot;gpt-4o-mini&quot;,
+    previous_response_id=second_response.id,
+    input=[
+        {
+            &quot;role&quot;: &quot;user&quot;,
+            &quot;content&quot;: &quot;He gives half of them to Emma. How many apples does each person have now?&quot;,
+        }
+    ],
+)
+print(&quot;Response 3:&quot;, third_response.output_text)
+</code></pre>
+<pre><code>10 - 2 = **8**
+
+Why did the scarecrow win an award?  
+
+Because he was outstanding in his field!
+Why don’t skeletons fight each other?  
+
+They don’t have the guts!
+Response 1: Initially, John has 5 apples and Emma has 10 apples. If Emma gives John 3 apples:
+
+- John will have: 5 + 3 = 8 apples
+- Emma will have: 10 - 3 = 7 apples
+
+So, John now has 8 apples and Emma has 7 apples.
+Response 2: If John has 8 apples and he eats 2, he will have:
+
+8 - 2 = 6 apples left.
+
+So, John now has 6 apples.
+Response 3: If John has 6 apples and he gives half to Emma, he will give away:
+
+6 / 2 = 3 apples.
+
+Now, after giving 3 apples to Emma:
+
+- John's apples: 6 - 3 = 3 apples
+- Emma's apples: 7 + 3 = 10 apples
+
+So, John has 3 apples and Emma has 10 apples now.
+</code></pre>
+<h4 id="fork-a-response-at-any-point">Fork a response at any point</h4>
+<pre><code># Message 2: John eats apples, continuing the thread
+forked_second_response = client.responses.create(
+    model=&quot;gpt-4o-mini&quot;,
+    previous_response_id=first_response.id,
+    input=[
+        {
+            &quot;role&quot;: &quot;user&quot;,
+            &quot;content&quot;: &quot;Then he eats 1 apple. How many does he have left?&quot;,
+        }
+    ],
+)
+print(&quot;Response 2:&quot;, forked_second_response.output_text)
+</code></pre>
+<pre><code>Response 2: If John eats 1 apple, he will have:
+
+8 - 1 = 7 apples left.
+
+So, John has 7 apples now.
+</code></pre>
+<blockquote>
+<p>Info: Even when using previous_response_id, all previous input tokens for responses in the chain are billed as input tokens in the API.</p>
+</blockquote>
+<pre><code>first_response.usage
+</code></pre>
+<blockquote>
+<p>ResponseUsage(input_tokens=35, input_tokens_details=InputTokensDetails(cached_tokens=0), output_tokens=68, output_tokens_details=OutputTokensDetails(reasoning_tokens=0), total_tokens=103)</p>
+</blockquote>
+<pre><code>second_response.usage
+</code></pre>
+<blockquote>
+<p>ResponseUsage(input_tokens=124, input_tokens_details=InputTokensDetails(cached_tokens=0), output_tokens=36, output_tokens_details=OutputTokensDetails(reasoning_tokens=0), total_tokens=160)</p>
+</blockquote>
+<pre><code>third_response.usage
+</code></pre>
+<blockquote>
+<p>ResponseUsage(input_tokens=184, input_tokens_details=InputTokensDetails(cached_tokens=0), output_tokens=88, output_tokens_details=OutputTokensDetails(reasoning_tokens=0), total_tokens=272)</p>
+</blockquote>
+<pre><code>client.responses.delete(first_response.id)
+</code></pre>
+<pre><code># Message 3: John gives half to Emma
+
+third_response = client.responses.create(
+    model=&quot;gpt-4o-mini&quot;,
+    previous_response_id=second_response.id,
+    input=[
+        {
+            &quot;role&quot;: &quot;user&quot;,
+            &quot;content&quot;: &quot;He gives half of them to Emma. How many apples does each person have now?&quot;,
+        }
+    ],
+)
+print(&quot;Response 3:&quot;, third_response.output_text)
+</code></pre>
+<pre><code>Response 3: If John has 6 apples and he gives half to Emma, he gives away:
+
+6 ÷ 2 = 3 apples.
+
+Now, John has:
+
+6 - 3 = 3 apples.
+
+So, after the transaction:
+
+- John has 3 apples.
+- Emma has 3 apples.
+
+Each person has 3 apples.
+</code></pre>
+<pre><code>third_response.usage
+</code></pre>
+<blockquote>
+<p>ResponseUsage(input_tokens=81, input_tokens_details=InputTokensDetails(cached_tokens=0), output_tokens=69, output_tokens_details=OutputTokensDetails(reasoning_tokens=0), total_tokens=150)</p>
+</blockquote>
+<h3 id="openai-api-ollama">二、为什么这段代码「在 OpenAI 官方 API 能工作，但在 Ollama 一定不行」</h3>
+<p>✅ 在 OpenAI Responses API 中</p>
+<ul>
+<li>previous_response_id</li>
+<li>内部 state</li>
+<li>tool calls</li>
+<li>MCP</li>
+</ul>
+<p>👉 这些是“服务端能力”</p>
+<p>❌ 在 Ollama + 本地模型中</p>
+<ul>
+<li>没有 session</li>
+<li>没有 server-side memory</li>
+<li>没有 response graph</li>
+<li>没有 response_id 链接机制</li>
+</ul>
+<p>👉 所有上下文，必须你自己传</p>
+<p>一句话总结：</p>
+<p><strong>Responses API 的“对话连续性”不是协议特性，而是 OpenAI 服务实现</strong></p>
+<pre><code>history = []
+
+def ask(user_input):
+    history.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_input})
+
+    response = client.responses.create(
+        model=&quot;qwen2.5:7b&quot;,
+        input=history,
+    )
+
+    history.append({
+        &quot;role&quot;: &quot;assistant&quot;,
+        &quot;content&quot;: response.output_text
+    })
+
+    return response.output_text
+</code></pre>
+<pre><code>ask(&quot;John has 5 apples. Emma has 10. Emma gives him 3 apples.&quot;)
+ask(&quot;Then John eats 2 apples. How many does he have left?&quot;)
+ask(&quot;John gives half of them to Emma. How many apples does each person have now?&quot;)
+</code></pre>
+<p>👉 现在模型真的“记住”了</p>
+<pre><code>&quot;Sure, let's go through the steps:\n\n1. 
+
+After receiving 3 apples from Emma and eating 2, John has 8 - 2 = 6 apples.\n2. 
+
+John then gives half of his 6 apples to Emma.\n\n
+
+Half of 6 apples is:\n\\[ \\frac{6}{2} = 3 \\text{ apples} \\]\n\n
+
+So, John gives 3 apples to Emma. Now let's update the number of apples each person has:\n\n- John initially had 6 apples and gave away 3, so he now has:\n  \\[ 6 - 3 = 3 \\text{ apples} \\]\n- Emma originally had 10 apples, received 3 from John, and did not eat any, 
+
+so she now has:\n  \\[ 10 + 3 = 13 \\text{ apples} \\]\n\nTherefore, after the exchange, John has 3 apples and Emma has 13 apples.&quot;
+</code></pre>
+<h2 id="integrating-tools-web-functions-code">Integrating Tools: Web, Functions, Code</h2>
+<p><strong>Available Tools</strong></p>
+<ul>
+<li>Function calling</li>
+<li>Web search</li>
+<li>File search</li>
+<li>Image generation</li>
+<li>Code interpreter</li>
+<li>Computer use</li>
+</ul>
+<h3 id="responses-api">从文本到行动：Responses API 工具能力全解析</h3>
+<p>随着大模型逐渐从“对话助手”演进为“执行型智能体（Agent）”，仅具备文本生成能力已经远远不够。OpenAI 推出的 <strong>Responses API</strong> 正是围绕这一趋势，将多种关键工具能力整合进统一接口，使模型能够在合适的时机主动调用外部能力，完成真实世界中的复杂任务。</p>
+<h3 id="responses-api_1">工具即能力：Responses API 的核心设计理念</h3>
+<p>在 Responses API 中，“工具（Tools）”并非附加功能，而是模型推理流程中的一等公民。它们包括函数调用、网页搜索、文件与图像处理、代码解释器以及计算机操作能力，共同构成了现代 AI Agent 的执行层。这种设计使模型不再只是生成答案，而是能够<strong>感知需求、规划步骤并执行动作</strong>。</p>
+<h3 id="_6">函数调用：连接模型与真实系统的桥梁</h3>
+<p>函数调用（Function Calling）是构建自动化系统和 Agent 工作流的基础能力。开发者可以通过清晰、严格的函数描述和参数定义，让模型在自然语言输入下自动判断是否需要调用函数，并生成结构化的调用参数。这一机制使模型能够安全、可控地访问外部 API 或业务系统，而不依赖脆弱的文本解析逻辑。</p>
+<h3 id="_7">网页搜索：获取实时信息，但需要成本意识</h3>
+<p>Responses API 内置的网页搜索工具为模型提供了实时信息获取能力，适用于新闻摘要、本地推荐等场景。但实践中需要注意，搜索深度和上下文规模会显著影响响应时间与成本。通过合理控制 context size，可以在信息质量、延迟和费用之间取得更优平衡，这也是工程化落地时不可忽视的一环。</p>
+<h3 id="_8">图像生成与多轮编辑：从一次生成到持续创作</h3>
+<p>在图像生成方面，Responses API 不仅支持高质量的文本生成图像，还支持基于历史响应或图像 ID 的多轮编辑。这种“可追溯、可迭代”的设计，使图像生成更接近真实创作流程，适用于设计迭代、创意生成和产品原型等场景。</p>
+<h3 id="code-interpreter">Code Interpreter：让模型“会算、能跑、可解释”</h3>
+<p>代码解释器（Python Tool）为模型提供了“写代码 + 执行代码 + 解释结果”的闭环能力。相较于直接给出结论，这种方式显著提升了结果的可靠性和可解释性，尤其适合数学推导、数据分析和工程计算等对准确性要求较高的场景。</p>
+<h3 id="code-toolsipynb">Code  - tools.ipynb</h3>
+<pre><code>import json
+from openai import OpenAI
+
+with open(&quot;../config.json&quot;) as f:
+    config = json.load(f)
+
+# Access API key
+api_key = config[&quot;openai_api_key&quot;]
+
+client = OpenAI(
+     base_url=&quot;https://openrouter.ai/api/v1&quot;,
+     api_key=api_key
+    )
+</code></pre>
+<h4 id="function-calling">Function Calling</h4>
+<pre><code>import requests
+
+
+def get_weather(latitude, longitude):
+    response = requests.get(
+        f&quot;https://api.open-meteo.com/v1/forecast?latitude={latitude}&amp;longitude={longitude}&amp;current=temperature_2m,wind_speed_10m&amp;hourly=temperature_2m,relative_humidity_2m,wind_speed_10m&quot;
+    )
+    data = response.json()
+    return data[&quot;current&quot;][&quot;temperature_2m&quot;]
+</code></pre>
+<pre><code> tools = [
+    {
+        &quot;type&quot;: &quot;function&quot;,
+        &quot;name&quot;: &quot;get_weather&quot;,
+        &quot;description&quot;: &quot;Get current temperature for provided coordinates in celsius.&quot;,
+        &quot;parameters&quot;: {
+            &quot;type&quot;: &quot;object&quot;,
+            &quot;properties&quot;: {
+                &quot;latitude&quot;: {&quot;type&quot;: &quot;number&quot;},
+                &quot;longitude&quot;: {&quot;type&quot;: &quot;number&quot;},
+            },
+            &quot;required&quot;: [&quot;latitude&quot;, &quot;longitude&quot;],
+            &quot;additionalProperties&quot;: False,
+        },
+        &quot;strict&quot;: True,
+    }
+]
+
+input_messages = [
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What's the weather like in Paris today?&quot;}
+]
+
+response = client.responses.create(
+    model=&quot;arcee-ai/trinity-mini:free&quot;,
+    input=input_messages,
+    tools=tools,
+</code></pre>
+<pre><code>for r in response.output:
+    print(&quot;Function call:&quot;, r.name)
+    print(&quot;Arguments:&quot;, r.arguments)
+    print(&quot;Status:&quot;, r.status)
+</code></pre>
+<pre><code>Function call: get_weather
+Arguments: {&quot;latitude&quot;:48.8566,&quot;longitude&quot;:2.3522}
+Status: completed
+</code></pre>
+<pre><code>import json
+
+if r.name == &quot;get_weather&quot;:
+    args = json.loads(r.arguments)  # parse string → dict
+    latitude = args[&quot;latitude&quot;]
+    longitude = args[&quot;longitude&quot;]
+    temperature = get_weather(latitude, longitude)
+    print(f&quot;The current temperature in Paris is {temperature}°C.&quot;)
+</code></pre>
+<blockquote>
+<p>The current temperature in Paris is 11.3°C.</p>
+</blockquote>
+<h4 id="web-search">Web search</h4>
+<pre><code>response = client.responses.create(
+    model=&quot;openai/gpt-oss-20b:free&quot;,
+    tools=[{&quot;type&quot;: &quot;web_search_preview&quot;}],
+    input=&quot;What is the biggest tech news today in one sentence?&quot;,
+)
+
+print(response.output_text)
+</code></pre>
+<blockquote>
+<p>IBM has agreed to buy data‑streaming platform Confluent for $11 billion in cash, a move that will bolster its AI and data‑automation portfolio and make it the largest acquisition in the company’s recent history <a href="https://techcrunch.com/2025/12/08/ibm-to-acquire-confluent-for-11b-as-it-seeks-to-bolster-its-data-offerings/">techcrunch.com</a><a href="https://www.prnewswire.com/news-releases/ibm-to-acquire-confluent-to-create-smart-data-platform-for-enterprise-generative-ai-302635317.html">prnewswire.com</a>.</p>
+</blockquote>
+<pre><code>print(response.output)
+</code></pre>
+<pre><code> [ResponseReasoningItem(id='rs_tmp_sx0e1tf4cd', summary=[], type='reasoning', content=[Content(text='We need to answer: &quot;What is the biggest tech news today in one sentence?&quot; We have to incorporate web search results. The search results include Reuters article about global tech shares surge due to Nvidia\'s AI boom, IBM acquiring Confluent for $11B, Google antitrust remedies, etc. The question: &quot;What is the biggest tech news today in one sentence?&quot; We need to pick the biggest news. Likely the IBM acquisition of Confluent is big. Or the Google antitrust remedies. Which is bigger? IBM acquiring Confluent for $11B is a major deal. Google antitrust remedies also significant. But the question: &quot;today&quot; refers to the date of the search: 2025-12-16. The IBM acquisition was announced Dec 8, 2025. Google antitrust remedies finalized Dec 5, 2025. Which is bigger? IBM acquisition is a big $11B deal. Google antitrust is also huge. But the question: &quot;biggest tech news today&quot; likely refers to the most significant headline. The Reuters article about global tech shares surge due to Nvidia\'s AI boom is also big. But the IBM acquisition is a major corporate event. Let\'s choose IBM acquiring Confluent for $11B. Provide one sentence summarizing. Cite sources: TechCrunch article and PRNewswire. Use markdown links named by domain: techcrunch.com, prnewswire.com. Also maybe mention Reuters? But we can cite TechCrunch and PRNewswire. Provide one sentence: &quot;IBM has agreed to acquire data‑streaming platform Confluent for $11\u202fbillion in cash, positioning the tech giant to strengthen its AI and data offerings.&quot; Cite.', type='reasoning_text')], encrypted_content=None, status=None), ResponseOutputMessage(id='msg_tmp_xexiao43uc', content=[ResponseOutputText(annotations=[AnnotationURLCitation(end_index=0, start_index=0, title=&quot;Today's Latest Technology News | Reuters&quot;, type='url_citation', url='https://www.reuters.com/technology/'), AnnotationURLCitation(end_index=0, start_index=0, title='IBM to acquire Confluent for $11B as it seeks to bolster its data offerings', type='url_citation', url='https://techcrunch.com/2025/12/08/ibm-to-acquire-confluent-for-11b-as-it-seeks-to-bolster-its-data-offerings/'), AnnotationURLCitation(end_index=0, start_index=0, title='IBM to Acquire Confluent to Create Smart Data Platform for Enterprise Generative AI', type='url_citation', url='https://www.prnewswire.com/news-releases/ibm-to-acquire-confluent-to-create-smart-data-platform-for-enterprise-generative-ai-302635317.html'), AnnotationURLCitation(end_index=0, start_index=0, title='Judge finalizes remedies in Google antitrust case', type='url_citation', url='https://www.cnbc.com/2025/12/05/judge-finalize-remedies-in-google-antitrust-case.html'), AnnotationURLCitation(end_index=0, start_index=0, title='Tech - CNBC', type='url_citation', url='https://www.cnbc.com/technology/')], text='IBM has agreed to buy data‑streaming platform Confluent for $11\u202fbillion in cash, a move that will bolster its AI and data‑automation portfolio and make it the largest acquisition in the company’s recent history\u202f[techcrunch.com](https://techcrunch.com/2025/12/08/ibm-to-acquire-confluent-for-11b-as-it-seeks-to-bolster-its-data-offerings/)[prnewswire.com](https://www.prnewswire.com/news-releases/ibm-to-acquire-confluent-to-create-smart-data-platform-for-enterprise-generative-ai-302635317.html).', type='output_text', logprobs=None)], role='assistant', status='completed', type='message')]
+</code></pre>
+<pre><code>## User location based search
+
+response = client.responses.create(
+    model=&quot;openai/gpt-oss-120b:free&quot;,
+    tools=[
+        {
+            &quot;type&quot;: &quot;web_search_preview&quot;,
+            &quot;user_location&quot;: {
+                &quot;type&quot;: &quot;approximate&quot;,
+                &quot;country&quot;: &quot;GB&quot;,
+                &quot;city&quot;: &quot;London&quot;,
+                &quot;region&quot;: &quot;London&quot;,
+            },
+        }
+    ],
+    input=&quot;What are the best restaurants around Wimbledon?&quot;,
+)
+
+print(response.output_text)
+</code></pre>
+<pre><code>Below is a quick‑reference guide to the restaurants that consistently rank highest (by diners, critics and booking data) in and around Wimbledon.  I’ve grouped them by the type of experience you might be after – fine‑dining, casual‑bistro, family‑friendly, ethnic specialties, and “must‑try” hidden gems – and added the key details that most visitors care about (cuisine, price band, OpenTable rating or Infatuation score, and a one‑sentence why it’s worth a reservation).
+
+---
+
+## 1.  Fine‑Dining / “Special‑Occasion” Picks  
+
+| Restaurant | Cuisine | Price* | Rating (OpenTable / Infatuation) | Why it stands out |
+|------------|---------|--------|----------------------------------|-------------------|
+| **Buenos Aires Argentine Steakhouse** – Wimbledon | Argentinian grill | ££££ (expensive) | 4.8 / 4.8 ⭐ (OT) | Champion‑grade char‑grilled steaks; highlighted as OpenTable’s “Diners’ top pick” for its quality and government‑backed Argentine flagship status【opentable.com】 | 
+| **Efes Premium** – Wimbledon | Turkish / Mediterranean | ££££ (expensive) | 4.7 / 4.7 ⭐ (OT) | Upscale Turkish tasting menu with a modern décor; praised for fresh ingredients and a romantic vibe【opentable.com】 | 
+| **The Fox and Grapes** – Wimbledon | Modern British gastro‑pub | £££ (moderate) | 4.5 / 4.5 ⭐ (OT) | Bib Gourmand‑awarded, seasonal British dishes and a Josper‑oven steak; a favourite of tennis fans and locals alike【opentable.com】 | 
+| **The Rushmere** (formerly The Swan) – Wimbledon | Gastro‑pub, live‑sport TV | ££££ (expensive) | 4.4 / 4.5 ⭐ (OT) | Large screens for sport, hearty British fare and a lively bar atmosphere【opentable.com】 | 
+| **Takahashi** – South Wimbledon | Omakase‑style Japanese (12‑seat) | ££££ (expensive) | 4.8 / 4.7 ⭐ (Infatuation) | Intimate, chef‑directed tasting menu that feels private without the ultra‑price tag of central‑London omakase spots【theinfatuation.com】 | 
+| **Al Forno** – Wimbledon | Italian (brick‑oven pizza &amp; pasta) | ££££ (expensive) | 4.7 / 4.7 ⭐ (Infatuation) | Rustic brick‑oven pizzas, solid pastas and a standout banoffee; great for groups who want a relaxed yet polished dinner【theinfatuation.com】 | 
+| **Grilandia – Wimbledon** | Lebanese / Mediterranean | £££ (moderate) | 4.7 / 4.7 ⭐ (OT) | All‑day brasserie with modern Lebanese mezze, a bright interior and a solid 4.7 rating on OpenTable【opentable.com】 | 
+
+\*Price bands are the OpenTable symbols: £ = budget, ££ = moderate, £££ = expensive, ££££ = very expensive.
+
+---
+
+## 2.  Casual‑Bistro / Lunch‑And‑Brunch Favorites  
+
+| Restaurant | Cuisine | Price | Rating | Highlights |
+|------------|---------|-------|--------|------------|
+| **The Black Lamb** – Wimbledon Village | Modern British, farm‑to‑fork | £££ (expensive) | 4.6 ⭐ (Map&amp;Family) | Seasonal British set menus, a 5‑course Wimbledon‑fortnight menu, and an on‑site English wine list【mapandfamily.com】 |
+| **Light House** – Wimbledon Village | Contemporary European | ££ (moderate) | 4.5 ⭐ (Map&amp;Family) | Rotating seasonal dishes, live‑jazz evenings, and a relaxed garden terrace【mapandfamily.com】 |
+| **Light on the Common** – Wimbledon | European‑style café | ££ (moderate) | 4.4 ⭐ (Map&amp;Family) | Breakfast smoothies, market‑fish stew, and a sunny conservatory for brunch【mapandfamily.com】 |
+| **The Ivy Café Wimbledon** | Contemporary British | ££££ (expensive) | 4.3 ⭐ (OT) | All‑day menu, stylish interior, and a popular spot for families and business lunches【opentable.com】 |
+| **Patara Fine Thai** – Wimbledon | Thai (modern) | £££ (moderate) | 4.8 ⭐ (Infatuation) | Outdoor garden terrace, standout green curry, and a menu that balances authentic Thai with a British twist【theinfatuation.com】 |
+| **Thai Tho – Wimbledon** | Thai (classic) | £££ (moderate) | 4.7 ⭐ (OT) | Family‑run, tennis‑player favourite, generous portions of tom yum and curries【opentable.com】 |
+| **Megan’s in the Village** | Mediterranean‑inspired (British‑Mediterranean) | ££ (moderate) | 4.5 ⭐ (Map&amp;Family) | Light, airy patio, brunch cocktails, and dog‑friendly outdoor seating【mapandfamily.com】 |
+| **Cent Anni** – Wimbledon Village | Italian | ££ (moderate) | 4.8 ⭐ (Map&amp;Family) | Handmade pasta, “Pizza Monday” and “Pasta Tuesday” specials, plus a kids’ menu【mapandfamily.com】 |
+
+---
+
+## 3.  Ethnic &amp; Specialty Restaurants  
+
+| Restaurant | Cuisine | Price | Rating | What makes it a “must‑try” |
+|------------|---------|-------|--------|----------------------------|
+| **Sticks’n’Sushi – Wimbledon** | Japanese sushi &amp; grilled sticks | ££££ (expensive) | 4.6 ⭐ (OT) / 4.9 ⭐ (Infatuation) | Consistently excellent maki, creative toppings (e.g., tuna‑BBQ sauce) and a sleek interior for date nights【theinfatuation.com】 |
+| **Bombay Delight** – Wimbledon | Indian (regional) | £££ (moderate) | 4.7 ⭐ (OT) / 4.7 ⭐ (Infatuation) | Chef‑driven menu with lesser‑known regional dishes, no artificial colours, and a bright, celebratory vibe【opentable.com】【theinfatuation.com】 |
+| **Giggling Squid – Wimbledon** | Thai “tapas” | ££ (moderate) | 4.5 ⭐ (TripAdvisor) | Small‑plate Thai street‑food style, vibrant décor, and a popular spot for sharing with friends【tripadvisor.co.uk】 |
+| **Maison St Cassien** – Wimbledon Village | Lebanese / Mediterranean | ££ (moderate) | 4.5 ⭐ (Map&amp;Family) | Authentic Lebanese mezze, full English breakfast, and a sunny courtyard that opens at 7 am【mapandfamily.com】 |
+| **Chango Empanadas** – Wimbledon High St | Argentine (empanadas) | ££ (moderate) | 4.4 ⭐ (Map&amp;Family) | Hand‑rolled empanadas with creative fillings (pumpkin‑goat cheese, spicy chicken) and a small wine list; perfect for a quick bite【mapandfamily.com】 |
+| **Good Fortune Club** – Wimbledon | Dim sum / Chinese | ££ (moderate) | 4.3 ⭐ (Map&amp;Family) | Newer dim‑sum concept with a concise menu, good for a casual lunch or take‑away【mapandfamily.com】 |
+| **Rajdoot Tandoori** – Wimbledon Village | Indian (classic) | ££ (moderate) | 4.2 ⭐ (Map&amp;Family) | Family‑run since 1982, reliable curries and a solid dinner‑time menu【mapandfamily.com】 |
+| **Village Tandoori** – Wimbledon | Indian (modern) | ££ (moderate) | 4.2 ⭐ (Map&amp;Family) | Recently refurbished, extensive menu, and a good option for late‑evening meals【mapandfamily.com】 |
+
+---
+
+## 4.  Family‑Friendly / Pub‑Style Options  
+
+| Restaurant | Cuisine | Price | Rating | Why families love it |
+|------------|---------|-------|--------|----------------------|
+| **The Hand in Hand** – Wimbledon Common | British pub | ££ (moderate) | 4.5 ⭐ (Map&amp;Family) | Classic Sunday roast, real‑ale masterclasses, fire‑place and outdoor garden – great for kids and groups【mapandfamily.com】 |
+| **The Fox and Grapes** – Wimbledon (also listed above) | British gastro‑pub | £££ (moderate) | 4.5 ⭐ (OT) | Spacious patio, kid‑friendly menu, and a relaxed vibe after a day at the courts【opentable.com】 |
+| **Bill’s Restaurant &amp; Bar – Wimbledon** | British (comfort) | ££ (moderate) | 4.4 ⭐ (OT) | Large menu covering breakfast to dinner, vegetarian/vegan options, and a terrace for sunny days【opentable.com】 |
+| **The Alexandra** – Wimbledon Hill Rd | British pub | ££ (moderate) | 4.4 ⭐ (TripAdvisor) | Friendly service, solid pub classics, and a convenient location near the station【tripadvisor.co.uk】 |
+| **Côte Brasserie – Wimbledon** | French brasserie | £££ (moderate) | 4.2 ⭐ (OT) | Consistent French classics (steak‑frites, croque‑monsieur) and a kids’ menu; good for a relaxed family dinner【opentable.com】 |
+
+---
+
+## 5.  Quick‑Bite / Café Picks (Great for a coffee break or light lunch)
+
+| Spot | What they serve | Rating |
+|------|----------------|--------|
+| **Saucer &amp; Cup** – Wimbledon Park | Specialty coffee, pastries, light bites | 4.5 ⭐ (TripAdvisor) |
+| **Cakes by Robin** – Wimbledon Stadium Business Park | Artisan cakes, coffee, gluten‑free options | 4.5 ⭐ (TripAdvisor) |
+| **All Bar One – Wimbledon** | International café‑style menu, brunch plates | 4.3 ⭐ (TripAdvisor) |
+| **Franco Manca – Southfields** (near Wimbledon) | Sourdough pizza, simple salads | 4.2 ⭐ (TripAdvisor) |
+| **Megan’s in the Village** (also listed above) | Light Mediterranean plates, brunch cocktails | 4.5 ⭐ (Map&amp;Family) |
+
+---
+
+## 6.  How to Choose &amp; Book  
+
+1. **For a special night out** – go for **Buenos Aires**, **Efes Premium**, **Takahashi**, or **Al Forno**.  
+2. **For a relaxed lunch or brunch** – try **The Black Lamb**, **Light House**, **Patara**, **Megan’s**, or **Cent Anni**.  
+3. **If you’re after Asian flavors** – **Sticks’n’Sushi**, **Giggling Squid**, **Bombay Delight**, or **Thai Tho**.  
+4. **Family or group meals** – **The Hand in Hand**, **The Fox and Grapes**, **Bill’s**, or **Côte Brasserie**.  
+5. **Quick coffee or snack** – **Saucer &amp; Cup**, **Cakes by Robin**, or **All Bar One**.
+
+All of the restaurants above are available for reservation on **OpenTable** (just search “Wimbledon” on the platform) and most have real‑time availability, especially during the Wimbledon fortnight when bookings fill up fast.  
+
+---
+
+### Bottom Line
+
+Wimbledon’s dining scene is surprisingly diverse: you can enjoy world‑class Argentine steak, refined Japanese omakase, hearty British pub classics, vibrant Thai street‑food, and cozy Mediterranean mezze all within a 10‑minute walk of the tennis grounds.  Pick the vibe you want, check the price band, and book early (especially for the high‑rated spots) – you’ll be set for a memorable meal whether you’re celebrating a victory on Centre Court or just exploring the village’s charming streets.  
+
+
+
+*All ratings are current as of the latest data (May 2025). Prices are shown in OpenTable’s “£” symbols; “££” = moderate, “£££” = expensive, “££££” = very expensive.*
+</code></pre>
+<pre><code>response.usage
+
+ResponseUsage(input_tokens=52805, input_tokens_details=InputTokensDetails(cached_tokens=0), output_tokens=3083, output_tokens_details=OutputTokensDetails(reasoning_tokens=296), total_tokens=55888, cost=0.02, is_byok=False, cost_details={'upstream_inference_cost': None, 'upstream_inference_input_cost': 0, 'upstream_inference_output_cost': 0})
+</code></pre>
+<pre><code># You can also adjust context size: low, medium, high
+
+response = client.responses.create(
+    model=&quot;openai/gpt-oss-120b:free&quot;,
+    tools=[
+        {
+            &quot;type&quot;: &quot;web_search_preview&quot;,
+            &quot;search_context_size&quot;: &quot;low&quot;,
+        }
+    ],
+    input=&quot;Who is the CEO of OpenAI?&quot;,
+)
+
+print(response.output_text)
+</code></pre>
+<blockquote>
+<p>The chief executive officer of OpenAI is <strong>Sam Altman</strong>【openai.com】. He has held the role since 2019 and continues to lead the company’s AI research and product development efforts【britannica.com】.</p>
+</blockquote>
+<pre><code>response.usage
+
+ResponseUsage(input_tokens=46680, input_tokens_details=InputTokensDetails(cached_tokens=0), output_tokens=132, output_tokens_details=OutputTokensDetails(reasoning_tokens=77), total_tokens=46812, cost=0.02, is_byok=False, cost_details={'upstream_inference_cost': None, 'upstream_inference_input_cost': 0, 'upstream_inference_output_cost': 0})
+</code></pre>
+<h4 id="image-generation">Image Generation</h4>
+<pre><code>import base64
+import json
+from openai import OpenAI
+
+client = OpenAI(
+    api_key=&quot;ollama&quot;,  # 随便写
+    base_url=&quot;http://localhost:11434/v1&quot;
+)
+
+response = client.responses.create(
+    model=&quot;qwen3-vl:4b&quot;,
+    input=&quot;Generate an image of cute coding dog wearing headset and glasses&quot;,
+    tools=[{&quot;type&quot;: &quot;image_generation&quot;}],
+)
+
+# Save the image to a file
+image_data = [
+    output.result
+    for output in response.output
+    if output.type == &quot;image_generation_call&quot;
+]
+
+if image_data:
+    image_base64 = image_data[0]
+    with open(&quot;coding_dog_new.png&quot;, &quot;wb&quot;) as f:
+        f.write(base64.b64decode(image_base64))
+</code></pre>
+<h4 id="follow-up-image-instructions">Follow up image instructions</h4>
+<pre><code> response_fwup = client.responses.create(
+    model=&quot;gpt-4.1-mini&quot;,
+    previous_response_id=response.id,
+    input=&quot;Now make it wear sunglasses&quot;,
+    tools=[{&quot;type&quot;: &quot;image_generation&quot;}],
+)
+
+image_data_fwup = [
+    output.result
+    for output in response_fwup.output
+    if output.type == &quot;image_generation_call&quot;
+]
+
+if image_data_fwup:
+    image_base64 = image_data_fwup[0]
+    with open(&quot;coding_dog_sunglasses.png&quot;, &quot;wb&quot;) as f:
+        f.write(base64.b64decode(image_base64))
+</code></pre>
+<h4 id="code-interpreter_1">Code Interpreter</h4>
+<pre><code>instructions = &quot;&quot;&quot;
+You are a personal math tutor. When asked a math question, 
+write and run code using the python tool to answer the question.
+&quot;&quot;&quot;  # Keep &quot;python tool&quot; phrase in your prompt to ensure the model invokes this tool.
+
+resp = client.responses.create(
+    model=&quot;kwaipilot/kat-coder-pro:free&quot;,
+    tools=[{&quot;type&quot;: &quot;code_interpreter&quot;, &quot;container&quot;: {&quot;type&quot;: &quot;auto&quot;}}],
+    instructions=instructions,
+    input=&quot;I need to solve the equation 3x + 11 = 14. Can you help me?&quot;,
+)
+
+print(resp.output)
+</code></pre>
+<pre><code>[ResponseOutputMessage(id='msg_68776b41673481988ebba3edd1a6e939076deb4565eecd63', content=[ResponseOutputText(annotations=[], text=&quot;Sure! Let's solve the equation \\(3x + 11 = 14\\).\n\nI'll solve for \\(x\\).&quot;, type='output_text', logprobs=[])], role='assistant', status='completed', type='message'), ResponseCodeInterpreterToolCall(id='ci_68776b4201c48198ad9f17586ff86dcf076deb4565eecd63', code=&quot;from sympy import symbols, Eq, solve\n\n# Define the variable\nx = symbols('x')\n\n# Define the equation\nequation = Eq(3*x + 11, 14)\n\n# Solve the equation\nsolution = solve(equation, x)\nsolution&quot;, container_id='cntr_68776b40d8748198a9e7352d828f636b0682ffa7a6b3eb87', outputs=None, status='completed', type='code_interpreter_call'), ResponseOutputMessage(id='msg_68776b4646188198b1bb6f7853bc3586076deb4565eecd63', content=[ResponseOutputText(annotations=[], text='The solution to the equation \\(3x + 11 = 14\\) is \\(x = 1\\).', type='output_text', logprobs=[])], role='assistant', status='completed', type='message')]
+</code></pre>
+<pre><code>for item in resp.output:
+    if item.type == &quot;code_interpreter_call&quot;:
+        print(&quot;Code:\n&quot;, item.code, &quot;\n&quot;)
+    elif item.type == &quot;message&quot;:
+        for content_item in item.content:
+            if content_item.type == &quot;output_text&quot;:
+                print(&quot;Text:\n&quot;, content_item.text, &quot;\n&quot;)
+</code></pre>
+<pre><code>Text:
+ Sure! Let's solve the equation \(3x + 11 = 14\).
+
+I'll solve for \(x\). 
+
+Code:
+ from sympy import symbols, Eq, solve
+
+# Define the variable
+x = symbols('x')
+
+# Define the equation
+equation = Eq(3*x + 11, 14)
+
+# Solve the equation
+solution = solve(equation, x)
+solution 
+
+Text:
+ The solution to the equation \(3x + 11 = 14\) is \(x = 1\).
+</code></pre>
+<h2 id="file-search">基于 File Search 的知识型智能助手实践</h2>
+<p>过去，构建一个能够基于私有文件进行问答的智能助手，往往需要开发者自行处理向量数据库、语义检索和数据召回等复杂环节，工程成本和维护成本都相对较高。而借助 <strong>OpenAI 的 File Search 工具与 Responses API</strong>，这一流程被显著简化，知识型助手的开发门槛大幅降低。</p>
+<p>在实践中，开发流程主要包括三个步骤：首先，将业务相关文档按照 OpenAI 规范上传为文件资源；其次，创建向量存储（Vector Store），并将文件加入其中以完成语义向量化；最后，在 Responses API 中启用 <code>file_search</code> 工具，基于向量存储实现高效、准确的语义检索。整个过程无需开发者自行维护向量数据库或搜索逻辑，极大提升了开发效率。</p>
+<p>基于这一能力，可以快速构建一个终端或 Web 形式的智能助手，用于回答用户关于活动安排、规则说明等问题。实际测试表明，该方案不仅响应速度快（通常在数秒内完成），而且通过限制检索结果数量，有效控制了 Token 消耗，具备良好的成本效率。</p>
+<blockquote>
+<p>File Search 将“知识注入”从复杂的工程问题，转化为标准化的 API 能力，是构建企业级知识问答与内部智能助手的关键基础设施。</p>
+</blockquote>
+<p><img alt="Alt Image Text" src="../../images/chap8_0_3.png" title="Body image" />  </p>
+<p><strong><code>upload_file.ipynb</code></strong></p>
+<pre><code>import json
+from openai import OpenAI
+
+with open(&quot;../config.json&quot;) as f:
+    config = json.load(f)
+
+# Access API key
+api_key = config[&quot;openai_api_key&quot;]
+
+client = OpenAI(api_key=api_key)
+</code></pre>
+<h4 id="create-the-file">Create the file</h4>
+<pre><code>import requests
+from io import BytesIO
+
+def create_file(client, file_path):
+    if file_path.startswith(&quot;http://&quot;) or file_path.startswith(&quot;https://&quot;):
+        # Download the file content from the URL
+        response = requests.get(file_path)
+        file_content = BytesIO(response.content)
+        file_name = file_path.split(&quot;/&quot;)[-1]
+        file_tuple = (file_name, file_content)
+        result = client.files.create(file=file_tuple, purpose=&quot;assistants&quot;)
+    else:
+        # Handle local file path
+        with open(file_path, &quot;rb&quot;) as file_content:
+            result = client.files.create(file=file_content, purpose=&quot;assistants&quot;)
+    print(result.id)
+    return result.id
+
+
+# Replace with your own file path or URL
+file_id = create_file(client, &quot;AI_Summit_Program.pdf&quot;)
+</code></pre>
+<h4 id="create-a-vector-store">Create a vector store</h4>
+<pre><code>vector_store = client.vector_stores.create(name=&quot;knowledge_base&quot;)
+print(vector_store.id)
+</code></pre>
+<h4 id="add-the-file-to-the-vector-store">Add the file to the vector store</h4>
+<pre><code>client.vector_stores.files.create(vector_store_id=vector_store.id, file_id=file_id)
+</code></pre>
+<blockquote>
+<p>VectorStoreFile(id='file-ABB2cqjqiMisJchkZfY48q', created_at=1752671502, last_error=None, object='vector_store.file', status='in_progress', usage_bytes=0, vector_store_id='vs_687782eca894819185cc116786181154', attributes={}, chunking_strategy=StaticFileChunkingStrategyObject(static=StaticFileChunkingStrategy(chunk_overlap_tokens=400, max_chunk_size_tokens=800), type='static'))</p>
+</blockquote>
+<h4 id="check-status">Check status</h4>
+<pre><code>result = client.vector_stores.files.list(vector_store_id=vector_store.id)
+print(result)
+</code></pre>
+<blockquote>
+<p>SyncCursorPage<a href="data=[VectorStoreFile(id=" title="file-ABB2cqjqiMisJchkZfY48q', created_at=1752671502, last_error=None, object='vector_store.file', status='completed', usage_bytes=3091, vector_store_id='vs_687782eca894819185cc116786181154', attributes={}, chunking_strategy=StaticFileChunkingStrategyObject(static=StaticFileChunkingStrategy(chunk_overlap_tokens=400, max_chunk_size_tokens=800), type='static">VectorStoreFile</a>), VectorStoreFile(id='file-9XcTuxiJTray6ttcpRf1Kw', created_at=1752663761, last_error=None, object='vector_store.file', status='completed', usage_bytes=3118, vector_store_id='vs_687782eca894819185cc116786181154', attributes={}, chunking_strategy=StaticFileChunkingStrategyObject(static=StaticFileChunkingStrategy(chunk_overlap_tokens=400, max_chunk_size_tokens=800), type='static'))], has_more=False, object='list', first_id='file-ABB2cqjqiMisJchkZfY48q', last_id='file-9XcTuxiJTray6ttcpRf1Kw')</p>
+</blockquote>
+<h2 id="what-is-the-openai-agents-sdk">What Is the OpenAI Agents SDK?</h2>
+<p>Agents are AI assistants that can actually perform tasks autonomously.</p>
+<h3 id="building-agents"><strong>Building Agents</strong></h3>
+<p><strong>Models</strong>: o1, 03-mini, GPT-4.5, GPT-4o, GPT-4o-mini</p>
+<p><strong>Tools</strong>: Function calling, web search, computer use</p>
+<p><strong>Knowledge and memory</strong>: Vector stores, file search, embeddings</p>
+<p><strong>Guardrails</strong>: Moderation, instruction hierarchy (Python, TypeScript)</p>
+<p><strong>Orchestration</strong>: Agents SDK, tracing, evaluations, fine-tuning</p>
+<p><strong>Main Building Blocks of Agents SDK</strong></p>
+<h3 id="_9">内容总结（概述）</h3>
+<p>本模块系统性介绍了 <strong>OpenAI Agents SDK</strong> 及其在构建自治型智能体（Agentic Applications）中的核心价值。</p>
+<p>智能体不再只是被动回答问题的模型，而是能够基于<strong>推理、工具调用、知识与记忆</strong>自主完成任务的 AI 助手。OpenAI 将智能体的构建拆解为多个关键领域：模型（Models）、工具（Tools）、知识与记忆（Knowledge &amp; Memory）、安全防护（Guardrails）以及编排与管理（Orchestration）。</p>
+<p>Agents SDK 是一个轻量但功能强大的框架，用于将上述能力高效组合起来，简化复杂的智能体工作流。SDK 提供四个核心构建模块：</p>
+<ul>
+<li><strong>Agents</strong>：具备指令与工具的专业化 AI 工作单元</li>
+<li><strong>Handoffs</strong>：支持任务在多个智能体之间的委派与协作</li>
+<li><strong>Guardrails</strong>：用于输入校验与安全控制，防止异常或不当行为</li>
+<li><strong>Sessions</strong>：自动维护跨轮次对话状态，免去手动上下文管理</li>
+</ul>
+<p>此外，SDK 内建完整的 <strong>Agent Loop</strong>，自动处理工具调用与多步推理流程，并原生支持 Python，使开发者无需引入复杂抽象即可快速构建多智能体系统。同时，内置的 <strong>Tracing 能力</strong>可用于调试、监控与评估智能体行为，并与 OpenAI 平台的评测与优化工具深度集成。</p>
+<blockquote>
+<p>OpenAI Agents SDK 为构建自治型 AI 系统提供了一种兼顾简洁性与扩展性的工程化方案。通过将模型能力、工具调用、记忆管理与安全机制进行模块化整合，开发者可以从单一智能体快速演进到复杂的多智能体协作体系。其内置的 Agent Loop、自动会话管理与可观测性设计，大幅降低了 Agentic Workflow 的实现门槛，使智能体应用真正具备可落地、可维护与可扩展的工程价值。</p>
+</blockquote>
+<p><img alt="Alt Image Text" src="../../images/chap8_0_4.png" title="Body image" />  </p>
+<p>以下这段代码展示了如何用 Agents SDK 构建一个具备「输入审查 + 意图理解 + 专家路由」能力的本地多智能体系统，并通过 Ollama 实现完全离线运行。</p>
+<p>它体现了从 Prompt Engineering 向 Agent System Engineering 的关键转变。</p>
+<p><strong><code>first_agents_local.py</code></strong></p>
+<pre><code>from agents import (
+    Agent,
+    InputGuardrail,
+    GuardrailFunctionOutput,
+    Runner,
+)
+from pydantic import BaseModel
+import asyncio
+import os
+from agents import Agent, Runner
+
+# ---------------------------------------------------------------------
+# 0. Ollama OpenAI-compatible configuration
+# ---------------------------------------------------------------------
+
+# Ollama 使用 OpenAI-compatible API
+os.environ[&quot;OPENAI_API_KEY&quot;] = &quot;ollama&quot;  # 任意值即可
+os.environ[&quot;OPENAI_BASE_URL&quot;] = &quot;http://localhost:11434/v1&quot;
+# 关闭 Agents SDK Tracing（本地 Ollama 必须）
+os.environ[&quot;OPENAI_TRACING&quot;] = &quot;false&quot;
+
+MODEL_NAME = &quot;qwen2.5:7b&quot;   # 或 qwen2.5 / deepseek-r1 等
+
+# ---------------------------------------------------------------------
+# 1. Guardrail: “Is this a coding question?”
+# ---------------------------------------------------------------------
+
+class CodeQuestionOutput(BaseModel):
+    is_code_question: bool
+    reasoning: str
+
+
+guardrail_agent = Agent(
+    name=&quot;Guardrail check&quot;,
+    model=MODEL_NAME,
+    instructions=&quot;Check if the user is asking about programming.&quot;,
+    output_type=CodeQuestionOutput,
+)
+
+
+async def code_question_guardrail(ctx, agent, input_data):
+    result = await Runner.run(
+        guardrail_agent,
+        input_data,
+        context=ctx.context,
+    )
+    final_output = result.final_output_as(CodeQuestionOutput)
+    return GuardrailFunctionOutput(
+        output_info=final_output,
+        tripwire_triggered=not final_output.is_code_question,
+    )
+
+
+# ---------------------------------------------------------------------
+# 2. Specialist coding agents
+# ---------------------------------------------------------------------
+
+python_tutor_agent = Agent(
+    name=&quot;Python Tutor&quot;,
+    model=MODEL_NAME,
+    handoff_description=&quot;Answers Python-related programming questions&quot;,
+    instructions=(
+        &quot;You are an expert Python mentor. &quot;
+        &quot;Explain concepts clearly and give concise code examples.&quot;
+    ),
+)
+
+javascript_tutor_agent = Agent(
+    name=&quot;JavaScript Tutor&quot;,
+    model=MODEL_NAME,
+    handoff_description=&quot;Answers JavaScript / TypeScript coding questions&quot;,
+    instructions=(
+        &quot;You are an expert JavaScript mentor. &quot;
+        &quot;Explain concepts clearly and give concise code examples.&quot;
+    ),
+)
+
+# ---------------------------------------------------------------------
+# 3. Triage agent (Manager agent)
+# ---------------------------------------------------------------------
+
+triage_agent = Agent(
+    name=&quot;Triage Agent&quot;,
+    model=MODEL_NAME,
+    instructions=(
+        &quot;Decide which tutor agent should answer the user's programming question.&quot;
+    ),
+    handoffs=[python_tutor_agent, javascript_tutor_agent],
+    input_guardrails=[
+        InputGuardrail(guardrail_function=code_question_guardrail),
+    ],
+)
+
+# ---------------------------------------------------------------------
+# 4. Demo
+# ---------------------------------------------------------------------
+
+async def main():
+    result = await Runner.run(
+        triage_agent,
+        &quot;How do I set 1 second delay in JavaScript? Explain shortly.&quot;,
+    )
+    print(result.final_output)
+
+    print(&quot;\n&quot; + &quot;-&quot; * 40 + &quot;\n&quot;)
+
+    result = await Runner.run(
+        triage_agent,
+        &quot;How to write a for loop in Python? Explain shortly.&quot;,
+    )
+    print(result.final_output)
+
+    print(&quot;\n&quot; + &quot;-&quot; * 40 + &quot;\n&quot;)
+
+    result = await Runner.run(
+        triage_agent,
+        &quot;Who won the World Cup in 1998?&quot;,
+    )
+    print(result.final_output)
+
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())
+</code></pre>
+<h4 id="output">Output</h4>
+<pre><code>% python ./first_agents_local.py
+[non-fatal] Tracing: request failed: timed out
+[non-fatal] Tracing: request failed: timed out
+[non-fatal] Tracing: request failed: timed out
+[non-fatal] Tracing: max retries reached, giving up on this batch.
+[non-fatal] Tracing: request failed: timed out
+To set a 1-second delay in JavaScript, you can use the `setTimeout` function. Here’s a concise example:
+
+javascript
+setTimeout(() =&gt; {
+    console.log(&quot;This message will be printed after 1 second.&quot;);
+}, 1000);
+
+
+In this code:
+- `setTimeout` is called with two arguments: 
+  - A function that you want to run after the delay.
+  - The duration of the delay in milliseconds (1000 milliseconds = 1 second).
+
+This will log &quot;This message will be printed after 1 second.&quot; to the console after a 1-second delay.
+
+----------------------------------------
+
+[non-fatal] Tracing: request failed: timed out
+[non-fatal] Tracing: request failed: timed out
+[non-fatal] Tracing: max retries reached, giving up on this batch.
+[non-fatal] Tracing: request failed: timed out
+[non-fatal] Tracing: request failed: timed out
+[non-fatal] Tracing: request failed: timed out
+[non-fatal] Tracing: max retries reached, giving up on this batch.
+[non-fatal] Tracing: request failed: timed out
+1
+[non-fatal] Tracing: request failed: timed out
+[non-fatal] Tracing: request failed: timed out
+[non-fatal] Tracing: max retries reached, giving up on this batch.
+Sure! Let's dive into how to write a for loop in Python.
+
+### For Loop Basics
+
+A `for` loop is used when you want to iterate over a sequence (such as a list, tuple, dictionary, set, or string) or any other iterable object. Here’s a simple example:
+
+python
+# Example: Print each number from 1 to 5
+numbers = [1, 2, 3, 4, 5]
+for number in numbers:
+    print(number)
+
+
+### Looping with Ranges
+
+You can also use the `range` function to generate a sequence of numbers. The `range` function returns an iterator that generates numbers from start (inclusive) to stop (exclusive).
+
+python
+# Example: Print numbers from 1 to 5 using range
+for i in range(1, 6):
+    print(i)
+
+
+### Looping with Dictionaries
+
+When you want to iterate over the keys, values, or both of a dictionary.
+
+#### Iterating Over Keys:
+
+python
+# Example: Print each key in a dictionary
+fruits = {&quot;apple&quot;: &quot;red&quot;, &quot;banana&quot;: &quot;yellow&quot;, &quot;cherry&quot;: &quot;red&quot;}
+for fruit in fruits:
+    print(fruit)
+
+
+#### Iterating Over Key-Value Pairs:
+
+python
+# Example: Print each key-value pair in a dictionary
+fruits = {&quot;apple&quot;: &quot;red&quot;, &quot;banana&quot;: &quot;yellow&quot;, &quot;cherry&quot;: &quot;red&quot;}
+for fruit, color in fruits.items():
+    print(f&quot;{fruit} is {color}&quot;)
+
+
+#### Iterating Over Values:
+
+python
+# Example: Print the value for each key in a dictionary
+fruits = {&quot;apple&quot;: &quot;red&quot;, &quot;banana&quot;: &quot;yellow&quot;, &quot;cherry&quot;: &quot;red&quot;}
+for color in fruits.values():
+    print(color)
+
+### Looping with Strings
+
+You can also use `for` loops to iterate over characters in a string.
+
+python
+# Example: Print each character in a string
+message = &quot;Hello, world!&quot;
+for char in message:
+    print(char)
+
+
+Feel free to ask if you have any specific scenarios or further questions about for loops!
+
+----------------------------------------
+
+[non-fatal] Tracing: request failed: timed out
+Traceback (most recent call last):
+  File &quot;/Users/jacob/learnspace/ai/agent/openai-responses-api-and-agents-sdk/module_2/./first_agents_local.py&quot;, line 120, in &lt;module&gt;
+    asyncio.run(main())
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py&quot;, line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/runners.py&quot;, line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/asyncio/base_events.py&quot;, line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File &quot;/Users/jacob/learnspace/ai/agent/openai-responses-api-and-agents-sdk/module_2/./first_agents_local.py&quot;, line 112, in main
+    result = await Runner.run(
+             ^^^^^^^^^^^^^^^^^
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/agents/run.py&quot;, line 367, in run
+    return await runner.run(
+           ^^^^^^^^^^^^^^^^^
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/agents/run.py&quot;, line 664, in run
+    input_guardrail_results, turn_result = await asyncio.gather(
+                                           ^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/agents/run.py&quot;, line 1776, in _run_input_guardrails
+    raise InputGuardrailTripwireTriggered(result)
+agents.exceptions.InputGuardrailTripwireTriggered: Guardrail InputGuardrail triggered tripwire
+</code></pre>
+<p>下面我<strong>站在「Agent / 多智能体系统设计专家」的视角</strong>，对你这段代码做一次<strong>结构化、逐层拆解的专业分析</strong>。我会不仅解释「它做了什么」，还会说明「为什么要这样设计」「设计上的优点 / 隐患」「在真实系统中如何演进」。</p>
+<h3 id="_10">一、整体架构总览（从系统视角）</h3>
+<p>这段代码实现的是一个<strong>经典的三层 Agent 架构</strong>：</p>
+<pre><code>User Input
+   │
+   ▼
+Input Guardrail（输入安全/意图过滤）
+   │
+   ▼
+Triage / Manager Agent（路由与决策）
+   │
+   ├── Python Specialist Agent
+   └── JavaScript Specialist Agent
+</code></pre>
+<p><strong>核心目标</strong>：</p>
+<blockquote>
+<p>构建一个「能理解意图 → 校验合法性 → 自动路由到专家」的多智能体系统</p>
+</blockquote>
+<p>这不是聊天机器人，而是一个<strong>自治（autonomous）推理系统</strong>。</p>
+<hr />
+<h3 id="_11">二、核心概念逐一拆解</h3>
+<h4 id="1-agent-prompt">1️⃣ Agent：不是 Prompt，而是「角色 + 能力 + 边界」</h4>
+<p>以 <code>python_tutor_agent</code> 为例：</p>
+<pre><code class="language-python">python_tutor_agent = Agent(
+    name=&quot;Python Tutor&quot;,
+    model=MODEL_NAME,
+    handoff_description=&quot;Answers Python-related programming questions&quot;,
+    instructions=&quot;You are an expert Python mentor...&quot;
+)
+</code></pre>
+<p><strong>从 Agent 设计角度看，它包含 4 个维度：</strong></p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>用于推理与 tracing 的<strong>身份标识</strong></td>
+</tr>
+<tr>
+<td><code>instructions</code></td>
+<td>决定 agent 的<strong>思维与输出风格</strong></td>
+</tr>
+<tr>
+<td><code>handoff_description</code></td>
+<td>给 <strong>Manager Agent</strong> 用的“能力说明”</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td>agent 的<strong>认知能力上限</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ 注意：
+<code>handoff_description</code> <strong>不是给用户看的</strong>，而是给 <em>另一个 LLM</em> 看的。</p>
+</blockquote>
+<p>这意味着你已经在做：</p>
+<blockquote>
+<p><strong>LLM → LLM 的能力协商（capability negotiation）</strong></p>
+</blockquote>
+<h3 id="2-guardrail-agent">2️⃣ Guardrail Agent：把“安全”从业务逻辑中剥离</h3>
+<pre><code class="language-python">guardrail_agent = Agent(
+    name=&quot;Guardrail check&quot;,
+    instructions=&quot;Check if the user is asking about programming.&quot;,
+    output_type=CodeQuestionOutput,
+)
+</code></pre>
+<p><strong>这是一个</strong>专用判定 Agent<strong>，特点：</strong></p>
+<ul>
+<li>只做一件事：<strong>分类 / 判定</strong></li>
+<li>使用 <code>output_type</code> 强制结构化输出</li>
+<li>与主业务 Agent 完全解耦</li>
+</ul>
+<p><strong>Guardrail 的运行方式</strong></p>
+<pre><code class="language-python">async def code_question_guardrail(ctx, agent, input_data):
+    result = await Runner.run(guardrail_agent, input_data)
+</code></pre>
+<p>你这里做了一件非常专业的事：</p>
+<blockquote>
+<p><strong>用 Agent 本身作为 Guardrail，而不是写 if/else</strong></p>
+</blockquote>
+<p><strong>好处：</strong></p>
+<table>
+<thead>
+<tr>
+<th>传统 if/else</th>
+<th>Agent Guardrail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>规则死板</td>
+<td>语义理解</td>
+</tr>
+<tr>
+<td>维护成本高</td>
+<td>可演进</td>
+</tr>
+<tr>
+<td>难以多语言</td>
+<td>天然多语言</td>
+</tr>
+</tbody>
+</table>
+<h4 id="3-guardrailfunctionoutput">3️⃣ GuardrailFunctionOutput：控制流“闸门”</h4>
+<pre><code class="language-python">return GuardrailFunctionOutput(
+    output_info=final_output,
+    tripwire_triggered=not final_output.is_code_question,
+)
+</code></pre>
+<p>这是<strong>系统级控制点</strong>：</p>
+<ul>
+<li>
+<p><code>tripwire_triggered = True</code></p>
+</li>
+<li>
+<p>❌ 终止 Agent 流程</p>
+</li>
+<li>
+<p><code>False</code></p>
+</li>
+<li>
+<p>✅ 放行给下游 Agent</p>
+</li>
+</ul>
+<p>👉 <strong>注意一个关键设计点</strong>：</p>
+<blockquote>
+<p>Guardrail 并不“回答用户”，
+它只<strong>决定是否允许系统继续思考</strong>。</p>
+</blockquote>
+<p>这和 Web 安全中的 <strong>WAF / API Gateway</strong> 是同一思想。</p>
+<h4 id="4-triage-agentagent-manager">4️⃣ Triage Agent：真正的“Agent Manager”</h4>
+<pre><code class="language-python">triage_agent = Agent(
+    name=&quot;Triage Agent&quot;,
+    instructions=&quot;You determine which agent to use...&quot;,
+    handoffs=[python_tutor_agent, javascript_tutor_agent],
+)
+</code></pre>
+<p>这是整套系统的<strong>大脑</strong>。</p>
+<p><strong>它的职责不是回答问题，而是：</strong></p>
+<ol>
+<li>理解用户意图</li>
+<li>比较 handoffs 中的能力描述</li>
+<li>选择最合适的 Agent</li>
+<li>把上下文交接过去</li>
+</ol>
+<p><strong>这是典型的 </strong>LLM-driven routing****</p>
+<p>与传统架构对比：</p>
+<table>
+<thead>
+<tr>
+<th>传统系统</th>
+<th>Agent 系统</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>switch / if</td>
+<td>语义推理</td>
+</tr>
+<tr>
+<td>硬编码路由</td>
+<td>动态能力匹配</td>
+</tr>
+<tr>
+<td>扩展成本高</td>
+<td>新增 Agent 即可</td>
+</tr>
+</tbody>
+</table>
+<h4 id="5-runnerrun">5️⃣ Runner.run：一次“受控自治执行”</h4>
+<pre><code class="language-python">result = await Runner.run(triage_agent, input)
+</code></pre>
+<p>这一行实际上触发了一个<strong>完整的自治推理循环</strong>：</p>
+<ol>
+<li>执行 input guardrails</li>
+<li>调用 triage agent</li>
+<li>判断是否需要 handoff</li>
+<li>执行被选中的 agent</li>
+<li>聚合最终输出</li>
+</ol>
+<blockquote>
+<p>你并没有写流程控制代码
+<strong>流程由 Agent 自己推导出来</strong></p>
+</blockquote>
+<p>这正是 Agents SDK 的核心价值。</p>
+<h3 id="_12">三、从系统工程角度的评价</h3>
+<h4 id="1_1">1️⃣ 职责分离极其清晰</h4>
+<ul>
+<li>判定 ≠ 路由 ≠ 执行</li>
+<li>每个 Agent 都是 <strong>Single Responsibility</strong></li>
+</ul>
+<h4 id="2">2️⃣ 可扩展性极强</h4>
+<p>你现在可以轻松加：</p>
+<pre><code class="language-python">go_tutor_agent
+rust_tutor_agent
+sql_tutor_agent
+</code></pre>
+<p><strong>无需修改任何已有逻辑</strong></p>
+<h4 id="3_2">3️⃣ 真实生产级思路</h4>
+<ul>
+<li>Guardrail</li>
+<li>Manager</li>
+<li>Specialist</li>
+</ul>
+<p>这是 <strong>AutoGPT / Devin / Copilot 内部常见结构</strong></p>
+<h3 id="_13">⚠️ 潜在问题（专家视角）</h3>
+<h4 id="1_2">1️⃣ 推理成本偏高（本地模型尤其明显）</h4>
+<p>一次请求 ≈ 3 次 LLM 调用</p>
+<p>👉 优化方向：</p>
+<ul>
+<li>合并 Guardrail + Triage</li>
+<li>或 Guardrail 用 3B 模型</li>
+</ul>
+<h4 id="2-guardrail-json">2️⃣ Guardrail 的 JSON 稳定性</h4>
+<p>本地 Ollama 模型可能：</p>
+<ul>
+<li>漏字段</li>
+<li>输出自然语言</li>
+</ul>
+<p>👉 生产中建议：</p>
+<ul>
+<li>在 <code>instructions</code> 中强制 JSON</li>
+<li>或 fallback retry</li>
+</ul>
+<h4 id="3-triage-agent-instructions">3️⃣ Triage Agent 的 instructions 偏弱</h4>
+<p>当前：</p>
+<pre><code class="language-text">You determine which agent to use
+</code></pre>
+<p>在复杂场景下，可能：</p>
+<ul>
+<li>路由不稳定</li>
+<li>误选 Agent</li>
+</ul>
+<p>👉 专家建议：</p>
+<pre><code class="language-text">Choose exactly one agent whose handoff_description best matches the user's intent.
+Do not answer the question yourself.
+</code></pre>
+<h2 id="openai-agents-sdk">可配置化智能体：OpenAI Agents SDK 的工程能力解析</h2>
+<p>OpenAI Agents SDK 提供了高度可配置的智能体（Agent）定义方式，使开发者能够根据业务场景灵活塑造 Agent 的行为、能力与输出形式。通过一组清晰的配置项，Agent 不再是固定逻辑的对话模型，而是可控、可组合的执行单元。</p>
+<p>在基础配置层面，每个 Agent 都需要一个唯一的 <strong>Name</strong>，用于日志、Tracing 和运行监控。<strong>Instructions</strong> 相当于系统级指令，用于定义 Agent 的职责与行为准则；而 <strong>Model</strong> 则明确指定所使用的 LLM。与传统接口不同，Agent 可以直接将自定义函数作为 <strong>Tools</strong> 挂载，从而实现更紧密的业务能力集成。</p>
+<p><strong>Context</strong> 是 Agents SDK 中极具工程价值的一项能力，用于在 Agent、工具以及多次 Handoff 之间共享结构化信息。例如，用户身份、订阅状态或业务 ID 都可以通过 Context 注入，并在整个工作流中保持一致。这种设计避免了重复查询与状态同步问题，使多 Agent 协作更加稳定、可预测。</p>
+<p>在输出控制方面，SDK 支持为 Agent 定义严格的 <strong>Output Schema</strong>，例如只允许返回特定的数据结构。</p>
+<p><strong>这一能力对于多 Agent 编排尤为关键，能够显著降低输出歧义与模型幻觉，提升系统整体的可靠性。</strong></p>
+<p>此外，Agent 的 <strong>Instructions</strong> 还可以根据运行时条件动态生成，使其在不同场景下展现不同策略，从而构建更具弹性的智能体行为模型。</p>
+<p>最后，通过 <strong>Tool Use Settings</strong>，开发者可以精确控制工具调用策略——从完全自动决策，到强制调用指定工具，确保 Agent 行为符合业务预期。</p>
+<blockquote>
+<p>通过高度结构化的配置能力，OpenAI Agents SDK 将智能体从“不可控的对话模型”转变为“可编排、可约束、可演进的工程组件”，为构建复杂 Agent 系统提供了坚实基础。</p>
+</blockquote>
+<h3 id="basic-configuration">Basic Configuration</h3>
+<p>下面是<strong>图片中代码的完整文本版（已逐行还原，可直接复制运行）</strong>：</p>
+<pre><code class="language-python">from agents import Agent, ModelSettings, function_tool
+
+
+@function_tool
+def get_favorite_food(animal: str) -&gt; str:
+    return f&quot;{animal.capitalize()}'s favorite food is something tasty.&quot;
+
+
+agent = Agent(
+    name=&quot;FunFactsAgent&quot;,
+    instructions=&quot;Always answer in a short and fun sentence for kids.&quot;,
+    model=&quot;o3-mini&quot;,
+    tools=[get_favorite_food],
+)
+</code></pre>
+<p><strong>简要说明（便于你写博客时用）</strong></p>
+<ul>
+<li><code>@function_tool</code>：将普通 Python 函数注册为 Agent 可调用的工具</li>
+<li><code>Agent(...)</code>：定义一个具备<strong>指令 + 模型 + 工具</strong>的智能体</li>
+<li><code>instructions</code>：等价于 system prompt，用于约束 Agent 的风格与行为</li>
+<li><code>tools</code>：直接绑定函数，无需手动写 function schema</li>
+</ul>
+<p><strong>Context Configuration</strong></p>
+<p>下面是<strong>图片中代码的完整文本版（按原样还原，可直接粘贴使用）</strong>：</p>
+<pre><code class="language-python">from dataclasses import dataclass
+
+
+@dataclass
+class UserContext:
+    uid: str
+    is_pro_user: bool
+
+
+async def fetch_purchases() -&gt; list[Purchase]:
+    return ...
+
+
+agent = Agent[UserContext](
+    ...
+)
+</code></pre>
+<h4 id="_14">代码要点（可用于博客说明）</h4>
+<ul>
+<li><code>UserContext</code>：使用 <code>@dataclass</code> 定义 <strong>Agent Context</strong>，用于在整个 agent workflow 中共享用户状态</li>
+<li><code>uid</code> / <code>is_pro_user</code>：典型的跨工具、跨 handoff 可复用上下文信息</li>
+<li><code>Agent[UserContext]</code>：通过泛型方式，将 context 类型与 Agent 绑定，实现 <strong>类型安全的上下文访问</strong></li>
+<li><code>context</code> 在 Agents SDK 中是 <strong>只读共享</strong>，不会因 handoff 改变，非常适合权限、用户态、会话信息</li>
+</ul>
+<h3 id="output-configuration">Output Configuration</h3>
+<p>下面是<strong>图片中代码的完整文本还原版</strong>（已整理为可直接使用的 Python 代码）：</p>
+<pre><code class="language-python">from pydantic import BaseModel
+from agents import Agent
+
+
+class CalendarEvent(BaseModel):
+    name: str
+    date: str
+    participants: list[str]
+
+
+agent = Agent(
+    name=&quot;Calendar extractor&quot;,
+    instructions=&quot;Extract calendar events from text&quot;,
+    output_type=CalendarEvent,
+)
+</code></pre>
+<h4 id="agents-sdk">这段代码在 Agents SDK 中的技术含义（非常适合写进博客）</h4>
+<p><strong>1️⃣ 使用 <code>output_type</code> 强约束 Agent 输出</strong></p>
+<ul>
+<li><code>CalendarEvent</code> 继承自 <code>Pydantic BaseModel</code></li>
+<li>Agent 的输出 <strong>必须</strong> 符合该结构，否则会自动重试或失败</li>
+<li>这是 <strong>降低幻觉（Hallucination）</strong> 的关键机制</li>
+</ul>
+<p><strong>2️⃣ Agent 不再“自由生成文本”，而是“结构化抽取”</strong></p>
+<ul>
+<li>
+<p>非常适合：</p>
+</li>
+<li>
+<p>日程 / 表单 / 工单 / 实体抽取</p>
+</li>
+<li>下游系统自动消费（API、数据库、消息队列）</li>
+</ul>
+<p><strong>3️⃣ 与多 Agent 编排天然兼容</strong></p>
+<ul>
+<li>上游 Agent：负责理解自然语言</li>
+<li>下游 Agent：只接收 <code>CalendarEvent</code> 类型，零解析成本</li>
+</ul>
+<blockquote>
+<p>📌 <strong>一句博客级总结</strong>
+通过 <code>output_type</code> + Pydantic，Agents SDK 将 LLM 从“文本生成器”升级为“类型安全的结构化数据生产者”。</p>
+</blockquote>
+<h3 id="dynamic-instructions">Dynamic Instructions</h3>
+<pre><code class="language-python">def dynamic_instructions(
+    context: RunContextWrapper[UserContext],
+    agent: Agent[UserContext],
+) -&gt; str:
+    return (
+        f&quot;The user's name is {context.context.name}. &quot;
+        &quot;Help them with their questions.&quot;
+    )
+
+
+agent = Agent[UserContext](
+    name=&quot;Triage agent&quot;,
+    instructions=dynamic_instructions,
+)
+</code></pre>
+<h4 id="agents-sdk_1">📌 这段代码在 Agents SDK 中的核心意义（博客可直接使用）</h4>
+<p><strong>1️⃣ Instructions 不再是静态字符串，而是函数</strong></p>
+<ul>
+<li><code>instructions</code> 可以是一个 callable</li>
+<li>在 <strong>每次 Agent 运行前动态生成 system prompt</strong></li>
+<li>能基于用户、状态、环境实时调整行为</li>
+</ul>
+<p><strong>2️⃣ <code>RunContextWrapper</code> 是动态上下文的入口</strong></p>
+<ul>
+<li><code>context.context</code> 即你定义的 <code>UserContext</code></li>
+<li>
+<p>可安全访问：</p>
+</li>
+<li>
+<p>用户信息</p>
+</li>
+<li>会话状态</li>
+<li>上游 Agent 传递的数据</li>
+</ul>
+<p><strong>3️⃣ 非常适合 Triage / Router / Personalization Agent</strong></p>
+<p>典型使用场景：</p>
+<ul>
+<li>根据用户等级（Pro / Free）改变回答策略</li>
+<li>根据历史行为决定是否升级、转交、调用工具</li>
+<li>多 Agent 系统中的 <strong>入口调度 Agent</strong></li>
+</ul>
+<blockquote>
+<p>🧠 <strong>一句专业总结（可放在博客正文）</strong>
+Dynamic instructions 让 Agent 的 system prompt 从“静态配置”升级为“运行时决策逻辑”，这是构建智能分流与个性化 Agent 的关键能力。</p>
+</blockquote>
+<h3 id="forcing-tool-use">Forcing Tool Use</h3>
+<pre><code>ModelSettings (tool_choice-None)
+# default → &quot;auto&quot; (LLM decides)
+
+ModelSettings (tool_choice=&quot;required&quot; )
+# must call a tool
+
+ModelSettings (tool_choice=&quot;none&quot;)
+# no tool allowed
+
+ModelSettings (tool_choice=&quot;my_tool&quot;)
+# must call that specific tool
+</code></pre>
+<h2 id="orchestrating-multi-step-workflows">Orchestrating Multi-step Workflows</h2>
+<p>在完成单个 Agent 的配置之后，OpenAI Agents SDK 的核心能力体现在<strong>多 Agent 工作流的编排（Orchestration）</strong>上。SDK 提供三种运行方式：</p>
+<ul>
+<li>异步运行</li>
+<li>同步运行</li>
+<li>流式运行</li>
+</ul>
+<p>其中 <strong>流式运行（streamed runs）</strong> 是实际生产环境中的推荐方式，可显著降低用户感知的响应延迟。</p>
+<p>Agent 的执行本质上由一个 <strong>Agent Loop（智能体循环）</strong> 驱动：Runner 以初始 Agent 和输入为起点，调用 LLM 生成输出。如果输出已经满足目标类型且不包含工具调用或 Agent 交接（handoff），循环立即结束；</p>
+<p><img alt="Alt Image Text" src="../../images/chap8_0_5.png" title="Body image" />  </p>
+<p><strong>否则系统将根据输出触发工具调用或切换到新的 Agent，并在更新上下文后继续下一轮循环。为防止无限循环，SDK 通过 <code>max_turns</code> 参数强制限制最大迭代次数。</strong></p>
+<p>在多 Agent 场景下，对话状态管理尤为关键。</p>
+<p>开发者既可以手动维护输入历史（如使用 <code>to_input_list</code>），也可以借助 <strong>Session 机制</strong>（如 <code>SQLiteSession</code>）自动完成上下文的读取与持久化，从而简化多轮对话和多会话隔离的复杂度。</p>
+<p>在编排策略上，Agents SDK 支持两种主流模式：</p>
+<ul>
+<li>
+<p><strong>LLM 驱动的编排</strong>：由模型自主规划步骤、选择工具和 Agent，适合高灵活性与复杂推理场景，但需要清晰的约束、反馈机制与评估体系（如 Evals）。</p>
+<ul>
+<li>Design clear and effective prompts</li>
+<li>Monitor and enable agent self-improvement</li>
+<li>Use specialized agents</li>
+<li>Research evals</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>https://platform.openai.com/docs/guides/evals</p>
+</blockquote>
+<ul>
+<li>
+<p><strong>代码驱动的编排</strong>：通过显式代码控制 Agent 的执行顺序、依赖关系和并行方式，更具确定性、可预测性和工程可控性，适合对性能、成本和稳定性要求较高的系统。</p>
+<ul>
+<li>Use structured outputs</li>
+<li>Chain multiple agents</li>
+<li>Use feedback loops for quality control</li>
+<li>Speed up with parallel agents</li>
+</ul>
+</li>
+</ul>
+<p>两种方式可以结合使用，以在智能性与可控性之间取得平衡。</p>
+<p><strong>二、技术文章专业表述（可直接引用）</strong></p>
+<blockquote>
+<p>**Agents SDK 通过内置的 Agent Loop、Session 管理与灵活的编排机制，将多 Agent 协作从“概念设计”落地为可控、可扩展的工程实践，使开发者能够在模型自主决策与代码确定性控制之间自由权衡，构建高性能、可维护的</p>
+</blockquote>
+<h3 id="manage-agent-conversation">Manage Agent Conversation</h3>
+<p>好的，下面是<strong>根据你给出的截图完整还原并整理后的代码内容</strong>（直接可复制使用）：</p>
+<pre><code class="language-python">async def main():
+    agent = Agent(
+        name=&quot;QuickMath&quot;,
+        instructions=&quot;Answer with only the final number.&quot;,
+    )
+
+    thread_id = &quot;thread_1&quot;
+
+    with trace(workflow_name=&quot;MathSession&quot;, group_id=thread_id):
+        # First turn
+        result = await Runner.run(
+            agent,
+            &quot;What is 12 times 8?&quot;
+        )
+        print(result.final_output)
+
+        # Second turn
+        new_input = result.to_input_list() + [
+            {
+                &quot;role&quot;: &quot;user&quot;,
+                &quot;content&quot;: &quot;Now divide it by 4.&quot;
+            }
+        ]
+
+        result = await Runner.run(
+            agent,
+            new_input
+        )
+        print(result.final_output)
+</code></pre>
+<h4 id="_15">代码要点说明（简要）</h4>
+<ul>
+<li><strong><code>Agent</code></strong>：定义了一个只输出最终数值的数学 Agent</li>
+<li><strong><code>trace(...)</code></strong>：用于将两次调用归属到同一个 workflow / thread，便于调试和可视化</li>
+<li><strong><code>result.to_input_list()</code></strong>：手动拼接上一轮对话历史，实现“客户端侧的上下文延续”</li>
+<li><strong>第二轮调用</strong>：并不会自动记忆上下文，而是显式把历史传回 Runner</li>
+</ul>
+<h3 id="automatically-manage-conversations-with-sessions">Automatically Manage Conversations with Sessions</h3>
+<pre><code class="language-python">async def main():
+    agent = Agent(
+        name=&quot;AnimalHelper&quot;,
+        instructions=&quot;Give short and clear answers about animals.&quot;,
+    )
+
+    # Create session instance
+    session = SQLiteSession(&quot;animal_chat_001&quot;)
+
+    with trace(
+        workflow_name=&quot;AnimalTalk&quot;,
+        group_id=&quot;animal_group_001&quot;
+    ):
+        # First turn
+        result = await Runner.run(
+            agent,
+            &quot;What animal is the biggest in the ocean?&quot;,
+            session=session
+        )
+        print(result.final_output)
+
+        # Second turn
+        result = await Runner.run(
+            agent,
+            &quot;How much does it weigh?&quot;,
+            session=session
+        )
+        print(result.final_output)
+</code></pre>
+<ul>
+<li>
+<p><strong><code>SQLiteSession</code></strong>
+  用于<strong>自动持久化对话历史</strong>，无需手动拼接 <code>to_input_list()</code></p>
+</li>
+<li>
+<p><strong>同一个 <code>session</code></strong>
+  第二轮问题 <em>“How much does it weigh?”</em> 能正确理解上下文（指蓝鲸）</p>
+</li>
+<li>
+<p><strong>与前一个示例的对比</strong></p>
+</li>
+<li>
+<p>❌ 手动管理：<code>result.to_input_list()</code></p>
+</li>
+<li>✅ 自动管理：<code>SQLiteSession</code></li>
+</ul>
+<p>一句非常适合放在博客里的总结是：</p>
+<blockquote>
+<p><strong>Session 将 Agent 从“无状态函数调用”升级为“有记忆的对话系统”，是构建真实应用的关键能力。</strong></p>
+</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
