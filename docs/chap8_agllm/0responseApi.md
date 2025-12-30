@@ -1,4 +1,4 @@
-# 0 OpenAI Responses API 与 Agents SDK
+# OpenAI Responses API 与 Agents SDK
 
 ## 1 What Is the Responses API?
 
@@ -372,7 +372,7 @@ Responses API 的另一项重要能力是 **对话分支（Forking）**。开发
 
 👉 **每一次调用都是全新的推理**
 
----
+
 
 ### 二、为什么你“以为”它会有历史？
 
@@ -426,7 +426,7 @@ ChatGPT 能“记住”是因为：
 * 你看到的是 **UI 层做的状态管理**
 * 不是模型自己“记得”
 
----
+
 
 ### 三、99% 出问题的代码结构（你可以对照）
 
@@ -482,7 +482,7 @@ def chat(user_input):
 
 这样才是**真正的“对话”**。
 
----
+
 
 #### 2️⃣ 如果你用的是 Chat Completions 风格
 
@@ -522,7 +522,7 @@ def chat(user_msg):
 
 它只是一次请求的 ID，用于日志或调试。
 
----
+
 
 ### 六、如果你想要“更像 ChatGPT”的体验，该怎么做？
 
@@ -2258,9 +2258,6 @@ async def main():
         print(result.final_output)
 ```
 
----
-
-#### 这个示例在博客里可以强调的几个关键点
 
 * **`SQLiteSession`**
   用于**自动持久化对话历史**，无需手动拼接 `to_input_list()`
