@@ -65,7 +65,7 @@ nav:
     - '第一章 初识智能体': 'chap8_agllm/2ai_agents.md'
     - '第二章 智能体发展史': 'chap8_agllm/3ai_agents_his.md'
   - 'AI Daily Blogs':
-    - '1 AI Agent 从入门到精通- 核心架构、A2A 协议与落地实践全指南': 'chap8_agllm/1agents_intro.md'
+    - '1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战': 'chap8_agllm/1agents_intro.md'
 
 repo_url: https://github.com/Chao-Xi/jxaibook.git
 repo_name: "jxaibook"
