@@ -1,0 +1,4305 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../2embedding_openai/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>1 大模型的理论与技术的演进 - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1 大模型的理论与技术的演进
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        从语言模型到大语言模型
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="从语言模型到大语言模型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gpt-1gpt-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        从 GPT-1到GPT-3:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chatgpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ChatGPT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ChatGPT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-trained-lm-fine-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Trained LM + Fine-Tuning 范式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenAl的模型迭代：预训练与微调的共舞
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpt-35-code-davinci-002" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT-3.5 : code-davinci-002
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chatgpt_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ChatGPT 的三段训练法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chatgpt_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总结： ChatGPT 是技术和商业的成功结合
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT 家族技术迭代与改进
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gpt-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT-4：一个新的开始
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GPT-4：一个新的开始">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gpt-4-llm-native" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT-4： 多模态开启 LLM-native 应用时代
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpt-4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT-4: 多模态—视觉理解能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpt-4nlp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT-4:NLP 基准测试大幅提升
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prompt-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        提示学习 (Prompt Learning)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="提示学习 (Prompt Learning)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#traditional-fine-tuning-not-used-for-gpt-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traditional fine-tuning (not used for GPT-3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prompt-learning-vs-prompt-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prompt Learning VS Prompt Tuning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chain-of-thoughtcot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        思维链（Chain-of-Thought，CoT)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="思维链（Chain-of-Thought，CoT)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chain-of-thought-prompting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chain-of-Thought Prompting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        思维链CoT：开启大模型逻韓推理能力的钥匙
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cot-prompt-think-step-by-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CoT Prompt黑魔法: Think step-by-step
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#self-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        自治性（Self-Consistency）：多路径推理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="自治性（Self-Consistency）：多路径推理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#self-consistencycot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Self-Consistency提升CoT性能
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dual-process-theory-of-thought" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dual process theory of thought
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#totstep-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TOT工作原理解读：Step 1思维分解
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tot-step-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ToT 工作原理解读：Step 2思维生成
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tot-step-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ToT 工作原理解读： Step 3 状态评估
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tot-step-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TOT 工作原理解读：Step 4 搜索算法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一部分：课后习题
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一部分：课后习题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二部分：相关名词解释
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二部分：相关名词解释">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1llmlarge-language-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1、LLM（Large Language Model）大语言模型是什么？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2、常见的大语言模型有什么？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3transformer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3、Transformer是什么？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4rnn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4、RNN是什么？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5attentionrnns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5、注意力机制：Attention是什么？与RNNs相比的优势在哪？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.大语言模型之间的本质区别
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q&amp;A问答
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基础篇：大模型基础--理论与技术的演进
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基础篇：大模型基础--理论与技术的演进">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        相关名词解释
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一些问答
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一些问答">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1sft-fine-tuningfine-turning-instruction-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1、SFT fine-tuning、fine-turning 和 Instruction-Tuning的区别？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2openaifinetune6w4epoch094accuracyprompt-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2、我要用大模型做分类，我用openai的finetune，效果很好，6w条语料4轮epoch可以到0.94accuracy。但是高质量的语料标注是个难活。我朋友告诉我，prompt-tuning用的语料更少，而语料治疗要求没那么高，而效果更好。
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3、思维链，是指提示词提问时的思维链，还是模型回答问题时运用思维链来回答？我的理解是后者，因为昨天的后半程课，全程讲的是模型在回答问题时的思维链逻辑推理，但是助教直播间说的是提示词提问时用思维链方式。能捋一捋吗？昨天并没有讲什么样的提示词规则更高效
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3OpenaiModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4chatgpt_translate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/3AmazonBedrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/4assistantapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/2agent_buildout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0responseApi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0agents_demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1ai_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/2ai_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/3ai_agents_his/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Daily Blogs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Agent Daily Blogs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1agents_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/4agent_arg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/5Agent_google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Google AI Agent 白皮书深度拆解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        从语言模型到大语言模型
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="从语言模型到大语言模型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gpt-1gpt-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        从 GPT-1到GPT-3:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chatgpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ChatGPT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ChatGPT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-trained-lm-fine-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Trained LM + Fine-Tuning 范式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenAl的模型迭代：预训练与微调的共舞
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpt-35-code-davinci-002" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT-3.5 : code-davinci-002
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chatgpt_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ChatGPT 的三段训练法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chatgpt_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总结： ChatGPT 是技术和商业的成功结合
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT 家族技术迭代与改进
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gpt-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT-4：一个新的开始
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GPT-4：一个新的开始">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gpt-4-llm-native" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT-4： 多模态开启 LLM-native 应用时代
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpt-4_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT-4: 多模态—视觉理解能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpt-4nlp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT-4:NLP 基准测试大幅提升
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prompt-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        提示学习 (Prompt Learning)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="提示学习 (Prompt Learning)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#traditional-fine-tuning-not-used-for-gpt-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traditional fine-tuning (not used for GPT-3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prompt-learning-vs-prompt-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prompt Learning VS Prompt Tuning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chain-of-thoughtcot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        思维链（Chain-of-Thought，CoT)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="思维链（Chain-of-Thought，CoT)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chain-of-thought-prompting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chain-of-Thought Prompting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        思维链CoT：开启大模型逻韓推理能力的钥匙
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cot-prompt-think-step-by-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CoT Prompt黑魔法: Think step-by-step
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#self-consistency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        自治性（Self-Consistency）：多路径推理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="自治性（Self-Consistency）：多路径推理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#self-consistencycot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Self-Consistency提升CoT性能
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dual-process-theory-of-thought" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dual process theory of thought
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#totstep-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TOT工作原理解读：Step 1思维分解
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tot-step-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ToT 工作原理解读：Step 2思维生成
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tot-step-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ToT 工作原理解读： Step 3 状态评估
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tot-step-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TOT 工作原理解读：Step 4 搜索算法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一部分：课后习题
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一部分：课后习题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二部分：相关名词解释
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二部分：相关名词解释">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1llmlarge-language-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1、LLM（Large Language Model）大语言模型是什么？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2、常见的大语言模型有什么？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3transformer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3、Transformer是什么？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4rnn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4、RNN是什么？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5attentionrnns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5、注意力机制：Attention是什么？与RNNs相比的优势在哪？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.大语言模型之间的本质区别
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Q&amp;A问答
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基础篇：大模型基础--理论与技术的演进
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基础篇：大模型基础--理论与技术的演进">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        相关名词解释
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一些问答
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一些问答">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1sft-fine-tuningfine-turning-instruction-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1、SFT fine-tuning、fine-turning 和 Instruction-Tuning的区别？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2openaifinetune6w4epoch094accuracyprompt-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2、我要用大模型做分类，我用openai的finetune，效果很好，6w条语料4轮epoch可以到0.94accuracy。但是高质量的语料标注是个难活。我朋友告诉我，prompt-tuning用的语料更少，而语料治疗要求没那么高，而效果更好。
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3、思维链，是指提示词提问时的思维链，还是模型回答问题时运用思维链来回答？我的理解是后者，因为昨天的后半程课，全程讲的是模型在回答问题时的思维链逻辑推理，但是助教直播间说的是提示词提问时用思维链方式。能捋一捋吗？昨天并没有讲什么样的提示词规则更高效
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="1">1 大模型的理论与技术的演进</h1>
+<h2 id="_1">从语言模型到大语言模型</h2>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_1.png" title="Body image" /></p>
+<p><strong>NLP 语言模型技术发展一览</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_2.png" title="Body image" /></p>
+<h3 id="gpt-1gpt-3">从 GPT-1到GPT-3:</h3>
+<p><strong>预训练语言模型(Pre-trained language models）</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_3.png" title="Body image" /></p>
+<p><strong>预训练语言模型的三种网络架构 (2018-2020）</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_4.png" title="Body image" /></p>
+<ul>
+<li><strong>编码器</strong>：<strong>编码器主要用于处理和理解输入信息。</strong>这些模型可以获得双向的上下文，即可以同时考虑一个词的前面和后面的信息。由于编码器可以考虑到未来的信息，它们非常适合用于需要理解整个句子的任务，如
+文本分类、命名实体识别等。预训练编码器需要使其能够构建强大的表
+示，这通常通讨预测某个被遮蔽的单词、预测下一个句子或者其它的预训练任务来实现。</li>
+</ul>
+<p><strong><mark>BERT就是一种典型的预训练编码器</mark></strong></p>
+<ul>
+<li><strong>解码器：解码器主要用于生成输出信息</strong>。它们是语言模型的基础，用于预测下一个单词。解码器只能考虑到过去的词，而不能考虑到未来的
+词，这使得它们非常适合于生成任务，如文本生成、对话系统等。</li>
+</ul>
+<p><strong><mark>GPT就是一种典型的预训练解码器。</mark></strong></p>
+<ul>
+<li>编码器-解码器：<em>编码器-解码器结构结合了编码器和解码器的优点</em>。</li>
+</ul>
+<p>编码器首先处理输入信息，然后解码器生成输出信息。这种结构可以考虑
+到全局的上下文信息，因此非常适合于需要理解输入信息并生成相应的
+输出的任务，如机器翻译、 文本摘要等。如何预训练编码器-解码器模型
+是一个开放的问题，因为需要考虑到如何有效地使用编码器和解码器的
+特点</p>
+<p><strong><mark>T5和BART都是典型的预训练编码器-解码器模型。</mark></strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_5.png" title="Body image" /></p>
+<p><strong>2018年语言模型进展</strong></p>
+<ul>
+<li>AI2 released ELMo in spring</li>
+<li>GPT-1 was released in summer, </li>
+<li>BERT came out October</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_6.png" title="Body image" /></p>
+<ul>
+<li>ELMo: Deep Contextual Word Embeddings, Al2 &amp; University of Washington </li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_7.png" title="Body image" /></p>
+<ul>
+<li>GPT-1: Improving Language Understanding by Generative Pre-Training, OpenAl</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_8.png" title="Body image" /></p>
+<p>**Generative Pretrained Transformer (GPT-1) **</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_9.png" title="Body image" /></p>
+<p><strong>GPT results on various natural language in erence datasets.</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_10.png" title="Body image" /></p>
+<p><strong>NLP基准测试介绍</strong></p>
+<p><strong>MNLl-m(Multi-GenreNaturalLanguageInferenc，matched）</strong>：这是一个自然语言推理任务，其中包括了五个不同类型（类型指的是来源，例如口语、小说等）的文本，并且这些文本在训练和测试集上都是匹配的。任务的目标是根据一个给出的前提判断一个假设是蕴含、矛盾，还是无关。</p>
+<p><strong>MNLl-mm（Multi-GenreNaturalLanguageInference，mismatched）</strong>：这也是一个自然语言推理任务，但与MNLl-m不同的是，训练集和测试集的文本类型是不匹配的。这需要模型具有更好的泛化能力。</p>
+<p><strong>SNLI(Stanford Natural LanguageInference）</strong>：这是一个由斯坦福大学创建的自然语言推理任务，包含了大约55万个人类注释的英文句子对。任务的日标同样是根据一个给出的前提判断一个假设是蕴含、矛盾，还是无关。</p>
+<p><strong>SciTail</strong>：这是一个开放的自然语言推理任务，所有的问题和答案都来自科学领域的教材。任务的日标是根据给出的前提判断一个假设是蕴含还是矛盾。</p>
+<p><strong>QNLI（QuestionNaturalLanguageInference）</strong>：这是一个基于间答的自然语言推理任务，数据来源于SQuAD数据集。任务的目标是根据给出的上下文判断一个假设（问题）是否被蕴含。</p>
+<p><strong>RTE（RecognizingTextualEntailment）</strong>：这是一个文本蕴含识别任务，数据来源于多个版本的PASCALRTE挑战赛。任务的日标是根据一个给出的前提判断一个假设是蕴含还是矛盾。</p>
+<p>以上基准测试都是关于自然语言推理的任务，目的是检验模型是否能够理解句子之间的逻辑关系，例如蕴含、矛盾或无关。这些任务在许多自然语言处理任务中都是非常重要的，例如问答、文本摘要、机器翻译等。</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_11.png" title="Body image" /></p>
+<p><strong>GPT-3 Training Corpus</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_12.png" title="Body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_13.png" title="Body image" /></p>
+<p><strong>GPT-3, In-context learning, and very large models</strong></p>
+<p>Very large language models seem to perform some kind of learning <strong>without gradient steps</strong> simply from examples you provide within their contexts.</p>
+<p>GPT-3 is the canonical example of this. The largest T5 model had 11 billion parameters. <strong>GPT-3 has 175 billion parameters.</strong></p>
+<p>The in-context examples seem to specify the task to be performed, and the conditional distribution mocks performing the task to a certain extent.</p>
+<p><strong>Input (prefix within a single Transformer decoder context)</strong>:</p>
+<ul>
+<li>thanks -&gt; merci</li>
+<li>hello -&gt; bonjour</li>
+<li>mint -&gt; menthe</li>
+<li>otter -&gt;</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_14.png" title="Body image" /></p>
+<p><strong>Language model meta-learning</strong>. </p>
+<p>During unsupervised pre-training, a language model develops a broad set of skills and pattern recognition abilities. </p>
+<p>It then uses these abilities at inference time to rapidly adapt to or recognize
+the desired task. </p>
+<p>We use the term "in-context learning" to describe the inner loop of this process, which occurs within the forward-pass upon each sequence. The sequences in this diagram are not intended to be representative of the data a model would see during pre-training, but are intended to show that there are sometimes repeated sub-tasks embedded within a single sequence.</p>
+<p><strong>GPT-3, In-context learning, and very large models</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_15.png" title="Body image" /></p>
+<p>Figure 1.2: Larger models make increasingly efficient use of in-context information. </p>
+<p>We show in-context learning performance on a simple task requiring the model to remove random symbols from a word, both with and without a natural language task description. </p>
+<p>The steeper "in-context learning curves" for large models demonstrate improved ability to learn a task from contextual information. We see qualitatively similar behavior across a wide range of tasks.</p>
+<p><strong>The three settings we explore for in-context learning</strong></p>
+<ul>
+<li><strong>Zero-shot</strong></li>
+</ul>
+<p>The model predicts the answer given only a natural language description of the task. No gradient updates are performed.</p>
+<pre><code>Translate English to French:       task description
+cheese=&gt;                           prompt
+</code></pre>
+<p><strong>One-shot</strong></p>
+<p>In addition to the task description, the model sees a single example of the task. No gradient updates are performed.</p>
+<pre><code>Translate English to French:  &lt;- task description
+sea otter =&gt; loutre de mer    &lt;- example
+cheese =&gt;                     &lt;- prompt
+</code></pre>
+<p><strong>Few-shot</strong></p>
+<p>In addition to the task description, the model sees a few examples of the task. No gradient updates are performed.</p>
+<pre><code>Translate English to French:    &lt;- Translate English to French:
+sea otter =&gt; loutre de mer      &lt;- examples 
+peppermint =&gt; menthe poivrée
+plush girafe =&gt; girafe peluche
+cheese =&gt;                       &lt;- prompt
+</code></pre>
+<p><strong>Traditional fine-tuning (not used for GPT-3)</strong></p>
+<p><strong>Fine-tuning</strong></p>
+<p>The model is trained via repeated gradient updates using a large corpus of example tasks.</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_16.png" title="Body image" /></p>
+<p><strong>Figure 1.3: Aggregate performance for all 42 accuracy-denominated benchmarks</strong> </p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_17.png" title="Body image" /></p>
+<p>While zero-shot performance improves steadily with model size, few-shot performance increases more rapidly, demonstrating that larger models are more proficient at in-context learning. </p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_18.png" title="Body image" /></p>
+<p><strong>3个关键概念</strong></p>
+<p><strong>In-Context Learning</strong>：在上下文中学习指的是大型语言模型如GPT-3的一种能力，即在给定的上下文中使用新的输入来改善模型的输出。<strong>这种学习方式并不涉及到梯度更新或微调模型的参数：而是通过提供一些具有特定格式或结构的示例输入使模型能够在生成输出时利用这些信息。</strong></p>
+<p>如，如果你在对话中包含一些英法翻译的例子，然后问模型一个新的翻译问题，模型可能会根据你提供的上下文示例生成正确的翻译</p>
+<p><strong>Few-Shot Learning</strong>：</p>
+<p>少样本学习是指用极少量的标注样本来训练机器学习模型的技术。在GPT-
+3的案例中，少样本学习的实现方式是向模型提供少量的输入-输出对示例，这些示例作为对话的一部分，描述了模型应该执行的任务。然后，模型会生成一个个输出，该输出是对与示例类似的新输入的响应。</p>
+<p>例如，你可以给模型提供几个英法翻译的例子，然后给出一个新的英文单词让模型翻译，模型会尝试产生一个正确的翻译</p>
+<p><strong>Prompt Engineering</strong>：</p>
+<p><strong>提示工程是指设计和优化模型的输入提示以改善模型的输出</strong>。在大型语言模型中，如何提问或构造输入的方式可能对模型的输出有重大影响。因此，选择正确的提示对于获取有用的输出至关重要。</p>
+<p>例如，为了让GPT-3生成一个诗歌，你可能需要提供一个详细的、引导性的提示，如“写一首关于春天的十四行诗”，而不仅仅是“写诗”</p>
+<h2 id="chatgpt">ChatGPT</h2>
+<h3 id="pre-trained-lm-fine-tuning">Pre-Trained LM + Fine-Tuning 范式</h3>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_19.png" title="Body image" /></p>
+<p><strong>OpenAl的模型迭代：预训练与微调的共舞</strong></p>
+<p>在GPT 模型的演进过程中，OpenAl 采用了一系列的训练策略，这包括基础的大规模预训练，也包括后续的指令微调等方法。这两种策略在模型的训练过程中起到了不同的作用</p>
+<ul>
+<li><strong>预训练(Pre-Trained)</strong>：大规模预训练是为了使模型获取丰富的语言知识和理解能力。在<strong>预训练过程，模型通过大量的无标签数据来学习语言的基础知识，这一过程主要是依赖无监督学习的</strong>。</li>
+<li>指令微调(Instruction-Tuning)：在预训练模型的基础上，通过针对特定任务的标注数据进行微调能够使模型在特定任务上的表现得到提升。同时，<strong>通过对微调数据的精心设计和选择</strong>，还能够引导模型按照人类的预期来执行任务。<strong>这一过程主要依赖有监督学习.</strong></li>
+</ul>
+<p>在这个过程中，预训练和微调是相辅相成的。<strong><MARK>预训练为模型提供了丰富的语言知识，而微调则利用这些知识来解決特定的任务</MARK></strong>。然而，微调的数据量通常比预训练的数据量要少得多，因此微调的主要作用并不是为模型注入新的知识，而是激发和引导模型利用己有的知识来完成特定任务</p>
+<p><strong>在GPT模型的演进过程中，OpenAl还探索了多种微调策路，例如GPT-3.5的分化技能树等</strong>。这些微调策略能够帮助模型在不同的任务上表现得更好，同时也使模型的输出更符合人类的预期。</p>
+<p>此外，OpenAl还注意到，<strong>模型在进行微调时可能会出现一些问题，例如数据稀疏性、灾难遗忘、资源浪费和通用性差等。为了解决这些问题，OpenAl提出了一种新的训练策略，即提示学习</strong>。通过设计提示信息，可以激发预训练大模型的能力，从而提高模型在具体任务上的表现。</p>
+<h3 id="openal">OpenAl的模型迭代：预训练与微调的共舞</h3>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_20.png" title="Body image" /></p>
+<h3 id="gpt-35-code-davinci-002">GPT-3.5 : code-davinci-002</h3>
+<p>初代GPT-3.5系列（以下简称新模型）相比 GPT-3 系列模型，具有以下优点：</p>
+<ul>
+<li><strong>人类指令响应 (Responding to Human Instructions)</strong>：新模型能针对特定指令生成更恰当的回应，而非回复训练集中频繁出现的无关句子</li>
+<li><strong>任务泛化能力 (Task Generalization)</strong>：当新模型按收大量指令调整后，能自动适应并有效回答未见过的新指令这在应对用户不断变化的问题上至关重要。</li>
+<li><strong>代码理解与生成 (Code Understanding and Generation)</strong>：经过代码训练的新模型能理解并生成代码，强化了编程相关应用的能力。</li>
+<li><strong>复杂推理的思维链 (Chain of Thought for Complex Reasoning)</strong>：新模型己提高思维链推理能力，使其能处理需要多步推理的问题，这可能是突破模型缩放法则(scaling laws)限制，实现真正的突现性能力的关键。</li>
+</ul>
+<p>在基础模型 code-davinci-002 上指令微调后得到了 text-davinci-002。它在以下数据作了微调：</p>
+<ul>
+<li>（一）人工标注的指令和期待的输出；</li>
+<li>(二）由人工标注者选择的模型输出</li>
+</ul>
+<h3 id="chatgpt_1">ChatGPT 的三段训练法</h3>
+<ul>
+<li><strong>Step 1 有监督微调 （SFT)</strong></li>
+</ul>
+<p>Collect demonstration data, and train a supervised policy.</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_21.png" title="Body image" /></p>
+<ul>
+<li><strong>Step2 奖励机制 （RM)训练</strong></li>
+</ul>
+<p>Collect comparison data and train a reward model.</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_22.png" title="Body image" /></p>
+<ul>
+<li>
+<p><strong>Step3 通过 PPO 根据奖励模型进行强化学习</strong></p>
+<ul>
+<li>Optimize a policy against</li>
+<li>the reward model using</li>
+<li>reinforcement learning.</li>
+</ul>
+</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_23.png" title="Body image" /></p>
+<h3 id="chatgpt_2">总结： ChatGPT 是技术和商业的成功结合</h3>
+<p>1.<strong>模型训练</strong>：虽然GPT-3和ChatGPT都是基于Transformer的语言模型，但在训练数据和目标函数上有所不同。</p>
+<p><strong>GPT-3主要是用大量的非结构化文本进行训练的，而ChatGPT则在GPT-3的基础上进行了进一步的训练，这包括使用与对话相关的数据集和更适合对话任务的训练目标。</strong></p>
+<p><strong>2.对话管理</strong>： ChatGFT在对话管理方面进行了优化，以提供更自然、连贯的对话体验。这包括保持对话的上下文、处理多轮对话、以及在一个对话中处理多个话题等</p>
+<p><strong>3.用户输入处理：</strong> ChatGPT也进行了优化以更好地处理用户的输入。这包括理解和响应各种类型的查询，如信息查询、任务请求、小说式的输入等。</p>
+<p><strong>4. 输出生成</strong>：ChatGPT进行了一些优化以生成更贴近人类的输出。这包括使用更复杂的生成策、生成更长的响应、以及更好地处理模糊或不确定的输入等</p>
+<p><strong>5. 安全性和道德规范</strong>： ChatGPT还进行了一些改进以提高模型的安全性和符合道德规范。这包括对对模型的过滤和调节，以防止生成不适当或有害的内容，以及对模型进行额外的评估和测试，以确保其在各种情况下都能表现良好。</p>
+<h3 id="gpt">GPT 家族技术迭代与改进</h3>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_24.png" title="Body image" /></p>
+<h2 id="gpt-4">GPT-4：一个新的开始</h2>
+<h3 id="gpt-4-llm-native">GPT-4： 多模态开启 LLM-native 应用时代</h3>
+<p>2022年8月，GPT-4 模型训练完成。2023年3月14日，OpenAl 正式发布 GPT-4。与GPT-3和GPT-3.5相比，GPT-4在各方面都有所优化和提升</p>
+<p><strong>1. 多模态模型</strong></p>
+<p>GPT-4支持图像输入，出色的视觉信息理解能力使得GPT-4能对接更多样化的下游任务如：描述不寻常图像中的幽默、总结截屏文本以及回答包含图表的试题。</p>
+<p>在文本理解能力上，GPT-4 在中文和多轮对话中也表现出远超 GPT-3.5 的能力</p>
+<p><strong>2 扩展上下文窗口：</strong></p>
+<p>gpt-4 and gpt-4-32k 分别提供了最大长度为8192和32768个token的上下文窗口。这使得GPT-4可以通过更多的上下文来完成更复杂的任务，也为 思维链（CoT）、思维树(TT）等后续工作提供了可能</p>
+<p><strong>GPT+生态</strong>：借助GPT-4强大能力，依托 ChatGPT Plugin 搭建AIGC应用生态商店（类似 App Store)</p>
+<p><strong>应用+GPT</strong>：GPT-4已经被应用在多个领域，包括微软Office、Duolingo、KhanAcademy等。</p>
+<h3 id="gpt-4_1">GPT-4: 多模态—视觉理解能力</h3>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_25.png" title="Body image" /></p>
+<h3 id="gpt-4nlp">GPT-4:NLP 基准测试大幅提升</h3>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_26.png" title="Body image" /></p>
+<p><strong>实测网页代码生成：GPT-4 VS GPT-3.5</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_27.png" title="Body image" /></p>
+<p><strong>实测网页代码生成：GPT-4 的变化</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_28.png" title="Body image" /></p>
+<p><strong>GPT-4:名语言能力提升</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_29.png" title="Body image" /></p>
+<h2 id="prompt-learning">提示学习 (Prompt Learning)</h2>
+<p><strong>The three settings we explore for in-context learning</strong></p>
+<p><strong>Zero-shot</strong></p>
+<p>The model predicts the answer given only a natural language description of the task. No gradient updates are performed.</p>
+<pre><code>Translate English to French =&gt; task description
+cheese =&gt;   prompt
+</code></pre>
+<p><strong>One-shot</strong></p>
+<p>In addition to the task description, the model sees a single example of the task. No gradient updates are performed.</p>
+<pre><code>Translate English to French:    task description
+sea otter =&gt; loutre de mer      example
+cheese =&gt;                            prompt
+</code></pre>
+<p>Few-shot</p>
+<p>In addition to the task description, the model sees a few examples of the task. No gradient updates are performed.</p>
+<pre><code>Translate English to French:
+sea otter =&gt; loutre de mer             task description
+peppermint =&gt; menthe poivrée       example
+plush girafe =&gt; girafe peluche
+</code></pre>
+<h3 id="traditional-fine-tuning-not-used-for-gpt-3">Traditional fine-tuning (not used for GPT-3)</h3>
+<p><strong>Fine-tuning</strong></p>
+<p>The model is trained via repeated gradient updates using a arge corpus of example tasks.</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_30.png" title="Body image" /></p>
+<h3 id="prompt-learning-vs-prompt-tuning">Prompt Learning VS Prompt Tuning</h3>
+<p><strong><mark>Prompt learning和prompt tuning都是自然语言处理（NLP）中的概念，它们都与如何使用和优化预训练语言模型（例如GPT-3或GPT-4）有关。</mark></strong></p>
+<ul>
+<li><strong>Prompt learning</strong>：是一种方法，<strong>其中模型被训练以响应特定的提示（prompt）</strong>。在这种情况下，提示是模型输入的一部分，它指导模型产生特定类型的输出。例如，如果你向模型提供了“Translate the following English text to French: {text}"这样的提示，模型就会学习到这是一个翻译任务，并尝试将{text}从英语翻译成法语。这种方法的关键在于找到能够引导模型正确响应的有效提示。</li>
+<li>Prompt tuning，又称为"prompt engineering"，是一种<strong>优化技术</strong>，它涉及到寻找或生成能够最大限度提高模型性能的提示。这可能涉及到使用启发式方法、人工智能搜索算法，或者甚至是人工选择和优化提示。Prompt tuning的目标是找到一种方式，使得当给定这个提示时，模型能够生成最准确、最相关的输出。</li>
+</ul>
+<p>总的来说，prompt learning和prompt tuning都与如何使用和优化模型的输入提示有关。它们的主要区别在于，<strong>prompt learning更关注于如何训练模型以响应特定的提示，而prompt tuning则更关注于如何找到或生成最优的提示以提高模型的性能。</strong></p>
+<h2 id="chain-of-thoughtcot">思维链（Chain-of-Thought，CoT)</h2>
+<p><strong>Chain-of-Thought Prompting Elicits Reasoning  in Large Language Models (search)</strong></p>
+<h3 id="chain-of-thought-prompting">Chain-of-Thought Prompting</h3>
+<p>CoT Prompting作为一种促进语言模型推理的方法具有几个吸引人的特点：</p>
+<ul>
+<li>首先，从原则上讲，<strong>CoT允许模型将多步问题分解为中间步骤，这意味着可以将额外计算资源分配给需要更多推理步骤的问题</strong>。</li>
+<li>其次，CoT提供了对模型行为的可解释窗口，提示了它可能是如何得出特定答案的，并提供了调试推理路径错误之处的机会（尽管完全描述支持答案的模型计算仍然是一个未解决问题）</li>
+<li><strong>第三，在数学应用题、常识推理和符号操作等任务中都可以使用思维链推理（CoT Reasoning）并且在原则上适用于任何人类能够通过语言解决的任务</strong>。</li>
+<li>最后，在足够大规模现成语言模型中很容易引发CoT Reasoning，只需在少样本提示示例中包含一些连贯思路序列即可。</li>
+</ul>
+<h3 id="cot">思维链CoT：开启大模型逻韓推理能力的钥匙</h3>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_31.png" title="Body image" /></p>
+<p><strong>GPT-3.5：实测简单逻辑题</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_32.png" title="Body image" /></p>
+<p><strong>GPT-4：实测简单逻辑题</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_33.png" title="Body image" /></p>
+<p><strong>Examples of CoT</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_34.png" title="Body image" /></p>
+<p><strong>CoT : Solving Challenging Math Problems</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_35.png" title="Body image" /></p>
+<p>CoT: Commonsense Reasoning</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_36.png" title="Body image" /></p>
+<ul>
+<li><strong>CSQA (CommonsenseQA)：</strong>测试模型的常识理解和推理能力的基准测试。题目是一系列选择题，需要借助对世界的基本理解（即常识）来回答。</li>
+<li><strong>StrategyQA</strong>：这个基准测试旨在评估模型的多跳推理能力。问题的回答通常需要从多个文本片段中提取并整合信息。</li>
+<li><strong>Date</strong>： 这是一个基准测试，用于评估模型理解和推断日期信息的能力，尤其是在需要从上下文中推断日期时。</li>
+<li><strong>Sports</strong>：这个基准测试的目标是评估模型在判断体育相关信息的可信度方面的表现，它需要对体育知识和事件的理解。</li>
+<li><strong>SayCan</strong>：这是一个基准测试，用于评估模型将自然语言指令转换为机器可执行的离散动作序列的能力，这通常在机器人操作或自动化任务中很有用</li>
+</ul>
+<p><strong>CoT 实验结论</strong></p>
+<ul>
+<li>对于小模型来说，CoT Prompting 无法带来性能提升，甚至可能带来性能的下降。</li>
+<li>对于大模型来说，CoT Prompting 涌现出了性能提升</li>
+<li>对于复杂的问题，CoT Prompting 能获得更多的性能收益。</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_37.png" title="Body image" /></p>
+<h3 id="cot-prompt-think-step-by-step"><strong>CoT Prompt黑魔法: Think step-by-step</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_38.png" title="Body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_39.png" title="Body image" /></p>
+<h2 id="self-consistency">自治性（Self-Consistency）：多路径推理</h2>
+<blockquote>
+<p>黑魔法失效怎么办？</p>
+</blockquote>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_40.png" title="Body image" /></p>
+<p><strong>Self-Consistency：多路径推理</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_41.png" title="Body image" /></p>
+<ul>
+<li>
+<p>Figure 1: The self-consistency method contains three steps: </p>
+</li>
+<li>
+<p>(1) prompt a language model using chain-of-thought (CoT) prompting;</p>
+</li>
+<li>(2) <strong><mark>replace the "greedy decode" in CoT prompting by sampling from the language model's decoder to generate a diverse set of reasoning paths; and</mark></strong></li>
+<li>(3) marginalize out the reasoning paths and aggregate by choosing the most consistent answer in the final answer set.</li>
+</ul>
+<h3 id="self-consistencycot">Self-Consistency提升CoT性能</h3>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_42.png" title="Body image" /></p>
+<p>关于 CoT 与大模型逻辑推理能力的现状</p>
+<p>通过思维链，我们可以看到大语言模型的强与弱：</p>
+<ul>
+<li><mark><strong>它强在，模型规模的提高，让语义理解、符号映射、连贯文本生成等能力跃升，从而让多步骤推理的思维链成为可能，带来“智能涌现”</strong></mark></li>
+<li><mark><strong>它弱在，即使大语言模型表现出了前所未有的能力，但思维链暴露了它，依然是鹦鹉学舌，而非真的产生了意识</strong></mark></li>
+</ul>
+<p><strong>没有思维链，大</strong>模型几乎无法实现逻辑推理**。</p>
+<p>但有了思维链，大语言模型也可能出现错误推理，尤其是非常简单的计算错误。Jason Wei 等的论文中，曾展示过在 GSM8K 的一个子集中，大语言模型出现了8% 的计算错误，比如6* 13=68（正确答案是78）</p>
+<h3 id="dual-process-theory-of-thought">Dual process theory of thought</h3>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_43.png" title="Body image" /></p>
+<p>Prompting 示意图</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_44.png" title="Body image" /></p>
+<p>ToT 实验结果：24点游戏</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_46.png" title="Body image" /></p>
+<p>ToT实验结果：创意写作与迷你填字游戏</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_45.png" title="Body image" /></p>
+<h3 id="totstep-1">TOT工作原理解读：Step 1思维分解</h3>
+<p>虽然CoT样本以连贯的方式呈现思维，没有明确的分解过程，但ToT利用问题属性来设计和分解中间思维步骤。如下表所示，根据不同的问题，一个思维可以是几个词（填字游戏）一行方程式 （24点游戏），或者是整段写作计划（创意写作）。</p>
+<p>总体而言，一个思维应该足够“小”，以便语言模型能够生成有前景且多样化的样本（例如生成整本书通常太“大”而无法连贯），同时又足够“大”，以便语言模型能够评估其对于问题求解的前景（例如仅生成一个标记通常太“小”无法评估）</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_47.png" title="Body image" /></p>
+<h3 id="tot-step-2">ToT 工作原理解读：Step 2思维生成</h3>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_48.png" title="Body image" /></p>
+<h3 id="tot-step-3">ToT 工作原理解读： Step 3 状态评估</h3>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_49.png" title="Body image" /></p>
+<h3 id="tot-step-4">TOT 工作原理解读：Step 4 搜索算法</h3>
+<p>最后，在ToT框架内，可以根据树结构插入和使用不同的搜索算法。作者探索了两种相对简单的搜索算法，
+并将更高级的算法（例如A* 今儿MCTS）留给末水的工作：</p>
+<ul>
+<li><strong>(a)广度优先搜素（TOT-BFS)每步维护一组最有希望的状态集合b个</strong>。这适用于24点游戏和创意写作等树深度受限制 （T≤3），并且初始思考步骤可以评估和修剪为一个小集合 (b≤5）</li>
+<li><strong>(b)深度优先搜索(TOT-DFS）</strong> 首先探索最有希望的状态，直到达到最终输出结果(t&gt;T)，或者状态评估器认为无法解决当前问题。在后一种情况下，从s 开始的子树被修剪以进行开发与利用之间的权衡。在这两种情况下，DFS会回溯到s的父状态以继续探索。</li>
+</ul>
+<p>从概念上讲，ToT作为LM通用问题求解方法具有几个优势</p>
+<ul>
+<li>(1）泛化性。IO、CoT、CoT-SC和自我完善都可以看作是ToT的特殊情况 （即有限深度和广度的树)</li>
+<li>(2) 模块化。基本LM以及思考分解、生成、评估和搜索过程都可以独立变化。</li>
+<li>(3) 适应性。可以适应不同的问题属性、LM能力和资源约束。</li>
+<li>(4)方便性。无需额外训练，只需要一个预训练好的LM就足够了。</li>
+</ul>
+<p>下一节将展示这些概念上的优势如何在不同问题中转化为强大的实证表现</p>
+<h2 id="_2">第一部分：课后习题</h2>
+<ul>
+<li>
+<p>注意力机制（Attention）的主要用途是什么？</p>
+<ul>
+<li>A.  优化模型训练速度</li>
+<li>B.  提高模型准确率</li>
+<li><strong>C.  选择重要的信息并忽略不相关的信息</strong></li>
+<li>D.  改进模型的可解释性</li>
+<li>答：C</li>
+</ul>
+</li>
+<li>
+<p>Transformer 模型是基于什么理论构建的？</p>
+<ul>
+<li>A. 递归神经网络（RNN）</li>
+<li>B. 卷积神经网络（CNN）</li>
+<li><strong>C. 注意力机制（Attention）</strong></li>
+<li>D. 自组织映射（SOM）</li>
+<li>答：C</li>
+</ul>
+</li>
+<li>
+<p>GPT 和 BERT 的主要区别是什么？</p>
+<ul>
+<li>A. GPT 是基于 Transformer 的，而 BERT 不是</li>
+<li>B. BERT 是基于 Transformer 的，而 GPT 不是</li>
+<li><strong>C. GPT 使用了单向自注意力，而 BERT 使用了双向自注意力</strong></li>
+<li>D. GPT 和 BERT 在基本结构上没有区别</li>
+<li>答：C</li>
+</ul>
+</li>
+<li>
+<p>在注意力机制中，“Q”、“K”和“V”分别代表什么？</p>
+<ul>
+<li><strong>A. 查询、密钥和值</strong></li>
+<li>B. 查询、键入和验证</li>
+<li>C. 快速、关键和验证</li>
+<li>D. 问题、知识和视觉</li>
+<li>A</li>
+</ul>
+</li>
+<li>
+<p>Transformer 模型是如何解决长距离依赖问题的？  </p>
+<ul>
+<li>A. 通过递归神经网络（RNN）</li>
+<li>B. 通过卷积神经网络（CNN）</li>
+<li><strong>C. 通过注意力机制（Attention）</strong></li>
+<li>D. 通过自组织映射（SOM）</li>
+<li>答：C</li>
+</ul>
+</li>
+<li>
+<p>GPT 主要用于哪种类型的任务？</p>
+<ul>
+<li>A. 分类任务</li>
+<li>B. 回归任务</li>
+<li><strong>C. 生成任务</strong></li>
+<li>D. 聚类任务</li>
+<li>答：C</li>
+</ul>
+</li>
+<li>
+<p>以下哪项是 BERT 的主要创新之处？</p>
+<ul>
+<li>A. 引入了自注意力机制</li>
+<li><strong>B. 使用了双向自注意力机制</strong></li>
+<li>C. 提出了新的优化算法</li>
+<li>D. 突破了模型大小的限制</li>
+<li>答：B</li>
+</ul>
+</li>
+<li>
+<p>在 Transformer 模型中，自注意力机制的主要作用是什么？</p>
+<ul>
+<li>A. 加速模型训练</li>
+<li><strong>B. 识别输入中的关键信息</strong></li>
+<li>C. 生成高质量的词嵌入</li>
+<li>D. 提高模型的鲁棒性</li>
+<li>答：B</li>
+</ul>
+</li>
+<li>
+<p>基于 Transformer 的模型，如 GPT 和 BERT，主要适用于哪些任务？</p>
+<ul>
+<li>A. 图像识别</li>
+<li><strong>B. 自然语言处理</strong></li>
+<li>C. 语音识别</li>
+<li>D. 强化学习</li>
+<li>答：B</li>
+</ul>
+</li>
+<li>
+<p>注意力机制最早是在哪个领域得到应用的？</p>
+<ul>
+<li>A. 计算机视觉</li>
+<li>B. 语音识别</li>
+<li><strong>C. 自然语言处理</strong></li>
+<li>D. 推荐系统</li>
+<li>答：C</li>
+</ul>
+</li>
+</ul>
+<p>多项选择题：</p>
+<p>以下哪些方法被用于处理序列数据？</p>
+<ul>
+<li><strong>A. 递归神经网络（RNN）</strong></li>
+<li><strong>B. 卷积神经网络（CNN）</strong></li>
+<li><strong>C. 注意力机制（Attention）</strong></li>
+<li>D. 支持向量机（SVM）</li>
+</ul>
+<p>答：A、B、C</p>
+<p>解释：</p>
+<p>递归神经网络（RNN）、卷积神经网络（CNN）和注意力机制（Attention）都被广泛应用于处理序列数据。具体来说：</p>
+<ul>
+<li>递归神经网络（RNN）：<strong>用于处理序列数据中的时序关系，能够通过循环单元对序列中的上下文信息进行建模，从而对序列中的每个元素进行处理</strong>。</li>
+<li>卷积神经网络（CNN）：<strong>主要应用于序列数据中的局部模式识别，可以有效地对时间序列或文本数据中的局部特征进行提取</strong>。</li>
+<li>注意力机制（Attention）：能够根据输入序列中不同位置的重要性进行加权处理，从而提取相关的特征信息，并在不同任务中取得了显著的效果。</li>
+<li>
+<p>支持向量机（SVM）虽然也是一种常用的分类算法，但是主要用于处理结构化数据，而非序列数据。</p>
+</li>
+<li>
+<p>以下哪些模型使用了注意力机制？</p>
+<ul>
+<li><strong>A. BERT</strong></li>
+<li><strong>B. GPT</strong></li>
+<li>C. LeNet</li>
+<li>D. ResNet</li>
+</ul>
+</li>
+</ul>
+<p>答：A、B</p>
+<p>解释：</p>
+<p>BERT和GPT都使用了注意力机制来对输入序列进行编码和解码，从而实现自然语言处理任务，如文本分类、问答系统、文本生成等。</p>
+<p>LeNet和ResNet则是图像识别领域的经典模型，主要用于图像分类、目标检测等任务，并没有使用注意力机制。其中，LeNet是最早的卷积神经网络模型之一，ResNet是一种深度残差网络，它通过引入残差连接来训练更深的神经网络。</p>
+<ul>
+<li>以下哪些模型主要用于自然语言处理任务？<ul>
+<li><strong>A. GPT</strong></li>
+<li><strong>B. BERT</strong></li>
+<li>C. VGG</li>
+<li>D. LeNet</li>
+<li><strong>答：A、B</strong></li>
+</ul>
+</li>
+</ul>
+<p>解释：</p>
+<ul>
+<li>GPT和BERT主要用于自然语言处理任务，如文本分类、问答系统、文本生成等。</li>
+<li>其中，GPT主要用于生成式自然语言处理任务，如文本生成、机器翻译、故事生成等；</li>
+<li>BERT则主要用于判别式自然语言处理任务，如文本分类、问答系统、命名实体识别等。</li>
+<li>VGG和LeNet则主要用于图像识别任务，其中，VGG是一种经典的卷积神经网络模型，主要用于图像分类任务；</li>
+<li>LeNet是最早的卷积神经网络模型之一，主要用于手写数字识别任务。</li>
+</ul>
+<p>下列哪些说法正确描述了注意力机制的作用？</p>
+<ul>
+<li>A. 它可以用来改进模型的训练速度</li>
+<li><strong>B. 它可以用来挑选出重要的信息并忽略不相关的信息</strong></li>
+<li>C. 它可以用来生成高质量的词嵌入</li>
+<li>D. 它可以用来提高模型的鲁棒性</li>
+<li>答：B</li>
+</ul>
+<p>解释：</p>
+<ul>
+<li>注意力机制的主要作用是对输入序列中的不同位置信息进行加权，从而挑选出重要的信息并忽略不相关的信息。</li>
+<li>这种加权处理过程可以使模型更加关注重要的信息，从而提高模型的性能和表现。</li>
+<li>注意力机制并不是用来改进模型的训练速度的，它在某些情况下甚至可能会增加模型的计算复度。</li>
+<li>注意力机制也不是用来生成词嵌入的，它通常用于对序列进行编码和解码。</li>
+<li>注意力机制虽然可以提高模型的鲁棒性，但这并不是它的主要作用。</li>
+</ul>
+<p>下列哪些说法正确描述了 BERT 模型？</p>
+<ul>
+<li><strong>A. BERT 模型是基于 Transformer 的</strong></li>
+<li><strong>B. BERT 模型使用了双向自注意力机制</strong></li>
+<li>C. BERT 模型主要用于图像分类任务</li>
+<li>D. BERT 模型突破了模型大小的限制</li>
+<li><strong>答：A、B</strong></li>
+</ul>
+<h3 id="_3">第二部分：相关名词解释</h3>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_50.png" title="Body image" /></p>
+<h4 id="1llmlarge-language-model">1、LLM（Large Language Model）大语言模型是什么？</h4>
+<p>LLM是Large Language Model的缩写，指的是大型语言模型。大型语言模型是一类基于深度学习技术的人工智能模型，利用海量的文本数据进行训练，可以学习到自然语言的规律和模式，并且可以用于自然语言生成、理解、翻译、分类等多项自然语言处理任务。</p>
+<p><strong>当前的主流大型语言模型包括GPT-3、BERT、RoBERTa、T5、XLNet等，它们都是基于Transformer架构的预训练模型，在自然语言处理领域具有广泛的应用</strong>。这些模型一般需要使用超级计算机和大规模的训练数据进行训练，因此需要大量的计算资源和时间成本。</p>
+<h4 id="2">2、常见的大语言模型有什么？</h4>
+<p>目前主流的大语言模型包括但不限于以下几种：
+OpenAI公司下面的语言模型：GPT-4、GPT-3.5-turbo、text-davinci-003</p>
+<ul>
+<li>GPT-4（Generative Pre-trained Transformer 4）：由OpenAI开发的一种基于Transformer架构的预训练语言模型，具有非常强大的自然语言生成和理解能力，能够执行多项自然语言处理任务。GPT 就是一种典型的预训练解码器。</li>
+<li>
+<p>GPT-3.5-turbo 和 text-davinci-003 都是语言模型，它们都可以用于聊天和文本生成等任务。</p>
+<ul>
+<li>但是，GPT-3.5-turbo 更适合于聊天任务，因为它具有更高的语言理解能力和对话生成能力。</li>
+<li>而 text-davinci-003 更适合于文本生成任务，因为它具有更高的文本生成能力和语言理解能力。</li>
+</ul>
+</li>
+<li>
+<p>BERT（Bidirectional Encoder Representations from Transformers）：由Google开发的一种基于Transformer架构的预训练语言模型，具有强大的双向上下文理解能力，被广泛应用于文本分类、问答系统等任务。BERT就是一种典型的预训练编码器</p>
+</li>
+<li>RoBERTa（Robustly Optimized BERT Pretraining Approach）：由Facebook AI Research开发的一种基于BERT架构的预训练语言模型，采用更大规模的数据和更长的训练时间进行训练，在多项自然语言处理任务上表现优异。</li>
+<li>T5（Text-to-Text Transfer Transformer）：由Google Brain开发的一种基于Transformer架构的通用文本生成模型，可以执行多种自然语言处理任务，如文本摘要、机器翻译、文本分类等。T5和BART都是典型的预训练编码器-解码器模型。</li>
+<li>XLNet（eXtreme MultiLingual Language Model）：由Carnegie Mellon University、Google Brain和其他机构联合开发的一种基于Transformer架
+构的预训练语言模型，采用了一种新的预训练方法，可以在多项自然语言处理任务上取得优异的表现。</li>
+</ul>
+<p>ChatGLM：</p>
+<ul>
+<li>1.是由清华大学 KEG 实验室和智谱 AI 公司于 2023 年共同推出的。</li>
+<li>2.是一种基于 GLM-130B 模型的对话生成模型，在模型的设计和训练过程中，充分利用了 GLM-130B 模型的优势，如多层的 Transformer 编码器、大量的训练数据和自适应的学习能力等。</li>
+<li>3.它可以通过对大量文本数据进行预训练，自动学习自然语言的规律和模式，从而实现对话生成和自然语言处理任务。</li>
+<li>4.可以生成自然流畅的对话，并且能够在多个领域和主题上进行对话生成，包括通用对话、技术支持、医疗咨询等。</li>
+</ul>
+<p>BARD（Building Automated Responses for Dialog）是由Facebook AI Research于2021年提出的一种自动化对话生成模型。与传统的对话生成模型不同，BARD模型不需要依赖大量的对话数据进行训练，而是通过对话生成引擎和语言模型的结合，可以自动生成自然流畅的对话响应。BARD模型将对话生成看作一个基于模板的文本生成问题，它通过对输入的对话文本进行解析和理解，从而自动构建出一个适用于该对话的模板，然后使用语言模型来自动生成对话响应。BARD模型的优点是在不需要大量对话数据的情况下，可以快速生成高质量的对话响应。这使得BARD模型在对话系统、客服机器人等领域具有广泛的应用前景。</p>
+<h4 id="3transformer">3、Transformer是什么？</h4>
+<p>Transformer是一种由Google开发的基于自注意力机制（self-attention）的神经网络架构，主要用于自然语言处理任务。<strong>相较于循环神经网络（RNN）和卷积神经网络（CNN）等传统的序列模型，Transformer在处理长序列数据时具有更好的效果和更高的并行性</strong>。</p>
+<p>Transformer的核心思想是自注意力机制，它允许模型在处理输入序列时对不同位置的信息进行加权处理。自注意力机制能够有效地捕捉输入序列中的上下文信息，从而提高模型的性能。
+Transformer模型由编码器和解码器两部分组成，其中编码器用于将输入序列编码成隐含表示，而解码器则用于根据编码器的输出生成目标序列。</p>
+<p>在Transformer中，Attention机制被广泛应用于编码器和解码器的各个层次，从而构建出一个强大的自注意力模型，可以在多项自然语言处理任务上取得优异的表现。</p>
+<p>1、编码器（Encoder）：编码器负责将输入序列转换为上下文表示。它由多个相同的层组成，每个层都包含自注意力机制和前馈神经网络。自注意力机制用于捕捉输入序列内部的关系，前馈神经网络用于对位置表示进行非线性变换。
+    通俗解释：编码器主要用于处理和理解输入信息。这些模型可以获得双向的上下文，即可以同时考虑一个词的前面和后面的信息。由于编码器可以考虑到未来的信息，它们非常适合用于需要理解整个句子的任务，如
+           文本分类、命名实体识别等。预训练编码器需要使其能够构建强大的表示，这通常通过预测某个被遮蔽的单词、预测下一个句子或者其它的预训练任务来实现。BERT就是一种典型的预训练编码器。</p>
+<p>2、解码器（Decoder）：解码器根据编码器的输出和之前的生成序列，逐步生成目标序列。与编码器类似，解码器也由多个相同的层组成，每个层包含自注意力机制、编码器-解码器注意力机制和前馈神经网络。
+    通俗解释：解码器主要用于生成输出信息。它们是语言模型的基础，用于预测下一个单词。解码器只能考虑到过去的词，而不能考虑到未来的 词，这使得它们非常适合于生成任务，如文本生成、对话系统等。
+    GPT就是一种典型的预训练解码器。</p>
+<p>3、编码器-解码器注意力机制（Encoder-Decoder Attention）：编码器-解码器注意力机制用于在解码器中对编码器的输出进行注意力计算。它帮助解码器关注输入序列中与当前生成位置相关的信息，有助于生成准确的目标序列。
+    通俗解释：结合了编码器和解码器的优点。编码器首先处理输入信息，然后解码器生成输出信息。这种结构可以考虑到全局的上下文信息，因此非常适合于需要理解输入信息并生成相应的输出的任务，如机器翻译、文本摘要等。
+    如何预训练编码器-解码器模型是一个开放的问题，因为需要考虑到如何有效地使用编码器和解码器的特点。T5和BART都是典型的预训练编码器-解码器模型。</p>
+<p>4、自注意力机制（Self-Attention）：自注意力机制是Transformer的核心机制之一，用于计算序列中每个位置与其他位置的相关性。通过计算相关性得分，并对其他位置的表示进行加权求和，自注意力机制能够捕捉到全局的上下文信息。</p>
+<p>5、多头注意力机制（Multi-Head Attention）：多头注意力机制通过将自注意力机制应用于多个子空间，允许模型学习不同层次、不同类型的语义表示。多个子空间的注意力结果进行拼接和线性变换，得到最终的注意力表示。</p>
+<p>6、位置编码（Positional Encoding）：位置编码用于引入序列中的顺序信息。它为每个位置分配一个唯一的向量表示，使得模型能够区分不同位置的词语或时间步。</p>
+<p>7、前馈神经网络（Feed-Forward Network）：前馈神经网络是一种全连接的前馈网络，用于对位置表示进行非线性变换。它能够学习到位置表示的更高级别的抽象特征，增强模型的表达能力。</p>
+<p>这些组件相互协作，使得Transformer能够处理序列建模任务，并在自然语言处理等领域取得了显著的性能提升。</p>
+<h4 id="4rnn">4、RNN是什么？</h4>
+<p>RNN指的是递归神经网络（Recurrent Neural Network），<strong>是一种用于处理序列数据的神经网络模型。与传统的前馈神经网络不同，递归神经网络在处理序列数据时能够对序列中的上下文信息进行建模</strong>。</p>
+<p>它通过引入循环结构，将序列中的每个元素都看作一个时间步，将上一时间步的输出作为当前时间步的输入，从而在序列中引入记忆机制。这使得递归神经网络可以对序列数据中的时序关系进行建模，从而在多个时间步中共享参数，减少了模型的参数数量，也提高了模型的效率。</p>
+<p>递归神经网络在自然语言处理、语音识别、机器翻译、图像描述等领域中得到了广泛的应用。然而，由于梯度消失和梯度爆炸等问题的存在，递归神经网络在处理长序列数据时可能会出现性能不佳的情况。</p>
+<p>因此，后来的一些模型如LSTM和GRU等被提出来解决这些问题。</p>
+<h4 id="5attentionrnns">5、注意力机制：Attention是什么？与RNNs相比的优势在哪？</h4>
+<p>注意力机制（Attention）是一种用于加权处理序列数据中不同位置的信息的方法。在自然语言处理和计算机视觉等领域，注意力机制已成为许多成功模型的核心组件。</p>
+<p>具体来说，注意力机制可以对输入序列中的每个位置进行加权处理，得到每个位置的权重，然后将加权后的结果进行求和，得到一个加权后的向量表示。</p>
+<p><strong>不同的注意力机制可以通过不同的方式计算权重，例如基于点积、加性、多头等方式</strong>。</p>
+<ol>
+<li>解决传统编码器-解码器模型的挑战，避免信息损失和无法建模输入输出对齐的问题。</li>
+<li>自动学习注意力权重，捕捉编码器和解码器之间的相关性。</li>
+<li>提高模型性能，改善输出质量，并提供更好的解释性。</li>
+<li>允许解码器访问整个编码的输入序列，通过注意力权重选择性地关注相关信息。</li>
+<li>构建上下文向量，使解码器能够全面访问输入序列并重点关注相关部分。</li>
+</ol>
+<h4 id="6">6.大语言模型之间的本质区别</h4>
+<ol>
+<li>模型基于的训练架构的区别，如：Transformer 架构 VS RNN架构</li>
+<li>模型应用的场景的区别，如：文本生成、对话系统、机器翻译、图像生成等</li>
+<li>训练数据和规模的区别，如：GPT-3 和 GPT-4 拥有数十亿甚至千亿级别的参数量，并且使用大量互联网文本数据进行训练；而其他模型则使用较小的参数量和数据集进行训练。</li>
+</ol>
+<h3 id="qa">Q&amp;A问答</h3>
+<p>1、每次向 GPT 提问，回答注意力的权重都是不一样的吗？</p>
+<p>答：不一样，<strong>GPT自注意力模型，GPT在接受问题不同时，计算注意力权重的机制是不同的，回答时的注意力权重也不同</strong>。你问chatgpt相同问题，它不一定给你相同的回答。</p>
+<p>2、Transformer 中，如果 Encoder 和 Decoder 都是 Self-Attention ，那么如何处理问题和答案之间的关系？（通过 Mask 吗？）</p>
+<p>答：问题与答案之间的信息泄露？ 是通过mask技术，掩码让问题不能全部看到答案，答案不能全部看到问题，避免信息泄露。</p>
+<p>3、Encoder-Decoder Attention 是 Self-Attention 吗？</p>
+<p>答：不算是，encoder-decoder attention从编码器中能关注到特定的位置，self-attention是模型内部的自注意力机制，可以关注到输入序列中的所有位置。</p>
+<p>4、Bert是基于编码器，GPT是基于解码器，不是编码和解码一块用吗？</p>
+<p>答：这3句话都没错，2个维度。 Bert和GPT的训练都用到了transformer，都用transformer的编码器和解码器来做预训练。</p>
+<p><strong>但Bert目的是捕捉上下文信息，它强化了编码器能力</strong>。</p>
+<p><strong>GPT的目的是序列生成能力，它用自回归强化了解码器能力</strong>。</p>
+<p>5、当前gpt3.5的语义识别和bert哪个强，同样的语料（比如几万条）微调bert和gpt3.5的ada预训练模型哪个效果好？</p>
+<p>答：这两个侧重点不同，你关注在上下文信息或语义理解上，就选Bert；关注在任务生成上，就选GPT。侧重点不同。</p>
+<p>答：这两个侧重点不同，你关注在上下文信息或语义理解上，就选Bert；关注在任务生成上，就选GPT。侧重点不同。</p>
+<p>问：比如企业中后台做一些运维操作，对产品的一些自然语言输入需要解析出操作的对象meta信息，然后作为参数调用api后，解析response最终做一个summary返回给用户。
+是不是关注原始输入解析到meta调用api这一步，bert理论上会更有优势？
+但实践中看，langchain调用gpt3.5利用 output_parser效果也不错，调整prompt后没看到多少解析不对的情况，然后应该可以调用agent调完api，结合问题，转到gpt优势领域生成回答了
+所以是不是可以认为除了一些垂直领域如特定情感分析场景，力大砖飞的GPT可以把所有前辈扫到垃圾桶了？</p>
+<p>答：是这样的，关注原始输入解析到meta信息 理论上bert具有优势 Bert可以学习到更加丰富的上下文信息和语义信息， Bert是有优势的。</p>
+<p>但实际应用比较多样，垂直领域的应用场景具有特定的语言特征和结构，需要更精细的模型进行调整和优化，针对这种特定领域，langchain调用gpt3.5的精调，可能更具有优势。
+不过，对于一些垂直领域，尤其是垂直的狭窄的有很多标注数据的，GPT大语言模型不一定就比其他有针对优化的模型效果更好。</p>
+<p>还是要具体场景具体分析，不过对于应用场景，建议可以把longchain的GPT3.5当成baseline，现在用起来成本不高，而且这个baseline起点不低。</p>
+<p>6、该怎么理解 transformer 和 langchain 的关系</p>
+<p>答：<strong>简单理解，transfomer是用来训练大模型的，大模型的架构</strong>。 </p>
+<p><strong>langchain是一个应用框架，用来帮助我们开发大模型的端到端应用程序的。
+gpt-4/gpt-3.5是一个孤立的模型 + 输入输出interface</strong> </p>
+<p>如何用呢，需要其他一些组件，比如数据库、API等，形成一个有机的应用程序。</p>
+<p>这个有机的应用程序，可以是我们一行一行自己开发，也可以基于某个框架来快速开发。 “某个框架”-&gt;langchain</p>
+<h2 id="-">基础篇：大模型基础--理论与技术的演进</h2>
+<ul>
+<li>
+<p>GPT-1 在哪些方面相较于传统的语言模型取得了突破？</p>
+<ul>
+<li>A. 引入了深度学习框架</li>
+<li><strong>B. 利用生成式预训练改善语言理解</strong></li>
+<li>C. 实现了图像识别的功能</li>
+<li>D. 增加了自我监督学习的机制</li>
+<li>答：B</li>
+</ul>
+</li>
+<li>
+<p>对于 ChatGPT 来说，其主要的优势是什么？</p>
+<ul>
+<li>A. 高性能的图像识别</li>
+<li><strong>B. 自然且连贯的对话生成</strong></li>
+<li>C. 精确的数学运算</li>
+<li>D. 音乐创作能力</li>
+<li>答：B</li>
+</ul>
+</li>
+<li>
+<p>GPT-4 相比于 GPT-3.5 主要的技术进步是？</p>
+<ul>
+<li>A. 提升了模型的大小</li>
+<li>B. 增加了对话能力</li>
+<li><strong>C. 引入了图像识别能力</strong></li>
+<li>D. 加强了音乐创作能力</li>
+<li>答：C</li>
+</ul>
+</li>
+<li>
+<p>以下哪项技术是与"Chain-of-Thought"最相关的？</p>
+<ul>
+<li>A. 一元语法分析</li>
+<li><strong>B. 多路径推理</strong></li>
+<li>C. 自洽性分析</li>
+<li>D. 情感分析</li>
+<li><strong>B</strong></li>
+</ul>
+</li>
+<li>
+<p>“Tree-of-Thoughts” 的主要作用是？</p>
+<ul>
+<li>A. 实现多轮对话</li>
+<li>B. 提升语义理解</li>
+<li><strong>C. 提供多路径推理</strong></li>
+<li>D. 改善模型对话的连贯性</li>
+<li>正确答案：C</li>
+</ul>
+</li>
+<li>
+<p>GPT-1 的主要研究目标是？</p>
+<ul>
+<li>A. 多语言模型训练</li>
+<li><strong>B. 通过生成式预训练改善语言理解</strong></li>
+<li>C. 实现机器自主创作</li>
+<li>D. 多媒体信息处理</li>
+<li>答：B</li>
+</ul>
+</li>
+<li>
+<p>在 GPT-2 中，"模型是无监督多任务学习者"的概念是如何实现的？</p>
+<ul>
+<li>A. 通过对话管理</li>
+<li>B. 通过多任务联合训练</li>
+<li><strong>C. 通过生成式预训练和特定任务微调</strong></li>
+<li>D. 通过强化学习训练</li>
+<li>答：C</li>
+</ul>
+</li>
+<li>
+<p>GPT-3 的主要特点是？</p>
+<ul>
+<li><strong>A. 用极少的样本就可以实现学习</strong></li>
+<li>B. 实现了自主创作</li>
+<li>C. 优化了对话管理能力</li>
+<li>D. 引入了情感分析功能</li>
+<li>（正确答案：A）</li>
+</ul>
+</li>
+<li>
+<p>GPT-4 的训练中，使用了什么新的技术？</p>
+<ul>
+<li>A. 情感分析</li>
+<li>B. 图像识别</li>
+<li><strong>C. 混合专家系统</strong></li>
+<li>D. 生成对抗网络</li>
+<li>答：正确答案：C</li>
+</ul>
+</li>
+<li>
+<p>"Self-Consistency: Multi-path Reasoning"的主要目标是？</p>
+<ul>
+<li>A. 提升模型的情感理解能力</li>
+<li>B. 提升模型对话的连贯性</li>
+<li><strong>C. 通过多路径推理，增强模型的自洽性</strong></li>
+<li>D. 提升模型的创作能力</li>
+<li>答：正确答案：C</li>
+</ul>
+</li>
+<li>
+<p>GPT-1 的特点:  利用生成式预训练提升语言理解能力</p>
+</li>
+<li>在处理对话任务时，ChatGPT的优势： <strong>自然且连贯的对话生成</strong></li>
+<li>"Chain-of-Thought"与以下哪些概念相关<ul>
+<li>多路径推理</li>
+<li>自洽性分析</li>
+</ul>
+</li>
+<li>在 GPT-3 的研究中，哪些是其主要特点？ <strong>用极少的样本就可以实现学习</strong></li>
+<li>在 GPT-4 的开发中，哪些新的技术被采用？ <strong>混合专家系统</strong></li>
+</ul>
+<h3 id="_4">相关名词解释</h3>
+<p>1、Prompt Engineering（提示工程）（又称：Prompt Turing） 是人工智能中的一个领域，主要研究如何设计有效的提示或引导，以帮助用户或模型更好地完成特定任务。</p>
+<ul>
+<li>职责：如何<strong>找到最优的提示</strong>以提高模型的性能。</li>
+<li>Prompt技术（不调模型，引导模型更好输出），是使用预训练语言模型的一系列方法的总称，这些方法不会修改模型的权重。目的都是通过不同的方式来更好的引导模型的输出。主要包括：</li>
+</ul>
+<p>In-Context-Learning（上下文学习）：</p>
+<ul>
+<li>zero-shot   直接问不给样例</li>
+<li>one-shot  给一个样例</li>
+<li>
+<p>few-shot  给多个样例</p>
+</li>
+<li>
+<p>Prompt learning    给一定的背景提示内容，使得大语言模型可以更好的理解问题</p>
+</li>
+<li>Chain of Thoughts  思维链，Let‘s think step by step</li>
+<li>self-consistency   自洽性强调内部逻辑一致，不存在推理逻辑矛盾</li>
+<li>Tree of Thoughts   多路径推理，多方位、多角度观察问题</li>
+<li>Instruction-Tuning（指令微调）：也属于Prompt范畴，通过指令性的提示，引导大语言模型输出。</li>
+</ul>
+<p>Fine Tuning（模型的微调方法）： Supervised Fine-Tuning（SFT，有监督的微调）：喂给大模型一定的人工标注的训练数据，让模型习得将输入映射到预期的输出。</p>
+<p>总结：</p>
+<ul>
+<li>Prompt技术，主要关注如何通过提供更好的提示来生成更符合用户需求的文本</li>
+<li>Supervised Fine-Tuning，主要关注模型在新任务上的性能改进</li>
+</ul>
+<p>2、什么是In-context learning（上下文学习）？什么是Zero-shot, One-shot, Few-shot？【是一种Prompt技术】</p>
+<p>In-context Learning关注的是如何 <code>利用</code> 输入序列中的 <code>上下文信息</code> 来影响模型的输出。</p>
+<p>是一种让模型根据给定的几个实例来理解任务并给出答案的学习方法，可以提高模型的泛化能力和适应性，帮助模型更好地理解和处理新的任务和数据。</p>
+<p>常见的方法：Zero-shot, One-shot, Few-shot。</p>
+<p>目的：主要是解决模型因为训练数据少，导致模型泛化能力差的问题。</p>
+<ul>
+<li>Zero-shot 是在没有接受任何示例训练的情况下，通过适当的提示来进行任务。这需要模型具备广泛的泛化能力，能够从提示中理解任务的要求并生成合适的回答。</li>
+<li>One-shot 是在接受仅一个示例训练的情况下，通过提示来进行任务。尽管只有一个示例，但模型试图从这个示例中学到足够的信息，以在新情境中进行泛化。</li>
+<li>Few-shot 是在接受少量示例训练的情况下，通过提示来进行任务。这种方法允许模型在少量示例上进行训练，从而在新的情境中产生更好的结果。</li>
+</ul>
+<p>例如，当你在学习新的单词时，将它们放入句子中以及使用它们，有助于更好地理解它们的含义和用法。这种学习方式强调将知识放入实际情境中，从而更好地理解和记忆。</p>
+<p>在例如：多轮对话中的记忆上下文可以被看作是 "in context-learning" 的一种表现。</p>
+<p><strong>3、什么是Prompt Learning？【是一种Prompt技术】</strong></p>
+<p>Prompt Learning 关注的是如何通过设计 <code>有效的提示</code> 来 <code>引导</code> 模型的输出。</p>
+<p>举例：</p>
+<ul>
+<li>请根据以下提示，生成一篇关于“气候变化对农业的影响”的文章：</li>
+<li>随着全球气候的不断变化，农业生产面临着越来越大的挑战。极端气候事件，如干旱、洪涝、高温等，对农作物的生长和产量造成了严重影响。此外，气候变化还会导致病虫害的发生和传播，对农业生产带来了更大的压力。因此，我们需要采取有效的措施来应对气候变化对农业的影响，保障粮食安全。</li>
+<li>请结合相关研究和案例，详细阐述气候变化对农业的具体影响，以及农业生产者、政策制定者和科学家应如何采取措施应对这些挑战。</li>
+</ul>
+<p>4、什么是Chain of Thought（思维链） and Self-Consistency（自洽性）and Tree of Thoughts（思维树）？【是一种Prompt技术】</p>
+<p>Chain of Thought（CoT）：下面例子中，使用逐步扩展的方式呈现"Chain of Thought"，每一步回答都基于前一步的回答，逐步构建了关于"XXXX"的思维链。这种逐步展开的方式可以更清晰地向用户解释一个复杂问题的多个方面。</p>
+<pre><code>举例1：User: &quot;为什么要保持身体健康？&quot;
+
+Model: &quot;保持身体健康对于个人的各个方面都非常重要。&quot;
+Model: &quot;首先，身体健康可以提高生活质量。&quot;
+Model: &quot;这意味着你能够更好地享受生活，从事你喜欢的活动，而不会受到体力上的限制。&quot;
+Model: &quot;此外，保持身体健康还有助于预防疾病。&quot;
+Model: &quot;通过均衡的饮食和适度的运动，你可以降低患上许多慢性疾病的风险，如心脏病和糖尿病。&quot;
+Model: &quot;另外，身体健康也与心理健康紧密相关。&quot;
+Model: &quot;运动可以释放身体内的化学物质，有助于减轻压力和焦虑，提升情绪状态。&quot;
+Model: &quot;最后，保持身体健康可以增强免疫系统。&quot;
+Model: &quot;一个强健的免疫系统能够更好地应对疾病和感染，使你的身体更有抵抗力。&quot;
+</code></pre>
+<p><strong>经典的提示词：Let‘s think step by step！</strong></p>
+<p>举例2：首先，我们需要找出这个问题的关键信息；其次，我们需要将问题转换为数学表达式；最后，我们通过解方程来求解这个问题</p>
+<p><strong>self-consistency（s-c）：确保了模型的回答在逻辑上是合理和可靠的。</strong></p>
+<p>举例：User: "狗的寿命通常有多长？"</p>
+<p>Model: "狗的寿命通常因狗的品种和大小而异。较小的狗品种，如吉娃娃，通常寿命更长，可以活到12-20岁。而大型犬，如圣伯纳德，寿命可能较短，大约8-10岁。"</p>
+<p>在这个回答中，大语言模型展示了自洽性，它在内部逻辑上保持一致。模型首先指出寿命与狗的品种和大小有关，然后在具体的品种范围内提供了寿命范围。这种逻辑一致性使得回答更加可信，读者不会在回答中找到矛盾之处。</p>
+<p>Tree of Thoughts（ToT）：表现为模型在回答问题时按照层次结构组织信息，从整体到细节展开，呈现出一种层次性的结构。</p>
+<ul>
+<li>举例：User: "手机的重要性是什么？"</li>
+<li>Model: "手机在现代社会中具有重要的地位。从整体来看，手机在以下几个方面具有重要性：通信、信息获取和社交。在通信方面，手机是人们日常交流的重要工具，通过电话、短信和社交媒体，人们可以随时保持联系。信息获取是另一个重要方面，手机让我们能够在任何时候获取新闻、知识和娱乐内容。此外，手机也在社交方面发挥着作用，通过社交应用，人们可以与朋友、家人保持联系，甚至结识新的朋友。总之，手机在多个层面上都具有重要的作用，成为了人们生活中不可或缺的一部分。"</li>
+</ul>
+<p>在这个回答中，大语言模型使用了"Tree of Thoughts"的结构，从整体重要性开始，逐步展开到通信、信息获取和社交这三个子主题。每个子主题又分别进一步解释和展开。这种层次性的组织方式帮助读者更清楚地理解回答，从整体到细节逐步展示信息，让回答更具有结构性和连贯性。    </p>
+<p>扩充：在ToT框架内，可以根据树结构插入和使用不同的搜索算法。作者探索了两种相对简单的搜索算法，并将更高级的算法(例如AlphaGo(AlphaZero) 蒙特卡洛树搜索（MCTS）)留给未来的工作，TOT-BFS广度优先算法、深度优先搜索(ToT-DFS)）</p>
+<p>总之，"Chain of Thought"是思维按照线性顺序连接的方式，"Self-Consistency"是思想和回答内部保持逻辑一致性，而"Tree of Thoughts"是将思维层次化地组织成树状结构。
+ToT包含SC，SC包含CoT</p>
+<p>5、什么是Instruction-Tuning（指令微调）？【是一种Prompt技术】</p>
+<p>也属于Prompt范畴，通过指令性的提示，引导大语言模型输出。</p>
+<p>指令微调例子：</p>
+<ul>
+<li>原始指令：生成一段描述夏季的天气的文本。</li>
+<li>微调后的指令：生成一段描述夏季阳光明媚、温度适宜的天气的文本。</li>
+</ul>
+<p>6.其他Prompt技术技巧</p>
+<ul>
+<li><code>Pattern-based Prompts</code>：使用特定的模式或结构化的提示来引导模型生成回答。例如，使用 "What is" 或 "Explain" 这样的模式来获取解释性的回答。</li>
+<li>Cloze-style Prompts：使用不完整的句子或段落，缺少关键信息，让模型填补缺失部分。例如，"The capital of France is ___." 可以引导模型填写空缺。</li>
+<li>Generative Prompts：提供一个开放式的提示，要求模型自由生成相关的回答。例如，"Tell me about" 后面可以是任何话题。</li>
+<li>Adversarial Prompts：引入对抗性元素，让模型在不受到敌对输入的干扰下生成鲁棒的回答。</li>
+<li>Rewrite Prompts：对初始提示进行重写或改写，以使其更清晰、精确或特定。</li>
+<li>Explanation-based Prompts：要求模型不仅给出回答，还要解释其回答的原因或过程。</li>
+<li>Comparison Prompts：要求模型比较两个或多个概念、选项等，并给出有关它们的回答。</li>
+<li>Scenario-based Prompts：在特定场景下设置提示，以促使模型生成在该场景中有意义的回答。</li>
+<li>Socratic Prompts：通过连续提问，引导模型逐步生成更深入的回答，类似于哲学上的苏格拉底式讨论。</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap1_1_44.png" title="Body image" /></p>
+<h3 id="_5">一些问答</h3>
+<h4 id="1sft-fine-tuningfine-turning-instruction-tuning">1、SFT fine-tuning、fine-turning 和 Instruction-Tuning的区别？</h4>
+<p>答：Fine-tuning：微调</p>
+<ul>
+<li>SFT(Supervised Fine-Tuning)：有监督的微调</li>
+<li>
+<p>Instruction-Tuning：指令微调</p>
+</li>
+<li>
+<p>1.Fine-tuning: 这是一种通用的深度学习训练策略，通常在预训练模型基础上进行，以适应新任务。通过对预训练模型的参数进行微调，使模型能够在特定任务上表现更好。</p>
+</li>
+<li>2.SFT: 这是一个监督学习过程，即通过人工标注的训练数据集来调整模型的参数。在这个过程中，模型学习将输入映射到预期的输出。SFT就是一种Fine-tuning的策路。</li>
+<li>3.Instruction-Tuning: 是OpenAI提出的一种新的训练方法。通过向模型提供人类编写的指导性指令，对模型进行训练和调整。主要用于增强模型对特定指令的响应。</li>
+</ul>
+<p>这些指令可以是对输入输出的期望行为描述，如"重要性：高；可读性：中；重要性：低"，从而控制模型在生成文本时更好地满足用户需求。使模型能够正确理解并生成预期的输出。</p>
+<p>Prompt和Instruction都是用于指导模型生成输出的文本，不对模型的权重进行修改； fine tunning会对模型的权重进行修改。 Prompt和Instruction比较相似，关注的目标不一样。</p>
+<h4 id="2openaifinetune6w4epoch094accuracyprompt-tuning">2、我要用大模型做分类，我用openai的finetune，效果很好，6w条语料4轮epoch可以到0.94accuracy。但是高质量的语料标注是个难活。我朋友告诉我，prompt-tuning用的语料更少，而语料治疗要求没那么高，而效果更好。</h4>
+<p>文本分类是一个经典下游任务，如果你的语料本身并没有给使用的OpenAI基础模型增加额外的知识，那么prompt-tuning确实是更有性价比的关于prompt-based learning目的是让大家理解如何从 standard prompt 演进到适用性极高的 ToT 的。</p>
+<h4 id="3">3、思维链，是指提示词提问时的思维链，还是模型回答问题时运用思维链来回答？我的理解是后者，因为昨天的后半程课，全程讲的是模型在回答问题时的思维链逻辑推理，但是助教直播间说的是提示词提问时用思维链方式。能捋一捋吗？昨天并没有讲什么样的提示词规则更高效</h4>
+<p>对于一个模型在回答问题时的思维链逻辑推理，可以将其理解为模型对输入问题进行处理和分析的过程。这个过程可以看作是一种思维链，其中模型通过触发不同的关联或推理机制来生成答案。</p>
+<p>当使用提示词提问时，思维链方式可以指引你以一种递进的思考方式来构建问题。你可以从一个提示词出发，将其作为起点，然后依次深入探索相关的概念、关联或细节，构建一个连贯的问题链条。每个问题都基于前一个问题的答案或信息，从而逐步扩展和深化对问题的理解。</p>
+<p>通过思维链方式提问可以帮助你更系统地探索和获取信息，从而得到更准确、全面的回答。这种方法可以用于讨论复杂的主题、解决问题或促进深入思考和探索。</p>
+<p>5、有监督学习和无监督学习，远程监督是啥意思</p>
+<p>答：有监督，就是你需要标注信息，在给机器学习。 无监督就是你直接可以给，不需要进行标注。 </p>
+<p>远程监督是一种半监督学习方法，它的基本思想是利用已有的知识库自动生成标注数据。在远程监督中，模型会利用知识库中的实体和关系信息，自动标注相关的文本数据，</p>
+<p>然后使用这些标注数据训练模型。相对于有监督学习，远程监督可以减少标注数据的工作量，但标注数据的质量受到知识库的影响。</p>
+<p>6、GPT-4相较GPT-3、GPT-3.5的优势</p>
+<ol>
+<li>多模态模型: GPT-4支持图像输入，出色的视觉信息理解能力使得GPT-4能对接更多样化的下游任务， <ul>
+<li>如:描述不寻常图像中的幽默、总结截屏文本以及回答包含图表的试题。在文本理解能力上，GPT-4 在中 文和多轮对话中也表现出远超 GPT-3.5 的能力。</li>
+</ul>
+</li>
+<li>扩展上下文窗口:gpt-4 and gpt-4-32k 分别提供了最大长度为8192和32768个token的上下文窗口。<ul>
+<li>这使得 GPT-4可以通过更多的上下文来完成更复杂的任务，也为 思维链(CoT)、思维树(ToT)等后续工作提供 了可能。</li>
+</ul>
+</li>
+<li>GPT+生态 :借助GPT-4强大能力，依托 ChatGPT Plugin 搭建AIGC应用生态商店(类似 App Store)</li>
+<li>应用+GPT :GPT-4已经被应用在多个领域，包括微软Office、Duolingo、Khan Academy等。</li>
+</ol>
+<p>7、如何使用BERT进行文本分类</p>
+<ul>
+<li>
+<p>数据准备：首先，准备你的文本分类数据集。数据集应包含标记好的文本样本和对应的类别标签。确保你有足够的数据用于训练、验证和测试。</p>
+</li>
+<li>
+<p>BERT模型选择：选择适合你任务的BERT模型。BERT有不同的变体和大小，如BERT-Base、BERT-Large等。较大的模型通常有更多的参数和更强的表示能力，但训练和推理的速度也更慢。</p>
+</li>
+<li>
+<p>数据预处理：对文本数据进行预处理，使其适应BERT模型的输入格式。首先，将文本切分成词（Word Piece Tokenization），并将每个词转换为对应的词ID。然后，添加特殊标记（如"[CLS]"和"[SEP]"）以表示句子的开始和结束。如果需要，还可以进行填充和截断操作，以保证输入序列的长度一致。</p>
+</li>
+<li>
+<p>模型搭建：根据选择的BERT模型，在代码中构建相应的模型结构。可以使用开源的深度学习框架（如TensorFlow、PyTorch）提供的BERT模型实现，或者使用预训练的BERT权重进行加载。</p>
+</li>
+<li>
+<p>模型训练：使用准备好的数据集对BERT模型进行训练。在训练过程中，使用适当的优化器（如Adam）和损失函数（如交叉熵损失函数）进行参数更新。根据需要，可以使用验证集进行模型的调优和超参数选择。</p>
+</li>
+<li>
+<p>模型评估：在训练完成后，使用测试集评估模型的性能。计算分类准确率、精确率、召回率、F1值等指标来评估模型的表现。</p>
+</li>
+<li>
+<p>推理预测：使用训练好的BERT模型进行推理预测。将待分类的文本转换为BERT模型的输入格式，并通过模型的前向传播获取分类结果。</p>
+</li>
+</ul>
+<p>8、实际案例：A使用 bert 做文本分类，然后每个epoch的loss不是一直下降的，accuracy也不是一直上升的。目前样本量级只有几十条。</p>
+<p>解决问题的思路可以关注以下2点。</p>
+<p>解决问题的思路可以关注以下2点。
+1. 数据工程，需要关注样本量级，是否平衡，特征选择和清洗等预处理
+2. 模型工程，需要关注参数是否是最佳值，例如 lr, rc, batch_size...，还有可能关注下BERT是否已经达到天花板，是否需要更大的模型也可以换另外一种做法，把样本扔到嵌入模型取最终向量，在去训练一个分类器，这样更加的快速</p>
+<p>现在看起来是欠拟合，你可以尝试加多数据量来解决。这点数据量模型都跑不起来的，用嵌入模型的结果在去sklearn做个简单的分类器（这个步骤是：下游任务的分类训练），就可以得到一个比较好的结果了</p>
+<p>总结：目前这个案例中是在模型微调训练阶段的数据集太少了</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

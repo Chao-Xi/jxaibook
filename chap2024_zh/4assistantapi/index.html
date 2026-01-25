@@ -1,0 +1,4082 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../3prommaming/">
+      
+      
+        <link rel="next" href="../5rag/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>4 OpenAI 的 Function Calling - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#openai-function-calling" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4 OpenAI 的 Function Calling
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/3OpenaiModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/4chatgpt_translate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/3AmazonBedrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 这节课会带给你
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        接口（Interface）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        接口的进化
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#natural-language-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        自然语言连接一切（Natural Language Interface）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugins-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugins 和 Actions 是什么
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pluginsactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugins/Actions 的工作原理
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugins 开发
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Plugins 开发">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ai-pluginjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ai-plugin.json：
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openapiyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        openapi.yaml：
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugins-gpts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugins 失败分析和 GPTs 的未来
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-calling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Function Calling 的机制
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        示例 1：调用本地函数
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        示例 2：代码套代码
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/2agent_buildout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0responseApi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0agents_demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1ai_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/2ai_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/3ai_agents_his/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Daily Blogs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Agent Daily Blogs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1agents_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/4agent_arg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/5Agent_google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Google AI Agent 白皮书深度拆解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 这节课会带给你
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        接口（Interface）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        接口的进化
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#natural-language-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        自然语言连接一切（Natural Language Interface）
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugins-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugins 和 Actions 是什么
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pluginsactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugins/Actions 的工作原理
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugins 开发
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Plugins 开发">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ai-pluginjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ai-plugin.json：
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#openapiyaml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        openapi.yaml：
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plugins-gpts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plugins 失败分析和 GPTs 的未来
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#function-calling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Function Calling 的机制
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        示例 1：调用本地函数
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        示例 2：代码套代码
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="openai-function-calling">OpenAI 的 Function Calling</h1>
+<h3 id="_1">💡 这节课会带给你</h3>
+<ol>
+<li>用自然语言连接系统的认知，面向未来思考系统间的集成问题</li>
+<li>通过 OpenAI Tools 等的基本原理和市场表现，对行业格局产生一些感知</li>
+<li>掌握 OpenAI Function Calling 连通大模型和现实世界</li>
+</ol>
+<h2 id="interface">接口（Interface）</h2>
+<p>两种常见接口：</p>
+<ol>
+<li>人机交互接口，User Interface，简称 UI</li>
+<li>应用程序编程接口，Application Programming Interface，简称 API</li>
+</ol>
+<p>接口能「通」的关键，是两边都要遵守约定。</p>
+<ul>
+<li>人要按照 UI 的设计来操作。UI 的设计要符合人的习惯</li>
+<li>程序要按照 API 的设计来调用。API 的设计要符合程序惯例</li>
+</ul>
+<p>你是不是有很多调接口的痛苦经历？比如：</p>
+<ul>
+<li>文档坑</li>
+<li>大小写坑</li>
+<li>参数顺序坑</li>
+<li>参数类型坑</li>
+<li>……</li>
+</ul>
+<h2 id="_2">接口的进化</h2>
+<ol>
+<li>命令行，Command Line Interface，简称 CLI（DOS、Unix/Linux shell, Windows Power Shell）</li>
+<li>图形界面，Graphical User Interface，简称 GUI（Windows、MacOS、iOS、Android）</li>
+<li>语言界面，Conversational User Interface，简称 CUI，或 Natural-Language User Interface，简称 LUI ← <strong>我们在这里</strong></li>
+<li>脑机接口，Brain–Computer Interface，简称 BCI</li>
+</ol>
+<p><img alt="Alt Image Text" src="../../images/zhai4_1.png" title="Body image" /></p>
+<p>UI 进化的趋势是：越来越适应人的习惯，越来越自然</p>
+<p>API：</p>
+<ol>
+<li>从本地到远程，从同步到异步，媒介发生很多变化，但本质一直没变：<strong>程序员的约定</strong></li>
+<li>现在，开始进化到自然语言接口，Natural-Language Interface，简称 NLI</li>
+</ol>
+<h2 id="natural-language-interface">自然语言连接一切（Natural Language Interface）</h2>
+<p>NLI 是我们在<a href="https://mp.weixin.qq.com/s/t0Ml7E-CvlKfdaUMBGKJBg">《以 ChatGPT 为代表的「大模型」会是多大的技术革命？》</a>一文中提出的概念。</p>
+<blockquote>
+<p>用户操作习惯的迁移，会逼所有软件，都得提供「自然语言界面（Natural Language Interface，简称 NLI）」。指的是以自然语言为输入的接口。</p>
+<p><strong>不仅用户界面要 NLI，API 也要 NLI 化。这是因为用户发出的宏观指令，往往不会是一个独立软件能解决的，它需要很多软件、设备的配合</strong>。</p>
+<p>一种实现思路是，入口 AI（比如 Siri、小爱同学，机器人管家）非常强大，能充分了解所有软件和设备的能力，且能准确地把用户任务拆解和分发下去。这对入口 AI 的要求非常高。</p>
+<p>另一种实现思路是，入口 AI 收到自然语言指令，把指令通过 NLI 广播出去（也可以基于某些规则做有选择的广播，保护用户隐私），由各个软件自主决策接不接这个指令，接了要怎么做，该和谁配合。</p>
+<p>……
+当 NLI 成为事实标准，那么互联网上软件、服务的互通性会大幅提升，不再受各种协议、接口的限制。</p>
+</blockquote>
+<p>最自然的接口，就是自然语言接口：</p>
+<p>以前因为计算机处理不对自然语言，所以有了那么多编程语言，那么多接口，那么多协议，那么多界面风格。而且，它们每一次进化，都是为了「更自然」。现在，终极的自然，到来了。<strong>我们终于可以把计算机当人看了！</strong></p>
+<h2 id="plugins-actions">Plugins 和 Actions 是什么</h2>
+<p>先要了解 ChatGPT 及所有大模型都有两大缺陷：</p>
+<p><strong>两大缺陷</strong></p>
+<ul>
+<li><b>没有最新信息</b>。大模型的训练周期很长，且更新一次耗资巨大，所以它的知识都是过去的。GPT-3.5 的知识截至 2022 年 1 月，GPT-4 是 2023 年 4 月。</li>
+<li><b>没有「真逻辑」</b>。它表现出的逻辑、推理，是训练文本的统计规律，而不是真正的逻辑。</li>
+</ul>
+<p>所以：大模型需要连接真实世界，并对接真逻辑系统。</p>
+<p>比如算加法：</p>
+<ol>
+<li>把 100 以内所有加法算式都训练给大模型，ta 就能回答 100 以内的加法算式</li>
+<li>如果问 ta 更大数字的加法，就不一定对了</li>
+<li>因为 ta 并不懂「加法」，只是记住了 100 以内的加法算式的统计规律</li>
+<li>Ta 是用字面意义做数学</li>
+</ol>
+<p>Plugin 能一定程度解决这两个问题。</p>
+<p>演示：</p>
+<ol>
+<li>用天气插件查询天气</li>
+<li>用 Wolfram Alpha 插件做数学题</li>
+</ol>
+<p>如果你对 Wolfram Alpha 做数学的能力感到惊讶，想了解它和 ChatGPT 原理的不同，推荐阅读这篇文章：<a href="https://writings.stephenwolfram.com/2023/01/wolframalpha-as-the-way-to-bring-computational-knowledge-superpowers-to-chatgpt/">《Wolfram|Alpha as the Way to Bring Computational Knowledge Superpowers to ChatGPT》</a></p>
+<p>PS. Wolfram 的书《<a href="https://u.jd.com/p8x8bdp">这就是 ChatGPT！</a>》是从神经网络层面解释大模型原理的最好读的书。<a href="https://writings.stephenwolfram.com/2023/02/what-is-chatgpt-doing-and-why-does-it-work/">英文版免费</a></p>
+<h2 id="pluginsactions">Plugins/Actions 的工作原理</h2>
+<p><img alt="Alt Image Text" src="../../images/zhai4_2.png" title="Body image" /></p>
+<p><b>思考：</b>它怎么把我们的 Prompt 和插件功能做匹配？</p>
+<h2 id="plugins">Plugins 开发</h2>
+<p>Plugins 官方文档：https://platform.openai.com/docs/plugins/introduction</p>
+<p>Actions 官方文档：https://platform.openai.com/docs/actions</p>
+<p><strong>Actions 是 Plugis 的升级</strong>，是 GPTs 产品的一部分，但还没有正式推出，目前没有完整参考。所以还是介绍 Plugins。两者<a href="https://platform.openai.com/docs/actions">区别</a>并不大。</p>
+<p>可能是史上最容易开发的 plugin。只需要定义两个文件：</p>
+<ol>
+<li><code>yourdomain.com/.well-known/ai-plugin.json</code>，描述插件的基本信息</li>
+<li><code>openai.yaml</code>，描述插件的 API（Swagger 生成的文档）</li>
+</ol>
+<p><strong>而 OpenAI 那边，更简单，没有任何人和你对接。是 AI 和你对接！</strong>AI 阅读上面两个文件，就知道该怎么调用你了。</p>
+<p>看个官方例子。</p>
+<h3 id="ai-pluginjson"><strong><code>ai-plugin.json</code>：</strong></h3>
+<pre><code class="language-json">{
+  &quot;schema_version&quot;: &quot;v1&quot;, //配置文件版本
+  &quot;name_for_human&quot;: &quot;Sport Stats&quot;, //插件名字，给用户看的名字
+  &quot;name_for_model&quot;: &quot;sportStats&quot;, //插件名字，给ChatGPT模型看的名字，需要唯一
+  &quot;description_for_human&quot;: &quot;Get current and historical stats for sport players and games.&quot;, //描述插件的功能，这个字段是在插件市场展示给用户看的
+  &quot;description_for_model&quot;: &quot;Get current and historical stats for sport players and games. Always display results using markdown tables.&quot;, //描述插件的功能，ChatGPT会分析这个字段，确定什么时候调用你的插件
+  &quot;auth&quot;: {
+    &quot;type&quot;: &quot;none&quot; //这个是API认证方式，none 代表不需要认证
+  },
+  &quot;api&quot;: {
+    &quot;type&quot;: &quot;openapi&quot;,
+    &quot;url&quot;: &quot;PLUGIN_HOSTNAME/openapi.yaml&quot; //这个是Swagger API文档地址，ChatGPT通过这个地址访问我们的api文档
+  },
+  &quot;logo_url&quot;: &quot;PLUGIN_HOSTNAME/logo.png&quot;, //插件logo地址
+  &quot;contact_email&quot;: &quot;support@example.com&quot;, //插件官方联系邮件
+  &quot;legal_info_url&quot;: &quot;https://example.com/legal&quot; //与该插件相关的legal information
+}
+</code></pre>
+<h3 id="openapiyaml"><code>openapi.yaml</code>：</h3>
+<pre><code class="language-yaml">openapi: 3.0.1
+info:
+  title: Sport Stats
+  description: Get current and historical stats for sport players and games.
+  version: &quot;v1&quot;
+servers:
+  - url: PLUGIN_HOSTNAME
+paths:
+  /players:
+    get:
+      operationId: getPlayers
+      summary: Retrieves all players from all seasons whose names match the query string.
+      parameters:
+        - in: query
+          name: query
+          schema:
+            type: string
+          description: Used to filter players based on their name. For example, ?query=davis will return players that have 'davis' in their first or last name.
+      responses:
+        &quot;200&quot;:
+          description: OK
+  /teams:
+    get:
+      operationId: getTeams
+      summary: Retrieves all teams for the current season.
+      responses:
+        &quot;200&quot;:
+          description: OK
+  /games:
+    get:
+      operationId: getGames
+      summary: Retrieves all games that match the filters specified by the args. Display results using markdown tables.
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: string
+          description: The max number of results to return.
+        - in: query
+          name: seasons
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by seasons. Seasons are represented by the year they began. For example, 2018 represents season 2018-2019.
+        - in: query
+          name: team_ids
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by team ids. Team ids can be determined using the getTeams function.
+        - in: query
+          name: start_date
+          schema:
+            type: string
+          description: A single date in 'YYYY-MM-DD' format. This is used to select games that occur on or after this date.
+        - in: query
+          name: end_date
+          schema:
+            type: string
+          description: A single date in 'YYYY-MM-DD' format. This is used to select games that occur on or before this date.
+      responses:
+        &quot;200&quot;:
+          description: OK
+  /stats:
+    get:
+      operationId: getStats
+      summary: Retrieves stats that match the filters specified by the args. Display results using markdown tables.
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: string
+          description: The max number of results to return.
+        - in: query
+          name: player_ids
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by player ids. Player ids can be determined using the getPlayers function.
+        - in: query
+          name: game_ids
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by game ids. Game ids can be determined using the getGames function.
+        - in: query
+          name: start_date
+          schema:
+            type: string
+          description: A single date in 'YYYY-MM-DD' format. This is used to select games that occur on or after this date.
+        - in: query
+          name: end_date
+          schema:
+            type: string
+          description: A single date in 'YYYY-MM-DD' format. This is used to select games that occur on or before this date.
+      responses:
+        &quot;200&quot;:
+          description: OK
+  /season_averages:
+    get:
+      operationId: getSeasonAverages
+      summary: Retrieves regular season averages for the given players. Display results using markdown tables.
+      parameters:
+        - in: query
+          name: season
+          schema:
+            type: string
+          description: Defaults to the current season. A season is represented by the year it began. For example, 2018 represents season 2018-2019.
+        - in: query
+          name: player_ids
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by player ids. Player ids can be determined using the getPlayers function.
+      responses:
+        &quot;200&quot;:
+          description: OK
+</code></pre>
+<p>Plugins 官方文档：https://platform.openai.com/docs/plugins/introduction</p>
+<p>Actions 官方文档：https://platform.openai.com/docs/actions</p>
+<p>Actions 是 Plugis 的升级，是 GPTs 产品的一部分，但还没有正式推出，目前没有完整参考。所以还是介绍 Plugins。两者<a href="https://platform.openai.com/docs/actions">区别</a>并不大。</p>
+<p>可能是史上最容易开发的 plugin。只需要定义两个文件：</p>
+<ol>
+<li><code>yourdomain.com/.well-known/ai-plugin.json</code>，描述插件的基本信息</li>
+<li><code>openai.yaml</code>，描述插件的 API（Swagger 生成的文档）</li>
+</ol>
+<p><strong>而 OpenAI 那边，更简单，没有任何人和你对接。是 AI 和你对接！</strong>AI 阅读上面两个文件，就知道该怎么调用你了。</p>
+<p>看个官方例子。</p>
+<p><code>ai-plugin.json</code>：</p>
+<pre><code class="language-json">{
+  &quot;schema_version&quot;: &quot;v1&quot;, //配置文件版本
+  &quot;name_for_human&quot;: &quot;Sport Stats&quot;, //插件名字，给用户看的名字
+  &quot;name_for_model&quot;: &quot;sportStats&quot;, //插件名字，给ChatGPT模型看的名字，需要唯一
+  &quot;description_for_human&quot;: &quot;Get current and historical stats for sport players and games.&quot;, //描述插件的功能，这个字段是在插件市场展示给用户看的
+  &quot;description_for_model&quot;: &quot;Get current and historical stats for sport players and games. Always display results using markdown tables.&quot;, //描述插件的功能，ChatGPT会分析这个字段，确定什么时候调用你的插件
+  &quot;auth&quot;: {
+    &quot;type&quot;: &quot;none&quot; //这个是API认证方式，none 代表不需要认证
+  },
+  &quot;api&quot;: {
+    &quot;type&quot;: &quot;openapi&quot;,
+    &quot;url&quot;: &quot;PLUGIN_HOSTNAME/openapi.yaml&quot; //这个是Swagger API文档地址，ChatGPT通过这个地址访问我们的api文档
+  },
+  &quot;logo_url&quot;: &quot;PLUGIN_HOSTNAME/logo.png&quot;, //插件logo地址
+  &quot;contact_email&quot;: &quot;support@example.com&quot;, //插件官方联系邮件
+  &quot;legal_info_url&quot;: &quot;https://example.com/legal&quot; //与该插件相关的legal information
+}
+</code></pre>
+<p><code>openapi.yaml</code>：</p>
+<pre><code class="language-yaml">openapi: 3.0.1
+info:
+  title: Sport Stats
+  description: Get current and historical stats for sport players and games.
+  version: &quot;v1&quot;
+servers:
+  - url: PLUGIN_HOSTNAME
+paths:
+  /players:
+    get:
+      operationId: getPlayers
+      summary: Retrieves all players from all seasons whose names match the query string.
+      parameters:
+        - in: query
+          name: query
+          schema:
+            type: string
+          description: Used to filter players based on their name. For example, ?query=davis will return players that have 'davis' in their first or last name.
+      responses:
+        &quot;200&quot;:
+          description: OK
+  /teams:
+    get:
+      operationId: getTeams
+      summary: Retrieves all teams for the current season.
+      responses:
+        &quot;200&quot;:
+          description: OK
+  /games:
+    get:
+      operationId: getGames
+      summary: Retrieves all games that match the filters specified by the args. Display results using markdown tables.
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: string
+          description: The max number of results to return.
+        - in: query
+          name: seasons
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by seasons. Seasons are represented by the year they began. For example, 2018 represents season 2018-2019.
+        - in: query
+          name: team_ids
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by team ids. Team ids can be determined using the getTeams function.
+        - in: query
+          name: start_date
+          schema:
+            type: string
+          description: A single date in 'YYYY-MM-DD' format. This is used to select games that occur on or after this date.
+        - in: query
+          name: end_date
+          schema:
+            type: string
+          description: A single date in 'YYYY-MM-DD' format. This is used to select games that occur on or before this date.
+      responses:
+        &quot;200&quot;:
+          description: OK
+  /stats:
+    get:
+      operationId: getStats
+      summary: Retrieves stats that match the filters specified by the args. Display results using markdown tables.
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: string
+          description: The max number of results to return.
+        - in: query
+          name: player_ids
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by player ids. Player ids can be determined using the getPlayers function.
+        - in: query
+          name: game_ids
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by game ids. Game ids can be determined using the getGames function.
+        - in: query
+          name: start_date
+          schema:
+            type: string
+          description: A single date in 'YYYY-MM-DD' format. This is used to select games that occur on or after this date.
+        - in: query
+          name: end_date
+          schema:
+            type: string
+          description: A single date in 'YYYY-MM-DD' format. This is used to select games that occur on or before this date.
+      responses:
+        &quot;200&quot;:
+          description: OK
+  /season_averages:
+    get:
+      operationId: getSeasonAverages
+      summary: Retrieves regular season averages for the given players. Display results using markdown tables.
+      parameters:
+        - in: query
+          name: season
+          schema:
+            type: string
+          description: Defaults to the current season. A season is represented by the year it began. For example, 2018 represents season 2018-2019.
+        - in: query
+          name: player_ids
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by player ids. Player ids can be determined using the getPlayers function.
+      responses:
+        &quot;200&quot;:
+          description: OK
+</code></pre>
+<p><code>description</code> 的内容非常重要，决定了 ChatGPT 会不会调用你的插件，调用得是否正确。</p>
+<h2 id="plugins-gpts">Plugins 失败分析和 GPTs 的未来</h2>
+<p>Plugins 歇菜了，主要原因：</p>
+<ol>
+<li>缺少「强 Agent」调度，只能手工选三个 plugin，使用成本太高。（解决此问题，相当于 App Store + Siri，可挑战手机操作系统地位）</li>
+<li>不在「场景」中，不能提供端到端一揽子服务。（解决此问题，就是全能私人助理了，人类唯一需要的软件）</li>
+<li>开销大。（至少两次 GPT-4 生成，和一次 Web API 调用）</li>
+</ol>
+<p><a href="https://openai.com/blog/introducing-gpts">GPTs</a> 这样解决问题：</p>
+<p>做为开发者</p>
+<ol>
+<li>可以开发 Actions，搭建自己的 GPTs</li>
+<li>还可以使用 <a href="https://platform.openai.com/docs/assistants/overview">Assistants API</a>，脱离 ChatGPT 做独立智能应用</li>
+</ol>
+<p>做独立智能应用，需要先了解 Function Calling。</p>
+<h2 id="function-calling">Function Calling 的机制</h2>
+<p><img alt="Alt Image Text" src="../../images/zhai4_2.png" title="Body image" /></p>
+<p>Function Calling 完整的官方接口文档：https://platform.openai.com/docs/guides/gpt/function-calling</p>
+<p>值得一提：OpenAI 今天在接口里废掉了 <code>functions</code> 这个名字，换成了 <code>tools</code>。这是一个很有趣的指向</p>
+<h2 id="1">示例 1：调用本地函数</h2>
+<p><strong>需求：实现一个回答问题的 AI。题目中如果有加法，必须能精确计算。</strong></p>
+<pre><code># 加载环境变量
+from openai import OpenAI
+from dotenv import load_dotenv, find_dotenv
+import openai
+import os
+import json
+
+_ = load_dotenv(find_dotenv())  # 读取本地 .env 文件，里面定义了 OPENAI_API_KEY
+
+os.environ['OPENAI_API_KEY'] = 'sk-S8n...A'
+os.environ['OPENAI_BASE_URL'] = 'https://api.chatanywhere.com.cn'
+
+client = OpenAI(
+    api_key=os.getenv(&quot;OPENAI_API_KEY&quot;),
+    base_url=os.getenv(&quot;OPENAI_BASE_URL&quot;)
+)
+</code></pre>
+<pre><code>def get_completion(messages, model=&quot;gpt-3.5-turbo-1106&quot;):
+    response = client.chat.completions.create(  # 注意，以前的 client.ChatCompletion 要换成 client.chat.completions
+        model=model,
+        messages=messages,
+        temperature=0.7,  # 模型输出的随机性，0 表示随机性最小
+        tools=[{  # 用 JSON 描述函数。可以定义多个。由大模型决定调用谁。也可能都不调用
+            &quot;type&quot;: &quot;function&quot;,
+            &quot;function&quot;: {
+                &quot;name&quot;: &quot;sum&quot;,
+                &quot;description&quot;: &quot;加法器，计算一组数的和&quot;,
+                &quot;parameters&quot;: {
+                    &quot;type&quot;: &quot;object&quot;,
+                    &quot;properties&quot;: {
+                        &quot;numbers&quot;: {
+                            &quot;type&quot;: &quot;array&quot;,
+                            &quot;items&quot;: {
+                                &quot;type&quot;: &quot;number&quot;
+                            }
+                        }
+                    }
+                }
+            }
+        }],
+    )
+    return response.choices[0].message
+</code></pre>
+<pre><code>from math import *
+
+prompt = &quot;Tell me the sum of 1, 2, 3, 4, 5, 6, 7, 8, 9, 10.&quot;
+# prompt = &quot;桌上有 2 个苹果，四个桃子和 3 本书，一共有几个水果？&quot;
+# prompt = &quot;1+2+3...+99+100&quot;
+# prompt = &quot;1024 乘以 1024 是多少？&quot;  # Tools 里没有定义乘法，会怎样？
+# prompt = &quot;太阳从哪边升起？&quot;   # 不需要算加法，会怎样？
+
+messages = [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是一个小学数学老师，你要教学生加法&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}
+]
+response = get_completion(messages)
+
+# 把大模型的回复加入到对话历史中
+if (response.content is None):  # 解决 OpenAI 的一个 400 bug
+    response.content = &quot;&quot;
+print(response)
+messages.append(response)
+
+print(&quot;=====GPT回复=====&quot;)
+print(response)
+
+# 如果返回的是函数调用结果，则打印出来
+if (response.tool_calls is not None):
+    # 是否要调用 sum
+    tool_call = response.tool_calls[0]
+    if (tool_call.function.name == &quot;sum&quot;):
+        # 调用 sum
+        args = json.loads(tool_call.function.arguments)
+        result = sum(args[&quot;numbers&quot;])
+        print(&quot;=====函数返回=====&quot;)
+        print(result)
+
+        # 把函数调用结果加入到对话历史中
+        messages.append(
+            {
+                &quot;tool_call_id&quot;: tool_call.id,  # 用于标识函数调用的 ID
+                &quot;role&quot;: &quot;tool&quot;,
+                &quot;name&quot;: &quot;sum&quot;,
+                &quot;content&quot;: str(result)  # 数值result 必须转成字符串
+            }
+        )
+
+        # 再次调用大模型
+        print(&quot;=====最终回复=====&quot;)
+        print(get_completion(messages).content)
+
+</code></pre>
+<pre><code>ChatCompletionMessage(content='', role='assistant', function_call=None, tool_calls=[ChatCompletionMessageToolCall(id='call_IE9gzYf3Vg6uFAtaT2A6uJwp', function=Function(arguments='{&quot;numbers&quot;:[1,2,3,4,5,6,7,8,9,10]}', name='sum'), type='function')])
+=====GPT回复=====
+ChatCompletionMessage(content='', role='assistant', function_call=None, tool_calls=[ChatCompletionMessageToolCall(id='call_IE9gzYf3Vg6uFAtaT2A6uJwp', function=Function(arguments='{&quot;numbers&quot;:[1,2,3,4,5,6,7,8,9,10]}', name='sum'), type='function')])
+=====函数返回=====
+55
+=====最终回复=====
+The sum of 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 is 55.
+</code></pre>
+<h2 id="2">示例 2：代码套代码</h2>
+<p>需求：可以算任意数学表达式</p>
+<pre><code>def get_completion(messages, model=&quot;gpt-3.5-turbo-1106&quot;):
+    response = client.chat.completions.create(
+        model=model,
+        messages=messages,
+        temperature=0,  # 模型输出的随机性，0 表示随机性最小
+        tools=[{
+            &quot;type&quot;: &quot;function&quot;,
+            &quot;function&quot;: {
+                &quot;name&quot;: &quot;calculate&quot;,
+                &quot;description&quot;: &quot;计算一个数学表达式的值&quot;,
+                &quot;parameters&quot;: {
+                    &quot;type&quot;: &quot;object&quot;,
+                    &quot;properties&quot;: {
+                        &quot;expression&quot;: {
+                            &quot;type&quot;: &quot;string&quot;,
+                            &quot;description&quot;: &quot;a mathematical expression in python grammar.&quot;,
+                        }
+                    }
+                }
+            }
+        }],
+    )
+    return response.choices[0].message
+</code></pre>
+<pre><code>from math import *
+
+prompt = &quot;从1加到10&quot;
+# prompt = &quot;3的平方根乘以2再开平方&quot;
+
+messages = [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是一个数学家，你可以计算任何算式。&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}
+]
+response = get_completion(messages)
+if (response.content is None):  # 解决 OpenAI 的一个 400 bug
+    response.content = &quot;&quot;
+messages.append(response)  # 把大模型的回复加入到对话中
+print(&quot;=====GPT回复=====&quot;)
+print(response)
+
+# 如果返回的是函数调用结果，则打印出来
+if (response.tool_calls is not None):
+    # 是否要调用 sum
+    tool_call = response.tool_calls[0]
+    if (tool_call.function.name == &quot;calculate&quot;):
+        # 调用 sum
+        args = json.loads(tool_call.function.arguments)
+        result = eval(args[&quot;expression&quot;])
+        print(&quot;=====函数返回=====&quot;)
+        print(result)
+
+        # 把函数调用结果加入到对话历史中
+        messages.append(
+            {
+                &quot;tool_call_id&quot;: tool_call.id,  # 用于标识函数调用的 ID
+                &quot;role&quot;: &quot;tool&quot;,
+                &quot;name&quot;: &quot;sum&quot;,
+                &quot;content&quot;: str(result)  # 数值result 必须转成字符串
+            }
+        )
+
+        # 再次调用大模型
+        print(&quot;=====最终回复=====&quot;)
+        print(get_completion(messages).content)
+</code></pre>
+<pre><code>from math import *
+
+prompt = &quot;从1加到10&quot;
+# prompt = &quot;3的平方根乘以2再开平方&quot;
+
+messages = [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是一个数学家，你可以计算任何算式。&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}
+]
+response = get_completion(messages)
+if (response.content is None):  # 解决 OpenAI 的一个 400 bug
+    response.content = &quot;&quot;
+messages.append(response)  # 把大模型的回复加入到对话中
+print(&quot;=====GPT回复=====&quot;)
+print(response)
+
+# 如果返回的是函数调用结果，则打印出来
+if (response.tool_calls is not None):
+    # 是否要调用 sum
+    tool_call = response.tool_calls[0]
+    if (tool_call.function.name == &quot;calculate&quot;):
+        # 调用 sum
+        args = json.loads(tool_call.function.arguments)
+        result = eval(args[&quot;expression&quot;])
+        print(&quot;=====函数返回=====&quot;)
+        print(result)
+
+        # 把函数调用结果加入到对话历史中
+        messages.append(
+            {
+                &quot;tool_call_id&quot;: tool_call.id,  # 用于标识函数调用的 ID
+                &quot;role&quot;: &quot;tool&quot;,
+                &quot;name&quot;: &quot;sum&quot;,
+                &quot;content&quot;: str(result)  # 数值result 必须转成字符串
+            }
+        )
+
+        # 再次调用大模型
+        print(&quot;=====最终回复=====&quot;)
+        print(get_completion(messages).content)
+</code></pre>
+<pre><code>=====GPT回复=====
+ChatCompletionMessage(content='', role='assistant', function_call=None, tool_calls=[ChatCompletionMessageToolCall(id='call_nN8075FDTbE4foP1KB0Yo12R', function=Function(arguments='{&quot;expression&quot;:&quot;1+2+3+4+5+6+7+8+9+10&quot;}', name='calculate'), type='function')])
+=====函数返回=====
+55
+=====最终回复=====
+从1加到10的结果是55。
+</code></pre>
+<p><b>划重点：</b></p>
+<ol>
+<li>Function Calling 中的函数与参数的描述也是一种 Prompt</li>
+<li>这种 Prompt 也需要调优，否则会影响函数的召回、参数的准确性，甚至让 GPT 产生幻觉</li>
+
+
+
+## 示例 4：远程/多 Function 调用
+
+
+<pre><code>def get_completion(messages, model=&quot;gpt-3.5-turbo-1106&quot;):
+    response = client.chat.completions.create(
+        model=model,
+        messages=messages,
+        temperature=0,  # 模型输出的随机性，0 表示随机性最小
+        seed=1024,  # 随机种子保持不变，temperature 和 prompt 不变的情况下，输出就会不变
+        tool_choice=&quot;auto&quot;,  # 默认值，由系统自动决定，返回function call还是返回文字回复
+        tools=[{
+            &quot;type&quot;: &quot;function&quot;,
+            &quot;function&quot;: {
+
+                &quot;name&quot;: &quot;get_location_coordinate&quot;,
+                &quot;description&quot;: &quot;根据POI名称，获得POI的经纬度坐标&quot;,
+                &quot;parameters&quot;: {
+                    &quot;type&quot;: &quot;object&quot;,
+                    &quot;properties&quot;: {
+                        &quot;location&quot;: {
+                            &quot;type&quot;: &quot;string&quot;,
+                            &quot;description&quot;: &quot;POI名称，必须是中文&quot;,
+                        },
+                        &quot;city&quot;: {
+                            &quot;type&quot;: &quot;string&quot;,
+                            &quot;description&quot;: &quot;POI所在的城市名，必须是中文&quot;,
+                        }
+                    },
+                    &quot;required&quot;: [&quot;location&quot;, &quot;city&quot;],
+                }
+            }
+        },
+            {
+            &quot;type&quot;: &quot;function&quot;,
+            &quot;function&quot;: {
+                &quot;name&quot;: &quot;search_nearby_pois&quot;,
+                &quot;description&quot;: &quot;搜索给定坐标附近的poi&quot;,
+                &quot;parameters&quot;: {
+                    &quot;type&quot;: &quot;object&quot;,
+                    &quot;properties&quot;: {
+                        &quot;longitude&quot;: {
+                            &quot;type&quot;: &quot;string&quot;,
+                            &quot;description&quot;: &quot;中心点的经度&quot;,
+                        },
+                        &quot;latitude&quot;: {
+                            &quot;type&quot;: &quot;string&quot;,
+                            &quot;description&quot;: &quot;中心点的纬度&quot;,
+                        },
+                        &quot;keyword&quot;: {
+                            &quot;type&quot;: &quot;string&quot;,
+                            &quot;description&quot;: &quot;目标poi的关键字&quot;,
+                        }
+                    },
+                    &quot;required&quot;: [&quot;longitude&quot;, &quot;latitude&quot;, &quot;keyword&quot;],
+                }
+            }
+        }],
+    )
+    return response.choices[0].message
+</code></pre>
+
+
+
+<pre><code>import requests
+
+amap_key = &quot;6d...342&quot;
+
+
+def get_location_coordinate(location, city=&quot;上海&quot;):
+    url = f&quot;https://restapi.amap.com/v5/place/text?key={amap_key}&amp;keywords={location}&amp;region={city}&quot;
+    print(url)
+    r = requests.get(url)
+    result = r.json()
+    if &quot;pois&quot; in result and result[&quot;pois&quot;]:
+        return result[&quot;pois&quot;][0]
+    return None
+
+
+def search_nearby_pois(longitude, latitude, keyword):
+    url = f&quot;https://restapi.amap.com/v5/place/around?key={amap_key}&amp;keywords={keyword}&amp;location={longitude},{latitude}&quot;
+    print(url)
+    r = requests.get(url)
+    result = r.json()
+    ans = &quot;&quot;
+    if &quot;pois&quot; in result and result[&quot;pois&quot;]:
+        for i in range(min(3, len(result[&quot;pois&quot;]))):
+            name = result[&quot;pois&quot;][i][&quot;name&quot;]
+            address = result[&quot;pois&quot;][i][&quot;address&quot;]
+            distance = result[&quot;pois&quot;][i][&quot;distance&quot;]
+            ans += f&quot;{name}\n{address}\n距离：{distance}米\n\n&quot;
+    return ans
+</code></pre>
+
+
+
+
+<pre><code>prompt = &quot;上海花旗大厦附近的瑞幸咖啡&quot;
+
+messages = [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是一个地图通，你可以找到任何地址。&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}
+]
+response = get_completion(messages)
+if (response.content is None):  # 解决 OpenAI 的一个 400 bug
+    response.content = &quot;&quot;
+messages.append(response)  # 把大模型的回复加入到对话中
+print(&quot;=====GPT回复=====&quot;)
+print(response)
+
+# 如果返回的是函数调用结果，则打印出来
+while (response.tool_calls is not None):
+    # 1106 版新模型支持一次返回多个函数调用请求
+    for tool_call in response.tool_calls:
+        args = json.loads(tool_call.function.arguments)
+        print(args)
+
+        if (tool_call.function.name == &quot;get_location_coordinate&quot;):
+            print(&quot;Call: get_location_coordinate&quot;)
+            result = get_location_coordinate(**args)
+        elif (tool_call.function.name == &quot;search_nearby_pois&quot;):
+            print(&quot;Call: search_nearby_pois&quot;)
+            result = search_nearby_pois(**args)
+
+        print(&quot;=====函数返回=====&quot;)
+        print(result)
+
+        messages.append({
+            &quot;tool_call_id&quot;: tool_call.id,  # 用于标识函数调用的 ID
+            &quot;role&quot;: &quot;tool&quot;,
+            &quot;name&quot;: tool_call.function.name,
+            &quot;content&quot;: str(result)  # 数值result 必须转成字符串
+        })
+
+    response = get_completion(messages)
+    if (response.content is None):  # 解决 OpenAI 的一个 400 bug
+        response.content = &quot;&quot;
+    messages.append(response)  # 把大模型的回复加入到对话中
+
+print(&quot;=====最终回复=====&quot;)
+print(response.content)
+</code></pre>
+
+
+
+<pre><code>=====GPT回复=====
+ChatCompletionMessage(content='', role='assistant', function_call=None, tool_calls=[ChatCompletionMessageToolCall(id='call_1BYHG7Zir7GyOsZFXnXttsm1', function=Function(arguments='{&quot;location&quot;:&quot;上海花旗大厦&quot;,&quot;city&quot;:&quot;上海&quot;}', name='get_location_coordinate'), type='function')])
+{'location': '上海花旗大厦', 'city': '上海'}
+Call: get_location_coordinate
+https://restapi.amap.com/v5/place/text?key=6d672e6194caa3b639fccf2caf06c342&amp;keywords=上海花旗大厦&amp;region=上海
+=====函数返回=====
+{'parent': '', 'address': '花园石桥路33号(陆家嘴地铁站9B口步行160米)', 'distance': '', 'pcode': '310000', 'adcode': '310115', 'pname': '上海市', 'cityname': '上海市', 'type': '商务住宅;楼宇;商务写字楼', 'typecode': '120201', 'adname': '浦东新区', 'citycode': '021', 'name': '花旗集团大厦', 'location': '121.500461,31.233978', 'id': 'B00154DBU0'}
+{'longitude': '121.500461', 'latitude': '31.233978', 'keyword': '瑞幸咖啡'}
+Call: search_nearby_pois
+https://restapi.amap.com/v5/place/around?key=6d672e6194caa3b639fccf2caf06c342&amp;keywords=瑞幸咖啡&amp;location=121.500461,31.233978
+=====函数返回=====
+瑞幸咖啡(震旦国际大楼店)
+富城路99号震旦国际大楼B1层
+距离：122米
+
+瑞幸咖啡(正大广场店)
+陆家嘴西路168号正大广场一层GF32B室
+距离：357米
+
+瑞幸咖啡(上海金茂大厦店)
+世纪大道88号金茂时尚生活中心F3层
+距离：474米
+</code></pre>
+
+
+
+## 示例 5：用 Function Calling 获取 JSON 结构
+
+从一段文字中抽取联系人姓名、地址和电话
+
+
+<pre><code>def get_completion(messages, model=&quot;gpt-3.5-turbo-1106&quot;):
+    response = client.chat.completions.create(
+        model=model,
+        messages=messages,
+        temperature=0,  # 模型输出的随机性，0 表示随机性最小
+        tools=[{
+            &quot;type&quot;: &quot;function&quot;,
+            &quot;function&quot;: {
+                &quot;name&quot;: &quot;add_contact&quot;,
+                &quot;description&quot;: &quot;添加联系人&quot;,
+                &quot;parameters&quot;: {
+                    &quot;type&quot;: &quot;object&quot;,
+                    &quot;properties&quot;: {
+                        &quot;name&quot;: {
+                            &quot;type&quot;: &quot;string&quot;,
+                            &quot;description&quot;: &quot;联系人姓名&quot;
+                        },
+                        &quot;address&quot;: {
+                            &quot;type&quot;: &quot;string&quot;,
+                            &quot;description&quot;: &quot;联系人地址&quot;
+                        },
+                        &quot;tel&quot;: {
+                            &quot;type&quot;: &quot;string&quot;,
+                            &quot;description&quot;: &quot;联系人电话&quot;
+                        },
+                    }
+                }
+            }
+        }],
+    )
+    return response.choices[0].message
+
+
+prompt = &quot;帮我寄给王卓然，地址是北京市朝阳区亮马桥外交办公大楼，电话13012345678。&quot;
+messages = [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是一个联系人录入员。&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}
+]
+response = get_completion(messages)
+print(&quot;====GPT回复====&quot;)
+print(response)
+args = json.loads(response.tool_calls[0].function.arguments)
+print(&quot;====函数参数====&quot;)
+print(args)
+</code></pre>
+
+
+
+<pre><code>====GPT回复====
+ChatCompletionMessage(content=None, role='assistant', function_call=None, tool_calls=[ChatCompletionMessageToolCall(id='call_s3d5Eg3weG9DDfF4sWRXmHz0', function=Function(arguments='{&quot;name&quot;:&quot;王卓然&quot;,&quot;address&quot;:&quot;北京市朝阳区亮马桥外交办公大楼&quot;,&quot;tel&quot;:&quot;13012345678&quot;}', name='add_contact'), type='function')])
+====函数参数====
+{'name': '王卓然', 'address': '北京市朝阳区亮马桥外交办公大楼', 'tel': '13012345678'}
+</code></pre>
+
+
+不过，最好的提取 JSON 的方式，是用最新的 <a href="https://platform.openai.com/docs/guides/text-generation/json-mode">JSON Mode</a>
+
+## 数据库查询
+
+### 示例 6：通过 Function Calling 查询数据库
+
+需求：从订单表中查询各种信息，比如某个用户的订单数量、某个商品的销量、某个用户的消费总额等等。
+
+
+<pre><code>from openai import OpenAI
+import os
+import json
+
+from dotenv import load_dotenv, find_dotenv
+_ = load_dotenv(find_dotenv())  # 读取本地 .env 文件，里面定义了 OPENAI_API_KEY
+
+os.environ['OPENAI_API_KEY'] = 'sk-SA'
+os.environ['OPENAI_BASE_URL'] = 'https://api.chatanywhere.com.cn'
+
+client = OpenAI(
+    api_key=os.getenv(&quot;OPENAI_API_KEY&quot;),
+    base_url=os.getenv(&quot;OPENAI_BASE_URL&quot;)
+)
+
+
+def get_sql_completion(messages, model=&quot;gpt-3.5-turbo-1106&quot;):
+    response = client.chat.completions.create(
+        model=model,
+        messages=messages,
+        temperature=0,  # 模型输出的随机性，0 表示随机性最小
+        tools=[{  # 摘自 OpenAI 官方示例 https://github.com/openai/openai-cookbook/blob/main/examples/How_to_call_functions_with_chat_models.ipynb
+            &quot;type&quot;: &quot;function&quot;,
+            &quot;function&quot;: {
+                &quot;name&quot;: &quot;ask_database&quot;,
+                &quot;description&quot;: &quot;Use this function to answer user questions about business. \
+                            Output should be a fully formed SQL query.&quot;,
+                &quot;parameters&quot;: {
+                    &quot;type&quot;: &quot;object&quot;,
+                    &quot;properties&quot;: {
+                        &quot;query&quot;: {
+                            &quot;type&quot;: &quot;string&quot;,
+                            &quot;description&quot;: f&quot;&quot;&quot;
+                            SQL query extracting info to answer the user's question.
+                            SQL should be written using this database schema:
+                            {database_schema_string}
+                            The query should be returned in plain text, not in JSON.
+                            The query should only contain grammars supported by SQLite.
+                            &quot;&quot;&quot;,
+                        }
+                    },
+                    &quot;required&quot;: [&quot;query&quot;],
+                }
+            }
+        }],
+    )
+    return response.choices[0].message
+</code></pre>
+
+
+
+<pre><code>#  描述数据库表结构
+database_schema_string = &quot;&quot;&quot;
+CREATE TABLE orders (
+    id INT PRIMARY KEY NOT NULL, -- 主键，不允许为空
+    customer_id INT NOT NULL, -- 客户ID，不允许为空
+    product_id STR NOT NULL, -- 产品ID，不允许为空
+    price DECIMAL(10,2) NOT NULL, -- 价格，不允许为空
+    status INT NOT NULL, -- 订单状态，整数类型，不允许为空。0代表待支付，1代表已支付，2代表已退款
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 创建时间，默认为当前时间
+    pay_time TIMESTAMP -- 支付时间，可以为空
+);
+&quot;&quot;&quot;
+</code></pre>
+
+
+
+<pre><code>import sqlite3
+
+# 创建数据库连接
+conn = sqlite3.connect(':memory:')
+cursor = conn.cursor()
+2024
+# 创建orders表
+cursor.execute(database_schema_string)
+
+# 插入5条明确的模拟记录
+mock_data = [
+    (1, 1001, 'TSHIRT_1', 50.00, 0, '2024-10-12 10:00:00', None),
+    (2, 1001, 'TSHIRT_2', 75.50, 1, '2024-10-16 11:00:00', '2024-08-16 12:00:00'),
+    (3, 1002, 'SHOES_X2', 25.25, 2, '2024-10-17 12:30:00', '2024-08-17 13:00:00'),
+    (4, 1003, 'HAT_Z112', 60.75, 1, '2024-10-20 14:00:00', '2024-08-20 15:00:00'),
+    (5, 1002, 'WATCH_X001', 90.00, 0, '2024-10-28 16:00:00', None)
+]
+
+for record in mock_data:
+    cursor.execute('''
+    INSERT INTO orders (id, customer_id, product_id, price, status, create_time, pay_time)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', record)
+
+# 提交事务
+conn.commit()
+</code></pre>
+
+
+
+<pre><code>def ask_database(query):
+    cursor.execute(query)
+    records = cursor.fetchall()
+    return records
+
+
+# prompt = &quot;上个月的销售额&quot;
+prompt = &quot;统计每月每件商品的销售额&quot;
+# prompt = &quot;哪个用户消费最高？消费多少？&quot;
+
+messages = [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;基于 order 表回答用户问题&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}
+]
+response = get_sql_completion(messages)
+if response.content is None:
+    response.content = &quot;&quot;
+messages.append(response)
+print(&quot;====Function Calling====&quot;)
+print(response)
+
+if response.tool_calls is not None:
+    tool_call = response.tool_calls[0]
+    if tool_call.function.name == &quot;ask_database&quot;:
+        arguments = tool_call.function.arguments
+        args = json.loads(arguments)
+        print(&quot;====SQL====&quot;)
+        print(args[&quot;query&quot;])
+        result = ask_database(args[&quot;query&quot;])
+        print(&quot;====DB Records====&quot;)
+        print(result)
+
+        messages.append({
+            &quot;tool_call_id&quot;: tool_call.id,
+            &quot;role&quot;: &quot;tool&quot;,
+            &quot;name&quot;: &quot;ask_database&quot;,
+            &quot;content&quot;: str(result)
+        })
+        response = get_sql_completion(messages)
+        print(&quot;====最终回复====&quot;)
+        print(response.content)
+</code></pre>
+
+
+
+<pre><code>====Function Calling====
+ChatCompletionMessage(content='', role='assistant', function_call=None, tool_calls=[ChatCompletionMessageToolCall(id='call_w36ccla2DPIsFRAGTm8mL3rl', function=Function(arguments='{&quot;query&quot;:&quot;SELECT strftime(\'%Y-%m\', create_time) AS month, product_id, SUM(price) AS total_sales\\nFROM orders\\nWHERE status = 1\\nGROUP BY month, product_id\\nORDER BY month, product_id;&quot;}', name='ask_database'), type='function')])
+====SQL====
+SELECT strftime('%Y-%m', create_time) AS month, product_id, SUM(price) AS total_sales
+FROM orders
+WHERE status = 12024
+GROUP BY month, product_id
+ORDER BY month, product_id;
+====DB Records====
+[('2024-10', 'HAT_Z112', 60.75), ('2024-10', 'TSHIRT_2', 75.5)]
+====最终回复====
+每月每件商品的销售额统计如下：
+
+- 2024年10月：
+  - 商品ID: HAT_Z112，销售额：60.75
+  - 商品ID: TSHIRT_2，销售额：75.5
+</code></pre>
+
+
+### 示例 7：用 Function Calling 实现多表查询
+
+
+<pre><code>#  描述数据库表结构
+database_schema_string = &quot;&quot;&quot;
+CREATE TABLE customers (
+    id INT PRIMARY KEY NOT NULL, -- 主键，不允许为空
+    customer_name VARCHAR(255) NOT NULL, -- 客户名，不允许为空
+    email VARCHAR(255) UNIQUE, -- 邮箱，唯一
+    register_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- 注册时间，默认为当前时间
+);
+CREATE TABLE products (
+    id INT PRIMARY KEY NOT NULL, -- 主键，不允许为空
+    product_name VARCHAR(255) NOT NULL, -- 产品名称，不允许为空
+    price DECIMAL(10,2) NOT NULL -- 价格，不允许为空
+);
+CREATE TABLE orders (
+    id INT PRIMARY KEY NOT NULL, -- 主键，不允许为空
+    customer_id INT NOT NULL, -- 客户ID，不允许为空
+    product_id INT NOT NULL, -- 产品ID，不允许为空
+    price DECIMAL(10,2) NOT NULL, -- 价格，不允许为空
+    status INT NOT NULL, -- 订单状态，整数类型，不允许为空。0代表待支付，1代表已支付，2代表已退款
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 创建时间，默认为当前时间
+    pay_time TIMESTAMP -- 支付时间，可以为空
+);
+&quot;&quot;&quot;
+
+# prompt = &quot;统计每月每件商品的销售额&quot;
+prompt = &quot;这星期消费最高的用户是谁？他买了哪些商品？ 每件商品买了几件？花费多少？&quot;
+messages = [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;基于 order 表回答用户问题&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}
+]
+response = get_sql_completion(messages)
+print(response)
+print(&quot;====SQL====&quot;)
+print(response.tool_calls[0].function.arguments)
+</code></pre>
+
+
+
+## Function Calling 的注意事项
+
+<li>OpenAI 针对 Function Calling 做了 fine-tuning，以尽可能保证正确率。机理后面课时会讲</li>
+<li>但不保证不出错，包括不保证 json 格式正确。所以官方强烈建议（原文：strongly recommend）如果有对真实世界会产生影响的操作，一定插入人工流程做确认。但比纯靠 prompt 控制，可靠性是大了很多的</li>
+<li>函数声明是消耗 token 的。要在功能覆盖、省钱、节约上下文窗口之间找到最佳平衡</li>
+
+## 支持 Function Calling 的国产大模型
+
+Function Calling 会成为所有大模型的标配，虽然现在支持的还不多。
+
+
+官方文档：https://cloud.baidu.com/doc/WENXINWORKSHOP/index.html
+
+百度文心系列大模型有三个。按发布时间从早到晚是：
+
+1. ERNIE-Bot - 支持 Function Calling
+2. ERNIE-Bot-turbo
+3. ERNIE-Bot 4.0 - 支持 Function Calling（暂时白名单制）
+
+从价格看区别：
+
+### MiniMax
+
+官方文档：https://api.minimax.chat/document/guides/chat-pro?id=64b79fa3e74cddc5215939f4
+
+- 这是个公众不大知道，但其实挺强的大模型，尤其角色扮演能力
+- 如果你曾经在一个叫 GLow 的 app 流连忘返，那么你已经用过它了
+- 应该是最早支持 Function Calling 的国产大模型
+- Function Calling 的 API 和 OpenAI 1106 版之前完全一样，但其它 API 有很大的特色
+
+### ChatGLM3-6B
+
+官方文档：https://github.com/THUDM/ChatGLM3/blob/main/tool_using/README.md
+
+- 最著名的国产开源大模型，生态最好
+- 早就使用 `tools` 而不是 `function` 来做参数，其它和 OpenAI 1106 版之前完全一样
+
+
+## Function Calling 的想象空间
+
+
+1. 对着微信说：「给我每个好友发一条情真意切的拜年消息，还要带点儿小幽默」
+2. 对着富途牛牛说：「人工智能相关股票，市盈率最低的是哪几个？最近交易量如何？都有哪些机构持有？」
+3. 对着京东说：「我想买一台 65 寸的电视，不要日货，价格在 5000 元左右」
+
+
+基本上：
+
+1. 我们的任何功能都可以和大模型结合，提供更好的用户体验
+2. 通过大模型，完成内部功能的组合调用，完全 agent 化设计系统架构
+
+
+当然，「幻觉」仍然是存在的。如何尽量减少幻觉的影响，参考以下资料：
+
+- 自然语言生成中关于幻觉研究的综述：https://arxiv.org/abs/2202.03629
+- 语言模型出现的幻觉是如何滚雪球的：https://arxiv.org/abs/2305.13534
+- ChatGPT 在推理、幻觉和交互性上的评估：https://arxiv.org/abs/2302.04023
+- 对比学习减少对话中的幻觉：https://arxiv.org/abs/2212.10400
+- 自洽性提高了语言模型的思维链推理能力：https://arxiv.org/abs/2203.11171
+- 生成式大型语言模型的黑盒幻觉检测：https://arxiv.org/abs/2303.08896
+
+<b>NLP算法工程师视角：</b>
+<ol>
+<li>模型砍大面，规则修细节</li>
+<li>一个模型搞不定的问题，拆成多个解决</li>
+<li>评估算法的准确率（所以要先有测试集，否则别问「能不能做」）</li>
+<li>评估 bad case 的影响面</li>
+<li>算法的结果永远不是100%正确的，建立在这个假设基础上推敲产品的可行性</li>
+</ol>
+
+## Assistants API 让一切更简单了
+
+官方文档：https://platform.openai.com/docs/assistants/overview
+
+下面是前面示例 4 的 Assistants API 实现
+
+
+<pre><code>from anyio import sleep
+from openai import OpenAI
+import os
+import json
+import requests
+
+from dotenv import load_dotenv, find_dotenv
+_ = load_dotenv(find_dotenv())  # 读取本地 .env 文件，里面定义了 OPENAI_API_KEY
+
+os.environ['OPENAI_API_KEY'] = 'sk-hA'
+os.environ['OPENAI_BASE_URL'] = 'https://api.chatanywhere.com.cn'
+
+# 定义高德地图API的key
+amap_key = &quot;6...2&quot;
+
+# 定义本地函数
+
+
+def get_location_coordinate(location, city=&quot;北京&quot;):
+    url = f&quot;https://restapi.amap.com/v5/place/text?key={amap_key}&amp;keywords={location}&amp;region={city}&quot;
+    print(url)
+    r = requests.get(url)
+    result = r.json()
+    if &quot;pois&quot; in result and result[&quot;pois&quot;]:
+        return result[&quot;pois&quot;][0]
+    return None
+
+
+def search_nearby_pois(longitude, latitude, keyword):
+    url = f&quot;https://restapi.amap.com/v5/place/around?key={amap_key}&amp;keywords={keyword}&amp;location={longitude},{latitude}&quot;
+    print(url)
+    r = requests.get(url)
+    result = r.json()
+    ans = &quot;&quot;
+    if &quot;pois&quot; in result and result[&quot;pois&quot;]:
+        for i in range(min(3, len(result[&quot;pois&quot;]))):
+            name = result[&quot;pois&quot;][i][&quot;name&quot;]
+            address = result[&quot;pois&quot;][i][&quot;address&quot;]
+            distance = result[&quot;pois&quot;][i][&quot;distance&quot;]
+            ans += f&quot;{name}\n{address}\n距离：{distance}米\n\n&quot;
+    return ans
+
+
+# 初始化 OpenAI 服务
+client = OpenAI(
+    api_key=os.getenv(&quot;OPENAI_API_KEY&quot;),
+    base_url=os.getenv(&quot;OPENAI_BASE_URL&quot;)
+)
+
+# 创建助手。此时不会执行任务
+assistant = client.beta.assistants.create(
+    name=&quot;导游&quot;,
+    description=&quot;你是一个地图通，你可以找到任何地址。&quot;,
+    model=&quot;gpt-3.5-turbo-1106&quot;,
+    tools=[{
+        &quot;type&quot;: &quot;function&quot;,
+        &quot;function&quot;: {
+            &quot;name&quot;: &quot;get_location_coordinate&quot;,
+            &quot;description&quot;: &quot;根据POI名称，获得POI的经纬度坐标&quot;,
+            &quot;parameters&quot;: {
+                &quot;type&quot;: &quot;object&quot;,
+                &quot;properties&quot;: {
+                    &quot;location&quot;: {
+                        &quot;type&quot;: &quot;string&quot;,
+                        &quot;description&quot;: &quot;POI名称，必须是中文&quot;,
+                    },
+                    &quot;city&quot;: {
+                        &quot;type&quot;: &quot;string&quot;,
+                        &quot;description&quot;: &quot;POI所在的城市名，必须是中文&quot;,
+                    }
+                },
+                &quot;required&quot;: [&quot;location&quot;, &quot;city&quot;],
+            }
+        }
+    },
+        {
+        &quot;type&quot;: &quot;function&quot;,
+        &quot;function&quot;: {
+            &quot;name&quot;: &quot;search_nearby_pois&quot;,
+            &quot;description&quot;: &quot;搜索给定坐标附近的poi&quot;,
+            &quot;parameters&quot;: {
+                &quot;type&quot;: &quot;object&quot;,
+                &quot;properties&quot;: {
+                    &quot;longitude&quot;: {
+                        &quot;type&quot;: &quot;string&quot;,
+                        &quot;description&quot;: &quot;中心点的经度&quot;,
+                    },
+                    &quot;latitude&quot;: {
+                        &quot;type&quot;: &quot;string&quot;,
+                        &quot;description&quot;: &quot;中心点的纬度&quot;,
+                    },
+                    &quot;keyword&quot;: {
+                        &quot;type&quot;: &quot;string&quot;,
+                        &quot;description&quot;: &quot;目标poi的关键字&quot;,
+                    }
+                },
+                &quot;required&quot;: [&quot;longitude&quot;, &quot;latitude&quot;, &quot;keyword&quot;],
+            }
+        }
+    }],
+)
+
+print(&quot;----assistant----&quot;)
+print(assistant)
+
+# 创建对话
+thread = client.beta.threads.create(
+    messages=[{
+        &quot;role&quot;: &quot;user&quot;,
+        &quot;content&quot;: &quot;广兰路附近的麦当劳&quot;
+    }]
+)
+
+# 执行任务
+run = client.beta.threads.runs.create(
+    thread_id=thread.id,
+    assistant_id=assistant.id)
+
+print(&quot;----run----&quot;)
+print(run)
+
+while (True):
+    print(run.status)
+    if (run.status == &quot;completed&quot;):
+        print(&quot;completed&quot;)
+        messages = client.beta.threads.messages.list(thread_id=thread.id)
+        print(messages.data[0].content[0].text.value)
+        break
+    elif (run.status == &quot;failed&quot;):
+        print(&quot;failed&quot;)
+        break
+    elif (run.status == &quot;queued&quot;):
+        print(&quot;queued&quot;)
+        sleep(1000)
+        run = client.beta.threads.runs.retrieve(
+            thread_id=thread.id, run_id=run.id)
+        continue
+    elif (run.status == &quot;requires_action&quot;):
+        require_action = run.required_action
+        print(require_action)
+
+        output = []
+
+        for submit_tool in require_action.submit_tool_outputs.tool_calls:
+            print(&quot;=======Submit Tool=======&quot;)
+            print(submit_tool)
+            if (submit_tool.function.name == &quot;get_location_coordinate&quot;):
+                # )#[&quot;arguments&quot;])
+                args = json.loads(submit_tool.function.arguments)
+                print(&quot;Call: get_location_coordinate&quot;)
+                result = get_location_coordinate(**args)
+                output.append(
+                    {&quot;output&quot;: result, &quot;tool_call_id&quot;: submit_tool.id})
+            elif (submit_tool.function.name == &quot;search_nearby_pois&quot;):
+                # json.loads(response[&quot;function_call&quot;][&quot;arguments&quot;])
+                args = json.loads(submit_tool.function.arguments)
+                print(&quot;Call: search_nearby_pois&quot;)
+                result = search_nearby_pois(**args)
+                output.append(
+                    {&quot;output&quot;: result, &quot;tool_call_id&quot;: submit_tool.id})
+
+            run = client.beta.threads.runs.submit_tool_outputs(
+                thread_id=thread.id, run_id=run.id,
+                tool_outputs=output
+            )
+    elif (run.status == &quot;in_progress&quot;):
+        sleep(1000)
+        run = client.beta.threads.runs.retrieve(
+            thread_id=thread.id, run_id=run.id)
+        continue
+    else:
+        print(&quot;unknown status&quot;)
+        break
+
+# client.beta.threads.delete(thread_id=thread.id)
+# client.beta.assistants.delete(assistant_id=assistant.id)
+</code></pre>
+
+
+用你自己的 API key 运行后，可在 https://platform.openai.com/assistants 和 https://platform.openai.com/threads 查看到历史
+
+
+## 开发技巧分享：在 Stream 模式下使用 Function Calling
+
+
+<pre><code>def get_completion(messages, model=&quot;gpt-3.5-turbo-1106&quot;):
+    response = client.chat.completions.create(
+        model=model,
+        messages=messages,
+        temperature=0,  # 模型输出的随机性，0 表示随机性最小
+        tools=[{
+            &quot;type&quot;: &quot;function&quot;,
+            &quot;function&quot;: {
+                &quot;name&quot;: &quot;sum&quot;,
+                &quot;description&quot;: &quot;计算一组数的加和&quot;,
+                &quot;parameters&quot;: {
+                    &quot;type&quot;: &quot;object&quot;,
+                    &quot;properties&quot;: {
+                        &quot;numbers&quot;: {
+                            &quot;type&quot;: &quot;array&quot;,
+                            &quot;items&quot;: {
+                                &quot;type&quot;: &quot;number&quot;
+                            }
+                        }
+                    }
+                }
+            }
+        }],
+        stream=True,
+    )
+    return response
+
+
+prompt = &quot;1+2+3&quot;
+# prompt = &quot;你是谁&quot;
+
+messages = [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;你是一个小学数学老师，你要教学生加法&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}
+]
+response = get_completion(messages)
+
+function_name, args, text = &quot;&quot;, &quot;&quot;, &quot;&quot;
+
+print(&quot;====Streaming====&quot;)
+
+# 需要把 stream 里的 token 拼起来，才能得到完整的 call
+for msg in response:
+    delta = msg.choices[0].delta
+    if delta.tool_calls:
+        if not function_name:
+            function_name = delta.tool_calls[0].function.name
+        args_delta = delta.tool_calls[0].function.arguments
+        print(args_delta)
+        args = args + args_delta
+    elif delta.content:
+        text_delta = delta.content
+        print(text_delta)
+        text = text + text_delta
+
+print(&quot;====done!====&quot;)
+
+if function_name or args:
+    print(function_name)
+    print(args)
+if text:
+    print(text)
+</code></pre>
+
+
+
+<pre><code>====Streaming====
+
+{&quot;
+numbers
+&quot;:[
+1
+,
+2
+,
+3
+]}
+====done!====
+sum
+{&quot;numbers&quot;:[1,2,3]}
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

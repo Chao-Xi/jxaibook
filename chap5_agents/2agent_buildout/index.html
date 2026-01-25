@@ -1,0 +1,3297 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../1agant_intro/">
+      
+      
+        <link rel="next" href="../3agent_frameworks/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>2 AI Agents入门教程之从零开始构建Agent - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2-ai-agentsagent" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2 AI Agents入门教程之从零开始构建Agent
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/3OpenaiModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/4chatgpt_translate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/3AmazonBedrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/4assistantapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1 什么是Agent？
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 定义Model类
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 创建Agent所需工具
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 创建工具箱
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5 创建Agent类
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6 运行Agent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最终代码
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0responseApi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0agents_demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1ai_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/2ai_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/3ai_agents_his/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Daily Blogs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Agent Daily Blogs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1agents_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/4agent_arg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/5Agent_google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Google AI Agent 白皮书深度拆解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1 什么是Agent？
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 定义Model类
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 创建Agent所需工具
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 创建工具箱
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5 创建Agent类
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6 运行Agent
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最终代码
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="2-ai-agentsagent">2 AI Agents入门教程之从零开始构建Agent</h1>
+<h2 id="1-agent">1 什么是Agent？</h2>
+<p><strong>Agent是指一种能够感知环境、做出决策并采取行动以实现特定目标的自主实体</strong></p>
+<p>AI Agent的复杂程度各不相同，既有仅对刺激做出反应的简单反应式智能体，也有能够随时间推移不断学习和适应的高级智能体。常见的智能体类型包括：</p>
+<ul>
+<li>
+<p><strong>Reactive Agents</strong>:  直接响应环境变化，不具备内部记忆。</p>
+</li>
+<li>
+<p><strong>Model-Based Agents</strong>: 利用内部世界模型进行决策的智能体。</p>
+</li>
+<li>
+<p><strong>Goal-Based Agents</strong>: 以实现特定目标为基础规划行动。</p>
+</li>
+<li>
+<p><strong>Utility-Based Agents</strong>: 基于效用函数评估潜在行动，以实现结果的最大化。</p>
+</li>
+</ul>
+<p>示例包括聊天机器人、推荐系统和自动驾驶汽车，它们各自利用不同类型的Agent，以高效且智能的方式执行任务。</p>
+<p>智能体的核心组成部分如下：</p>
+<ul>
+<li>Models:  智能体的大脑，负责处理输入信息并做出反应。</li>
+<li>Tools:  智能体可根据用户请求执行的预定义功能。</li>
+<li>Toolbox: 智能体可使用的工具集合。</li>
+<li>System Prompt: 指导智能体处理用户输入并选择正确工具的指令集</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap5_2_1.png" title="Body image" /></p>
+<p>Github: <a href="https://github.com/vsingh9076/AI-Agents/tree/main/build-agent-from-scratch">https://github.com/vsingh9076/AI-Agents/tree/main/build-agent-from-scratch</a></p>
+<p><strong>Python 环境设置</strong></p>
+<p>运行AI Agent需要安装 Python虚拟环境。请按照以下步骤设置虚拟环境：</p>
+<pre><code>python -m venv ai_agents_env
+source ai_agents_env/bin/activate  # On Windows: ai_agents_env\Scripts\activate
+</code></pre>
+<p>安装所需的依赖项，导航至本仓库代码页面，按照requirements.txt安装所需依赖，指令如下：</p>
+<pre><code>pip install -r requirements.txt
+</code></pre>
+<p><strong>在本地设置 Ollama</strong></p>
+<p>Ollama 用于高效运行和管理本地大语言模型。请按照以下步骤进行安装和配置：大家可以访问 Ollama 官方网站，下载适用于你操作系统的安装程序。</p>
+<p>按照官网说明进行安装后，大家运行以下命令检查 Ollama 是否已正确安装：</p>
+<pre><code>ollama --version
+</code></pre>
+<p>拉取模型，某些Agent的实现可能需要特定的模型。您可以使用以下命令拉取模型：</p>
+<pre><code>ollama pull mistral  # Replace 'mistral' with the model needed 
+</code></pre>
+<h2 id="2-model">2 定义Model类</h2>
+<p>定义Model类</p>
+<p><img alt="Alt Image Text" src="../../images/chap5_2_2.png" title="Body image" /></p>
+<p>除了 Python，我们还需要安装一些必要的库。在本教程中，我们将使用 requests、json 和 termcolor。此外，我们还将使用 dotenv 来管理环境变量。</p>
+<pre><code>pip install requests termcolor python-dotenv
+</code></pre>
+<p>我们首先需要一个处理用户输入的模型。我们将创建一个 OllamaModel 类，该类与本地 API 交互以生成响应。</p>
+<p>下面是一个简单的代码实现：</p>
+<pre><code>from termcolor import colored
+import os
+from dotenv import load_dotenv
+load_dotenv()
+### Models
+import requests
+import json
+import operator
+</code></pre>
+<pre><code>class OllamaModel:
+    def __init__(self, model, system_prompt, temperature=0, stop=None):
+        &quot;&quot;&quot;
+        Initializes the OllamaModel with the given parameters.
+        Parameters:
+        model (str): The name of the model to use.
+        system_prompt (str): The system prompt to use.
+        temperature (float): The temperature setting for the model.
+        stop (str): The stop token for the model.
+        &quot;&quot;&quot;
+        self.model_endpoint = &quot;http://localhost:11434/api/generate&quot;
+        self.temperature = temperature
+        self.model = model
+        self.system_prompt = system_prompt
+        self.headers = {&quot;Content-Type&quot;: &quot;application/json&quot;}
+        self.stop = stop
+    def generate_text(self, prompt):
+        &quot;&quot;&quot;
+        Generates a response from the Ollama model based on the provided prompt.
+        Parameters:
+        prompt (str): The user query to generate a response for.
+        Returns:
+        dict: The response from the model as a dictionary.
+        &quot;&quot;&quot;
+        payload = {
+            &quot;model&quot;: self.model,
+            &quot;format&quot;: &quot;json&quot;,
+            &quot;prompt&quot;: prompt,
+            &quot;system&quot;: self.system_prompt,
+            &quot;stream&quot;: False,
+            &quot;temperature&quot;: self.temperature,
+            &quot;stop&quot;: self.stop
+        }
+        try:
+            request_response = requests.post(
+                self.model_endpoint, 
+                headers=self.headers, 
+                data=json.dumps(payload)
+            )
+            print(&quot;REQUEST RESPONSE&quot;, request_response)
+            request_response_json = request_response.json()
+            response = request_response_json['response']
+            response_dict = json.loads(response)
+            print(f&quot;\n\nResponse from Ollama model: {response_dict}&quot;)
+            return response_dict
+        except requests.RequestException as e:
+            response = {&quot;error&quot;: f&quot;Error in invoking model! {str(e)}&quot;}
+            return response
+</code></pre>
+<p>该类使用参数model、<code>system_prompt</code>、temperature和stop token进行初始化。其中<code>generate_text</code> 函数向模型 API 发送请求并返回响应</p>
+<h2 id="3-agent">3 创建Agent所需工具</h2>
+<p>下一步是创建智能体Agent可以使用的工具。这些工具是执行特定任务的简单 Python 函数。下面是一个基本计算器和一个字符串反转器的示例</p>
+<pre><code>def basic_calculator(input_str):
+    &quot;&quot;&quot;
+    Perform a numeric operation on two numbers based on the input string or dictionary.
+    Parameters:
+    input_str (str or dict): Either a JSON string representing a dictionary with keys 'num1', 'num2', and 'operation',
+                            or a dictionary directly. Example: '{&quot;num1&quot;: 5, &quot;num2&quot;: 3, &quot;operation&quot;: &quot;add&quot;}'
+                            or {&quot;num1&quot;: 67869, &quot;num2&quot;: 9030393, &quot;operation&quot;: &quot;divide&quot;}
+    Returns:
+    str: The formatted result of the operation.
+    Raises:
+    Exception: If an error occurs during the operation (e.g., division by zero).
+    ValueError: If an unsupported operation is requested or input is invalid.
+    &quot;&quot;&quot;
+    try:
+        # Handle both dictionary and string inputs
+        if isinstance(input_str, dict):
+            input_dict = input_str
+        else:
+            # Clean and parse the input string
+            input_str_clean = input_str.replace(&quot;'&quot;, &quot;\&quot;&quot;)
+            input_str_clean = input_str_clean.strip().strip(&quot;\&quot;&quot;)
+            input_dict = json.loads(input_str_clean)
+
+        # Validate required fields
+        if not all(key in input_dict for key in ['num1', 'num2', 'operation']):
+            return &quot;Error: Input must contain 'num1', 'num2', and 'operation'&quot;
+        num1 = float(input_dict['num1'])  # Convert to float to handle decimal numbers
+        num2 = float(input_dict['num2'])
+        operation = input_dict['operation'].lower()  # Make case-insensitive
+    except (json.JSONDecodeError, KeyError) as e:
+        return &quot;Invalid input format. Please provide valid numbers and operation.&quot;
+    except ValueError as e:
+        return &quot;Error: Please provide valid numerical values.&quot;
+    # Define the supported operations with error handling
+    operations = {
+        'add': operator.add,
+        'plus': operator.add,  # Alternative word for add
+        'subtract': operator.sub,
+        'minus': operator.sub,  # Alternative word for subtract
+        'multiply': operator.mul,
+        'times': operator.mul,  # Alternative word for multiply
+        'divide': operator.truediv,
+        'floor_divide': operator.floordiv,
+        'modulus': operator.mod,
+        'power': operator.pow,
+        'lt': operator.lt,
+        'le': operator.le,
+        'eq': operator.eq,
+        'ne': operator.ne,
+        'ge': operator.ge,
+        'gt': operator.gt
+    }
+    # Check if the operation is supported
+    if operation not in operations:
+        return f&quot;Unsupported operation: '{operation}'. Supported operations are: {', '.join(operations.keys())}&quot;
+    try:
+        # Special handling for division by zero
+        if (operation in ['divide', 'floor_divide', 'modulus']) and num2 == 0:
+            return &quot;Error: Division by zero is not allowed&quot;
+        # Perform the operation
+        result = operations[operation](num1, num2)
+
+        # Format result based on type
+        if isinstance(result, bool):
+            result_str = &quot;True&quot; if result else &quot;False&quot;
+        elif isinstance(result, float):
+            # Handle floating point precision
+            result_str = f&quot;{result:.6f}&quot;.rstrip('0').rstrip('.')
+        else:
+            result_str = str(result)
+        return f&quot;The answer is: {result_str}&quot;
+    except Exception as e:
+        return f&quot;Error during calculation: {str(e)}&quot;
+def reverse_string(input_string):
+    &quot;&quot;&quot;
+    Reverse the given string.
+    Parameters:
+    input_string (str): The string to be reversed.
+    Returns:
+    str: The reversed string.
+    &quot;&quot;&quot;
+    # Check if input is a string
+    if not isinstance(input_string, str):
+        return &quot;Error: Input must be a string&quot;
+
+    # Reverse the string using slicing
+    reversed_string = input_string[::-1]
+
+    # Format the output
+    result = f&quot;The reversed string is: {reversed_string}&quot;
+
+    return result
+</code></pre>
+<p>这些函数旨在根据所提供的输入执行特定任务。<code>basic_calculator</code> 处理算术运算，而 <code>reverse_string</code> 则反转给定的字符串。</p>
+<h2 id="4">4 创建工具箱</h2>
+<p>工具箱ToolBox类存储了智能体可以使用的所有工具，并提供了每种工具的说明：</p>
+<pre><code>class ToolBox:
+    def __init__(self):
+        self.tools_dict = {}
+    def store(self, functions_list):
+        &quot;&quot;&quot;
+        Stores the literal name and docstring of each function in the list.
+        Parameters:
+        functions_list (list): List of function objects to store.
+        Returns:
+        dict: Dictionary with function names as keys and their docstrings as values.
+        &quot;&quot;&quot;
+        for func in functions_list:
+            self.tools_dict[func.__name__] = func.__doc__
+        return self.tools_dict
+    def tools(self):
+        &quot;&quot;&quot;
+        Returns the dictionary created in store as a text string.
+        Returns:
+        str: Dictionary of stored functions and their docstrings as a text string.
+        &quot;&quot;&quot;
+        tools_str = &quot;&quot;
+        for name, doc in self.tools_dict.items():
+            tools_str += f&quot;{name}: \&quot;{doc}\&quot;\n&quot;
+        return tools_str.strip()
+</code></pre>
+<p>这个类将帮助智能体了解哪些工具可用以及每种工具的具体用途。</p>
+<h2 id="5-agent">5 创建Agent类</h2>
+<p>Agent需要思考、决定使用哪种工具并执行它。下面是Agent类的代码实现：</p>
+<p>系统提示词如下：</p>
+<pre><code>agent_system_prompt_template = &quot;&quot;&quot;
+You are an intelligent AI assistant with access to specific tools. Your responses must ALWAYS be in this JSON format:
+{{
+    &quot;tool_choice&quot;: &quot;name_of_the_tool&quot;,
+    &quot;tool_input&quot;: &quot;inputs_to_the_tool&quot;
+}}
+TOOLS AND WHEN TO USE THEM:
+1. basic_calculator: Use for ANY mathematical calculations
+   - Input format: {{&quot;num1&quot;: number, &quot;num2&quot;: number, &quot;operation&quot;: &quot;add/subtract/multiply/divide&quot;}}
+   - Supported operations: add/plus, subtract/minus, multiply/times, divide
+   - Example inputs and outputs:
+     Input: &quot;Calculate 15 plus 7&quot;
+     Output: {{&quot;tool_choice&quot;: &quot;basic_calculator&quot;, &quot;tool_input&quot;: {{&quot;num1&quot;: 15, &quot;num2&quot;: 7, &quot;operation&quot;: &quot;add&quot;}}}}
+
+     Input: &quot;What is 100 divided by 5?&quot;
+     Output: {{&quot;tool_choice&quot;: &quot;basic_calculator&quot;, &quot;tool_input&quot;: {{&quot;num1&quot;: 100, &quot;num2&quot;: 5, &quot;operation&quot;: &quot;divide&quot;}}}}
+2. reverse_string: Use for ANY request involving reversing text
+   - Input format: Just the text to be reversed as a string
+   - ALWAYS use this tool when user mentions &quot;reverse&quot;, &quot;backwards&quot;, or asks to reverse text
+   - Example inputs and outputs:
+     Input: &quot;Reverse of 'Howwwww'?&quot;
+     Output: {{&quot;tool_choice&quot;: &quot;reverse_string&quot;, &quot;tool_input&quot;: &quot;Howwwww&quot;}}
+
+     Input: &quot;What is the reverse of Python?&quot;
+     Output: {{&quot;tool_choice&quot;: &quot;reverse_string&quot;, &quot;tool_input&quot;: &quot;Python&quot;}}
+3. no tool: Use for general conversation and questions
+   - Example inputs and outputs:
+     Input: &quot;Who are you?&quot;
+     Output: {{&quot;tool_choice&quot;: &quot;no tool&quot;, &quot;tool_input&quot;: &quot;I am an AI assistant that can help you with calculations, reverse text, and answer questions. I can perform mathematical operations and reverse strings. How can I help you today?&quot;}}
+
+     Input: &quot;How are you?&quot;
+     Output: {{&quot;tool_choice&quot;: &quot;no tool&quot;, &quot;tool_input&quot;: &quot;I'm functioning well, thank you for asking! I'm here to help you with calculations, text reversal, or answer any questions you might have.&quot;}}
+STRICT RULES:
+1. For questions about identity, capabilities, or feelings:
+   - ALWAYS use &quot;no tool&quot;
+   - Provide a complete, friendly response
+   - Mention your capabilities
+2. For ANY text reversal request:
+   - ALWAYS use &quot;reverse_string&quot;
+   - Extract ONLY the text to be reversed
+   - Remove quotes, &quot;reverse of&quot;, and other extra text
+3. For ANY math operations:
+   - ALWAYS use &quot;basic_calculator&quot;
+   - Extract the numbers and operation
+   - Convert text numbers to digits
+Here is a list of your tools along with their descriptions:
+{tool_descriptions}
+Remember: Your response must ALWAYS be valid JSON with &quot;tool_choice&quot; and &quot;tool_input&quot; fields.
+&quot;&quot;&quot;
+</code></pre>
+<p>Agent类的代码实现如下：</p>
+<pre><code>class Agent:
+    def __init__(self, tools, model_service, model_name, stop=None):
+        &quot;&quot;&quot;
+        Initializes the agent with a list of tools and a model.
+        Parameters:
+        tools (list): List of tool functions.
+        model_service (class): The model service class with a generate_text method.
+        model_name (str): The name of the model to use.
+        &quot;&quot;&quot;
+        self.tools = tools
+        self.model_service = model_service
+        self.model_name = model_name
+        self.stop = stop
+    def prepare_tools(self):
+        &quot;&quot;&quot;
+        Stores the tools in the toolbox and returns their descriptions.
+        Returns:
+        str: Descriptions of the tools stored in the toolbox.
+        &quot;&quot;&quot;
+        toolbox = ToolBox()
+        toolbox.store(self.tools)
+        tool_descriptions = toolbox.tools()
+        return tool_descriptions
+    def think(self, prompt):
+        &quot;&quot;&quot;
+        Runs the generate_text method on the model using the system prompt template and tool descriptions.
+        Parameters:
+        prompt (str): The user query to generate a response for.
+        Returns:
+        dict: The response from the model as a dictionary.
+        &quot;&quot;&quot;
+        tool_descriptions = self.prepare_tools()
+        agent_system_prompt = agent_system_prompt_template.format(tool_descriptions=tool_descriptions)
+        # Create an instance of the model service with the system prompt
+        if self.model_service == OllamaModel:
+            model_instance = self.model_service(
+                model=self.model_name,
+                system_prompt=agent_system_prompt,
+                temperature=0,
+                stop=self.stop
+            )
+        else:
+            model_instance = self.model_service(
+                model=self.model_name,
+                system_prompt=agent_system_prompt,
+                temperature=0
+            )
+        # Generate and return the response dictionary
+        agent_response_dict = model_instance.generate_text(prompt)
+        return agent_response_dict
+    def work(self, prompt):
+        &quot;&quot;&quot;
+        Parses the dictionary returned from think and executes the appropriate tool.
+        Parameters:
+        prompt (str): The user query to generate a response for.
+        Returns:
+        The response from executing the appropriate tool or the tool_input if no matching tool is found.
+        &quot;&quot;&quot;
+        agent_response_dict = self.think(prompt)
+        tool_choice = agent_response_dict.get(&quot;tool_choice&quot;)
+        tool_input = agent_response_dict.get(&quot;tool_input&quot;)
+        for tool in self.tools:
+            if tool.__name__ == tool_choice:
+                response = tool(tool_input)
+                print(colored(response, 'cyan'))
+                return
+        print(colored(tool_input, 'cyan'))
+        return
+</code></pre>
+<p>该类有三个主要方法：</p>
+<ul>
+<li><code>prepare_tools</code>: 存储并返回工具说明。</li>
+<li>think: 根据用户提示决定使用哪种工具。</li>
+<li>work: 执行所选工具并返回结果。</li>
+</ul>
+<h2 id="6-agent">6 运行Agent</h2>
+<p>最后，让我们将所有内容整合在一起，运行我们的Agent智能体。在脚本的main入口函数内，初始化Agent并开始接受用户输入：</p>
+<pre><code>
+# Example usage
+if __name__ == &quot;__main__&quot;:
+    &quot;&quot;&quot;
+    Instructions for using this agent:
+
+    Example queries you can try:
+    1. Calculator operations:
+       - &quot;Calculate 15 plus 7&quot;
+       - &quot;What is 100 divided by 5?&quot;
+       - &quot;Multiply 23 and 4&quot;
+
+    2. String reversal:
+       - &quot;Reverse the word 'hello world'&quot;
+       - &quot;Can you reverse 'Python Programming'?&quot;
+
+    3. General questions (will get direct responses):
+       - &quot;Who are you?&quot;
+       - &quot;What can you help me with?&quot;
+
+    Ollama Commands (run these in terminal):
+    - Check available models:    'ollama list'
+    - Check running models:      'ps aux | grep ollama'
+    - List model tags:          'curl http://localhost:11434/api/tags'
+    - Pull a new model:         'ollama pull mistral'
+    - Run model server:         'ollama serve'
+    &quot;&quot;&quot;
+    tools = [basic_calculator, reverse_string]
+    # Uncomment below to run with OpenAI
+    # model_service = OpenAIModel
+    # model_name = 'gpt-3.5-turbo'
+    # stop = None
+    # Using Ollama with llama2 model
+    model_service = OllamaModel
+    model_name = &quot;llama2&quot;  # Can be changed to other models like 'mistral', 'codellama', etc.
+    stop = &quot;&lt;|eot_id|&gt;&quot;
+    agent = Agent(tools=tools, model_service=model_service, model_name=model_name, stop=stop)
+    print(&quot;\nWelcome to the AI Agent! Type 'exit' to quit.&quot;)
+    print(&quot;You can ask me to:&quot;)
+    print(&quot;1. Perform calculations (e.g., 'Calculate 15 plus 7')&quot;)
+    print(&quot;2. Reverse strings (e.g., 'Reverse hello world')&quot;)
+    print(&quot;3. Answer general questions\n&quot;)
+    while True:
+        prompt = input(&quot;Ask me anything: &quot;)
+        if prompt.lower() == &quot;exit&quot;:
+            break
+        agent.work(prompt)
+
+</code></pre>
+<h2 id="_1">最终代码</h2>
+<pre><code># https://github.com/vsingh9076/AI-Agents/tree/main/build-agent-from-scratch
+from termcolor import colored
+import os
+from dotenv import load_dotenv
+load_dotenv()
+### Models
+import requests
+import json
+import operator
+
+class OllamaModel:
+    def __init__(self, model, system_prompt, temperature=0, stop=None):
+        &quot;&quot;&quot;
+        Initializes the OllamaModel with the given parameters.
+        Parameters:
+        model (str): The name of the model to use.
+        system_prompt (str): The system prompt to use.
+        temperature (float): The temperature setting for the model.
+        stop (str): The stop token for the model.
+        &quot;&quot;&quot;
+        self.model_endpoint = &quot;http://localhost:11434/api/generate&quot;
+        self.temperature = temperature
+        self.model = model
+        self.system_prompt = system_prompt
+        self.headers = {&quot;Content-Type&quot;: &quot;application/json&quot;}
+        self.stop = stop
+    def generate_text(self, prompt):
+        &quot;&quot;&quot;
+        Generates a response from the Ollama model based on the provided prompt.
+        Parameters:
+        prompt (str): The user query to generate a response for.
+        Returns:
+        dict: The response from the model as a dictionary.
+        &quot;&quot;&quot;
+        payload = {
+            &quot;model&quot;: self.model,
+            &quot;format&quot;: &quot;json&quot;,
+            &quot;prompt&quot;: prompt,
+            &quot;system&quot;: self.system_prompt,
+            &quot;stream&quot;: False,
+            &quot;temperature&quot;: self.temperature,
+            &quot;stop&quot;: self.stop
+        }
+        try:
+            request_response = requests.post(
+                self.model_endpoint, 
+                headers=self.headers, 
+                data=json.dumps(payload)
+            )
+            print(&quot;REQUEST RESPONSE&quot;, request_response)
+            request_response_json = request_response.json()
+            response = request_response_json['response']
+            response_dict = json.loads(response)
+            print(f&quot;\n\nResponse from Ollama model: {response_dict}&quot;)
+            return response_dict
+        except requests.RequestException as e:
+            response = {&quot;error&quot;: f&quot;Error in invoking model! {str(e)}&quot;}
+            return response
+
+def basic_calculator(input_str):
+    &quot;&quot;&quot;
+    Perform a numeric operation on two numbers based on the input string or dictionary.
+    Parameters:
+    input_str (str or dict): Either a JSON string representing a dictionary with keys 'num1', 'num2', and 'operation',
+                            or a dictionary directly. Example: '{&quot;num1&quot;: 5, &quot;num2&quot;: 3, &quot;operation&quot;: &quot;add&quot;}'
+                            or {&quot;num1&quot;: 67869, &quot;num2&quot;: 9030393, &quot;operation&quot;: &quot;divide&quot;}
+    Returns:
+    str: The formatted result of the operation.
+    Raises:
+    Exception: If an error occurs during the operation (e.g., division by zero).
+    ValueError: If an unsupported operation is requested or input is invalid.
+    &quot;&quot;&quot;
+    try:
+        # Handle both dictionary and string inputs
+        if isinstance(input_str, dict):
+            input_dict = input_str
+        else:
+            # Clean and parse the input string
+            input_str_clean = input_str.replace(&quot;'&quot;, &quot;\&quot;&quot;)
+            input_str_clean = input_str_clean.strip().strip(&quot;\&quot;&quot;)
+            input_dict = json.loads(input_str_clean)
+
+        # Validate required fields
+        if not all(key in input_dict for key in ['num1', 'num2', 'operation']):
+            return &quot;Error: Input must contain 'num1', 'num2', and 'operation'&quot;
+        num1 = float(input_dict['num1'])  # Convert to float to handle decimal numbers
+        num2 = float(input_dict['num2'])
+        operation = input_dict['operation'].lower()  # Make case-insensitive
+    except (json.JSONDecodeError, KeyError) as e:
+        return &quot;Invalid input format. Please provide valid numbers and operation.&quot;
+    except ValueError as e:
+        return &quot;Error: Please provide valid numerical values.&quot;
+    # Define the supported operations with error handling
+    operations = {
+        'add': operator.add,
+        'plus': operator.add,  # Alternative word for add
+        'subtract': operator.sub,
+        'minus': operator.sub,  # Alternative word for subtract
+        'multiply': operator.mul,
+        'times': operator.mul,  # Alternative word for multiply
+        'divide': operator.truediv,
+        'floor_divide': operator.floordiv,
+        'modulus': operator.mod,
+        'power': operator.pow,
+        'lt': operator.lt,
+        'le': operator.le,
+        'eq': operator.eq,
+        'ne': operator.ne,
+        'ge': operator.ge,
+        'gt': operator.gt
+    }
+    # Check if the operation is supported
+    if operation not in operations:
+        return f&quot;Unsupported operation: '{operation}'. Supported operations are: {', '.join(operations.keys())}&quot;
+    try:
+        # Special handling for division by zero
+        if (operation in ['divide', 'floor_divide', 'modulus']) and num2 == 0:
+            return &quot;Error: Division by zero is not allowed&quot;
+        # Perform the operation
+        result = operations[operation](num1, num2)
+
+        # Format result based on type
+        if isinstance(result, bool):
+            result_str = &quot;True&quot; if result else &quot;False&quot;
+        elif isinstance(result, float):
+            # Handle floating point precision
+            result_str = f&quot;{result:.6f}&quot;.rstrip('0').rstrip('.')
+        else:
+            result_str = str(result)
+        return f&quot;The answer is: {result_str}&quot;
+    except Exception as e:
+        return f&quot;Error during calculation: {str(e)}&quot;
+def reverse_string(input_string):
+    &quot;&quot;&quot;
+    Reverse the given string.
+    Parameters:
+    input_string (str): The string to be reversed.
+    Returns:
+    str: The reversed string.
+    &quot;&quot;&quot;
+    # Check if input is a string
+    if not isinstance(input_string, str):
+        return &quot;Error: Input must be a string&quot;
+
+    # Reverse the string using slicing
+    reversed_string = input_string[::-1]
+
+    # Format the output
+    result = f&quot;The reversed string is: {reversed_string}&quot;
+
+    return result
+
+
+class ToolBox:
+    def __init__(self):
+        self.tools_dict = {}
+    def store(self, functions_list):
+        &quot;&quot;&quot;
+        Stores the literal name and docstring of each function in the list.
+        Parameters:
+        functions_list (list): List of function objects to store.
+        Returns:
+        dict: Dictionary with function names as keys and their docstrings as values.
+        &quot;&quot;&quot;
+        for func in functions_list:
+            self.tools_dict[func.__name__] = func.__doc__
+        return self.tools_dict
+    def tools(self):
+        &quot;&quot;&quot;
+        Returns the dictionary created in store as a text string.
+        Returns:
+        str: Dictionary of stored functions and their docstrings as a text string.
+        &quot;&quot;&quot;
+        tools_str = &quot;&quot;
+        for name, doc in self.tools_dict.items():
+            tools_str += f&quot;{name}: \&quot;{doc}\&quot;\n&quot;
+        return tools_str.strip()
+
+agent_system_prompt_template = &quot;&quot;&quot;
+You are an intelligent AI assistant with access to specific tools. Your responses must ALWAYS be in this JSON format:
+{{
+    &quot;tool_choice&quot;: &quot;name_of_the_tool&quot;,
+    &quot;tool_input&quot;: &quot;inputs_to_the_tool&quot;
+}}
+TOOLS AND WHEN TO USE THEM:
+1. basic_calculator: Use for ANY mathematical calculations
+   - Input format: {{&quot;num1&quot;: number, &quot;num2&quot;: number, &quot;operation&quot;: &quot;add/subtract/multiply/divide&quot;}}
+   - Supported operations: add/plus, subtract/minus, multiply/times, divide
+   - Example inputs and outputs:
+     Input: &quot;Calculate 15 plus 7&quot;
+     Output: {{&quot;tool_choice&quot;: &quot;basic_calculator&quot;, &quot;tool_input&quot;: {{&quot;num1&quot;: 15, &quot;num2&quot;: 7, &quot;operation&quot;: &quot;add&quot;}}}}
+
+     Input: &quot;What is 100 divided by 5?&quot;
+     Output: {{&quot;tool_choice&quot;: &quot;basic_calculator&quot;, &quot;tool_input&quot;: {{&quot;num1&quot;: 100, &quot;num2&quot;: 5, &quot;operation&quot;: &quot;divide&quot;}}}}
+2. reverse_string: Use for ANY request involving reversing text
+   - Input format: Just the text to be reversed as a string
+   - ALWAYS use this tool when user mentions &quot;reverse&quot;, &quot;backwards&quot;, or asks to reverse text
+   - Example inputs and outputs:
+     Input: &quot;Reverse of 'Howwwww'?&quot;
+     Output: {{&quot;tool_choice&quot;: &quot;reverse_string&quot;, &quot;tool_input&quot;: &quot;Howwwww&quot;}}
+
+     Input: &quot;What is the reverse of Python?&quot;
+     Output: {{&quot;tool_choice&quot;: &quot;reverse_string&quot;, &quot;tool_input&quot;: &quot;Python&quot;}}
+3. no tool: Use for general conversation and questions
+   - Example inputs and outputs:
+     Input: &quot;Who are you?&quot;
+     Output: {{&quot;tool_choice&quot;: &quot;no tool&quot;, &quot;tool_input&quot;: &quot;I am an AI assistant that can help you with calculations, reverse text, and answer questions. I can perform mathematical operations and reverse strings. How can I help you today?&quot;}}
+
+     Input: &quot;How are you?&quot;
+     Output: {{&quot;tool_choice&quot;: &quot;no tool&quot;, &quot;tool_input&quot;: &quot;I'm functioning well, thank you for asking! I'm here to help you with calculations, text reversal, or answer any questions you might have.&quot;}}
+STRICT RULES:
+1. For questions about identity, capabilities, or feelings:
+   - ALWAYS use &quot;no tool&quot;
+   - Provide a complete, friendly response
+   - Mention your capabilities
+2. For ANY text reversal request:
+   - ALWAYS use &quot;reverse_string&quot;
+   - Extract ONLY the text to be reversed
+   - Remove quotes, &quot;reverse of&quot;, and other extra text
+3. For ANY math operations:
+   - ALWAYS use &quot;basic_calculator&quot;
+   - Extract the numbers and operation
+   - Convert text numbers to digits
+Here is a list of your tools along with their descriptions:
+{tool_descriptions}
+Remember: Your response must ALWAYS be valid JSON with &quot;tool_choice&quot; and &quot;tool_input&quot; fields.
+&quot;&quot;&quot;
+
+
+class Agent:
+    def __init__(self, tools, model_service, model_name, stop=None):
+        &quot;&quot;&quot;
+        Initializes the agent with a list of tools and a model.
+        Parameters:
+        tools (list): List of tool functions.
+        model_service (class): The model service class with a generate_text method.
+        model_name (str): The name of the model to use.
+        &quot;&quot;&quot;
+        self.tools = tools
+        self.model_service = model_service
+        self.model_name = model_name
+        self.stop = stop
+    def prepare_tools(self):
+        &quot;&quot;&quot;
+        Stores the tools in the toolbox and returns their descriptions.
+        Returns:
+        str: Descriptions of the tools stored in the toolbox.
+        &quot;&quot;&quot;
+        toolbox = ToolBox()
+        toolbox.store(self.tools)
+        tool_descriptions = toolbox.tools()
+        return tool_descriptions
+    def think(self, prompt):
+        &quot;&quot;&quot;
+        Runs the generate_text method on the model using the system prompt template and tool descriptions.
+        Parameters:
+        prompt (str): The user query to generate a response for.
+        Returns:
+        dict: The response from the model as a dictionary.
+        &quot;&quot;&quot;
+        tool_descriptions = self.prepare_tools()
+        agent_system_prompt = agent_system_prompt_template.format(tool_descriptions=tool_descriptions)
+        # Create an instance of the model service with the system prompt
+        if self.model_service == OllamaModel:
+            model_instance = self.model_service(
+                model=self.model_name,
+                system_prompt=agent_system_prompt,
+                temperature=0,
+                stop=self.stop
+            )
+        else:
+            model_instance = self.model_service(
+                model=self.model_name,
+                system_prompt=agent_system_prompt,
+                temperature=0
+            )
+        # Generate and return the response dictionary
+        agent_response_dict = model_instance.generate_text(prompt)
+        return agent_response_dict
+    def work(self, prompt):
+        &quot;&quot;&quot;
+        Parses the dictionary returned from think and executes the appropriate tool.
+        Parameters:
+        prompt (str): The user query to generate a response for.
+        Returns:
+        The response from executing the appropriate tool or the tool_input if no matching tool is found.
+        &quot;&quot;&quot;
+        agent_response_dict = self.think(prompt)
+        tool_choice = agent_response_dict.get(&quot;tool_choice&quot;)
+        tool_input = agent_response_dict.get(&quot;tool_input&quot;)
+        for tool in self.tools:
+            if tool.__name__ == tool_choice:
+                response = tool(tool_input)
+                print(colored(response, 'cyan'))
+                return
+        print(colored(tool_input, 'cyan'))
+        return
+
+# Example usage
+if __name__ == &quot;__main__&quot;:
+    &quot;&quot;&quot;
+    Instructions for using this agent:
+
+    Example queries you can try:
+    1. Calculator operations:
+       - &quot;Calculate 15 plus 7&quot;
+       - &quot;What is 100 divided by 5?&quot;
+       - &quot;Multiply 23 and 4&quot;
+
+    2. String reversal:
+       - &quot;Reverse the word 'hello world'&quot;
+       - &quot;Can you reverse 'Python Programming'?&quot;
+
+    3. General questions (will get direct responses):
+       - &quot;Who are you?&quot;
+       - &quot;What can you help me with?&quot;
+
+    Ollama Commands (run these in terminal):
+    - Check available models:    'ollama list'
+    - Check running models:      'ps aux | grep ollama'
+    - List model tags:          'curl http://localhost:11434/api/tags'
+    - Pull a new model:         'ollama pull mistral'
+    - Run model server:         'ollama serve'
+    &quot;&quot;&quot;
+    tools = [basic_calculator, reverse_string]
+    # Uncomment below to run with OpenAI
+    # model_service = OpenAIModel
+    # model_name = 'gpt-3.5-turbo'
+    # stop = None
+    # Using Ollama with llama2 model
+    model_service = OllamaModel
+    model_name = &quot;mistral&quot;  # Can be changed to other models like 'mistral', 'codellama', etc.
+    stop = &quot;&lt;|eot_id|&gt;&quot;
+    agent = Agent(tools=tools, model_service=model_service, model_name=model_name, stop=stop)
+    print(&quot;\nWelcome to the AI Agent! Type 'exit' to quit.&quot;)
+    print(&quot;You can ask me to:&quot;)
+    print(&quot;1. Perform calculations (e.g., 'Calculate 15 plus 7')&quot;)
+    print(&quot;2. Reverse strings (e.g., 'Reverse hello world')&quot;)
+    print(&quot;3. Answer general questions\n&quot;)
+    while True:
+        prompt = input(&quot;Ask me anything: &quot;)
+        if prompt.lower() == &quot;exit&quot;:
+            break
+        agent.work(prompt)
+</code></pre>
+<pre><code>source ai_agents_env/bin/activate
+
+ollama run mistral
+
+ollama ps
+
+ollama ps
+NAME              ID              SIZE      PROCESSOR    UNTIL              
+mistral:latest    f974a74358d6    6.4 GB    100% GPU     3 minutes from now 
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,5186 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../2ai_agents/">
+      
+      
+        <link rel="next" href="../1agents_intro/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>第二章 智能体发展史 - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第二章 智能体发展史
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/3OpenaiModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/4chatgpt_translate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/3AmazonBedrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/4assistantapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/2agent_buildout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0responseApi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0agents_demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1ai_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2ai_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🕰️ 历史脉络：从符号主义到现代智能体
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🕰️ 历史脉络：从符号主义到现代智能体">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        图2.1的演进阶梯解读
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 符号主义智能体深度分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 符号主义智能体深度分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-pssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 物理符号系统假说（PSSH）的革命性意义
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 物理符号系统假说（PSSH）的革命性意义">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        理论贡献
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        局限性揭示
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 专家系统的双面性
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 专家系统的双面性">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        成功原因深度解析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mycin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MYCIN的技术创新分层
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        专家系统的演化谱系
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-shrdlu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. SHRDLU的里程碑意义
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. SHRDLU的里程碑意义">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        技术集成的突破
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        “积木世界”的方法论价值
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shrdlu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SHRDLU展现的智能层次
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ 符号主义的四大根本挑战
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚠️ 符号主义的四大根本挑战">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1knowledge-acquisition-bottleneck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        挑战1：知识获取瓶颈（Knowledge Acquisition Bottleneck）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="挑战1：知识获取瓶颈（Knowledge Acquisition Bottleneck）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        表现形式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        量化影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2common-sense-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        挑战2：常识问题（Common-sense Problem）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="挑战2：常识问题（Common-sense Problem）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        常识的维度
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cyc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cyc项目的启示
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3frame-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        挑战3：框架问题（Frame Problem）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="挑战3：框架问题（Frame Problem）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题本质
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解决尝试
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4brittleness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        挑战4：脆弱性（Brittleness）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="挑战4：脆弱性（Brittleness）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        脆弱性表现层级
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        现实世界对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 从符号主义到现代智能体的范式转换
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 从符号主义到现代智能体的范式转换">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        符号主义的遗产
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        范式转移的关键节点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="范式转移的关键节点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 从“手工编码”到“自动学习”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 从“逻辑完备”到“概率近似”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 从“符号操作”到“亚符号处理”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 现代视角下的重新评估
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧠 现代视角下的重新评估">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        符号主义的现代复兴
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="符号主义的现代复兴">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 混合智能系统
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 神经符号AI的兴起
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        历史教训对现代AI的启示
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="历史教训对现代AI的启示">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 避免新瓶装旧酒
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 平衡自动化与可解释性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 重新思考智能的本质
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elizaai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤖 ELIZA：一个改变AI认知的简单程序
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤖 ELIZA：一个改变AI认知的简单程序">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eliza" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、ELIZA的核心设计哲学
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、ELIZA的核心设计哲学">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 反智能的智能模拟
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 非指导性治疗的完美契合
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 转换规则类型
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eliza_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、ELIZA的心理学机制
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、ELIZA的心理学机制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-projection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 投射效应（Projection）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-confirmation-bias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 确认偏误（Confirmation Bias）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-anthropomorphism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 拟人化倾向（Anthropomorphism）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eliza_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、现代视角下的ELIZA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、现代视角下的ELIZA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-elizachatgpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. ELIZA与ChatGPT的对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-eliza" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. ELIZA的现代变体
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eliza_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、编程实践：实现简化版ELIZA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、编程实践：实现简化版ELIZA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 核心代码框架
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 对话示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eliza_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、ELIZA的历史意义与当代启示
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、ELIZA的历史意义与当代启示">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 技术意义
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 哲学意义
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 魏泽鲍姆的警告（现代依然适用）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eliza_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        七、从ELIZA到现代聊天机器人的演进路径
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        八、教学实验建议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="八、教学实验建议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 扩展实验
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 反思问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.2 模式匹配与文本替换
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#223" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.3 核心逻辑的实现
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二章总结：从心智社会到现代智能体的演进
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二章总结：从心智社会到现代智能体的演进">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、符号主义的瓶颈：单一推理核心的极限
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、心智社会：智能不是一个整体，而是“协作的产物”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、联结主义崛起：智能可以“学习”而不是“设计”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、强化学习：智能体拥有了“决策与规划”的能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、大规模预训练：让智能体在“学习任务之前”先理解世界
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、现代 LLM 智能体：多技术融合的产物
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        七、纵观历史：智能体的演进是三大思想的融合
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Daily Blogs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Agent Daily Blogs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1agents_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4agent_arg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5Agent_google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Google AI Agent 白皮书深度拆解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🕰️ 历史脉络：从符号主义到现代智能体
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🕰️ 历史脉络：从符号主义到现代智能体">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        图2.1的演进阶梯解读
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 符号主义智能体深度分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 符号主义智能体深度分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-pssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 物理符号系统假说（PSSH）的革命性意义
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 物理符号系统假说（PSSH）的革命性意义">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        理论贡献
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        局限性揭示
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 专家系统的双面性
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 专家系统的双面性">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        成功原因深度解析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mycin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MYCIN的技术创新分层
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        专家系统的演化谱系
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-shrdlu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. SHRDLU的里程碑意义
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. SHRDLU的里程碑意义">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        技术集成的突破
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        “积木世界”的方法论价值
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shrdlu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SHRDLU展现的智能层次
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚠️ 符号主义的四大根本挑战
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚠️ 符号主义的四大根本挑战">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1knowledge-acquisition-bottleneck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        挑战1：知识获取瓶颈（Knowledge Acquisition Bottleneck）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="挑战1：知识获取瓶颈（Knowledge Acquisition Bottleneck）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        表现形式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        量化影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2common-sense-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        挑战2：常识问题（Common-sense Problem）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="挑战2：常识问题（Common-sense Problem）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        常识的维度
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cyc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cyc项目的启示
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3frame-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        挑战3：框架问题（Frame Problem）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="挑战3：框架问题（Frame Problem）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        问题本质
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解决尝试
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4brittleness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        挑战4：脆弱性（Brittleness）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="挑战4：脆弱性（Brittleness）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        脆弱性表现层级
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        现实世界对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 从符号主义到现代智能体的范式转换
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 从符号主义到现代智能体的范式转换">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        符号主义的遗产
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        范式转移的关键节点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="范式转移的关键节点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 从“手工编码”到“自动学习”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 从“逻辑完备”到“概率近似”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 从“符号操作”到“亚符号处理”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 现代视角下的重新评估
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧠 现代视角下的重新评估">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        符号主义的现代复兴
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="符号主义的现代复兴">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 混合智能系统
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 神经符号AI的兴起
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        历史教训对现代AI的启示
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="历史教训对现代AI的启示">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 避免新瓶装旧酒
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 平衡自动化与可解释性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 重新思考智能的本质
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elizaai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤖 ELIZA：一个改变AI认知的简单程序
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤖 ELIZA：一个改变AI认知的简单程序">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eliza" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、ELIZA的核心设计哲学
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、ELIZA的核心设计哲学">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 反智能的智能模拟
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 非指导性治疗的完美契合
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 转换规则类型
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eliza_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、ELIZA的心理学机制
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、ELIZA的心理学机制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-projection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 投射效应（Projection）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-confirmation-bias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 确认偏误（Confirmation Bias）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-anthropomorphism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 拟人化倾向（Anthropomorphism）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eliza_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、现代视角下的ELIZA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、现代视角下的ELIZA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-elizachatgpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. ELIZA与ChatGPT的对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-eliza" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. ELIZA的现代变体
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eliza_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、编程实践：实现简化版ELIZA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、编程实践：实现简化版ELIZA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 核心代码框架
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 对话示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eliza_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、ELIZA的历史意义与当代启示
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、ELIZA的历史意义与当代启示">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 技术意义
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 哲学意义
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 魏泽鲍姆的警告（现代依然适用）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eliza_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        七、从ELIZA到现代聊天机器人的演进路径
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        八、教学实验建议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="八、教学实验建议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 扩展实验
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 反思问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.2 模式匹配与文本替换
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#223" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2.3 核心逻辑的实现
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二章总结：从心智社会到现代智能体的演进
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二章总结：从心智社会到现代智能体的演进">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、符号主义的瓶颈：单一推理核心的极限
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、心智社会：智能不是一个整体，而是“协作的产物”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、联结主义崛起：智能可以“学习”而不是“设计”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、强化学习：智能体拥有了“决策与规划”的能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、大规模预训练：让智能体在“学习任务之前”先理解世界
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、现代 LLM 智能体：多技术融合的产物
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        七、纵观历史：智能体的演进是三大思想的融合
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="_1">第二章 智能体发展史</h1>
+<h2 id="_2">🕰️ <strong>历史脉络：从符号主义到现代智能体</strong></h2>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/2-figures/1757246501849-00.png" alt="图片描述" width="90%"/>
+  <p>图 2.1 AI智能体的演进阶梯</p>
+</div>
+
+<h3 id="21"><strong>图2.1的演进阶梯解读</strong></h3>
+<pre><code>符号主义智能体 (1960s-1980s)
+    ↓
+痛点：脆弱性、知识瓶颈、缺乏常识
+    ↓
+行为主义/反应式智能体 (1980s-1990s)
+    ↓
+痛点：缺乏规划能力、短视决策
+    ↓
+连接主义/学习型智能体 (1990s-至今)
+    ↓
+痛点：数据依赖、可解释性差
+    ↓
+现代混合智能体
+</code></pre>
+<h2 id="_3">🔍 <strong>符号主义智能体深度分析</strong></h2>
+<h3 id="1-pssh"><strong>1. 物理符号系统假说（PSSH）的革命性意义</strong></h3>
+<h4 id="_4"><strong>理论贡献</strong></h4>
+<ul>
+<li><strong>将智能形式化</strong>：首次明确提出“智能=符号处理”的可计算标准</li>
+<li><strong>提供了可验证标准</strong>：为判断一个系统是否具有智能提供了理论依据</li>
+<li><strong>统一了认知科学和计算机科学</strong>：心智活动被视为信息处理过程</li>
+</ul>
+<h4 id="_5"><strong>局限性揭示</strong></h4>
+<pre><code class="language-python"># PSSH隐含的假设链
+IF 世界可以完全符号化
+AND 符号操作可以模拟所有智能行为
+AND 我们能找到正确的符号表示方法
+THEN 实现通用人工智能
+# 问题：这三个前提都不完全成立
+</code></pre>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/2-figures/1757246501849-0.png" alt="图片描述" width="90%"/>
+  <p>图 2.2 物理符号系统的构成元素</p>
+</div>
+
+<h3 id="2"><strong>2. 专家系统的双面性</strong></h3>
+<h4 id="_6"><strong>成功原因深度解析</strong></h4>
+<ol>
+<li><strong>领域封闭性</strong>：医学、化学等领域有明确规则边界</li>
+<li><strong>专家知识可编码</strong>：诊断流程相对标准化</li>
+<li><strong>价值明确</strong>：辅助决策而非完全替代</li>
+</ol>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/2-figures/1757246501849-1.png" alt="图片描述" width="90%"/>
+  <p>图 2.3 专家系统的通用架构</p>
+</div>
+
+<h4 id="mycin"><strong>MYCIN的技术创新分层</strong></h4>
+<pre><code>表层：诊断建议系统
+    ↓
+中层：置信因子推理（不确定性处理）
+    ↓
+深层：知识工程方法论（知识获取、表示、验证）
+</code></pre>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/2-figures/1757246501849-2.png" alt="图片描述" width="90%"/>
+  <p>图 2.4 MYCIN反向链推理流程示意图</p>
+</div>
+
+<h4 id="_7"><strong>专家系统的演化谱系</strong></h4>
+<pre><code>第一代：简单规则系统（MYCIN）
+    ↓
+第二代：基于案例的推理（CBR）
+    ↓
+第三代：混合专家系统（规则+机器学习）
+    ↓
+现代：可解释AI（XAI）的前身
+</code></pre>
+<h3 id="3-shrdlu"><strong>3. SHRDLU的里程碑意义</strong></h3>
+<h4 id="_8"><strong>技术集成的突破</strong></h4>
+<pre><code>自然语言理解 → 世界模型 → 规划器 → 执行器 → 记忆系统
+    ↓
+统一的符号表示贯穿始终
+</code></pre>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/2-figures/1757246501849-3.png" alt="图片描述" width="90%"/>
+  <p>图 2.5 SHRDLU的“积木世界”交互界面</p>
+</div>
+
+<p>SHRDLU在当时</p>
+<h4 id="_9"><strong>“积木世界”的方法论价值</strong></h4>
+<ul>
+<li><strong>简化复杂性</strong>：控制变量，聚焦核心问题</li>
+<li><strong>完整闭环</strong>：感知-推理-行动-反馈全流程</li>
+<li><strong>可验证性</strong>：所有状态可观测，结果可检验</li>
+</ul>
+<h4 id="shrdlu"><strong>SHRDLU展现的智能层次</strong></h4>
+<pre><code class="language-yaml">Level 1: 语法解析（句法分析）
+Level 2: 语义理解（指代消解）
+Level 3: 上下文推理（对话连贯）
+Level 4: 意图识别（用户目标推断）
+Level 5: 动作规划（任务分解与排序）
+Level 6: 自我解释（行为动机说明）
+</code></pre>
+<hr />
+<h2 id="_10">⚠️ <strong>符号主义的四大根本挑战</strong></h2>
+<h3 id="1knowledge-acquisition-bottleneck"><strong>挑战1：知识获取瓶颈（Knowledge Acquisition Bottleneck）</strong></h3>
+<h4 id="_11"><strong>表现形式</strong></h4>
+<pre><code>&quot;隐性知识&quot;难题：
+专家知道如何做 → 但说不清规则
+    ↓
+知识工程师试图编码 → 信息丢失/扭曲
+    ↓
+系统规则库 → 不完整、有偏差
+</code></pre>
+<h4 id="_12"><strong>量化影响</strong></h4>
+<ul>
+<li><strong>成本</strong>：专家系统开发中，知识获取占60-80%成本</li>
+<li><strong>时间</strong>：大型系统需要数年知识工程</li>
+<li><strong>可维护性</strong>：规则相互依赖，修改困难</li>
+</ul>
+<h3 id="2common-sense-problem"><strong>挑战2：常识问题（Common-sense Problem）</strong></h3>
+<h4 id="_13"><strong>常识的维度</strong></h4>
+<pre><code class="language-python">常识_categories = {
+    '物理常识': ['物体会下落', '水往低处流'],
+    '社会常识': ['敲门后等待回应', '排队时保持距离'],
+    '心理常识': ['别人痛时会叫喊', '高兴时会微笑'],
+    '功能常识': ['椅子可以坐', '刀可以切东西'],
+    '默认推理': ['鸟会飞（除非是企鹅）'],
+}
+</code></pre>
+<h4 id="cyc"><strong>Cyc项目的启示</strong></h4>
+<ul>
+<li><strong>雄心</strong>：建立人类所有常识的符号化知识库</li>
+<li><strong>现实</strong>：40年努力，500万条断言，仍远远不够</li>
+<li><strong>核心困境</strong>：常识的<strong>开放性</strong>和<strong>情境依赖性</strong></li>
+</ul>
+<h3 id="3frame-problem"><strong>挑战3：框架问题（Frame Problem）</strong></h3>
+<h4 id="_14"><strong>问题本质</strong></h4>
+<pre><code class="language-python"># 动作执行前后的状态变化
+初始状态: {手中无积木, 桌上有红色积木, 桌上有蓝色积木}
+动作: 拿起红色积木
+
+# 符号主义需要显式声明：
+变化: 手中有红色积木, 桌上无红色积木
+不变: 桌上有蓝色积木, 世界是三维的, 重力存在...
+# 问题：不变集合是无限的！
+</code></pre>
+<h4 id="_15"><strong>解决尝试</strong></h4>
+<ol>
+<li><strong>框架公理</strong>：为每个动作声明所有不变项 → 组合爆炸</li>
+<li><strong>异常公理</strong>：只声明变化项，其他默认不变 → 仍不完备</li>
+<li><strong>情景演算</strong>：形式化逻辑框架 → 计算复杂度高</li>
+</ol>
+<h3 id="4brittleness"><strong>挑战4：脆弱性（Brittleness）</strong></h3>
+<h4 id="_16"><strong>脆弱性表现层级</strong></h4>
+<pre><code>Level 1: 输入偏差（小变化导致完全错误）
+    ↓
+Level 2: 规则冲突（新情况无匹配规则）
+    ↓
+Level 3: 上下文误解（相同符号不同含义）
+    ↓
+Level 4: 目标迷失（无法处理多目标冲突）
+</code></pre>
+<h4 id="_17"><strong>现实世界对比</strong></h4>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>符号系统</th>
+<th>人类智能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>异常处理</strong></td>
+<td>崩溃</td>
+<td>灵活适应</td>
+</tr>
+<tr>
+<td><strong>模糊容忍</strong></td>
+<td>极低</td>
+<td>极高</td>
+</tr>
+<tr>
+<td><strong>泛化能力</strong></td>
+<td>几乎为零</td>
+<td>强大</td>
+</tr>
+<tr>
+<td><strong>学习能力</strong></td>
+<td>无（除非重新编码）</td>
+<td>持续学习</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_18">🔄 <strong>从符号主义到现代智能体的范式转换</strong></h2>
+<h3 id="_19"><strong>符号主义的遗产</strong></h3>
+<ol>
+<li><strong>方法论遗产</strong></li>
+<li>知识表示理论</li>
+<li>逻辑推理形式化</li>
+<li>
+<p>专家系统架构</p>
+</li>
+<li>
+<p><strong>问题意识遗产</strong></p>
+</li>
+<li>明确了AI的困难本质</li>
+<li>提出了可验证的标准</li>
+<li>
+<p>揭示了智能的复杂性</p>
+</li>
+<li>
+<p><strong>技术遗产</strong></p>
+</li>
+<li>产生式系统 → 现代规则引擎</li>
+<li>框架问题思考 → 情境理解研究</li>
+<li>知识工程 → 知识图谱</li>
+</ol>
+<h3 id="_20"><strong>范式转移的关键节点</strong></h3>
+<h4 id="1"><strong>1. 从“手工编码”到“自动学习”</strong></h4>
+<pre><code>符号主义：智能 = 预先编码的知识 + 推理规则
+    ↓ 瓶颈：知识获取困难
+连接主义：智能 = 从数据中学习的模式识别能力
+</code></pre>
+<h4 id="2_1"><strong>2. 从“逻辑完备”到“概率近似”</strong></h4>
+<pre><code>符号主义：追求逻辑正确性和完备性
+    ↓ 问题：现实世界充满不确定性
+现代AI：接受概率性和近似性，追求实用效果
+</code></pre>
+<h4 id="3"><strong>3. 从“符号操作”到“亚符号处理”</strong></h4>
+<pre><code>符号主义：高层次符号表示和推理
+    ↓ 局限：难以处理感知、运动等低层次智能
+现代AI：神经网络直接处理原始数据（像素、声音波形）
+</code></pre>
+<hr />
+<h2 id="_21">🧠 <strong>现代视角下的重新评估</strong></h2>
+<h3 id="_22"><strong>符号主义的现代复兴</strong></h3>
+<h4 id="1_1"><strong>1. 混合智能系统</strong></h4>
+<pre><code class="language-python"># 现代智能体的典型架构
+class ModernAgent:
+    def __init__(self):
+        self.neural_module = NeuralNetwork()  # 处理感知、模式识别
+        self.symbolic_module = KnowledgeGraph()  # 处理推理、规划
+        self.reinforcement_learner = RLAgent()  # 处理决策优化
+
+    def process(self, input_data):
+        # 神经网络提取特征
+        features = self.neural_module.extract_features(input_data)
+        # 符号系统进行推理
+        plan = self.symbolic_module.reason(features)
+        # 强化学习优化决策
+        action = self.reinforcement_learner.optimize(plan)
+        return action
+</code></pre>
+<h4 id="2-ai"><strong>2. 神经符号AI的兴起</strong></h4>
+<ul>
+<li><strong>Neuro-symbolic Integration</strong>：结合神经网络的感知能力和符号系统的推理能力</li>
+<li><strong>示例</strong>：AlphaGo = 蒙特卡洛树搜索（符号）+ 价值网络（神经）</li>
+<li><strong>优势</strong>：可解释性 + 数据效率 + 泛化能力</li>
+</ul>
+<h3 id="ai"><strong>历史教训对现代AI的启示</strong></h3>
+<h4 id="1_2"><strong>1. 避免新瓶装旧酒</strong></h4>
+<ul>
+<li><strong>大语言模型的“新常识问题”</strong>：看似有常识，实则是统计模式</li>
+<li><strong>框架问题的变体</strong>：情境理解仍然薄弱</li>
+<li><strong>脆弱性依旧存在</strong>：对抗样本、分布外泛化</li>
+</ul>
+<h4 id="2_2"><strong>2. 平衡自动化与可解释性</strong></h4>
+<pre><code>纯符号系统：完全可解释，但构建困难
+纯神经网络：高度自动化，但黑箱问题
+混合系统：寻求最佳平衡点
+</code></pre>
+<h4 id="3_1"><strong>3. 重新思考智能的本质</strong></h4>
+<p>符号主义的根本追问仍然有效：</p>
+<ul>
+<li><strong>什么是真正的理解？</strong></li>
+<li><strong>智能是否可以完全形式化？</strong></li>
+<li><strong>通用智能需要什么条件？</strong></li>
+</ul>
+<p>让我基于这段关于ELIZA的介绍，深入分析其设计思想、技术实现，以及它对现代AI的深远影响：</p>
+<h2 id="elizaai">🤖 <strong>ELIZA：一个改变AI认知的简单程序</strong></h2>
+<h3 id="eliza"><strong>一、ELIZA的核心设计哲学</strong></h3>
+<h4 id="1_3"><strong>1. 反智能的智能模拟</strong></h4>
+<p>魏泽鲍姆的<strong>核心洞见</strong>：</p>
+<pre><code>真正的智能理解 → 难以实现（当时的AI困境）
+    ↓
+模拟智能的感知 → 相对容易
+    ↓
+人类倾向于将智能投射到交互对象上
+</code></pre>
+<h4 id="2_3"><strong>2. 非指导性治疗的完美契合</strong></h4>
+<ul>
+<li>
+<p><strong>罗杰斯疗法特点</strong>：</p>
+</li>
+<li>
+<p>不提供建议，不做出诊断</p>
+</li>
+<li>主要通过反射和澄清来帮助来访者自我探索</li>
+<li>
+<p>常用句式：“你感觉……”、“你能多说一些吗？”</p>
+</li>
+<li>
+<p><strong>与ELIZA的技术匹配</strong>：</p>
+</li>
+</ul>
+<pre><code class="language-python">  # 罗杰斯疗法 vs ELIZA规则
+  人类治疗师：&quot;我注意到你提到了工作压力&quot;
+  ELIZA规则：IF 输入包含&quot;压力&quot; THEN 回应&quot;工作让你感到压力吗？&quot;
+
+  人类治疗师：&quot;你对这段关系有什么感受？&quot;  
+  ELIZA规则：IF 输入包含&quot;男朋友&quot; THEN 回应&quot;你能多谈谈你的男朋友吗？&quot;
+ ```
+
+### **二、ELIZA的技术架构解析**
+
+#### **1. 三层处理流水线**
+
+</code></pre>
+<p>原始输入 → 预处理（标准化、分词） → 关键词匹配 → 规则转换 → 输出生成</p>
+<pre><code>
+#### **2. 关键词匹配策略**
+
+```python
+# ELIZA的关键词层级
+keywords = {
+    '一级关键词': ['我', '你', '他', '它'],          # 最高优先级
+    '二级关键词': ['母亲', '父亲', '家庭', '工作'],    # 主题关键词
+    '三级关键词': ['难过', '快乐', '生气', '害怕'],    # 情绪关键词
+    '四级关键词': ['因为', '所以', '但是', '如果'],     # 逻辑关键词
+}
+</code></pre>
+<h4 id="3_2"><strong>3. 转换规则类型</strong></h4>
+<pre><code class="language-python"># 规则示例
+transformation_rules = {
+    # 模式1：反射（将陈述转为提问）
+    &quot;我 [X]&quot;: [&quot;你为什么[X]？&quot;, &quot;你[X]多久了？&quot;, &quot;[X]对你意味着什么？&quot;],
+
+    # 模式2：联想（关键词触发联想）
+    &quot;母亲&quot;: [&quot;多谈谈你的家庭&quot;, &quot;你母亲是什么样的人？&quot;, &quot;家庭关系对你重要吗？&quot;],
+
+    # 模式3：记忆（引用之前提到的内容）
+    &quot;昨天我[X]&quot;: [&quot;昨天[X]时你感觉如何？&quot;, &quot;为什么是昨天[X]？&quot;],
+
+    # 模式4：通用填充（无关键词匹配时）
+    &quot;default&quot;: [&quot;我明白了&quot;, &quot;请继续&quot;, &quot;这很有趣&quot;, &quot;你能详细说说吗？&quot;]
+}
+</code></pre>
+<h3 id="eliza_1"><strong>三、ELIZA的心理学机制</strong></h3>
+<h4 id="1-projection"><strong>1. 投射效应（Projection）</strong></h4>
+<pre><code>用户：我有一个问题
+ELIZA：你有一个问题？
+用户：（内心）它理解我！
+实际：只是简单的句式转换
+</code></pre>
+<h4 id="2-confirmation-bias"><strong>2. 确认偏误（Confirmation Bias）</strong></h4>
+<ul>
+<li>用户倾向于寻找支持自己信念的证据</li>
+<li>ELIZA的开放式提问允许用户自由解读</li>
+<li>用户将自己的理解填充到模糊回应中</li>
+</ul>
+<h4 id="3-anthropomorphism"><strong>3. 拟人化倾向（Anthropomorphism）</strong></h4>
+<ul>
+<li><strong>技术基础</strong>：简单的关键词匹配</li>
+<li><strong>心理过程</strong>：用户将复杂心智状态赋予简单系统</li>
+<li><strong>结果</strong>：产生情感连接和信任感</li>
+</ul>
+<h3 id="eliza_2"><strong>四、现代视角下的ELIZA</strong></h3>
+<h4 id="1-elizachatgpt"><strong>1. ELIZA与ChatGPT的对比</strong></h4>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>ELIZA (1966)</th>
+<th>ChatGPT (2022+)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>技术基础</strong></td>
+<td>规则匹配</td>
+<td>大规模语言模型</td>
+</tr>
+<tr>
+<td><strong>理解深度</strong></td>
+<td>零理解</td>
+<td>统计模式理解</td>
+</tr>
+<tr>
+<td><strong>回应生成</strong></td>
+<td>模板填充</td>
+<td>概率生成</td>
+</tr>
+<tr>
+<td><strong>可解释性</strong></td>
+<td>完全透明</td>
+<td>黑箱模型</td>
+</tr>
+<tr>
+<td><strong>适应性</strong></td>
+<td>固定规则</td>
+<td>上下文学习</td>
+</tr>
+<tr>
+<td><strong>伦理担忧</strong></td>
+<td>情感欺骗</td>
+<td>信息操纵、偏见放大</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2-eliza"><strong>2. ELIZA的现代变体</strong></h4>
+<pre><code class="language-python"># 现代规则聊天机器人的进化
+class ModernEliza:
+    def __init__(self):
+        self.keyword_matcher = KeywordMatcher()      # ELIZA传统
+        self.intent_classifier = IntentClassifier()   # 现代NLP
+        self.response_generator = ResponseGenerator() # 模板+生成混合
+
+    def respond(self, user_input):
+        # 混合策略
+        if self.has_clear_pattern(user_input):
+            return self.eliza_style_response(user_input)  # 规则优先
+        else:
+            return self.llm_generated_response(user_input) # 生成模型兜底
+</code></pre>
+<h3 id="eliza_3"><strong>五、编程实践：实现简化版ELIZA</strong></h3>
+<h4 id="1_4"><strong>1. 核心代码框架</strong></h4>
+<pre><code class="language-python">import re
+from typing import List, Dict, Optional
+
+class SimpleEliza:
+    def __init__(self):
+        # 关键词和对应转换规则
+        self.patterns = {
+            r'我(?:觉得|感觉|认为)? (.*)': [
+                &quot;你为什么{}？&quot;,
+                &quot;{}对你来说重要吗？&quot;,
+                &quot;能多谈谈{}吗？&quot;
+            ],
+            r'我的(母亲|父亲|家人|朋友)': [
+                &quot;你的{}怎么样？&quot;,
+                &quot;你和{}的关系如何？&quot;,
+                &quot;{}在你生活中扮演什么角色？&quot;
+            ],
+            r'因为(.*)': [
+                &quot;这是唯一的原因吗？&quot;,
+                &quot;{}如何影响了你？&quot;
+            ],
+            r'我总是(.*)': [
+                &quot;你能举个例子说明什么时候{}吗？&quot;,
+                &quot;{}让你感觉如何？&quot;
+            ]
+        }
+
+        # 默认回应（无匹配时）
+        self.default_responses = [
+            &quot;请继续。&quot;,
+            &quot;我明白了。&quot;,
+            &quot;这很有趣，请多说一些。&quot;,
+            &quot;你能详细说说吗？&quot;
+        ]
+
+    def match_pattern(self, user_input: str) -&gt; Optional[str]:
+        &quot;&quot;&quot;匹配用户输入的模式&quot;&quot;&quot;
+        for pattern, responses in self.patterns.items():
+            match = re.match(pattern, user_input)
+            if match:
+                # 提取匹配的内容
+                captured = match.group(1) if match.groups() else &quot;&quot;
+                response_template = responses[0]  # 简单起见，用第一个模板
+                return response_template.format(captured)
+        return None
+
+    def respond(self, user_input: str) -&gt; str:
+        &quot;&quot;&quot;生成回应&quot;&quot;&quot;
+        response = self.match_pattern(user_input)
+        if response:
+            return response
+        else:
+            # 随机选择一个默认回应
+            import random
+            return random.choice(self.default_responses)
+</code></pre>
+<h4 id="2_4"><strong>2. 对话示例</strong></h4>
+<pre><code class="language-python">eliza = SimpleEliza()
+
+# 测试对话
+test_inputs = [
+    &quot;我觉得生活很累&quot;,
+    &quot;我的父亲对我要求很严格&quot;,
+    &quot;因为我害怕失败&quot;,
+    &quot;我总是拖延&quot;
+]
+
+for input_text in test_inputs:
+    print(f&quot;用户: {input_text}&quot;)
+    print(f&quot;ELIZA: {eliza.respond(input_text)}&quot;)
+    print(&quot;-&quot; * 30)
+
+# 输出示例：
+# 用户: 我觉得生活很累
+# ELIZA: 你为什么生活很累？
+# ------------------------------
+# 用户: 我的父亲对我要求很严格  
+# ELIZA: 你的父亲怎么样？
+# ------------------------------
+</code></pre>
+<h3 id="eliza_4"><strong>六、ELIZA的历史意义与当代启示</strong></h3>
+<h4 id="1_5"><strong>1. 技术意义</strong></h4>
+<ul>
+<li><strong>自然语言处理的起点</strong>：首次展示机器可以进行看似智能的对话</li>
+<li><strong>模式匹配的威力</strong>：简单技术可以产生复杂效果</li>
+<li><strong>人机交互的奠基</strong>：开创了聊天机器人这一重要领域</li>
+</ul>
+<h4 id="2_5"><strong>2. 哲学意义</strong></h4>
+<pre><code class="language-python"># ELIZA引发的根本问题
+questions = [
+    &quot;什么是真正的理解？&quot;,                    # 图灵测试的再思考
+    &quot;智能是否可以与意识分离？&quot;,               # 功能主义 vs 现象学
+    &quot;人类为何如此容易被欺骗？&quot;,               # 认知心理学问题
+    &quot;伦理边界在哪里？&quot;                      # 技术伦理的先声
+]
+</code></pre>
+<h4 id="3_3"><strong>3. 魏泽鲍姆的警告（现代依然适用）</strong></h4>
+<ul>
+<li><strong>工具理性的危险</strong>：技术可能被误用为心理替代品</li>
+<li><strong>责任的转移</strong>：用机器解决人类问题可能逃避真正的责任</li>
+<li><strong>异化的风险</strong>：人机关系可能替代人人关系</li>
+</ul>
+<h3 id="eliza_5"><strong>七、从ELIZA到现代聊天机器人的演进路径</strong></h3>
+<pre><code>ELIZA (1966)
+    ↓ 局限：完全规则驱动，无学习能力
+ALICE (1995) - AIML语言，更复杂的规则
+    ↓ 局限：仍然依赖人工编写规则
+统计聊天机器人 (2000s) - 基于信息检索
+    ↓ 局限：对话连贯性差
+神经对话模型 (2010s) - Seq2Seq, Transformer
+    ↓ 局限：缺乏常识，容易产生无意义回复
+大语言模型聊天机器人 (2020s) - ChatGPT等
+    ↓ 当前挑战：幻觉问题、安全性、可解释性
+</code></pre>
+<h3 id="_23"><strong>八、教学实验建议</strong></h3>
+<h4 id="1_6"><strong>1. 扩展实验</strong></h4>
+<pre><code class="language-python"># 实验1：添加记忆功能
+class ElizaWithMemory(SimpleEliza):
+    def __init__(self):
+        super().__init__()
+        self.conversation_history = []
+
+    def respond(self, user_input: str) -&gt; str:
+        self.conversation_history.append((&quot;用户&quot;, user_input))
+
+        # 尝试使用历史信息
+        if &quot;你刚才说&quot; in user_input:
+            # 引用之前的对话
+            if len(self.conversation_history) &gt;= 2:
+                prev_user_input = self.conversation_history[-2][1]
+                return f&quot;你指的是'{prev_user_input}'这件事吗？&quot;
+
+        response = super().respond(user_input)
+        self.conversation_history.append((&quot;ELIZA&quot;, response))
+        return response
+
+# 实验2：添加情感分析
+class EmotionalEliza(SimpleEliza):
+    emotion_keywords = {
+        &quot;开心&quot;: &quot;positive&quot;,
+        &quot;难过&quot;: &quot;negative&quot;, 
+        &quot;生气&quot;: &quot;negative&quot;,
+        &quot;害怕&quot;: &quot;negative&quot;,
+        &quot;兴奋&quot;: &quot;positive&quot;
+    }
+
+    def analyze_emotion(self, text: str) -&gt; str:
+        for keyword, emotion in self.emotion_keywords.items():
+            if keyword in text:
+                return emotion
+        return &quot;neutral&quot;
+
+    def respond(self, user_input: str) -&gt; str:
+        emotion = self.analyze_emotion(user_input)
+        if emotion == &quot;negative&quot;:
+            return &quot;听起来你现在有些困扰，想多谈谈这个吗？&quot;
+        elif emotion == &quot;positive&quot;:
+            return &quot;很高兴听到你这么说！&quot;
+        else:
+            return super().respond(user_input)
+</code></pre>
+<h4 id="2_6"><strong>2. 反思问题</strong></h4>
+<ol>
+<li><strong>技术层面</strong>：ELIZA的方法在哪些场景下仍然有效？</li>
+<li><strong>伦理层面</strong>：当用户对聊天机器人产生情感依赖时，开发者有什么责任？</li>
+<li><strong>认知层面</strong>：我们如何区分"看似智能"和"真正智能"？</li>
+<li><strong>设计层面</strong>：现代聊天机器人应该透明还是隐藏其局限性？</li>
+</ol>
+<hr />
+<h3 id="222">2.2.2 模式匹配与文本替换</h3>
+<p>ELIZA的算法流程基于<strong>模式匹配（Pattern Matching）与文本替换（Text Substitution）</strong>，可被清晰地分解为以下四个步骤：</p>
+<ol>
+<li><strong>关键词识别与排序：</strong>规则库为每个关键词（如 <code>mother</code>, <code>dreamed</code>, <code>depressed</code>）设定一个优先级。当输入包含多个关键词时，程序会选择优先级最高的关键词所对应的规则进行处理。</li>
+<li><strong>分解规则：</strong>找到关键词后，程序使用带通配符（<code>*</code>）的分解规则来捕获句子的其余部分。</li>
+<li><strong>规则示例</strong>： <code>* my *</code></li>
+<li><strong>用户输入</strong>： <code>"My mother is afraid of me"</code></li>
+<li><strong>捕获结果</strong>： <code>["", "mother is afraid of me"]</code></li>
+<li><strong>重组规则：</strong>程序从与分解规则关联的一组重组规则中，选择一条来生成回应（通常随机选择以增加多样性），并可选择性地使用上一步捕获的内容。</li>
+<li><strong>规则示例</strong>： <code>"Tell me more about your family."</code></li>
+<li><strong>生成输出</strong>： <code>"Tell me more about your family."</code></li>
+<li><strong>代词转换：</strong>在重组前，程序会进行简单的代词转换（如 <code>I</code> → <code>you</code>, <code>my</code> → <code>your</code>），以维持对话的连贯性。</li>
+</ol>
+<p>整个工作流程可以用一个简单的伪代码思路来表示：</p>
+<pre><code class="language-Python">FUNCTION generate_response(user_input):
+    // 1. 将用户输入拆分成单词
+    words = SPLIT(user_input)
+
+    // 2. 寻找优先级最高的关键词规则
+    best_rule = FIND_BEST_RULE(words)
+    IF best_rule is NULL:
+        RETURN a_generic_response() // 例如:&quot;Please go on.&quot;
+
+    // 3. 使用规则分解用户输入
+    decomposed_parts = DECOMPOSE(user_input, best_rule.decomposition_pattern)
+    IF decomposition_failed:
+        RETURN a_generic_response()
+
+    // 4. 对分解出的部分进行代词转换
+    transformed_parts = TRANSFORM_PRONOUNS(decomposed_parts)
+
+    // 5. 使用重组规则生成回应
+    response = REASSEMBLE(transformed_parts, best_rule.reassembly_patterns)
+
+    RETURN response
+</code></pre>
+<h3 id="223">2.2.3 核心逻辑的实现</h3>
+<p>现在，我们将上一节描述的技术原理转化为一个简单的、可运行的Python函数。下面的代码实现了一个迷你版的ELIZA，它包含了一小部分规则，但足以展示其核心工作机制。</p>
+<pre><code class="language-Python">import re
+import random
+
+# 定义规则库:模式(正则表达式) -&gt; 响应模板列表
+rules = {
+    r'I need (.*)': [
+        &quot;Why do you need {0}?&quot;,
+        &quot;Would it really help you to get {0}?&quot;,
+        &quot;Are you sure you need {0}?&quot;
+    ],
+    r'Why don\'t you (.*)\?': [
+        &quot;Do you really think I don't {0}?&quot;,
+        &quot;Perhaps eventually I will {0}.&quot;,
+        &quot;Do you really want me to {0}?&quot;
+    ],
+    r'Why can\'t I (.*)\?': [
+        &quot;Do you think you should be able to {0}?&quot;,
+        &quot;If you could {0}, what would you do?&quot;,
+        &quot;I don't know -- why can't you {0}?&quot;
+    ],
+    r'I am (.*)': [
+        &quot;Did you come to me because you are {0}?&quot;,
+        &quot;How long have you been {0}?&quot;,
+        &quot;How do you feel about being {0}?&quot;
+    ],
+    r'.* mother .*': [
+        &quot;Tell me more about your mother.&quot;,
+        &quot;What was your relationship with your mother like?&quot;,
+        &quot;How do you feel about your mother?&quot;
+    ],
+    r'.* father .*': [
+        &quot;Tell me more about your father.&quot;,
+        &quot;How did your father make you feel?&quot;,
+        &quot;What has your father taught you?&quot;
+    ],
+    r'.*': [
+        &quot;Please tell me more.&quot;,
+        &quot;Let's change focus a bit... Tell me about your family.&quot;,
+        &quot;Can you elaborate on that?&quot;
+    ]
+}
+
+# 定义代词转换规则
+pronoun_swap = {
+    &quot;i&quot;: &quot;you&quot;, &quot;you&quot;: &quot;i&quot;, &quot;me&quot;: &quot;you&quot;, &quot;my&quot;: &quot;your&quot;,
+    &quot;am&quot;: &quot;are&quot;, &quot;are&quot;: &quot;am&quot;, &quot;was&quot;: &quot;were&quot;, &quot;i'd&quot;: &quot;you would&quot;,
+    &quot;i've&quot;: &quot;you have&quot;, &quot;i'll&quot;: &quot;you will&quot;, &quot;yours&quot;: &quot;mine&quot;,
+    &quot;mine&quot;: &quot;yours&quot;
+}
+
+def swap_pronouns(phrase):
+    &quot;&quot;&quot;
+    对输入短语中的代词进行第一/第二人称转换
+    &quot;&quot;&quot;
+    words = phrase.lower().split()
+    swapped_words = [pronoun_swap.get(word, word) for word in words]
+    return &quot; &quot;.join(swapped_words)
+
+def respond(user_input):
+    &quot;&quot;&quot;
+    根据规则库生成响应
+    &quot;&quot;&quot;
+    for pattern, responses in rules.items():
+        match = re.search(pattern, user_input, re.IGNORECASE)
+        if match:
+            # 捕获匹配到的部分
+            captured_group = match.group(1) if match.groups() else ''
+            # 进行代词转换
+            swapped_group = swap_pronouns(captured_group)
+            # 从模板中随机选择一个并格式化
+            response = random.choice(responses).format(swapped_group)
+            return response
+    # 如果没有匹配任何特定规则，使用最后的通配符规则
+    return random.choice(rules[r'.*'])
+
+# 主聊天循环
+if __name__ == '__main__':
+    print(&quot;Therapist: Hello! How can I help you today?&quot;)
+    while True:
+        user_input = input(&quot;You: &quot;)
+        if user_input.lower() in [&quot;quit&quot;, &quot;exit&quot;, &quot;bye&quot;]:
+            print(&quot;Therapist: Goodbye. It was nice talking to you.&quot;)
+            break
+        response = respond(user_input)
+        print(f&quot;Therapist: {response}&quot;)
+
+&gt;&gt;&gt;
+Therapist: Hello! How can I help you today?
+You: I am feeling sad today.
+Therapist: How long have you been feeling sad today?
+You: I need some help with my project.
+Therapist: Are you sure you need some help with your project?
+You: My mother is not happy with my work.
+Therapist: Tell me more about your mother.
+You: quit
+Therapist: Goodbye. It was nice talking to you.
+</code></pre>
+<p>通过上述的编程实践，我们可以直观地总结出规则驱动系统的根本局限性，这些局限正是对 <code>2.1.4</code> 节中符号主义理论挑战的直接印证：</p>
+<ul>
+<li><strong>缺乏语义理解</strong>：系统不理解词义。例如，面对“I am <strong>not</strong> happy”的输入，它仍会机械地匹配 <code>I am (.*)</code> 规则并生成语义不通的回应，因为它无法理解否定词“not”的作用。</li>
+<li><strong>无上下文记忆</strong>：系统是<strong>无状态的（Stateless）</strong>，每次回应仅基于当前单句输入，无法进行连贯的多轮对话。</li>
+<li><strong>规则的扩展性问题</strong>：尝试增加更多规则会导致规则库的规模爆炸式增长，规则间的冲突与优先级管理将变得极其复杂，最终导致系统难以维护。</li>
+</ul>
+<p>然而，尽管存在这些显而易见的缺陷，ELIZA在当时却产生了著名的“<strong>ELIZA效应</strong>”，许多用户相信它能理解自己。这种智能的幻觉主要源于其巧妙的对话策略（如扮演被动的提问者、使用开放式模板）以及人类天生的情感投射心理。</p>
+<p>ELIZA的实践清晰地揭示了符号主义方法的核心矛盾：系统看似智能的表现，完全依赖于设计者预先编码的规则。然而，面对真实世界语言的无限可能性，这种穷举式的方法注定不可扩展。系统没有真正的理解，只是在执行符号操作，这正是其脆弱性的根源。</p>
+<p>下面是一篇<strong>公司内部分享用的总结稿</strong>，以“AI专业讲师”的语气撰写，可直接用于口头分享或放入 PPT 作为章节总结。</p>
+<hr />
+<h2 id="_24"><strong>第二章总结：从心智社会到现代智能体的演进</strong></h2>
+<h3 id="_25"><strong>一、符号主义的瓶颈：单一推理核心的极限</strong></h3>
+<p>早期的人工智能研究（如专家系统、SHRDLU、ELIZA）都基于一个思路：</p>
+<blockquote>
+<p><strong>用统一的规则和逻辑推理来构建智能。</strong></p>
+</blockquote>
+<p>这带来了两个根本性问题：</p>
+<ol>
+<li><strong>知识需要手工编码</strong>，难以覆盖真实世界的复杂性。</li>
+<li><strong>单一中央推理核心太脆弱</strong>，无法处理模糊性、歧义性和开放世界问题。</li>
+</ol>
+<p>这直接导致了符号主义在80年代的停滞，并促成新的思考方向。</p>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/2-figures/1757246501849-5.png" alt="图片描述" width="90%"/>
+  <p>图 2.7 符号主义与联结主义范式对比</p>
+</div>
+
+<h3 id="_26"><strong>二、心智社会：智能不是一个整体，而是“协作的产物”</strong></h3>
+<p>明斯基在《心智社会》中提出的核心观点是：</p>
+<blockquote>
+<p><strong>智能不是来自一个统一的“大脑”，而是源于无数简单智能体之间的协作。</strong></p>
+</blockquote>
+<p>他将人类心智拆解为：</p>
+<ul>
+<li><strong>大量简单、各司其职的“低层智能体”</strong>（如识别线条、抓握物体）</li>
+<li><strong>由这些简单智能体组成的“机构（Agency）”</strong></li>
+<li><strong>最终通过局部交互产生“涌现式行为”</strong></li>
+</ul>
+<p>举例：搭积木塔</p>
+<p>没有一个智能体知道整个任务，但所有部分通过激活、抑制、协作，最终形成复杂行为。</p>
+<p>这对计算机科学产生重大启发：</p>
+<ul>
+<li><strong>智能可以是去中心化的</strong></li>
+<li><strong>复杂行为可以从简单规则中涌现</strong></li>
+<li><strong>智能体之间的互动本身也是智能的一部分</strong></li>
+</ul>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/2-figures/1757246501849-6.png" alt="图片描述" width="90%"/>
+  <p>图 2.8 强化学习的核心交互循环</p>
+</div>
+
+<p>它直接影响了后来的：</p>
+<ul>
+<li>分布式AI</li>
+<li>群体智能</li>
+<li>多智能体系统（MAS）</li>
+</ul>
+<hr />
+<h3 id="_27"><strong>三、联结主义崛起：智能可以“学习”而不是“设计”</strong></h3>
+<p>传统符号主义无法解决知识获取问题，于是联结主义提出了新的路径：</p>
+<blockquote>
+<p><strong>智能来源于大量简单神经元之间连接权重的学习。</strong></p>
+</blockquote>
+<p>三大核心理念：</p>
+<ul>
+<li>知识是分布式存储的</li>
+<li>神经元本身非常简单</li>
+<li>智能来自学习，而不是规则库</li>
+</ul>
+<p>深度学习的成功（图像识别、语音识别、NLP）正是这一路线的爆发。</p>
+<hr />
+<h3 id="_28"><strong>四、强化学习：智能体拥有了“决策与规划”的能力</strong></h3>
+<p>联结主义解决了“感知”，但没有解决“行为决策”。</p>
+<p>强化学习补上了这个空缺。</p>
+<p>其思想非常简单：</p>
+<blockquote>
+<p><strong>智能体通过与环境试错，不断优化策略以最大化长期奖励。</strong></p>
+</blockquote>
+<p>核心要素：</p>
+<ul>
+<li>状态</li>
+<li>行动</li>
+<li>奖励</li>
+<li>环境</li>
+<li>策略（Policy）</li>
+</ul>
+<p>经典例子：AlphaGo 通过自我对弈学习最优策略。</p>
+<p>强化学习让智能体具备：</p>
+<ul>
+<li>规划</li>
+<li>取舍</li>
+<li>面向未来的决策能力</li>
+</ul>
+<hr />
+<h3 id="_29"><strong>五、大规模预训练：让智能体在“学习任务之前”先理解世界</strong></h3>
+<p>预训练–微调范式解决了常识与知识的瓶颈。</p>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/2-figures/1757246501849-7.png" alt="图片描述" width="90%"/>
+  <p>图 2.9 “预训练-微调”范式示意图</p>
+</div>
+
+<p>通过海量文本训练的大语言模型（LLM）具备：</p>
+<ul>
+<li>世界知识</li>
+<li>语言能力</li>
+<li>隐式逻辑</li>
+<li>上下文推理</li>
+</ul>
+<p>更重要的是出现了意料之外的“涌现能力”：</p>
+<ul>
+<li><strong>零样本 / 少样本学习</strong></li>
+<li><strong>思维链推理</strong></li>
+<li><strong>工具调用</strong></li>
+<li><strong>规划能力</strong></li>
+</ul>
+<p>LLM 已经不再是传统 NLP 模型，而是一个“通用知识+推理引擎”。</p>
+<h3 id="llm"><strong>六、现代 LLM 智能体：多技术融合的产物</strong></h3>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/2-figures/1757246501849-8.png" alt="图片描述" width="90%"/>
+  <p>图 2.10 LLM驱动的智能体核心组件架构</p>
+</div>
+
+<p>现代智能体（如 AutoGPT、ChatGPT Agents）已经形成了一个标准架构：</p>
+<ol>
+<li><strong>感知模块</strong>：理解环境和输入</li>
+<li><strong>规划模块</strong>：分解任务、推理、反思</li>
+<li><strong>记忆模块</strong>：保留长期经验</li>
+<li><strong>执行模块</strong>：调用工具与 API</li>
+<li><strong>循环迭代</strong>：Observation → Thought → Action → Observation</li>
+</ol>
+<p>这个闭环让智能体能够：</p>
+<ul>
+<li>自主完成复杂任务</li>
+<li>规划步骤</li>
+<li>调用工具</li>
+<li>根据结果自我修正</li>
+</ul>
+<p>这是人类智能行为的一种“工程化复刻”。</p>
+<hr />
+<h3 id="_30"><strong>七、纵观历史：智能体的演进是三大思想的融合</strong></h3>
+<p>从 1950 年代到今天，智能体的发展可以看作：</p>
+<table>
+<thead>
+<tr>
+<th>思潮</th>
+<th>贡献</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>符号主义</strong></td>
+<td>逻辑推理、结构化知识表示</td>
+</tr>
+<tr>
+<td><strong>联结主义</strong></td>
+<td>感知、模式识别、神经网络学习能力</td>
+</tr>
+<tr>
+<td><strong>行为主义（强化学习）</strong></td>
+<td>决策、规划、试错优化</td>
+</tr>
+<tr>
+<td><strong>大语言模型（现代融合）</strong></td>
+<td>世界知识、通用推理、工具调用、自主任务执行</td>
+</tr>
+</tbody>
+</table>
+<p>现代智能体正是这三大方向融合的最终成果。</p>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/2-figures/1757246501849-10.png" alt="图片描述" width="90%"/>
+  <p>图 2.12 AI Agent 技术栈概览</p>
+</div>
+
+<h1 id="_31"><strong>一句话总结</strong></h1>
+<blockquote>
+<p><strong>从“规则”到“学习”，从“单体智能”到“协作智能”，从“任务模型”到“通用模型”，智能体正从工程系统演化为具备自主性、连续性与社会性的全新数字生命形态。</strong></p>
+</blockquote>
+<p><img alt="Alt Image Text" src="../../images/chap8_3_1.png" title="Body image" /></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3471 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../2langchain_dynamodb/">
+      
+      
+        <link rel="next" href="../4ML/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>3 Amazon Bedrock 简介 - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#amazon-bedrock" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3 Amazon Bedrock 简介
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/3OpenaiModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/4chatgpt_translate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#al" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        构建生成式 Al 应用充满挑战性
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#amazon-bedrock_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon Bedrock
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Amazon Bedrock">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#amazon-bedrock_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon Bedrock 工作原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amazon-bedrock_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon Bedrock广泛的模型选择
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anthropic-claude" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anthropic Claude
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-21-amazon-bedrock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude 2.1 Amazon Bedrock 可用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cohere-command-embed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cohere Command + Embed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#embed-english-multilingual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embed English / Multilingual
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amazon-bedrock_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon Bedrock自定义能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amazon-bedrock-knowledge-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon Bedrock Knowledge Base中支持的向量数据库类型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amazonbedrockagent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        如何在AmazonBedrock构建Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guardrails-for-amazon-bedrock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Guardrails for Amazon Bedrock
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#amazon-bedrock_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon Bedrock 的用途
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Amazon Bedrock 的用途">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-fm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.利用 FM 进行高效构建。
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.利用 FM 进行高效构建。">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.安全地构建生成式 AI 应用程序
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.使用贵组织的数据提供自定义体验。
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#randomness-and-diversity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Randomness and diversity（随机性和多样性）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#length" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Length (长度)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 提示工程基础知识
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2 提示工程基础知识">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2-2 大语言模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本提示技术
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基本提示技术">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1零样本提示
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 小样本提示
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 思维链提示
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高级提示技术
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="高级提示技术">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        思维树
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rag-retrieval-augmented-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        检索增强生成 (RAG, Retrieval Augmented Generation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#art-automatic-reasoning-and-tool-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        自动推理和工具使用 (ART, Automatic Reasoning and Tool-use)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        特定于模型的提示技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解决提示误用问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        减少偏差
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/4assistantapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/2agent_buildout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0responseApi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0agents_demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1ai_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/2ai_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/3ai_agents_his/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Daily Blogs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Agent Daily Blogs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1agents_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/4agent_arg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/5Agent_google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Google AI Agent 白皮书深度拆解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#al" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        构建生成式 Al 应用充满挑战性
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#amazon-bedrock_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon Bedrock
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Amazon Bedrock">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#amazon-bedrock_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon Bedrock 工作原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amazon-bedrock_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon Bedrock广泛的模型选择
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anthropic-claude" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anthropic Claude
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-21-amazon-bedrock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude 2.1 Amazon Bedrock 可用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cohere-command-embed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cohere Command + Embed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#embed-english-multilingual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embed English / Multilingual
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amazon-bedrock_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon Bedrock自定义能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amazon-bedrock-knowledge-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon Bedrock Knowledge Base中支持的向量数据库类型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amazonbedrockagent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        如何在AmazonBedrock构建Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guardrails-for-amazon-bedrock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Guardrails for Amazon Bedrock
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#amazon-bedrock_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amazon Bedrock 的用途
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Amazon Bedrock 的用途">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-fm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.利用 FM 进行高效构建。
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.利用 FM 进行高效构建。">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.安全地构建生成式 AI 应用程序
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.使用贵组织的数据提供自定义体验。
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#randomness-and-diversity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Randomness and diversity（随机性和多样性）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#length" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Length (长度)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 提示工程基础知识
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2 提示工程基础知识">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2-2 大语言模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本提示技术
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基本提示技术">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1零样本提示
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 小样本提示
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 思维链提示
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        高级提示技术
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="高级提示技术">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        思维树
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rag-retrieval-augmented-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        检索增强生成 (RAG, Retrieval Augmented Generation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#art-automatic-reasoning-and-tool-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        自动推理和工具使用 (ART, Automatic Reasoning and Tool-use)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        特定于模型的提示技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解决提示误用问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        减少偏差
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="amazon-bedrock">Amazon Bedrock 简介</h1>
+<h3 id="al">构建生成式 Al 应用充满挑战性</h3>
+<ul>
+<li>接入和管理多家基础模型</li>
+<li>对基础模型进行微调并非易事</li>
+<li>数据隐私和安全性</li>
+<li>利用基础模型执行复杂任务</li>
+<li>连接不同的数据源</li>
+<li>基础设施难以管理</li>
+</ul>
+<h2 id="amazon-bedrock_1">Amazon Bedrock</h2>
+<blockquote>
+<p>使用基础模型构建和扩展生成式 A1 应用程序的便捷方法</p>
+</blockquote>
+<ul>
+<li>通过单个 API 访问一系列主流基础模型</li>
+<li>使用企业数据，将基础模型进行微调从而定制化</li>
+<li>确保数据隐私安全及合规性</li>
+<li>通过动态调用 APl，构建执行复杂业务任务的Agent</li>
+<li>利用检索增强生成 (RAG)，通过数据扩展基础模型的力量</li>
+<li>获得最佳性价比，无需管理基础设施</li>
+</ul>
+<h3 id="amazon-bedrock_2">Amazon Bedrock 工作原理</h3>
+<p><strong>Amazon Bedrock 通过无服务器方式，调用API服务来利用基础模型构建生成式Al 应用程序</strong></p>
+<ul>
+<li><strong>选择基础模型</strong></li>
+</ul>
+<p>在Playground试用基础模型，选择满足需求的基础模型</p>
+<ul>
+<li><strong>直接使用或微调</strong></li>
+</ul>
+<p>按需微调基础模型Bedrock 将自动部署基础模型进行推理</p>
+<ul>
+<li><strong>发送提示词</strong></li>
+</ul>
+<p>使用 Bedrock API, 将提示发送给基础模型</p>
+<ul>
+<li><strong>接收响应</strong></li>
+</ul>
+<p>在应用程序中接收模型响应</p>
+<h3 id="amazon-bedrock_3">Amazon Bedrock广泛的模型选择</h3>
+<p><strong>Al21labs</strong></p>
+<ul>
+<li>Jurassic-2 Ultra</li>
+<li>Jurassic-2 Mid</li>
+</ul>
+<p><strong>ANTHROPIC</strong></p>
+<ul>
+<li>Claude 2</li>
+<li>Claude 2.1</li>
+<li>Claude Instant</li>
+</ul>
+<p><strong>Meta</strong></p>
+<ul>
+<li>Llama 2</li>
+<li>Llama 2 13B</li>
+<li>Llama 2 70B</li>
+</ul>
+<p><strong>stability.ai</strong></p>
+<ul>
+<li>Stable Diffusion XL1.0</li>
+</ul>
+<h3 id="anthropic-claude">Anthropic Claude</h3>
+<p><strong>Claude 2</strong></p>
+<p>旗舰版模型，专为对话、总结、问答、工作流程自动化、编码等而打造。支持复杂的对话和创意内容生成等任</p>
+<p><strong>Claude Instant</strong></p>
+<p>一个较小但功能仍然非常强大的模型，可以处理系列任务，包括任意对话、文本分析、摘要和文档问答。</p>
+<ul>
+<li>Tokens: 100,000</li>
+<li>支持语种：多语种</li>
+</ul>
+<h3 id="claude-21-amazon-bedrock">Claude 2.1 Amazon Bedrock 可用</h3>
+<ul>
+<li>200k token 上下文窗口</li>
+<li>Tool Use</li>
+<li>幻觉率下降 50%</li>
+<li>System Prompt</li>
+<li>更低的价格</li>
+</ul>
+<h3 id="cohere-command-embed">Cohere Command + Embed</h3>
+<p>Command基于广泛的业务应用数据进行训练，支持例如文本生成、摘要、文案写作、对话、提取和问答等多种任务。Command是Cohere旗舰模型。CommandLight在成本效益和低延迟推理方面为客户提供了无与伦比的平衡</p>
+<h3 id="embed-english-multilingual">Embed English / Multilingual</h3>
+<p>将文本输入（单词、短语）转换为向量数字表示（Embedding）。与单词匹配相比较，Embedding会产生更相关和更符合上下文的结果。</p>
+<h3 id="amazon-bedrock_4">Amazon Bedrock自定义能力</h3>
+<ul>
+<li>微调</li>
+<li>具有知识库的检索增强生成 (RAG)</li>
+<li>对 Amazon Titan Text Lite  与 Express 持续预训练</li>
+</ul>
+<h3 id="amazon-bedrock-knowledge-base"><strong>Amazon Bedrock Knowledge Base中支持的向量数据库类型</strong></h3>
+<ul>
+<li>Amazon OpenSearch Serverless向量引擎</li>
+<li>Redis Enterprise Cloud</li>
+<li>Pinecone</li>
+<li>Amazon Aurora</li>
+<li>MongoDB</li>
+</ul>
+<h3 id="amazonbedrockagent">如何在AmazonBedrock构建Agent</h3>
+<p><strong>Agents for Amazon Bedrock 加速生成式AI应用的构建</strong></p>
+<h3 id="guardrails-for-amazon-bedrock">Guardrails for Amazon Bedrock</h3>
+<ul>
+<li>为 Amazon Bedrock 上的多种基础模型和Agent 提供保护</li>
+<li>根据您的负责任Al的策略来配置有害内容过滤器</li>
+<li>通过简短的自然语言描述来定义并拒绝生成被禁止的话题</li>
+<li>在基础模型的回复结果中屏蔽个人隐私数据（PI)</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap2_3_6.png" title="Body image" /></p>
+<h2 id="amazon-bedrock_5">Amazon Bedrock 的用途</h2>
+<p>Amazon Bedrock 是一项完全托管式服务，可以提供领先的基础模型 (FM) 和一系列工具，用于快速构建和扩缩生成式 AI 应用程序。此服务还可以帮助确保隐私和安全性。</p>
+<ul>
+<li><strong>Amazon Bedrock 的三个主要优势是什么？</strong></li>
+</ul>
+<h3 id="1-fm">1.利用 FM 进行高效构建。</h3>
+<ul>
+<li>从各种 FM 中选择</li>
+</ul>
+<p>您可以选择 Amazon、AI21 Labs、Anthropic、Cohere、Meta 和 Stability AI 提供的 FM，以确定适合您使用案例的 FM。</p>
+<p>其中包括 Amazon Titan、Jurassic-2、Claude、Command、Llama 2 和 Stable Diffusion 系列 FM，<strong>这些 FM 支持包括文本、嵌入和多模态在内的不同模式</strong></p>
+<ul>
+<li><strong>通过单个 API 访问 FM</strong></li>
+<li><strong>利用完全托管式体验</strong><ul>
+<li><strong>利用 Amazon Bedrock 无服务器体验，无需管理基础设施。</strong></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-ai">2.安全地构建生成式 AI 应用程序</h4>
+<ul>
+<li><strong>具有全面的数据保护和隐私保护</strong></li>
+</ul>
+<p>通过 Amazon Bedrock，您的数据（包括提示、用于补充提示的信息、FM 响应以及自定义 FM）会保留在处理 API 调用的区域。您的数据在传输过程中通过 TLS 1.2 进行加密，处于静止状态时通过服务托管型 Amazon Key Management Service (Amazon KMS) 密钥进行加密。</p>
+<p><strong>您可以将 Amazon PrivateLink 与 Amazon Bedrock 结合使用，在您的 FM 与本地部署网络之间建立专属连接，不让您的流量出现在互联网中</strong>。</p>
+<p>此外，还可以私下对 FM 进行自定义，保留对数据使用方式和加密方式的控制。Amazon Bedrock 会为基本 FM 模型制作一个单独的副本，并对模型的这一私有副本进行训练。</p>
+<p><strong>确保生成式 AI 应用程序的安全</strong></p>
+<p>为确保自定义 FM 的安全，您可以使用亚马逊云科技安全服务制定深入的安全策略。自定义 FM 使用 Amazon KMS 密钥进行加密，并以加密方式存储。</p>
+<p>通过使用 Amazon Identity and Access Management (IAM)，您可以控制对自定义 FM 的访问，允许或拒绝访问特定 FM。您还可以控制接收推理的服务以及可以登录 Amazon Bedrock 控制台的用户。</p>
+<p><strong>为监管和可审计性提供访问支持</strong></p>
+<p>Amazon Bedrock 提供了全面的监控和日志记录功能，包括可用于满足监管和审计要求的工具。</p>
+<p>您可以使用 Amazon CloudWatch 跟踪使用指标，并使用审计所需的指标构建自定义控制面板。<strong>在将其他系统集成到生成式 AI 应用程序中时，您还可以使用 Amazon CloudTrail 监控 API 活动并排查问题</strong>。</p>
+<h4 id="3">3.使用贵组织的数据提供自定义体验。</h4>
+<p><strong>只需几个步骤就能私下微调 FM</strong></p>
+<p>您可以针对特定任务对 FM 进行微调，而无需为大量数据添加注解。</p>
+<p><strong>将 Amazon Bedrock 指向 Amazon Simple Storage Service (Amazon S3) 中的几个标记示例</strong>。</p>
+<p>然后，服务会为基础 FM 制作一个只有您才能访问的单独副本，并对 FM 的这一私有副本进行训练。不会使用您的任何数据来训练原始基础 FM。</p>
+<h3 id="randomness-and-diversity">Randomness and diversity（随机性和多样性）</h3>
+<ul>
+<li><strong>Temperature(温度）</strong>：LLM使用概率来构建序列中的单词。对于任何给定的序列，序列中下一个单词的选项都有一个概率分布。<ul>
+<li><strong>设置的温度越接近零，模型越倾向手选择概率较高的单词。设置的温度离零越远，模型可能选择概率较低的单词。</strong></li>
+</ul>
+</li>
+<li><strong>Top P</strong>:TopP 基于潜在选择的概率总和定义截止值。<ul>
+<li>如果设置的 TopP低于 1.0，模型会考虑概率最高的选项，并忽略概率最低的选项。</li>
+</ul>
+</li>
+</ul>
+<h3 id="length">Length (长度)</h3>
+<ul>
+<li>Response length(响应长度）：配置在生成的响应中使用的最大令牌数。</li>
+<li>Stop sequences(停止序列）：停止序列是一个字符序列。如果模型遇到停止序列，则会停止生成其他令牌。不同的模型在停止序列中支持不同类型的字符，不同的最大序列长度，并可能支持定义多个停止序列</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap2_3_1.png" title="Body image" /></p>
+<h2 id="2">2 提示工程基础知识</h2>
+<p>FM 使用深度神经网络来模拟人脑功能并处理复杂的任务。您可以对 FM 进行调整，以便用于广泛的常规任务，例如文本生成、文本总结、信息提取、图像生成、聊天机器人和问答</p>
+<p><strong>FM 的示例包括 Amazon Titan、Meta Llama 2、Anthropic Claude、AI21 Labs Jurassic-2 Ultra 等。</strong></p>
+<ul>
+<li><strong>自监督学习</strong></li>
+</ul>
+<p>对于自监督学习，不需要标注示例。自监督学习利用数据内的结构自动生成标签。</p>
+<p><strong>训练、微调和提示调整</strong></p>
+<ul>
+<li><strong>预训练</strong></li>
+</ul>
+<p>在训练阶段，FM 使用自监督学习或基于人类反馈的强化学习 (RLHF, reinforcement learning from human feedback) 从大量数据集中捕获数据。FM 的算法可以学习数据集中单词的含义、上下文和关系。例如，在训练阶段，模型可能会学习 drink 是指饮料（名词），还是饮用（动词）。</p>
+<p>此外，在预训练期间可以使用基于人类反馈的<strong>强化学习 (RLHF, reinforcement learning from human feedback) 技术来使模型更好地适应人类偏好</strong>。在这种方法中，人类提供关于模型结果的反馈，然后模型又使用这些信息来改变其行为。</p>
+<ul>
+<li><strong>微调</strong></li>
+</ul>
+<p>虽然 FM 是通过自监督学习进行预训练的，并且具有理解信息的内在能力，但是微调 FM 基础模型可以提高性能。</p>
+<p><strong>微调是有监督学习过程，涉及采用经过预训练的模型并添加特定的较小数据集。添加这些较小的数据集将修改数据的权重，以更好地适应任务。</strong> </p>
+<p>有以下两种微调模型的方法：</p>
+<ol>
+<li><strong>指令微调</strong>，该方法使用关于模型应如何响应特定指令的示例。提示调整是指令微调的一种。</li>
+<li>
+<p><strong>RLHF</strong>，该方法提供人类反馈数据，从而产生更符合人类偏好的模型。</p>
+</li>
+<li>
+<p><strong>提示工程</strong></p>
+</li>
+</ol>
+<p>提示充当基础模型的指令。<strong>提示类似于微调，但您不需要提供对模型进行微调时所提供的标注样本数据。</strong></p>
+<ul>
+<li><strong>文本到文本模型</strong></li>
+</ul>
+<p><strong>文本到文本模型是大语言模型 (LLM, large language model)</strong>，这种模型经过预训练，用于处理大量文本数据和人类语言。</p>
+<ul>
+<li><strong>自然语言处理 (NLP, Natural language processing)</strong></li>
+</ul>
+<p>NLP，首先要收集和准备不同来源的非结构化文本或语音数据并处理这些数据。它使用标记化、词干提取、词形还原、停用词删除、词性标注、命名实体识别、语音识别、情感分析等技术。</p>
+<ul>
+<li><strong>循环神经网络 (RNN, Recurrent neural network)</strong></li>
+</ul>
+<p>RNN 使用记忆机制<strong>来存储和应用来自先前输入的数据</strong>。</p>
+<p>借助这种机制，<strong>RNN 能够有效地处理序列数据和任务</strong>，例如自然语言处理、语音识别或机器翻译。</p>
+<p>然而，RNN 也有局限性。它们训练起来缓慢且复杂，并且不能用于训练并行化</p>
+<ul>
+<li><strong>Transformer</strong></li>
+</ul>
+<p>Transformer 是一种深度学习架构，<strong>具有将输入文本转换为嵌入的编码器组件</strong>。它还具有使用嵌入来发出一些输出文本的解码器组件。</p>
+<p><strong>与 RNN 不同，Transformer 具有极高的并行性，这意味着在学习周期内 Transformer 不是一次处理一个文本单词，而是同时处理所有输入</strong>。</p>
+<p>这样一来，Transformer 可以显著缩短训练时间，但需要更多的计算能力来加快训练速度。</p>
+<p><strong>Transformer 架构是 LLM 开发的关键。如今，大多数 LLM 仅包含解码器组件。</strong></p>
+<ul>
+<li><strong>文本到图像模型</strong></li>
+</ul>
+<p>文本到图像模型接受自然语言输入，并生成与输入文本描述相匹配的高质量图像。文本到图像模型的一些示例包括 OpenAI 推出的 DALL-E</p>
+<p><strong>谷歌研究大脑团队推出的 Imagen、Stability AI 推出的 Diffusion 以及 Midjourney。</strong></p>
+<ul>
+<li><strong>扩散架构</strong></li>
+</ul>
+<p>扩散模型是一种深度学习架构系统，它通过两步过程进行学习。</p>
+<p><strong>第一步称为前向扩散。利用前向扩散，系统逐渐向输入图像引入少量噪声，直到只剩下噪声</strong>  有一个 U-Net 模型可以跟踪和预测噪声水平</p>
+<p><strong>第二步是逆向扩散，对噪声图像逐步进行去噪，直到生成新图像。在训练过程中，模型获得文本馈送，并将其添加到图像向量中</strong>。</p>
+<h3 id="2-2">2-2 大语言模型</h3>
+<ul>
+<li><strong>大语言模型 (LLM, Large language model) 是基础模型的子集</strong>。</li>
+</ul>
+<p>LLM 在许多自然语言任务中基于数万亿个单词进行训练。LLM 可以理解、学习和生成与人类产生的文本几乎没有区别的文本。<strong>LLM 还可以进行交互式对话、回答问题、总结对话和文档以及提供建议</strong>。</p>
+<ul>
+<li><strong>LLM 可以处理大量的文本数据。</strong></li>
+</ul>
+<p>LLM 具有广泛的能力，例如营销创意写作、总结法律文件、为金融团队准备市场研究、为医疗保健行业模拟临床试验，以及为软件开发编写代码。</p>
+<ul>
+<li><strong>了解 LLM 功能</strong></li>
+</ul>
+<p>大多数 LLM 都是基于 Transformer 模型的。<strong>它们接收输入，对数据进行编码，然后对数据进行解码以产生输出预测</strong>。</p>
+<ul>
+<li><strong>神经网络层</strong></li>
+</ul>
+<p>Transformer 模型对于自然语言处理非常有效，因为它们使用神经网络来理解人类语言的细微差别。</p>
+<p><strong>神经网络是模仿人脑的计算系统</strong>。单个 LLM 包含多个神经网络层，这些神经网络层协同工作来处理输入并生成输出</p>
+<p><strong>嵌入层</strong></p>
+<p><strong>嵌入层</strong> 用于将输入文本转换为称为嵌入的向量表示。这一层可以捕获嵌入之间的复杂关系， 从而使模型可以理解输入文本的上下文。</p>
+<p><strong>前馈层</strong></p>
+<p><strong>前缋层</strong>由多个互联的层组成，这些层将嵌入转换为其自身更高权重的版本。从本质上讲，这一层继续将语言置于上下文中，并帮助模型更好地理解输入文本的意图。</p>
+<p><strong>注意力机制</strong></p>
+<p><strong>使用注意力机制</strong>，模型可以关注输入文本中最相关的部分。该机制是 Transformer模型的核心部分，可帮助模型获得最准确的输出结果。</p>
+<h3 id="_1">基本提示技术</h3>
+<h4 id="1">1零样本提示</h4>
+<p>用户向 LLM 提出任务，而不给模型提供进一步示例。</p>
+<p>使用零样本提示技术的技巧包括：</p>
+<ul>
+<li>LLM 越大，零样本提示产生有效结果的可能性就越大。</li>
+<li>指令调整可以改进零样本学习。</li>
+</ul>
+<h4 id="2_1">2 小样本提示</h4>
+<h4 id="3_1">3 思维链提示</h4>
+<p>思维链 (CoT, chain-of-thought) 提示通过中间推理步骤分解复杂的推理任务。您可以将零样本提示技术和小样本提示技术与 CoT 提示结合使用。 </p>
+<pre><code>根据以下信息，哪种车辆需要支付更高的首付？
+
+
+车辆 A 的总成本为 40,000 USD，需要支付 30% 的首付。
+
+
+车辆 B 的总成本为 50,000 USD，需要支付 20% 的首付。
+（一步一步地思考）
+</code></pre>
+<pre><code>车辆 A 的首付为
+40,000 USD 的 30%，即
+(30/100) * 40,000 = $12,000。
+
+车辆 B 的首付为
+50,000 USD 的 20%，即
+(20/100) * 50,000 = $10,000。
+
+我们可以看到，车辆 A 比车辆 B 需要支付更多的首付。
+</code></pre>
+<h3 id="_2">高级提示技术</h3>
+<p><strong>自洽性</strong></p>
+<p><strong>自洽性</strong>是一种类似于思维链提示的提示技术。然而，自洽性技术不采取明显的一步一步<strong>路径或贪婪路径</strong>，而是提示模型对各种推理路径进行采样</p>
+<p><strong>思考以下使用 Jurassic-2 (J2) 模型的提示。第一个提示示例使用单个 CoT 提示，第二个示例使用自洽性。</strong></p>
+<pre><code>**提示**
+
+问题：当我 10 岁的时候，我妹妹的年龄是我的一半。现在我 40 岁。我妹妹多大了？
+答案：
+</code></pre>
+<pre><code>当我 10 岁的时候，我妹妹 10/2 = 5 岁。
+
+现在，我 40 岁，所以我妹妹是 40 - 5 = 35 岁。
+</code></pre>
+<h4 id="_3"><strong>思维树</strong></h4>
+<p>思维树 (ToT, Tree of thoughts) 是另一种基于 CoT 提示技术的技术。CoT 提示按顺序对思维进行采样，但 ToT 提示遵循树分支技术。</p>
+<p>通过 ToT 技术，LLM 可以采用细致入微的方式学习，考虑多条路径而不是一条顺序路径。</p>
+<p><img alt="Alt Image Text" src="../../images/chap2_3_2.png" title="Body image" /></p>
+<p>对于涉及重要初始决策、未来策略和探索多种解决方案的任务，ToT 提示是一种特别有效的方法。大多数 LLM 通过遵循标准的从左到右的标记级推理来做出决策，但通过 ToT，LLM 可以自行评估选择。</p>
+<p><strong>24 点游戏</strong></p>
+<p>24 点游戏是一项数学推理挑战。目标是使用四个数字和基本算术运算，包括加法 (+)、减法 (-)、乘法 (*) 和除法 (/)，得出数字 24。例如，给定输入 4、9、10 和 13，输出的解可以是 <code>(10 - 4) * (13 - 9) = 24</code>。</p>
+<p><img alt="Alt Image Text" src="../../images/chap2_3_3.png" title="Body image" /></p>
+<h4 id="rag-retrieval-augmented-generation">检索增强生成 (RAG, Retrieval Augmented Generation)</h4>
+<p><strong>检索增强生成 (RAG, Retrieval Augmented Generation)</strong> 是一种提示技术，它提供领域相关的数据作为上下文，以基于这些数据和提示生成响应</p>
+<p>该技术类似于微调。然而，<strong>RAG 不必使用一小组标注示例对 FM 进行微调，而是从大型语料库中检索一小组相关文档，并使用这些文档提供上下文来回答问题</strong>。RAG 不会改变基础模型的权重，而微调会改变模型权重。</p>
+<p><img alt="Alt Image Text" src="../../images/chap2_3_4.png" title="Body image" /></p>
+<p>这种方法比常规微调更具成本效益，因为 RAG 方法不会产生对模型进行微调的成本。RAG 还解决了数据频繁更改带来的挑战，因为它会检索更新的相关信息，而不是依赖可能过时的数据集。</p>
+<p>在 RAG 中，外部数据可以来自多个数据源，例如文档存储库、数据库或 API。<strong>在将 RAG 用于 LLM 之前，必须准备知识库并使其保持最新</strong></p>
+<h4 id="art-automatic-reasoning-and-tool-use">自动推理和工具使用 (ART, Automatic Reasoning and Tool-use)</h4>
+<p>与自洽性和 ToT 提示技术一样，ART 是一种基于思维链过程的提示技术。</p>
+<p><strong>研究表明，对于未见过的任务，ART 的表现明显优于小样本提示和自动 CoT，并且在大多数任务中，它的表现与手动 CoT 提示相当</strong>。使用 ART，人类还能够更高效地更新任务库中的信息，从而纠正错误并最终提高性能。</p>
+<p>“ART：大语言模型的自动多步推理和工具使用”(ART: Automatic multi-step reasoning and tool-use for large language models)</p>
+<h3 id="_4">特定于模型的提示技术</h3>
+<ul>
+<li><strong>Amazon Titan FM</strong> – Amazon Titan 基础模型 (FM) 已在大型数据集上进行预训练，这使其成为了功能强大的通用模型。可以按原样使用这些模型，也可以使用您自己的数据为特定任务进行自定义，而无需注释大量数据。</li>
+<li><strong>Anthropic Claude</strong> – Claude 是由 Thropic 开发的 AI 聊天机器人，您可以通过开发人员控制台中的聊天功能或 API 访问它。Claude 可以处理对话、文本、总结、搜索、创意写作、编码、问答等。Claude 采用对话方式做出响应，并可以修改角色、风格和行为，以更好地适应输出需求。</li>
+<li>Thropic 开发的 AI 聊天机器人，您可以通过开发人员控制台中的聊天功能或 API 访问它。Claude 可以处理对话、文本、总结、搜索、创意写作、编码、问答等。Claude 采用对话方式做出响应，并可以修改角色、风格和行为，以更好地适应输出需求。</li>
+<li>AI21 Jurassic-2 – Jurassic-2 经过专门训练，可以处理没有示例的纯指令提示或零样本提示。在提示中使用纯指令可能是与大语言模型交互的最自然方式</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap2_3_5.png" title="Body image" /></p>
+<h3 id="_5">解决提示误用问题</h3>
+<ul>
+<li><strong>提示注入</strong><ul>
+<li>提示注入是一种通过使用提示中的指令来影响模型输出的技术。 </li>
+</ul>
+</li>
+<li><strong>提示泄露</strong><ul>
+<li>提示泄露是指生成式 AI 系统可能通过其生成的提示或示例泄露敏感或私人信息的风险。 </li>
+</ul>
+</li>
+</ul>
+<h3 id="_6">减少偏差</h3>
+<p>用于训练 AI 模型的数据可能有偏差。如果数据有偏差，AI 模型可能会重现这些偏差。<strong>最终，您可能会得到有偏差或不公平的输出。偏差可以通过以下两种方式出现在提示工程中</strong>。</p>
+<ul>
+<li>
+<p>一，<strong>如果提示建立在假设的基础上，那么提示本身可能是有偏差的</strong>。例如，如果查询假设所有软件开发人员都是男性，则可能会导致 AI 产生偏向于男性的结果。</p>
+</li>
+<li>
+<p>二，<strong>即使编写的提示没有偏差，AI 模型有时也会产生有偏差的结果。产生这些结果是由于训练数据中可能存在偏差</strong>。例如，即使给出性别中立的提示，如果 AI 模型在接受训练时主要使用以男性软件开发人员为特征的数据，那么它也可能会提供假设软件开发人员是男性的响应。</p>
+</li>
+</ul>
+<p>以下三种技术可以帮助减少 FM 中的偏差。</p>
+<ul>
+<li><strong>更新提示</strong>。提供明确指引可大规模减少意外的表现。</li>
+<li><strong>增强数据集</strong>。提供不同类型的代词并添加不同的示例。</li>
+<li><strong>使用训练技术</strong>。使用公平损失函数、红蓝对抗、RLHF 等技术。<ul>
+<li>用概率均等来衡量公平性</li>
+<li>使用公平性准则作为模型目标</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2908 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../../chap5_agents/9mcp_intro/">
+      
+      
+        <link rel="next" href="../1mcp_code/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>0 MCP 介绍 - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-mcp" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              0 MCP 介绍
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/3OpenaiModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/4chatgpt_translate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/3AmazonBedrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/4assistantapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/2agent_buildout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-what" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1 What
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1 What">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MCP 是干啥的
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mcp_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        这与 MCP 什么关系
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mcp_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        在 MCP 之前与之后
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-how" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 How
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2 How">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mcp_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MCP 是怎么使用的
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mcp_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        从实战中了解 MCP
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why：为什么要使用 MCP?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why：为什么要使用 MCP?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#where" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where：它来自哪儿，去向哪儿？
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#who" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who：谁创造的它？
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0responseApi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0agents_demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1ai_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/2ai_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/3ai_agents_his/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Daily Blogs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Agent Daily Blogs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1agents_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/4agent_arg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/5Agent_google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Google AI Agent 白皮书深度拆解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-what" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1 What
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1 What">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MCP 是干啥的
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mcp_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        这与 MCP 什么关系
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mcp_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        在 MCP 之前与之后
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-how" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 How
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2 How">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mcp_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MCP 是怎么使用的
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mcp_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        从实战中了解 MCP
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why：为什么要使用 MCP?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why：为什么要使用 MCP?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#where" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where：它来自哪儿，去向哪儿？
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#who" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who：谁创造的它？
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="1-mcp">1 MCP 介绍</h1>
+<h2 id="1-what">1 What</h2>
+<ol>
+<li>大模型的能力边界是什么？</li>
+<li>在 MCP 之前，大模型应用是什么样的？</li>
+<li>MCP 解决了什么问题？</li>
+</ol>
+<p><strong>模型上下文协议（Model Context Protocol，简称 MCP） 是一种全新的开放协议，专门用于标准化地为大语言模型（LLMs）提供应用场景和数据背景。</strong></p>
+<blockquote>
+<p>你可以把 MCP 想象成 AI 领域的“USB-C 接口”，它能让不同的 AI 模型与外部工具和数据源轻松连接。</p>
+</blockquote>
+<h3 id="mcp">MCP 是干啥的</h3>
+<p><strong>大模型的能力</strong></p>
+<p>我们都知道，大模型能做很多事：</p>
+<ul>
+<li>最基础的是给你解答问题、做 oncall 机器人。</li>
+<li>现在大模型已经可以联网搜索并给你最新的答案了。</li>
+<li>大家用过的 Trae 还可以帮大家写代码，只需要说句话，就能帮你把代码写好，同时还能应用到文件中，不需要你自己复制粘贴。</li>
+<li>前一阵子很火的 Manus，可以帮大家搭建网站，可以当场写代码 debug、运行代码爬取网上信息</li>
+</ul>
+<p>前一阵子很火的 Manus，可以帮大家搭建网站，可以当场写代码 debug、运行代码爬取网上信息</p>
+<blockquote>
+<p>模型本质上只是一个输入输出流，你给他输入，他给你输出。我们接触最多的就是文字输入输出了。其他也有多模态的输入输出，比如图像、语音、视频。</p>
+</blockquote>
+<p>所以最原始的大模型是不知道周围环境的，也无法知道最新发生的新闻。比如问问 DeepSeek：现在几点了？他很可能无法给出正确的回答。</p>
+<p><img alt="Alt Image Text" src="../../images/chap6_0_1.png" title="Body image" /></p>
+<p>看起来很傻，我都知道答案了，还用问大模型吗？</p>
+<p>那如果前半句话是程序员帮你加上去的，你只需要问后半句呢？<strong>对于不知情的黑盒用户来说，是不是感觉大模型具备了实时获取最新时间的能力了</strong>。</p>
+<p>至此，我们对大模型的能力边界有了个简单的认识：大模型是个无状态的大模型，是个无状态的参数集合体。他所有的输出，都来自于自身训练的信息（老数据），以及输入时提供的信息（临时数据）。</p>
+<p>为了让大模型能感知到环境，我们需要在临时信息中加入足够多的环境信息，不管这个环境信息是由程序员在黑盒里加上的，还是由用户自己加上的。总之，大模型不是神仙，没给到的信息，他就是不知道。</p>
+<p><strong>让大模型自己探索环境</strong></p>
+<p>上文用一个看起来很傻的例子说明了：必须让大模型知道环境信息，才能根据环境信息得出真实答案。</p>
+<p>那么，我们是否可以让大模型自己探索环境。比如我们编写一个 Python 函数，用于获取本地时间：</p>
+<pre><code>async def local_time() -&gt; str:
+    &quot;&quot;&quot;Get the local time of the machine.&quot;&quot;&quot;
+    import datetime
+    return datetime.datetime.now().strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)
+</code></pre>
+<p>再将大模型包装一层，将信息流改进一下：</p>
+<p><img alt="Alt Image Text" src="../../images/chap6_0_2.png" title="Body image" /></p>
+<p>在改进后的工作流中，工程包装帮用户完善了环境信息，甚至在用户不知情的情况下，与大模型多进行了一次调用。其中红色块，是工程包装层调用了 <code>local_time</code> 函数，并将输出拼贴为输入。上述均为简化版。</p>
+<p>经过上述的改造，大模型看起来似乎已经有了自己探索环境的能力了。当然没有，这句话应该说：大模型应用有了自己探索环境的能力了。大模型与大模型应用是有区别的，大模型就是指算法模型，大模型应用才是用户端接触到的东西。</p>
+<p><strong>拓展一下</strong></p>
+<p>那么大模型应用的联网是如何实现的？类似的，也是由上述过程实现的，由一个工程包装层，将用户请求包装起来，有一个联网的函数，允许大模型进行调用。对于复杂的函数，由大模型生成结构化的入参。</p>
+<p>上述就是大模型的 <code>function_call</code> 能力，大模型会根据上下文给出调用外界函数的入参。对于那些复杂的大模型应用，无非是它们工程嵌入的外界函数比较丰富，能做更多的事。</p>
+<h3 id="mcp_1">这与 MCP 什么关系</h3>
+<p>MCP 全程 Model Context Protocol，模型上下文协议，其实就是提供了一个通用的工程包装方案。</p>
+<p>比如上文中的这个部分，不同大模型应用的 prompt 不同：</p>
+<pre><code>系统设定：你有一个函数local_time可以调用，该函数可以获取当前实时的时间。用户提问：现在几点了
+</code></pre>
+<p>有些可能长这样：</p>
+<pre><code>系统设定：你有一个函数local_time可以调用，该函数可以获取当前实时的时间，该函数没有入参，出参是字符串。用户提问：现在几点了
+</code></pre>
+<p><strong>或者这样：</strong></p>
+<pre><code>系统设定：你有一个以下函数可以调用：
+- local_time该函数可以获取当前实时的时间，该函数没有入参，出参是字符串。
+- xxxxx
+用户提问：现在几点了
+</code></pre>
+<p>这些包装的 prompt 都不一样，如果涉及更多的外界函数，比如预定火车票等复杂函数，入参格式必须非常精准。各家的大模型应用都有各家自己的工程包装。</p>
+<h3 id="mcp_2"><strong>在 MCP 之前与之后</strong></h3>
+<p>而 MCP 就是这样的一个协议，它提出一个比较通用的方案，将工程包装这个过程规范化，透明化。大家不用关注怎么包装 prompt，只需要关注大模型自身的能力和外界的函数。</p>
+<p><img alt="Alt Image Text" src="../../images/chap6_0_3.png" title="Body image" /></p>
+<p>在 MCP 推出之前，各厂商处于各自为政的状态，分别对自身的大模型应用进行优化，例如 Trae 和 Manus。这些应用在未运用 MCP 的情况下，已完成对外界函数的整合。不过，它们均是独立实现外部接口的接入，若要扩展功能，就必须重新实现新的接口接入。这种方式极为复杂，缺乏高效性与简洁性。</p>
+<p>在 MCP 推出之后，由于各厂商均遵循 MCP 协议，大模型应用厂商仅需依照 MCP 的调用方式，即可使用所有符合该协议的接口。此外，鉴于 MCP 协议具有开放性，会不断有人开发新的外部接口，从而使大模型应用的功能扩展变得极为便捷，如同使用插件一般。此时再回顾本章开头的内容，是否能够理解“MCP 协议是 AI 领域的‘USB - C 接口’”这一表述了呢？</p>
+<h2 id="2-how">2 How</h2>
+<ol>
+<li>MCP 是怎么使用的？</li>
+<li>MCP 是怎么做到的？</li>
+</ol>
+<h3 id="mcp_3">MCP 是怎么使用的</h3>
+<p>至此我们已经对 MCP 的应用场景有了一个大概了解。那么 MCP 如何使用呢？</p>
+<p>MCP 只是一个协议，如 TCP/IP 一样，无法直接使用，必须先实现它。本章主要介绍一些 MCP 的概念。</p>
+<p>MCP 主要由三个部分组成：</p>
+<ul>
+<li>MCP host</li>
+<li>MCP client</li>
+<li>MCP server</li>
+</ul>
+<p>下图展示了它们的位置，调用方是 host，host 使用 client 对 server 进行调用。</p>
+<p><strong>MCP server 是 MCP 架构中的关键组件</strong>，它可以提供 3 种主要类型的功能：</p>
+<ul>
+<li><strong>资源（Resources）：类似文件的数据，可以被客户端读取，如 API 响应或文件内容。</strong></li>
+<li><strong>工具（Tools）：可以被 LLM 调用的函数（需要用户批准）</strong>。</li>
+<li><strong>提示（Prompts）：预先编写的模板，帮助用户完成特定任务</strong>。</li>
+</ul>
+<p>其中的工具功能，是我们的重点。</p>
+<p><img alt="Alt Image Text" src="../../images/chap6_0_4.png" title="Body image" /></p>
+<p><strong>SDK</strong></p>
+<p>MCP 是依赖实现再使用的，官方提供了多种语言的 SDK，帮助开发者快速实现 server层，而普通的用户不需要开发 server 层，不需要关注这些</p>
+<p><img alt="Alt Image Text" src="../../images/chap6_0_5.png" title="Body image" /></p>
+<h3 id="mcp_4"><strong>从实战中了解 MCP</strong></h3>
+<p>新手通常使用 Claude Desktop 进行配置，网络上相关教程众多，在此不逐一列举。以下提供一个官方教程链接：https://modelcontextprotocol.io/quickstart/user</p>
+<p>我所使用的是一个开源库，链接为 https://github.com/mark3labs/mcphost。</p>
+<p>该库为 MCP host，能够调用大模型和 MCP server，以完成用户的部分指令。具体使用方法可查看介绍文档，在此仅作简要介绍。</p>
+<p><strong>安装必要环境</strong></p>
+<p>参考：<a href="https://github.com/mark3labs/mcphost">https://github.com/mark3labs/mcphost</a></p>
+<p><strong>写一个 MCP server</strong></p>
+<p>我们写一个查询 12306 车票的 MCP server。代码如下</p>
+<pre><code>from typing import Any
+import httpx
+from mcp.server.fastmcp import FastMCP
+from typing import List  # 导入 List
+from mcp_agent.agents.agent import Agent
+
+# Initialize FastMCP server
+mcp = FastMCP(&quot;12306&quot;)
+
+@mcp.tool()
+async def get_station_code_mapping(station_name: str) -&gt; str:
+    &quot;&quot;&quot;
+    根据输入的地名获取 12306 的车站代码。
+    :param station_name: 车站地名
+    :return: 对应的车站代码，如果未找到则返回空字符串
+    &quot;&quot;&quot;
+    # hardcode
+    code = {
+        &quot;北京&quot;: &quot;BJP&quot;,
+        &quot;上海&quot;: &quot;SHH&quot;,
+        &quot;上海虹桥&quot;: &quot;SHH&quot;,
+        &quot;广州&quot;: &quot;GZY&quot;,
+        &quot;苏州&quot;: &quot;SZH&quot;,
+    }
+    return code
+
+def optimize_train_ticket_info(response):
+    &quot;&quot;&quot;
+    优化火车票查询结果，输出简洁明了的信息
+    :param response: 火车票查询的 HTTP 返回数据
+    :return: 优化后的火车票信息列表
+    &quot;&quot;&quot;
+    if response.get(&quot;status&quot;) and response.get(&quot;httpstatus&quot;) == 200:
+        data = response[&quot;data&quot;]
+        result = data[&quot;result&quot;]
+        station_map = data[&quot;map&quot;]
+        optimized_info = []
+        for train in result:
+            parts = train.split(&quot;|&quot;)
+            train_number = parts[3]
+            start_station_code = parts[6]
+            end_station_code = parts[7]
+            from_station_code = parts[6]
+            to_station_code = parts[7]
+            from_station = station_map.get(from_station_code, from_station_code)
+            to_station = station_map.get(to_station_code, to_station_code)
+            departure_time = parts[8]
+            arrival_time = parts[9]
+            duration = parts[10]
+            seat_info = {
+                &quot;二等座&quot;: parts[30],
+                &quot;一等座&quot;: parts[31],
+                &quot;商务座&quot;: parts[32]
+            }
+            info = {
+                &quot;车次&quot;: train_number,
+                &quot;出发站&quot;: from_station,
+                &quot;到达站&quot;: to_station,
+                &quot;出发时间&quot;: departure_time,
+                &quot;到达时间&quot;: arrival_time,
+                &quot;历时&quot;: duration,
+                &quot;座位信息&quot;: seat_info
+            }
+            optimized_info.append(info)
+        return optimized_info
+    return []
+
+# 在 query_train_tickets 函数中调用优化函数
+@mcp.tool()
+async def query_train_tickets(train_date: str, from_station: str, to_station: str, purpose_codes: str) -&gt; Any:
+    &quot;&quot;&quot;
+    查询指定日期、出发站、到达站和乘客类型的火车票信息。
+    :param train_date: 乘车日期，格式为 YYYY-MM-DD
+    :param from_station: 出发站代码
+    :param to_station: 到达站代码
+    :param purpose_codes: 乘客类型代码，例如 &quot;ADULT&quot;
+    :return: 请求的响应数据，如果请求失败则返回 None
+    &quot;&quot;&quot;
+    if purpose_codes == &quot;&quot;:
+        purpose_codes = &quot;ADULT&quot;
+    import httpx
+    url = &quot;https://kyfw.12306.cn/otn/leftTicket/queryR&quot;
+    params = {
+        &quot;leftTicketDTO.train_date&quot;: train_date,
+        &quot;leftTicketDTO.from_station&quot;: from_station,
+        &quot;leftTicketDTO.to_station&quot;: to_station,
+        &quot;purpose_codes&quot;: purpose_codes
+    }
+    # 添加 cookie 信息
+    cookies = {
+        &quot;_uab_collina&quot;: &quot;174296998906932728134402&quot;,
+        &quot;JSESSIONID&quot;: &quot;A059735A6E230BFE0E6C4E4282CD2137&quot;,
+        &quot;route&quot;: &quot;c5c62a339e7744272a54643b3be5bf64&quot;,
+        &quot;BIGipServerotn&quot;: &quot;1307574794.38945.0000&quot;,
+        &quot;BIGipServerpool_passport&quot;: &quot;283378186.50215.0000&quot;,
+        &quot;guidesStatus&quot;: &quot;off&quot;,
+        &quot;highContrastMode&quot;: &quot;defaltMode&quot;,
+        &quot;cursorStatus&quot;: &quot;off&quot;,
+        &quot;BIGipServerportal&quot;: &quot;3168010506.17695.0000&quot;,
+        &quot;_jc_save_fromStation&quot;: &quot;%u5317%u4EAC%2CBJP&quot;,
+        &quot;_jc_save_toStation&quot;: &quot;%u5929%u6D25%2CTJP&quot;,
+        &quot;_jc_save_fromDate&quot;: &quot;2025-03-26&quot;,
+        &quot;_jc_save_toDate&quot;: &quot;2025-03-26&quot;,
+        &quot;_jc_save_wfdc_flag&quot;: &quot;dc&quot;
+    }
+    try:
+        async with httpx.AsyncClient(cookies=cookies) as client:
+            response = await client.get(url, params=params)
+            response.raise_for_status()
+            json_response = response.json()
+            optimized_info = optimize_train_ticket_info(json_response)
+            return optimized_info
+    except httpx.HTTPError as e:
+        print(f&quot;Error: {e}&quot;)
+        return None
+
+@mcp.tool()
+async def local_time() -&gt; str:
+    &quot;&quot;&quot;Get the local time of the machine.&quot;&quot;&quot;
+    import datetime
+    return datetime.datetime.now().strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    # Initialize and run the server
+    mcp.run(transport='stdio')
+</code></pre>
+<p>配置 MCP host</p>
+<pre><code>{
+    &quot;mcpServers&quot;: {
+        &quot;12306&quot;: {
+            &quot;command&quot;: &quot;uv&quot;,
+            &quot;args&quot;: [
+                &quot;--directory&quot;,
+                &quot;&lt;mcp server代码的绝对路径&gt;&quot;,
+                &quot;run&quot;,
+                &quot;12306.py&quot;
+            ]
+        }
+    }
+}
+</code></pre>
+<p>输出结果</p>
+<p><img alt="Alt Image Text" src="../../images/chap6_0_6.png" title="Body image" /></p>
+<p><strong>结论</strong></p>
+<p>使用 MCP 后，开发大模型应用更为简便。开发者无需手动包装 prompt，仅需关注买车票接口的实现函数，并进行相应配置，即可完成开发。</p>
+<p>进一步而言，若 MCP server 有官方实现，上述配置采用固定格式，通过鼠标点击即可完成设置。例如，若 12306 官方提供实现，普通用户无需付出过多精力，便可创建出个性化的智能代理</p>
+<p><strong>MCP 是怎么做到的</strong></p>
+<p>MCP 仅提出了一种协议式的解决方案，同时提供了多语言的软件开发工具包（SDK）及丰富的文档。大量开发者已完成众多 MCP 服务器的开发并将其开源，此网站（https://mcp.so/）已收集了 5000 个 MCP 服务器。实际上，MCP 在数据流和调用链方面与普通的 API 调用实现并无差异。</p>
+<h2 id="why-mcp">Why：为什么要使用 MCP?</h2>
+<ol>
+<li>它的 trade-off 是什么？</li>
+<li>为什么这里考虑这样的 trade-off？</li>
+</ol>
+<p>MCP 是一种提效方式。我认为 MCP 这样的协议是未来的大趋势。即使 MCP 失败了，也会有一个更通用的协议来替代它。</p>
+<p>因为 MCP 将大模型的算法能力与外部环境信息解耦，开发者只需要关注自己的一小部分，即可完成一个 agent 的开发，而普通用户，完全可以做到用已开源的插件定制化自己的 agent。</p>
+<p><strong>复杂性不会凭空消失，那么 MCP 将复杂性隐藏到哪儿了呢？</strong></p>
+<p>MCP 将原本 agent 开发工作分为两块：<strong>调用外部接口和实现外部接口</strong>。</p>
+<p><strong>调用外部接口让 MCP host/client 完成，也许每个 agent 的 host 实现方式都不一样。而实现外部接口让 MCP server 实现，大部分厂商会实现自己的开源 MCP server，这样就减少了 agent 开发者的工作量了。</strong></p>
+<p>当市面上基于 MCP 的 agent 客户端越来越多，各大厂商一定会蜂拥实现自己的官方 MCP server，甚至要推广自己的 server。</p>
+<p>比如，美团实现了自己的 MCP server，让用户在手机上说句话就可以点外卖，饿了么必然会跟进实现。</p>
+<p>这里的 trade-off 就是，将实现外部接口这一任务分发给各大厂商，相比较原来的方式，是一种优化。</p>
+<p>如果不用 MCP，那未来的大模型应用想做到“AI 管家”的角色，要怎么做呢？下图是另一种尝试思路。哪一种更优雅，更高效？</p>
+<p><img alt="Alt Image Text" src="../../images/chap6_0_7.png" title="Body image" /></p>
+<h3 id="where">Where：它来自哪儿，去向哪儿？</h3>
+<p>MCP 协议本身解决的问题就是连接大模型与外部环境。</p>
+<p>所以其前置工作有：</p>
+<ul>
+<li>大模型的 Function Call，函数调用；</li>
+<li>OpenAI 插件计划（限制：只能在 OpenAI 的 ChatGPT Web 使用，不能再其他地方复用）；</li>
+<li>LSP（语言服务器协议）。</li>
+</ul>
+<p><strong>MCP 的未来（个人猜测）</strong>：</p>
+<ul>
+<li>普通用户只需要关注 MCP server，如同下载 App 一样，下载 MCP server 插件，加强自己的 agent。</li>
+<li>各大厂商优化自己的 MCP server，这是 AI 时代的 App。</li>
+<li>agent 开发者优化 host 的调用链路，如何合理利用 MCP server 才是 agent 的主要关注点。</li>
+</ul>
+<p>LSP（语言服务器协议）：在 LSP 中，当用户在编辑器中输入时，客户端查询语言服务器以自动完成建议或诊断。</p>
+<h2 id="who">Who：谁创造的它？</h2>
+<p>MCP 最早由 Anthropic 公司开发，目的是帮助 AI 模型（如 Claude）更容易地连接工具和数据源。</p>
+<p>但现在，MCP 已经成为一个开放协议，越来越多的企业和开发者开始采用它，这也让它逐渐成为 AI 与工具互动的新标准。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

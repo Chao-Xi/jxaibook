@@ -1,0 +1,3622 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../3OpenaiModels/">
+      
+      
+        <link rel="next" href="../5AI_PM/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>4 基于 ChatGPT 开发智能翻译助手 - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#4-chatgpt" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4 基于 ChatGPT 开发智能翻译助手
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3OpenaiModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#openai-translator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenAI-Translator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OpenAI-Translator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vsgpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        成本分析：人力vsGPT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据安全：大模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openal-translator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenAl-Translator 产品定义与功能规划
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OpenAl-Translator 产品定义与功能规划">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#v10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        产品规划(v1.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pdfplumber-pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用 pdfplumber 解析 PDF 文件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="使用 pdfplumber 解析 PDF 文件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        项目简介
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        加载PDF文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdfplumberpdf-top-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pdfplumber.PDF 类(Top-level)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdfplumberpage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pdfplumber.Page 类
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        提取页面图像
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改进设计思路
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="改进设计思路">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#utils" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        utils
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#translator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        translator
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/3AmazonBedrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/4assistantapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/2agent_buildout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0responseApi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0agents_demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1ai_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/2ai_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/3ai_agents_his/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Daily Blogs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Agent Daily Blogs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1agents_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/4agent_arg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/5Agent_google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Google AI Agent 白皮书深度拆解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#openai-translator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenAI-Translator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OpenAI-Translator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vsgpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        成本分析：人力vsGPT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        数据安全：大模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#openal-translator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OpenAl-Translator 产品定义与功能规划
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OpenAl-Translator 产品定义与功能规划">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#v10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        产品规划(v1.0)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pdfplumber-pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用 pdfplumber 解析 PDF 文件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="使用 pdfplumber 解析 PDF 文件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        项目简介
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        加载PDF文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdfplumberpdf-top-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pdfplumber.PDF 类(Top-level)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdfplumberpage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pdfplumber.Page 类
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        提取页面图像
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        改进设计思路
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="改进设计思路">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#utils" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        utils
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#translator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        translator
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="4-chatgpt">4 基于 ChatGPT 开发智能翻译助手</h1>
+<h2 id="openai-translator">OpenAI-Translator</h2>
+<h3 id="vsgpt">成本分析：人力vsGPT</h3>
+<p>下表列出了不同服务类型下不同类型文件的翻译价格（仅供参考）。</p>
+<p>参考价格基于如下情况：翻译语言组合为意大利语至英语，常规主题，标准交付周期（从项目的第二个工作日开始，以每天约2500字的进度计算）</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_4_1.png" title="Body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_4_2.png" title="Body image" /></p>
+<p>数据安全：在线翻译需上传整个文件</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_4_9.png" title="Body image" /></p>
+<h3 id="_1">数据安全：大模型</h3>
+<ul>
+<li>GPT 服务方式：一定程度上解决了完整文件上传问题</li>
+<li>API调用方式：<strong>拆分文档，无需上传整份文件</strong></li>
+<li>OpenAl 隐私协议：具有相对可靠的契约精神和法律保障</li>
+<li>私有化大模型：端到端解决隐私安全问题</li>
+</ul>
+<h2 id="openal-translator">OpenAl-Translator 产品定义与功能规划</h2>
+<h3 id="v10">产品规划(v1.0)</h3>
+<p>Feat List</p>
+<ul>
+<li>支持PDF 文件格式解析</li>
+<li>支持英文翻译成中文。</li>
+<li>支持OpenAl 和 ChatGLM 模型</li>
+<li>通过 YAML 文件或命令行参数灵活配置。</li>
+<li>模块化和面向对象的设计 ，易于定制和扩展。</li>
+</ul>
+<p><strong>设计思路</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_4_10.png" title="Body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_4_11.png" title="Body image" /></p>
+<ul>
+<li>PDF 解析: pdfplumber (Python 开源库)</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap1_4_12.png" title="Body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_4_13.png" title="Body image" /></p>
+<h2 id="pdfplumber-pdf">使用 pdfplumber 解析 PDF 文件</h2>
+<h3 id="_2">项目简介</h3>
+<p><a href="https://github.com/jsvine/pdfplumber">pdfplumber</a> 项目(基于pdfminer.six开发)，支持解析PDF文件，获取每个文本字符、矩形和线条的详细信息。此外还支持表格提取和可视化调试。</p>
+<p>对于机器生成的PDF而言效果最佳，不适用于扫描得到的PDF。</p>
+<p>支持：Python 3.8~3.11</p>
+<p>本 Notebook 主要内容如下：</p>
+<ul>
+<li>加载PDF文件</li>
+<li>提取单页文本</li>
+<li>提取单页表格</li>
+<li>可视化调试页面</li>
+<li>提取页面图像</li>
+</ul>
+<h3 id="pdf">加载PDF文件</h3>
+<p>要开始处理PDF，请调用<code>pdfplumber.open(x)</code>方法，其中x可以是：</p>
+<ul>
+<li>PDF 文件路径</li>
+<li>作为字节加载的文件对象</li>
+<li>作为字节加载的类似文件的对象</li>
+</ul>
+<p><strong>高级加载参数</strong></p>
+<p>要加载受密码保护的PDF，请传递password关键字参数，例如：<code>pdfplumber.open("file.pdf", password="test")</code>。</p>
+<p>要设置布局分析参数到<code>pdfminer.six</code>的布局引擎中，请传递laparams关键字参数，例如：</p>
+<p><code>pdfplumber.open("file.pdf", laparams={"line_overlap": 0.7})</code></p>
+<h3 id="pdfplumberpdf-top-level">pdfplumber.PDF 类(Top-level)</h3>
+<p><code>pdfplumber.PDF</code>类表示一个独立的PDF文件，两个主要成员变量：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.metadata</code></td>
+<td>一个由PDF的 <code>Info</code> 尾部信息中的元数据键/值对组成的字典。通常包括 "CreationDate," "ModDate," "Producer," 等等。</td>
+</tr>
+<tr>
+<td><code>.pages</code></td>
+<td>包含每个已加载页面的 <code>pdfplumber.Page</code> 实例的列表。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>一个主要成员方法：</strong></p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.close()</code></td>
+<td>默认情况下，<code>Page</code> 对象会缓存其布局和对象信息，以避免重新处理。然而，在解析大型PDF时，这些缓存的属性可能需要大量内存。你可以使用此方法来清除缓存并释放内存。（在 <code>&lt;= 0.5.25</code> 版本中，使用 <code>.flush_cache()</code>。）</td>
+</tr>
+</tbody>
+</table>
+<pre><code>pyenv local 3.9.0
+
+$ pyenv versions
+  system
+* 3.9.0 (set by /Users/i515190/k8s_test/chatgpt/.python-version)
+
+pip3 install pdfplumber
+</code></pre>
+<pre><code>import pdfplumber
+
+pdf = pdfplumber.open(&quot;The_Old_Man_of_the_Sea.pdf&quot;)
+
+pdf.metadata
+</code></pre>
+<pre><code>'CreationDate': &quot;D:20060717205532+08'00'&quot;,
+ 'Subject': 'For Personal Learning!',
+ 'Author': 'Asiaing.com',
+ 'Creator': 'PScript5.dll Version 5.2',
+ 'Producer': 'Acrobat Distiller 7.0.5 (Windows)',
+ 'ModDate': &quot;D:20060717210222+08'00'&quot;,
+ 'Title': 'Hemingway, Ernest - The Old Man and the Sea'}
+</code></pre>
+<pre><code>pdf.pages
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap1_4_14.png" title="Body image" /></p>
+<pre><code>type(pdf.pages[0])
+</code></pre>
+<p><strong><code>pdfplumber.page.Page</code></strong></p>
+<h3 id="pdfplumberpage">pdfplumber.Page 类</h3>
+<p><code>pdfplumber.Page</code> 类是 <code>pdfplumber</code> 的核心，表示PDF文件中一页单独的内容。</p>
+<p>当我们使用 <code>pdfplumber</code> 时，大部分操作都会围绕这个类展开。</p>
+<p>主要成员变量如下：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.page_number</code></td>
+<td>顺序页码，从第一页开始为 <code>1</code>，第二页为 <code>2</code>，以此类推。</td>
+</tr>
+<tr>
+<td><code>.width</code></td>
+<td>页面的宽度。</td>
+</tr>
+<tr>
+<td><code>.height</code></td>
+<td>页面的高度。</td>
+</tr>
+<tr>
+<td><code>.objects</code> / <code>.chars</code> / <code>.lines</code> / <code>.rects</code> / <code>.curves</code> / <code>.images</code></td>
+<td>这些属性都是列表，每个列表包含页面上嵌入的每个此类对象的一个字典。</td>
+</tr>
+</tbody>
+</table>
+<pre><code>pdf = pdfplumber.open(&quot;test.pdf&quot;)
+
+pages = pdf.pages
+print(pages)
+</code></pre>
+<p>Output: <code>[&lt;Page:1&gt;, &lt;Page:2&gt;]</code></p>
+<pre><code>pages[0].page_number
+</code></pre>
+<p>Output: 1</p>
+<pre><code>print(pages[0].width, pages[0].height)
+</code></pre>
+<p>Output: <code>595 842</code></p>
+<pre><code># 可视化第1页
+pages[0].to_image()
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap1_4_15.png" title="Body image" /></p>
+<pre><code># 可视化第2页（尝试调整分辨率和抗锯齿）
+pages[1].to_image()
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap1_4_16.png" title="Body image" /></p>
+<h3 id="_3">提取页面图像</h3>
+<p><code>pdfplumber.Page</code>  对象没有 <code>extract_images</code> 方法，所以不能直接从 PDF 页面中提取图像。</p>
+<p>但是，<strong>可以通过页面操作来截取和获取图像</strong>，<code>pdfplumber.Page</code>类相关成员变量如下：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.width</code></td>
+<td>页面的宽度。</td>
+</tr>
+<tr>
+<td><code>.height</code></td>
+<td>页面的高度。</td>
+</tr>
+<tr>
+<td><code>.objects</code> / <code>.chars</code> / <code>.lines</code> / <code>.rects</code> / <code>.curves</code> / <code>.images</code></td>
+<td>这些属性都是列表，每个列表包含页面上嵌入的每个此类对象的一个字典。</td>
+</tr>
+</tbody>
+</table>
+<p>相关成员方法：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.crop(bounding_box, relative=False, strict=True)</code></td>
+<td>返回裁剪到边界框的页面版本，边界框应表示为4元组，值为 <code>(x0, top, x1, bottom)</code>。裁剪的页面保留至少部分在边界框内的对象。如果对象只部分在框内，其尺寸将被切割以适应边界框。如果 <code>relative=True</code>，则边界框是从页面边界框的左上角偏移计算的，而不是绝对定位。（请参见 <a href="https://github.com/jsvine/pdfplumber/issues/245">Issue #245</a> 以获取视觉示例和解释。）当 <code>strict=True</code>（默认值）时，裁剪的边界框必须完全在页面的边界框内。</td>
+</tr>
+<tr>
+<td><code>.within_bbox(bounding_box, relative=False, strict=True)</code></td>
+<td>类似于 <code>.crop</code>，但只保留 <em>完全在</em> 边界框内的对象。</td>
+</tr>
+<tr>
+<td><code>.outside_bbox(bounding_box, relative=False, strict=True)</code></td>
+<td>类似于 <code>.crop</code> 和 <code>.within_bbox</code>，但只保留 <em>完全在</em> 边界框外的对象。</td>
+</tr>
+<tr>
+<td><code>.filter(test_function)</code></td>
+<td>返回只有 <code>test_function(obj)</code> 返回 <code>True</code> 的 <code>.objects</code> 的页面版本。</td>
+</tr>
+</tbody>
+</table>
+<pre><code># 从 PageImage 中获取页面图像分辨率
+pages[1].images
+</code></pre>
+<p>Output</p>
+<pre><code>[{'x0': 61.25348,
+  'y0': 443.9213,
+  'x1': 533.74648,
+  'y1': 801.8948,
+  'width': 472.493,
+  'height': 357.97350000000006,
+  'stream': &lt;PDFStream(17): raw=1522591, {'Type': /'XObject', 'Subtype': /'Image', 'Width': 1288, 'Height': 975, 'Interpolate': True, 'ColorSpace': &lt;PDFObjRef:18&gt;, 'Intent': /'Perceptual', 'BitsPerComponent': 8, 'Length': 1522590, 'Filter': /'FlateDecode'}&gt;,
+  'srcsize': (1288, 975),
+  'imagemask': None,
+  'bits': 8,
+  'colorspace': [[/'ICCBased',
+    &lt;PDFStream(19): raw=2758, {'N': 3, 'Alternate': /'DeviceRGB', 'Length': 2757, 'Filter': /'FlateDecode'}&gt;]],
+  'mcid': None,
+  'tag': None,
+  'object_type': 'image',
+  'page_number': 2,
+  'top': 40.10519999999997,
+  'bottom': 398.0787,
+  'doctop': 882.1052}]
+</code></pre>
+<pre><code>img = pages[1].images[0]
+
+bbox = (img[&quot;x0&quot;], img[&quot;top&quot;], img[&quot;x1&quot;], img[&quot;bottom&quot;])
+
+cropped_page = pages[1].crop(bbox)
+
+# 可视化裁剪后的第二页
+cropped_page.to_image()
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap1_4_17.png" title="Body image" /></p>
+<pre><code>cropped_page.to_image(antialias=True)
+</code></pre>
+<p>可视化裁剪+抗锯齿</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_4_18.png" title="Body image" /></p>
+<pre><code>cropped_page.to_image(resolution=1080)
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap1_4_19.png" title="Body image" /></p>
+<pre><code>im = cropped_page.to_image(antialias=True)
+im.save(&quot;pdf_image_test.png&quot;)
+</code></pre>
+<h2 id="_4">改进设计思路</h2>
+<p><img alt="Alt Image Text" src="../../images/chap1_4_21.png" title="Body image" /></p>
+<p><a href="https://github.com/Chao-Xi/openai-quickstart/tree/main/openai-translator">https://github.com/Chao-Xi/openai-quickstart/tree/main/openai-translator
+</a></p>
+<p><strong>核心模块</strong></p>
+<ul>
+<li>PDF 文档解析 (PDFParser) 模块</li>
+<li>文档导出 (Writter）模块</li>
+<li>大模型 （LLMs）接入模块</li>
+<li>参数解析器 （ArgParser）模块</li>
+<li>日志(Logger）模块</li>
+<li>提示词(Prompt)模块 </li>
+</ul>
+<pre><code> tree .
+.
+├── __init__.py
+├── book
+│   ├── __init__.py
+│   ├── book.py
+│   ├── content.py
+│   └── page.py
+├── main.py
+├── model
+│   ├── __init__.py
+│   ├── glm_model.py
+│   ├── model.py
+│   └── openai_model.py
+├── translator
+│   ├── __init__.py
+│   ├── exceptions.py
+│   ├── pdf_parser.py
+│   ├── pdf_translator.py
+│   └── writer.py
+└── utils
+    ├── __init__.py
+    ├── argument_parser.py
+    ├── config_loader.py
+    └── logger.py
+
+4 directories, 19 files
+</code></pre>
+<h3 id="utils">utils</h3>
+<ul>
+<li><code>__init__.py</code></li>
+</ul>
+<pre><code>from .argument_parser import ArgumentParser
+from .config_loader import ConfigLoader
+from .logger import LOG
+</code></pre>
+<ul>
+<li>
+<p><strong><code>argument_parser.py</code></strong></p>
+</li>
+<li>
+<p>argparse</p>
+</li>
+</ul>
+<pre><code>import argparse
+
+class ArgumentParser:
+    def __init__(self):
+        self.parser = argparse.ArgumentParser(description='Translate English PDF book to Chinese.')
+        self.parser.add_argument('--config', type=str, default='config.yaml', help='Configuration file with model and API settings.')
+        self.parser.add_argument('--model_type', type=str, required=True, choices=['GLMModel', 'OpenAIModel'], help='The type of translation model to use. Choose between &quot;GLMModel&quot; and &quot;OpenAIModel&quot;.')        
+        self.parser.add_argument('--glm_model_url', type=str, help='The URL of the ChatGLM model URL.')
+        self.parser.add_argument('--timeout', type=int, help='Timeout for the API request in seconds.')
+        self.parser.add_argument('--openai_model', type=str, help='The model name of OpenAI Model. Required if model_type is &quot;OpenAIModel&quot;.')
+        self.parser.add_argument('--openai_api_key', type=str, help='The API key for OpenAIModel. Required if model_type is &quot;OpenAIModel&quot;.')
+        self.parser.add_argument('--book', type=str, help='PDF file to translate.')
+        self.parser.add_argument('--file_format', type=str, help='The file format of translated book. Now supporting PDF and Markdown')
+
+    def parse_arguments(self):
+        args = self.parser.parse_args()
+        if args.model_type == 'OpenAIModel' and not args.openai_model and not args.openai_api_key:
+            self.parser.error(&quot;--openai_model and --openai_api_key is required when using OpenAIModel&quot;)
+        return args
+
+</code></pre>
+<p>This code defines an ArgumentParser class that is used to parse command-line arguments. The argparse module is imported to handle command-line argument processing.</p>
+<ul>
+<li>The ArgumentParser class has an <code>__init__</code> method that sets up the parser object with a description of the program and the available arguments. The available arguments include:</li>
+<li><code>- --config</code>: Specifies the path to a configuration file. Default value is 'config.yaml'.</li>
+<li><code>- --model_type</code>: Specifies the type of translation model to use. Must be either 'GLMModel' or 'OpenAIModel'.</li>
+<li><code>- --glm_model_url</code>: Specifies the URL of the ChatGLM model. Only used if --model_type is set to 'GLMModel'.</li>
+<li><code>- --timeout</code>: Specifies the timeout for the API request in seconds.</li>
+<li><code>- --openai_model</code>: Specifies the model name of the OpenAI Model. Only used if --model_type is set to 'OpenAIModel'.</li>
+<li><code>- --openai_api_key</code>: Specifies the API key for the OpenAI Model. Only used if --model_type is set to 'OpenAIModel'.</li>
+<li><code>- --book</code>: Specifies the PDF file to translate.</li>
+<li><code>- --file_format</code>: Specifies the file format of the translated book. Currently supports PDF and Markdown.</li>
+</ul>
+<p>The ArgumentParser class also has a <code>parse_arguments</code> method that calls the parser's <code>parse_args</code> method to actually parse the command-line arguments. It also performs additional validation on the arguments, specifically checking if the required arguments are provided when using the 'OpenAIModel' as the translation model.</p>
+<p>Finally, the <code>parse_arguments</code> method returns the parsed arguments object.</p>
+<p><strong><code>config_loader.py</code></strong></p>
+<pre><code>import yaml
+
+class ConfigLoader:
+    def __init__(self, config_path):
+        self.config_path = config_path
+
+    def load_config(self):
+        with open(self.config_path, &quot;r&quot;) as f:
+            config = yaml.safe_load(f)
+        return config
+</code></pre>
+<pre><code>from loguru import logger
+import os
+import sys
+
+LOG_FILE = &quot;translation.log&quot;
+ROTATION_TIME = &quot;02:00&quot;
+
+class Logger:
+    def __init__(self, name=&quot;translation&quot;, log_dir=&quot;logs&quot;, debug=False):
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir)
+        log_file_path = os.path.join(log_dir, LOG_FILE)
+
+        # Remove default loguru handler
+        logger.remove()
+
+        # Add console handler with a specific log level
+        level = &quot;DEBUG&quot; if debug else &quot;INFO&quot;
+        logger.add(sys.stdout, level=level)
+        # Add file handler with a specific log level and timed rotation
+        logger.add(log_file_path, rotation=ROTATION_TIME, level=&quot;DEBUG&quot;)
+        self.logger = logger
+
+LOG = Logger(debug=True).logger
+
+if __name__ == &quot;__main__&quot;:
+    log = Logger().logger
+
+    log.debug(&quot;This is a debug message.&quot;)
+    log.info(&quot;This is an info message.&quot;)
+    log.warning(&quot;This is a warning message.&quot;)
+    log.error(&quot;This is an error message.&quot;)
+</code></pre>
+<ul>
+<li><strong><code>logger.py</code></strong></li>
+</ul>
+<p><strong>This code sets up a logger using the loguru library for logging purposes.</strong></p>
+<p>The Logger class is defined, which takes in optional parameters <strong>for the name, log directory, and debug mode.</strong> It initializes the logger by creating the log directory if it doesn't exist and setting up the log file path. The <code>logger.remove()</code> method is called to remove the default loguru handler.</p>
+<p>Two handlers are then added to the logger. </p>
+<p>First, a console handler is added with a log level of "DEBUG" if debug mode is enabled, otherwise "INFO". This means that log messages with a log level of "DEBUG" and higher will be displayed on the console.</p>
+<p>Second, a file handler is added with a log level of "DEBUG" and a timed rotation of 02:00. <strong>This means that log messages will be written to the specified log file, and when the time reaches 02:00, the log file will be rotated</strong>.</p>
+<p>An instance of the Logger class is created as LOG with debug mode enabled.</p>
+<p>In the main section of the code, another instance of the Logger class is created without debug mode. This means that only log messages with a log level of "INFO" and higher will be displayed on the console.</p>
+<p>The logger is then used to log messages at different log levels such as debug, info, warning, and error.</p>
+<h3 id="model">model</h3>
+<pre><code> tree .
+.
+├── __init__.py
+├── glm_model.py
+├── model.py
+└── openai_model.py
+
+0 directories, 4 files
+</code></pre>
+<ul>
+<li><strong><code>__init__.py</code></strong></li>
+</ul>
+<pre><code>from .model import Model
+from .glm_model import GLMModel
+from .openai_model import OpenAIModel
+</code></pre>
+<ul>
+<li><code>openai_model.py</code></li>
+</ul>
+<pre><code>import openai
+import requests
+import simplejson
+import time
+
+from model import Model
+from utils import LOG
+
+class OpenAIModel(Model):
+    def __init__(self, model: str, api_key: str):
+        self.model = model
+        openai.api_key = api_key
+
+    def make_request(self, prompt):
+        attempts = 0
+        while attempts &lt; 3:
+            try:
+                if self.model == &quot;gpt-3.5-turbo&quot;:
+                    response = openai.ChatCompletion.create(
+                        model=self.model,
+                        messages=[
+                            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}
+                        ]
+                    )
+                    translation = response.choices[0].message['content'].strip()
+                else:
+                    response = openai.Completion.create(
+                        model=self.model,
+                        prompt=prompt,
+                        max_tokens=150,
+                        temperature=0
+                    )
+                    translation = response.choices[0].text.strip()
+
+                return translation, True
+            except openai.error.RateLimitError:
+                attempts += 1
+                if attempts &lt; 3:
+                    LOG.warning(&quot;Rate limit reached. Waiting for 60 seconds before retrying.&quot;)
+                    time.sleep(60)
+                else:
+                    raise Exception(&quot;Rate limit reached. Maximum attempts exceeded.&quot;)
+            except requests.exceptions.RequestException as e:
+                raise Exception(f&quot;请求异常：{e}&quot;)
+            except requests.exceptions.Timeout as e:
+                raise Exception(f&quot;请求超时：{e}&quot;)
+            except simplejson.errors.JSONDecodeError as e:
+                raise Exception(&quot;Error: response is not valid JSON format.&quot;)
+            except Exception as e:
+                raise Exception(f&quot;发生了未知错误：{e}&quot;)
+        return &quot;&quot;, False
+
+</code></pre>
+<p>This code defines a <strong>class called OpenAIModel</strong> that is a subclass of the Model class. The OpenAIModel class is responsible for making requests to the <strong>OpenAI API for language translation</strong>.</p>
+<p>The OpenAIModel class has an <strong>init method that takes in a model and an API key as parameters</strong>. It sets the model and sets the API key in the openai module.</p>
+<p>The class also has a <code>make_request</code> method that takes in a prompt and sends a request to the OpenAI API for translation. </p>
+<p>It handles different types of responses depending on the model being used. If the model is "gpt-3.5-turbo", it uses the <code>openai.ChatCompletion.create</code> method to send a chat completion request. Otherwise, it uses the <code>openai.Completion.create</code> method to send a completion request.</p>
+<p>The method includes exception handling for various types of errors that may occur during the request process, <strong>such as rate limit errors, request exceptions, timeouts, and JSON decoding errors</strong>. </p>
+<p>It also includes a retry mechanism for rate limit errors, with a maximum of 3 attempts.</p>
+<p>If the request is successful, the translated text is returned along with a boolean value indicating success. If all attempts fail, an empty string and False are returned.</p>
+<p>The LOG variable is imported from the utils module to handle logging.</p>
+<ul>
+<li><strong><code>glm_model.py</code></strong></li>
+</ul>
+<pre><code>import requests
+import simplejson
+
+from model import Model
+
+class GLMModel(Model):
+    def __init__(self, model_url: str, timeout: int):
+        self.model_url = model_url
+        self.timeout = timeout
+
+    def make_request(self, prompt):
+        try:
+            payload = {
+                &quot;prompt&quot;: prompt,
+                &quot;history&quot;: []
+            }
+            response = requests.post(self.model_url, json=payload, timeout=self.timeout)
+            response.raise_for_status()
+            response_dict = response.json()
+            translation = response_dict[&quot;response&quot;]
+            return translation, True
+        except requests.exceptions.RequestException as e:
+            raise Exception(f&quot;请求异常：{e}&quot;)
+        except requests.exceptions.Timeout as e:
+            raise Exception(f&quot;请求超时：{e}&quot;)
+        except simplejson.errors.JSONDecodeError as e:
+            raise Exception(&quot;Error: response is not valid JSON format.&quot;)
+        except Exception as e:
+            raise Exception(f&quot;发生了未知错误：{e}&quot;)
+        return &quot;&quot;, False
+</code></pre>
+<p>This code defines a class called <strong>GLMModel</strong> that is a subclass of the Model class. </p>
+<p><strong>The GLMModel class is responsible for making requests to a GLM translation model through an HTTP API.</strong></p>
+<p>The GLMModel class has an init method that takes in a <code>model_url</code> (the URL of the GLM model) and a timeout (the timeout for the API request) as parameters. It sets the <code>model_url</code> and timeout as instance variables.</p>
+<p>The class also has a <code>make_request</code> method that takes in a prompt and sends a POST request to the model_url with the prompt as JSON payload. It handles different types of responses and exceptions.</p>
+<p>The method uses the requests module to send the request with the specified timeout. It checks if the response is successful with <code>raise_for_status()</code>. </p>
+<p>If successful, it parses the response JSON and extracts the translation. If any exceptions occur during the request process, they are caught and handled, including request exceptions, timeouts, JSON decoding errors, and general exceptions.</p>
+<p>If the request is successful, the translated text is returned along with a boolean value indicating success. If an exception occurs, an empty string and False are returned along with an appropriate error message.</p>
+<ul>
+<li><strong><code>model.py</code></strong></li>
+</ul>
+<pre><code>from book import ContentType
+
+class Model:
+    def make_text_prompt(self, text: str, target_language: str) -&gt; str:
+        return f&quot;翻译为{target_language}：{text}&quot;
+
+    def make_table_prompt(self, table: str, target_language: str) -&gt; str:
+        return f&quot;翻译为{target_language}，保持间距（空格，分隔符），以表格形式返回：\n{table}&quot;
+
+    def translate_prompt(self, content, target_language: str) -&gt; str:
+        if content.content_type == ContentType.TEXT:
+            return self.make_text_prompt(content.original, target_language)
+        elif content.content_type == ContentType.TABLE:
+            return self.make_table_prompt(content.get_original_as_str(), target_language)
+
+    def make_request(self, prompt):
+        raise NotImplementedError(&quot;子类必须实现 make_request 方法&quot;)
+</code></pre>
+<p>This code defines a base Model class that serves as a template for translation models. It contains methods for constructing translation prompts and making API requests, specific to the child classes that inherit from it.</p>
+<p>The Model class has the following methods:</p>
+<ol>
+<li>
+<p><code>make_text_prompt</code>: This method takes in a text string and a target language and returns a formatted translation prompt. It concatenates the target language with the text, indicating the desired translation.</p>
+</li>
+<li>
+<p><code>make_table_prompt</code>: This method takes in a table string and a target language and returns a formatted translation prompt for tables. It adds a description of the target language, and includes the table content.</p>
+</li>
+<li>
+<p><code>translate_prompt</code>: This method takes in a content object and a target language. It determines the type of content, whether it is text or a table, and calls the respective prompt creation method for that content type.</p>
+</li>
+<li>
+<p><code>make_request</code>: This method is a placeholder method that throws a NotImplementedError. It is intended to be overridden by child classes to implement the actual API request logic specific to their translation models.</p>
+</li>
+</ol>
+<p>Overall, the Model class provides basic utilities for creating translation prompts and serves as a blueprint for implementing specific translation models.</p>
+<h3 id="translator">translator</h3>
+<pre><code> tree .
+.
+├── __init__.py
+├── exceptions.py
+├── pdf_parser.py
+├── pdf_translator.py
+└── writer.py
+
+0 directories, 5 files
+</code></pre>
+<ul>
+<li><code>__init__.py</code></li>
+</ul>
+<pre><code>from .pdf_translator import PDFTranslator
+</code></pre>
+<ul>
+<li><code>pdf_parser.py</code><ul>
+<li>pdfplumber</li>
+<li>typing</li>
+<li>book</li>
+<li>translator.exceptions</li>
+<li>utils</li>
+</ul>
+</li>
+</ul>
+<pre><code>import pdfplumber
+from typing import Optional
+from book import Book, Page, Content, ContentType, TableContent
+from translator.exceptions import PageOutOfRangeException
+from utils import LOG
+
+
+class PDFParser:
+    def __init__(self):
+        pass
+
+    def parse_pdf(self, pdf_file_path: str, pages: Optional[int] = None) -&gt; Book:
+        book = Book(pdf_file_path)
+
+        with pdfplumber.open(pdf_file_path) as pdf:
+            if pages is not None and pages &gt; len(pdf.pages):
+                raise PageOutOfRangeException(len(pdf.pages), pages)
+
+            if pages is None:
+                pages_to_parse = pdf.pages
+            else:
+                pages_to_parse = pdf.pages[:pages]
+
+            for pdf_page in pages_to_parse:
+                page = Page()
+
+                # Store the original text content
+                raw_text = pdf_page.extract_text()
+                tables = pdf_page.extract_tables()
+
+                # Remove each cell's content from the original text
+                for table_data in tables:
+                    for row in table_data:
+                        for cell in row:
+                            raw_text = raw_text.replace(cell, &quot;&quot;, 1)
+
+                # Handling text
+                if raw_text:
+                    # Remove empty lines and leading/trailing whitespaces
+                    raw_text_lines = raw_text.splitlines()
+                    cleaned_raw_text_lines = [line.strip() for line in raw_text_lines if line.strip()]
+                    cleaned_raw_text = &quot;\n&quot;.join(cleaned_raw_text_lines)
+
+                    text_content = Content(content_type=ContentType.TEXT, original=cleaned_raw_text)
+                    page.add_content(text_content)
+                    LOG.debug(f&quot;[raw_text]\n {cleaned_raw_text}&quot;)
+
+
+
+                # Handling tables
+                if tables:
+                    table = TableContent(tables)
+                    page.add_content(table)
+                    LOG.debug(f&quot;[table]\n{table}&quot;)
+
+                book.add_page(page)
+
+        return book
+</code></pre>
+<p>The code defines a class PDFParser that has a method <code>parse_pdf</code> which takes a PDF file path and an optional pages parameter. It uses the pdfplumber library to open the PDF file and parse its content.</p>
+<p>Inside the <code>parse_pdf</code> method, a Book object is created. Then, the pdfplumber library is used to open the PDF file. If the pages parameter is specified and it is greater than the total number of pages in the PDF, a PageOutOfRangeException is raised. Otherwise, if the pages parameter is not specified, all pages of the PDF are parsed.</p>
+<p>For each page in the <code>pages_to_parse</code> list, a Page object is created. The text content of the page is extracted and stored in a variable <code>raw_text</code>. Tables are also extracted from the page using the <code>extract_tables</code> method.</p>
+<p>Next, the code iterates through each cell in the tables and removes its content from the <code>raw_text</code> variable.</p>
+<p>Then, the code handles the text content by removing empty lines and leading/trailing whitespaces. The cleaned text content is stored in a Content object of type ContentType.TEXT and added to the Page object.</p>
+<p>Next, if there are any tables extracted from the page, a TableContent object is created and added to the Page object.</p>
+<p>Finally, the Page object is added to the Book object.</p>
+<p>After all pages have been processed, the Book object is returned.</p>
+<p>Note: There are references to external modules and dependencies such as book, translator, and utils. The functionality of these modules is not visible in the provided code snippet, so it is not possible to fully understand the overall behavior and purpose of the code without having access to these modules.</p>
+<ul>
+<li><code>pdf_translator.py</code></li>
+</ul>
+<pre><code>from typing import Optional
+from model import Model
+from translator.pdf_parser import PDFParser
+from translator.writer import Writer
+from utils import LOG
+
+class PDFTranslator:
+    def __init__(self, model: Model):
+        self.model = model
+        self.pdf_parser = PDFParser()
+        self.writer = Writer()
+
+    def translate_pdf(self, pdf_file_path: str, file_format: str = 'PDF', target_language: str = '中文', output_file_path: str = None, pages: Optional[int] = None):
+        self.book = self.pdf_parser.parse_pdf(pdf_file_path, pages)
+
+        for page_idx, page in enumerate(self.book.pages):
+            for content_idx, content in enumerate(page.contents):
+                prompt = self.model.translate_prompt(content, target_language)
+                LOG.debug(prompt)
+                translation, status = self.model.make_request(prompt)
+                LOG.info(translation)
+
+                # Update the content in self.book.pages directly
+                self.book.pages[page_idx].contents[content_idx].set_translation(translation, status)
+
+        self.writer.save_translated_book(self.book, output_file_path, file_format)
+</code></pre>
+<ul>
+<li>typing</li>
+<li>model</li>
+</ul>
+<p>The code defines a class called PDFTranslator that is responsible for translating PDF files. It has an <code>__init__</code> method that takes a Model object as a parameter and <strong>initializes the class attributes for the model, PDF parser, and writer</strong>. </p>
+<p>The class has a <code>translate_pdf</code> method that takes several parameters including the path to the PDF file, the desired file format for the output, the target language for translation, the output file path, and the number of pages to translate (optional). </p>
+<p>Inside the <code>translate_pdf</code> method, it uses the PDF parser to parse the PDF file and store the content in the self.book attribute. </p>
+<p>It then iterates over each page and each content on the page, and translates the content using the model's translate_prompt method. </p>
+<p>The translated text and translation status are obtained by calling the model's make_request method. 
+The translated content is then updated in the self.book object. </p>
+<p>Finally, the writer's save_translated_book method is called to save the translated content to an output file in the specified format.</p>
+<ul>
+<li><strong>writer.py</strong></li>
+</ul>
+<pre><code>import os
+from reportlab.lib import colors, pagesizes, units
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.platypus import (
+    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak
+)
+
+from book import Book, ContentType
+from utils import LOG
+
+class Writer:
+    def __init__(self):
+        pass
+
+    def save_translated_book(self, book: Book, output_file_path: str = None, file_format: str = &quot;PDF&quot;):
+        if file_format.lower() == &quot;pdf&quot;:
+            self._save_translated_book_pdf(book, output_file_path)
+        elif file_format.lower() == &quot;markdown&quot;:
+            self._save_translated_book_markdown(book, output_file_path)
+        else:
+            raise ValueError(f&quot;Unsupported file format: {file_format}&quot;)
+
+    def _save_translated_book_pdf(self, book: Book, output_file_path: str = None):
+        if output_file_path is None:
+            output_file_path = book.pdf_file_path.replace('.pdf', f'_translated.pdf')
+
+        LOG.info(f&quot;pdf_file_path: {book.pdf_file_path}&quot;)
+        LOG.info(f&quot;开始翻译: {output_file_path}&quot;)
+
+        # Register Chinese font
+        font_path = &quot;../fonts/simsun.ttc&quot;  # 请将此路径替换为您的字体文件路径
+        pdfmetrics.registerFont(TTFont(&quot;SimSun&quot;, font_path))
+
+        # Create a new ParagraphStyle with the SimSun font
+        simsun_style = ParagraphStyle('SimSun', fontName='SimSun', fontSize=12, leading=14)
+
+        # Create a PDF document
+        doc = SimpleDocTemplate(output_file_path, pagesize=pagesizes.letter)
+        styles = getSampleStyleSheet()
+        story = []
+
+        # Iterate over the pages and contents
+        for page in book.pages:
+            for content in page.contents:
+                if content.status:
+                    if content.content_type == ContentType.TEXT:
+                        # Add translated text to the PDF
+                        text = content.translation
+                        para = Paragraph(text, simsun_style)
+                        story.append(para)
+
+                    elif content.content_type == ContentType.TABLE:
+                        # Add table to the PDF
+                        table = content.translation
+                        table_style = TableStyle([
+                            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                            ('FONTNAME', (0, 0), (-1, 0), 'SimSun'),  # 更改表头字体为 &quot;SimSun&quot;
+                            ('FONTSIZE', (0, 0), (-1, 0), 14),
+                            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                            ('FONTNAME', (0, 1), (-1, -1), 'SimSun'),  # 更改表格中的字体为 &quot;SimSun&quot;
+                            ('GRID', (0, 0), (-1, -1), 1, colors.black)
+                        ])
+                        pdf_table = Table(table.values.tolist())
+                        pdf_table.setStyle(table_style)
+                        story.append(pdf_table)
+            # Add a page break after each page except the last one
+            if page != book.pages[-1]:
+                story.append(PageBreak())
+
+        # Save the translated book as a new PDF file
+        doc.build(story)
+        LOG.info(f&quot;翻译完成: {output_file_path}&quot;)
+
+    def _save_translated_book_markdown(self, book: Book, output_file_path: str = None):
+        if output_file_path is None:
+            output_file_path = book.pdf_file_path.replace('.pdf', f'_translated.md')
+
+        LOG.info(f&quot;pdf_file_path: {book.pdf_file_path}&quot;)
+        LOG.info(f&quot;开始翻译: {output_file_path}&quot;)
+        with open(output_file_path, 'w', encoding='utf-8') as output_file:
+            # Iterate over the pages and contents
+            for page in book.pages:
+                for content in page.contents:
+                    if content.status:
+                        if content.content_type == ContentType.TEXT:
+                            # Add translated text to the Markdown file
+                            text = content.translation
+                            output_file.write(text + '\n\n')
+
+                        elif content.content_type == ContentType.TABLE:
+                            # Add table to the Markdown file
+                            table = content.translation
+                            header = '| ' + ' | '.join(str(column) for column in table.columns) + ' |' + '\n'
+                            separator = '| ' + ' | '.join(['---'] * len(table.columns)) + ' |' + '\n'
+                            # body = '\n'.join(['| ' + ' | '.join(row) + ' |' for row in table.values.tolist()]) + '\n\n'
+                            body = '\n'.join(['| ' + ' | '.join(str(cell) for cell in row) + ' |' for row in table.values.tolist()]) + '\n\n'
+                            output_file.write(header + separator + body)
+
+                # Add a page break (horizontal rule) after each page except the last one
+                if page != book.pages[-1]:
+                    output_file.write('---\n\n')
+
+        LOG.info(f&quot;翻译完成: {output_file_path}&quot;)
+</code></pre>
+<p>The code defines a Writer class that can save a translated book in either PDF or Markdown format. The class has two methods: <code>save_translated_book_pdf()</code> and <code>save_translated_book_markdown()</code>. </p>
+<p>The <code>save_translated_book_pdf()</code> method takes a Book object, an output file path, and a file format as parameters. If the file format is "pdf", it calls the <code>_save_translated_book_pdf()</code> method to save the translated book as a PDF file. If the file format is "markdown", it calls the <code>_save_translated_book_markdown()</code> method to save the translated book as a Markdown file. </p>
+<p>The <code>_save_translated_book_pdf()</code> method saves the translated book as a PDF file. It registers a Chinese font, creates a ParagraphStyle with the registered font, and then creates a PDF document using the SimpleDocTemplate class from the <code>reportlab.platypus</code> module. </p>
+<p>It iterates over the pages and contents of the book and adds translated text and tables to the PDF using Paragraph and Table objects. It also applies styling to the table using TableStyle. After iterating over all the pages, it adds a page break after each page except the last one. Finally, it saves the PDF document as a new file.</p>
+<p>The <code>_save_translated_book_markdown()</code> method saves the translated book as a Markdown file. It iterates over the pages and contents of the book and adds translated text and tables to the Markdown file. For tables, it creates a Markdown table with the table headers, separators, and rows. After iterating over all the pages, it adds a horizontal rule after each page except the last one. Finally, it saves the Markdown file.</p>
+<p>Overall, the code provides a way to save a translated book in either PDF or Markdown format, depending on the specified file format.</p>
+<p><strong><code>main.py</code></strong></p>
+<pre><code>import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+from utils import ArgumentParser, ConfigLoader, LOG
+from model import GLMModel, OpenAIModel
+from translator import PDFTranslator
+
+if __name__ == &quot;__main__&quot;:
+    argument_parser = ArgumentParser()
+    args = argument_parser.parse_arguments()
+    config_loader = ConfigLoader(args.config)
+
+    config = config_loader.load_config()
+
+    model_name = args.openai_model if args.openai_model else config['OpenAIModel']['model']
+    api_key = args.openai_api_key if args.openai_api_key else config['OpenAIModel']['api_key']
+    model = OpenAIModel(model=model_name, api_key=api_key)
+
+
+    pdf_file_path = args.book if args.book else config['common']['book']
+    file_format = args.file_format if args.file_format else config['common']['file_format']
+
+    # 实例化 PDFTranslator 类，并调用 translate_pdf() 方法
+    translator = PDFTranslator(model)
+    translator.translate_pdf(pdf_file_path, file_format)
+
+</code></pre>
+<p>The code performs the following tasks:</p>
+<ol>
+<li>It imports the required modules and classes.</li>
+<li>It appends the path of the current file's directory to the system's search path using <code>sys.path.append()</code>.</li>
+<li>It imports a few modules and classes from the appended directory.</li>
+<li>It checks if the script is being run as the main module.</li>
+<li>It creates an ArgumentParser object and parses the command line arguments.</li>
+<li>It creates a ConfigLoader object and loads the configuration from the specified file.</li>
+<li>It retrieves the model name and API key from the command line arguments or the configuration file.</li>
+<li>It creates an OpenAIModel object with the retrieved model name and API key.</li>
+<li>It retrieves the PDF file path and file format from the command line arguments or the configuration file.</li>
+<li>It creates a PDFTranslator object with the OpenAIModel instance and translates the PDF using the <code>translate_pdf()</code> method.</li>
+</ol>
+<p>Overall, the code sets up the necessary configurations and objects for translating a PDF file using an OpenAI language model.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

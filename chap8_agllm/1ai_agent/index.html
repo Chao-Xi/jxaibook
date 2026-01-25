@@ -1,0 +1,3891 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../0agents_demo1/">
+      
+      
+        <link rel="next" href="../2ai_agents/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>1 Introduction to Developing AI Agents - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-introduction-to-developing-ai-agents" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1 Introduction to Developing AI Agents
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/3OpenaiModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/4chatgpt_translate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/3AmazonBedrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/4assistantapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/2agent_buildout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0responseApi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0agents_demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#2-understanding-fundamental-concepts-of-ai-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 Understanding Fundamental Concepts of AI Agents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploring-different-types-of-ai-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exploring Different Types of AI Agents
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploring Different Types of AI Agents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-simple-reflex-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Simple Reflex Agents:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-model-based-reflex-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Model-Based Reflex Agents:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-differences-summarized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Differences Summarized:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-goal-based-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 Goal-Based Agents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-learning-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 Learning Agents
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-understanding-advanced-ai-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 Understanding Advanced AI Agents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-introduction-to-langgraph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 Introduction to LangGraph
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4 Introduction to LangGraph">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#langgraph-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LangGraph Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#langgraph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用 LangGraph 构建商店营业时间查询的智能代理系统
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="使用 LangGraph 构建商店营业时间查询的智能代理系统">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State（状态）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nodes（节点）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edges（边）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-vs-code-jupyter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 工作流程设置（VS Code / Jupyter）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-limitation-next-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Limitation &amp; Next Step
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Limitation &amp; Next Step">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-deepseek" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With deepseek
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-langgraph-with-tool-calling-to-create-agentic-workflow-for-shop-hours-inquiry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using LangGraph with Tool Calling to Create Agentic Workflow for Shop Hours Inquiry
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using LangGraph with Tool Calling to Create Agentic Workflow for Shop Hours Inquiry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-specialized-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Specialized Agents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-supervisor-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Supervisor Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-workflow-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Workflow Execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-specialized-agents_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 专门代理（Specialized Agents）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 专门代理（Specialized Agents）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#time_keeper_agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        time_keeper_agent（时间代理）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schedule_keeper_agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        schedule_keeper_agent（营业时间代理）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-supervisor-agent_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 监督代理（Supervisor Agent）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 执行工作流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-about-al-agents-their-types-and-architecture-using-real-world-demos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Learning about Al Agents, Their types, and Architecture Using Real-world Demos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Learning about Al Agents, Their types, and Architecture Using Real-world Demos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Concepts:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-features-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Features &amp; Implementation:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心概念：
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主要特性与实现：
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2ai_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3ai_agents_his/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Daily Blogs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Agent Daily Blogs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1agents_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4agent_arg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5Agent_google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Google AI Agent 白皮书深度拆解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#2-understanding-fundamental-concepts-of-ai-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 Understanding Fundamental Concepts of AI Agents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploring-different-types-of-ai-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exploring Different Types of AI Agents
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploring Different Types of AI Agents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-simple-reflex-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Simple Reflex Agents:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-model-based-reflex-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Model-Based Reflex Agents:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-differences-summarized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Differences Summarized:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-goal-based-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 Goal-Based Agents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-learning-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 Learning Agents
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-understanding-advanced-ai-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 Understanding Advanced AI Agents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-introduction-to-langgraph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 Introduction to LangGraph
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4 Introduction to LangGraph">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#langgraph-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LangGraph Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#langgraph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用 LangGraph 构建商店营业时间查询的智能代理系统
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="使用 LangGraph 构建商店营业时间查询的智能代理系统">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        State（状态）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nodes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nodes（节点）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Edges（边）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-vs-code-jupyter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 工作流程设置（VS Code / Jupyter）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-limitation-next-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Limitation &amp; Next Step
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Limitation &amp; Next Step">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#implementation-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-deepseek" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With deepseek
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-langgraph-with-tool-calling-to-create-agentic-workflow-for-shop-hours-inquiry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using LangGraph with Tool Calling to Create Agentic Workflow for Shop Hours Inquiry
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using LangGraph with Tool Calling to Create Agentic Workflow for Shop Hours Inquiry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-specialized-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Specialized Agents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-supervisor-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Supervisor Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-workflow-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Workflow Execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-specialized-agents_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 专门代理（Specialized Agents）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 专门代理（Specialized Agents）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#time_keeper_agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        time_keeper_agent（时间代理）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schedule_keeper_agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        schedule_keeper_agent（营业时间代理）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-supervisor-agent_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 监督代理（Supervisor Agent）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 执行工作流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-about-al-agents-their-types-and-architecture-using-real-world-demos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Learning about Al Agents, Their types, and Architecture Using Real-world Demos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Learning about Al Agents, Their types, and Architecture Using Real-world Demos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Concepts:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-features-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Features &amp; Implementation:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心概念：
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主要特性与实现：
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="1-introduction-to-developing-ai-agents">1 Introduction to Developing AI Agents</h1>
+<h2 id="2-understanding-fundamental-concepts-of-ai-agents">2 Understanding Fundamental Concepts of AI Agents</h2>
+<p>Here's a concise summary of the key points about AI agents from the provided text:</p>
+<ol>
+<li>
+<p><strong>Definition:</strong> An AI agent is an entity that perceives its environment (physical or digital) through sensors and acts upon that environment using effectors (per ISO definition).</p>
+</li>
+<li>
+<p><strong>Core Components:</strong></p>
+<ul>
+<li><strong>Sensors:</strong> Gather raw data (percepts) from the environment (e.g., cameras, microphones, API calls).</li>
+<li><strong>Control Center:</strong> The "brain" processes percepts, makes decisions, and plans actions (often using an LLM).</li>
+<li><strong>Effectors/Actuators:</strong> Carry out actions to change the environment (e.g., moving an arm, updating a database, generating a report).</li>
+<li><strong>Environment:</strong> The world (physical or digital) the agent operates within.</li>
+<li><strong>User Input:</strong> External input provided (e.g., commands, data) usually by humans or other agents.</li>
+<li><strong>Percepts:</strong> Raw data inputs from sensors.</li>
+<li><strong>Actions:</strong> Changes made in the environment by effectors.</li>
+</ul>
+</li>
+</ol>
+<p><strong>An agent is anything that can perceive its environment and act upon that environment.</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap8_1_1.png" title="Body image" /></p>
+<h2 id="exploring-different-types-of-ai-agents">Exploring Different Types of AI Agents</h2>
+<p><strong>Types of AI Agents</strong></p>
+<ul>
+<li>Simple reflex agents</li>
+<li>Model-based reflex agents</li>
+<li>Goal-based agents</li>
+<li>Learning agents</li>
+</ul>
+<p><strong>Simple Reflex Agents</strong> and <strong>Model-Based Reflex Agents</strong>:</p>
+<h3 id="1-simple-reflex-agents">1.  <strong>Simple Reflex Agents:</strong></h3>
+<ul>
+<li><strong>Operation:</strong> React <em>only</em> to current percepts (immediate inputs) with no memory of past events.</li>
+<li><strong>Requirement:</strong> Work best in <strong>fully observable</strong> environments.</li>
+<li><strong>Mechanism:</strong> Follow predefined <code>condition -&gt; action</code> rules.</li>
+<li><strong>Limitations:</strong></li>
+<li>Cannot learn, adapt, reason, or handle unobservable aspects.</li>
+<li>Require increasingly complex rule sets for complex environments (hard to scale/maintain).</li>
+<li><strong>Example:</strong> A thermostat turning on heat <em>only</em> if current temp &lt; 10°C (fails if a window is open).</li>
+<li><strong>Use Cases:</strong> Basic spam filters (keyword matching), simple automated email responders.</li>
+</ul>
+<blockquote>
+<p>Simple Reflex Agent</p>
+</blockquote>
+<p><img alt="Alt Image Text" src="../../images/chap8_1_2.png" title="Body image" /></p>
+<p>Simple reflex agents make decisions based only on current percepts, ignoring history</p>
+<p>They work only in fully observable environments</p>
+<p>They follow Condition-action rules</p>
+<ul>
+<li>Limited intelligence.</li>
+<li>No knowledge of non-perceptual state aspects.</li>
+<li>Often too large to generate/store.</li>
+<li>Not adaptive to environmental changes</li>
+</ul>
+<h3 id="2-model-based-reflex-agents">2.  <strong>Model-Based Reflex Agents:</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/chap8_1_3.png" title="Body image" /></p>
+<p><strong>Model-based agents work in partially observable environments and track situations</strong></p>
+<p>They have two key factors:</p>
+<ul>
+<li>
+<p><strong>Model</strong>: Knowledge of how the world works</p>
+</li>
+<li>
+<p><strong>Internal State</strong>: Representation of the current state based on percept history</p>
+</li>
+</ul>
+<p>These agents use their model to make decisions</p>
+<p>Updating state requires knowing:</p>
+<ul>
+<li>How the world evolves</li>
+<li>
+<p>How the agent’s actions affect the world</p>
+</li>
+<li>
+<p><strong>Operation:</strong> React to current percepts <em>and</em> maintain an <strong>internal state</strong> based on past percepts (memory).</p>
+</li>
+<li><strong>Core Components:</strong></li>
+<li><strong>Model:</strong> Knowledge of "how the world works" (e.g., how actions change the environment).</li>
+<li><strong>Internal State:</strong> Representation of the current world state based on percept history.</li>
+<li><strong>Advantage:</strong> More adaptable than simple reflex agents; can handle <strong>partially observable</strong> environments.</li>
+<li><strong>Mechanism:</strong> Still use <code>condition -&gt; action</code> rules, but conditions can include the internal state.</li>
+<li><strong>State Update:</strong> Relies on the model to understand world evolution and action effects.</li>
+<li><strong>Use Cases:</strong> Smart thermostats (using history &amp; preferences), smart robotic vacuums (using sensor maps).</li>
+</ul>
+<h3 id="key-differences-summarized"><strong>Key Differences Summarized:</strong></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Simple Reflex Agent</th>
+<th style="text-align: left;">Model-Based Reflex Agent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Memory</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Yes (Internal State)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Observability</strong></td>
+<td style="text-align: left;">Requires Full</td>
+<td style="text-align: left;">Handles Partial</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Adaptability</strong></td>
+<td style="text-align: left;">None (Rigid Rules)</td>
+<td style="text-align: left;">Higher (Uses Model &amp; State)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Complexity</strong></td>
+<td style="text-align: left;">Rules bloat in complex env</td>
+<td style="text-align: left;">More complex internally</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Example</strong></td>
+<td style="text-align: left;">Basic Thermostat</td>
+<td style="text-align: left;">Learning Thermostat / Smart Vacuum</td>
+</tr>
+</tbody>
+</table>
+<p>Here's a concise summary of <strong>Goal-Based Agents</strong> and <strong>Learning Agents</strong>:</p>
+<h3 id="3-goal-based-agents">3 <strong>Goal-Based Agents</strong></h3>
+<ul>
+<li>Knowing the current state is not always enough for decision-making </li>
+<li>Agents need a goal to define desirable outcomes </li>
+<li>Goal-based agents enhance model-based agents with goal information </li>
+<li>They select actions to achieve their goal </li>
+<li>They evaluate action sequences through searching and planning, making them proactive</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap8_1_4.png" title="Body image" /></p>
+<ol>
+<li><strong>Core Function:</strong>  <ul>
+<li>Plan sequences of actions to achieve <strong>specific goals</strong> (desirable future states).  </li>
+<li>Extend model-based agents by incorporating goal information.  </li>
+</ul>
+</li>
+<li><strong>Key Mechanism:</strong>  <ul>
+<li><strong>Searching &amp; Planning:</strong> Evaluate future scenarios to choose actions leading toward the goal.  </li>
+<li><strong>Proactive:</strong> Focus on long-term outcomes rather than immediate reactions.  </li>
+</ul>
+</li>
+<li><strong>Examples:</strong>  <ul>
+<li><strong>Chess AI:</strong> Plans moves to win by evaluating long-term strategies.  </li>
+<li><strong>Logistics Route Optimization:</strong> Plans efficient delivery paths based on priorities (e.g., fuel/time).  </li>
+</ul>
+</li>
+</ol>
+<hr />
+<h3 id="4-learning-agents"><strong>4 Learning Agents</strong></h3>
+<p><img alt="Alt Image Text" src="../../images/chap8_1_5.png" title="Body image" /></p>
+<p>A learning agent improves by learning from past experiences</p>
+<p>It has four main components:</p>
+<ul>
+<li><strong>Learning element</strong>: Improves by interacting with the environment</li>
+<li>Critic: Provides feedback on performance.</li>
+<li>Performance element: Selects external actions.</li>
+<li><strong>Problem generator</strong>: Suggests actions for new experiences.</li>
+</ul>
+<p><strong>Learning agents analyze performance and seek improvements.</strong></p>
+<ol>
+<li>
+<p><strong>Core Function:</strong>  </p>
+<ul>
+<li>Continuously <strong>adapt and improve</strong> performance through experience.  </li>
+<li>Start with basic knowledge and refine over time.</li>
+</ul>
+</li>
+<li>
+<p><strong>Key Components:</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>Component</strong></th>
+<th><strong>Role</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Learning Element</strong></td>
+<td>Improves knowledge/behavior based on environmental feedback.</td>
+</tr>
+<tr>
+<td><strong>Critic</strong></td>
+<td>Evaluates performance against a fixed standard (provides feedback).</td>
+</tr>
+<tr>
+<td><strong>Performance Element</strong></td>
+<td>Executes actions (e.g., the agent’s decision-making module).</td>
+</tr>
+<tr>
+<td><strong>Problem Generator</strong></td>
+<td>Suggests exploratory actions to gain new, informative experiences.</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Examples:</strong>  </p>
+<ul>
+<li><strong>Recommendation Systems (Netflix/Amazon):</strong> Learn user preferences to refine suggestions.  </li>
+<li><strong>Adaptive Thermostats:</strong> Learn user habits (e.g., schedule, temperature preferences) to auto-adjust.  </li>
+</ul>
+</li>
+</ol>
+<h2 id="3-understanding-advanced-ai-agents">3 Understanding Advanced AI Agents</h2>
+<ul>
+<li>Leverage LLMs as a reasoning engine</li>
+<li>
+<p>Use a language model to plan actions</p>
+</li>
+<li>
+<p><strong>Core Engine:</strong> Rely on <strong>LLMs (Large Language Models)</strong> or <strong>LMMs (Large Multimodal Models)</strong> as their reasoning engine to plan and execute action sequences for achieving goals.</p>
+</li>
+</ul>
+<p><strong>Key Components of Advanced AI Agents</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap8_1_6.png" title="Body image" /></p>
+<ol>
+<li>
+<p><strong>Frameworks:</strong> Built using popular frameworks/tools like <strong>LangGraph, CrewAI, OpenAI's Swarm, Microsoft's AutoGen</strong>, and others.</p>
+</li>
+<li>
+<p><strong>Control Center:</strong></p>
+<ul>
+<li><strong>Input Director:</strong> Routes user input to the core model.</li>
+<li><strong>Core Model:</strong> The LLM/LMM that processes input and generates outcomes.</li>
+<li><strong>Orchestrator:</strong> Manages the overall system workflow and autonomy</li>
+</ul>
+</li>
+<li>
+<p><strong>Agentic AI:</strong> Systems designed to <strong>act autonomously</strong> towards goals. "Agentic" describes the degree of agent-like qualities on a continuum (flexible categorization).</p>
+</li>
+</ol>
+<p><strong>The Spectrum of Agentic Systems</strong></p>
+<ol>
+<li>Not an agent</li>
+<li>Rule based</li>
+<li>ML models</li>
+<li>Adaptive AI</li>
+<li>Autonomous</li>
+</ol>
+<p>The concept of agentic represents a spectrum of agent-like qualities</p>
+<ol>
+<li>Agentic AI Design Patterns</li>
+</ol>
+<p><strong>Reflection (RL)</strong>: Agents that can analyze their own outputs and identify areas of improvement</p>
+<p><strong>Tool use:</strong> Agents that can access and utilize tools to enhance their capabilities</p>
+<p><strong>Planning and reasoning</strong>: Agents that can think ahead, consider multiple options, and make informed decisions</p>
+<p><strong>Multi-agent collaboration:</strong> Multiple agents working together to solve complex problems</p>
+<p><strong>Memory management:</strong> Agents that can retain important context and history from past interactions</p>
+<h2 id="4-introduction-to-langgraph">4 Introduction to LangGraph</h2>
+<h3 id="langgraph-implementation"><strong>LangGraph Implementation</strong></h3>
+<p>Using LangGraph to Create Agentic System for Shop Hours Inquiry</p>
+<ul>
+<li>
+<p>LangGraph introduced by LangChain</p>
+</li>
+<li>
+<p>With LangGraph you can create highly controllable agents</p>
+</li>
+<li>
+<p><strong>Library Overview</strong>:</p>
+</li>
+<li>
+<p>Stateful multi-actor application builder by LangChain creators  </p>
+</li>
+<li>
+<p>Models workflows as <strong>graphs</strong> with three core components:</p>
+<ul>
+<li>
+<p><strong>State</strong>: Shared data structure that represents the current snapshot (e.g., conversation history)</p>
+</li>
+<li>
+<p><strong>Nodes</strong>: Python functions handling logic of your agents (e.g., process input, call LLMs)</p>
+</li>
+<li>
+<p><strong>Edges</strong>: Python functions that determine which Node to execute next (decide next node based on state)  </p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Workflow Setup (VS Code/Jupyter)</strong>:  </p>
+</li>
+<li><strong>Dependencies</strong>: Installed <code>langchain</code>, <code>langgraph</code>, OpenAI integration  </li>
+<li><strong>LLM Setup</strong>: Initialized <code>ChatOpenAI</code> with <code>gpt-3.5-turbo</code>  </li>
+<li><strong>State Definition</strong>: Used <code>MessageState</code> to store conversation history  </li>
+<li><strong>Node Creation</strong>:  <ul>
+<li>Defined <code>assistant_node</code> to process user queries + system prompts  </li>
+</ul>
+</li>
+<li><strong>Graph Assembly</strong>:  <ul>
+<li>Added start → assistant → end nodes  </li>
+<li>Compiled into runnable workflow  </li>
+<li>Visualized graph structure  </li>
+</ul>
+</li>
+</ul>
+<p>下面是完整的中文翻译：</p>
+<hr />
+<h3 id="langgraph"><strong>使用 LangGraph 构建商店营业时间查询的智能代理系统</strong></h3>
+<ul>
+<li><strong>LangGraph</strong> 由 <strong>LangChain</strong> 推出</li>
+<li>使用 LangGraph 可以创建 <strong>高度可控的智能代理（Agent）</strong></li>
+</ul>
+<hr />
+<p><strong>1. 库概述（Library Overview）：</strong></p>
+<ul>
+<li>由 LangChain 团队开发的 <strong>有状态（stateful）多智能体应用构建工具</strong></li>
+<li>使用 <strong>图结构（graph）</strong> 来描述工作流程，包含三个核心组件：</li>
+</ul>
+<h4 id="state"><strong>State（状态）</strong></h4>
+<ul>
+<li>共享的数据结构</li>
+<li>用来表示当前系统的快照（例如：对话历史）</li>
+</ul>
+<h4 id="nodes"><strong>Nodes（节点）</strong></h4>
+<ul>
+<li>Python 函数</li>
+<li>用来处理代理的逻辑（例如：处理输入、调用 LLM 等）</li>
+</ul>
+<h4 id="edges"><strong>Edges（边）</strong></h4>
+<ul>
+<li>Python 函数</li>
+<li>用来决定下一个要执行的节点</li>
+<li>根据当前 State 决策流程走向</li>
+</ul>
+<hr />
+<h4 id="3-vs-code-jupyter"><strong>3. 工作流程设置（VS Code / Jupyter）</strong></h4>
+<ul>
+<li><strong>依赖安装</strong>：安装 <code>langchain</code>、<code>langgraph</code>、OpenAI 集成库</li>
+<li><strong>LLM 设置</strong>：初始化 <code>ChatOpenAI</code> 使用 <code>gpt-3.5-turbo</code></li>
+<li><strong>State 定义</strong>：使用 <code>MessageState</code> 保存对话历史</li>
+<li>
+<p><strong>节点创建（Node Creation）</strong>：</p>
+</li>
+<li>
+<p>创建 <code>assistant_node</code> 用来处理用户问题和 system prompt</p>
+</li>
+<li>
+<p><strong>图结构构建（Graph Assembly）</strong>：</p>
+</li>
+<li>
+<p>添加 <code>start → assistant → end</code></p>
+</li>
+<li>编译为可运行的工作流程</li>
+<li>
+<p>可视化图结构</p>
+</li>
+<li>
+<p><strong>Demo Execution</strong>:  </p>
+</li>
+<li>Tested query: <em>"What is the capital of Sweden?"</em> → Correctly returned <em>"Stockholm"</em></li>
+</ul>
+<pre><code>pip install -quit langchain_openai langchain_core langgraph
+
+pip install --upgrade langchain langgraph
+</code></pre>
+<pre><code>from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(
+    model=&quot;gpt-oss:20b&quot;,  # Or the name of the model you downloaded in Ollama
+    openai_api_base=&quot;http://localhost:11434/v1&quot;, # Ollama's API base
+    api_key=&quot;not-needed&quot;  # LM Studio does not require an API key
+)
+</code></pre>
+<pre><code>from langgraph.graph import MessagesState
+from langchain_core.messages import HumanMessage, SystemMessage
+
+sys_msg = SystemMessage(content=&quot;You are a helpful assistant to respond to general purpose queries.&quot;)
+
+def assistant(state: MessagesState):
+    return {&quot;messages&quot;: [llm.invoke([sys_msg]+ state[&quot;messages&quot;])]}
+</code></pre>
+<pre><code>from langgraph.graph import START, StateGraph, END
+from IPython.display import Image, display
+
+builder = StateGraph(MessagesState)
+builder.add_node(&quot;assistant&quot;, assistant)
+
+builder.add_edge(START, &quot;assistant&quot;)
+builder.add_edge(&quot;assistant&quot;, END)
+
+react_graph = builder.compile()
+display(Image(react_graph.get_graph(xray=True).draw_mermaid_png(max_retries=5, retry_delay=2.0)))
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap8_1_7.png" title="Body image" /></p>
+<pre><code>messages = [HumanMessage(content=&quot;Tell me what is the capital of Sweden?&quot;)]
+messages = react_graph.invoke({&quot;messages&quot; : messages})
+
+for m in messages ['messages']: 
+    m.pretty_print()
+</code></pre>
+<pre><code>messages = [HumanMessage(content=&quot;Tell me what is the capital of Sweden?&quot;)]
+messages = react_graph.invoke({&quot;messages&quot; : messages})
+
+for m in messages ['messages']: 
+    m.pretty_print()
+</code></pre>
+<h3 id="key-limitation-next-step"><strong>Key Limitation &amp; Next Step</strong></h3>
+<ul>
+<li><strong>Problem</strong>: LLMs lack real-time data (e.g., store hours/returns policy).  </li>
+<li><strong>Solution</strong>: <strong>Tool calling</strong> to integrate APIs/databases (next section).</li>
+</ul>
+<p><strong>CrewAI’s Key Components</strong> </p>
+<p>CrewAI helps you create an organization of AI agents with specialized roles collaborating to accomplish complex tasks.</p>
+<p><strong>Agent</strong></p>
+<p>An autonomous entity that performs tasks and utilizes tools</p>
+<p><strong>Task</strong></p>
+<p>A specific assignment completed by an Agent</p>
+<p><strong>Crew</strong></p>
+<p>A team of agents collaborating to complete tasks</p>
+<h4 id="implementation-flow"><strong>Implementation Flow</strong></h4>
+<pre><code class="language-mermaid">graph LR
+A[Define State] --&gt; B[Create Nodes]
+B --&gt; C[Add Edges]
+C --&gt; D[Compile Graph]
+D --&gt; E[Execute Queries]
+E --&gt; F[Integrate Tools]
+</code></pre>
+<p><strong>Essence</strong>: LangGraph enables building stateful agent workflows for Carved Rock's needs, starting with simple Q&amp;A and extending to real-time tool integration.</p>
+<h3 id="with-deepseek">With deepseek</h3>
+<pre><code>%%capture --no-stderr
+
+pip install -U langchain-core langchain-community langchain-openai langgraph
+</code></pre>
+<pre><code>from langchain_openai import ChatOpenAI
+
+# Use your local DeepSeek model running in Ollama
+llm = ChatOpenAI(
+    model=&quot;deepseek-r1:1.5b&quot;,      # or deepseek-coder..., deepseek-r1, etc.
+    openai_api_base=&quot;http://localhost:11434/v1&quot;,
+    api_key=&quot;not-needed&quot;,         # Ollama does not require a key
+    # verbose=True
+)
+</code></pre>
+<pre><code>from langgraph.graph import MessagesState
+from langchain_core.messages import HumanMessage, SystemMessage
+
+sys_msg = SystemMessage(content=&quot;You are a helpful assistant to respond to general purpose queries.&quot;)
+
+def assistant(state: MessagesState):
+    return {&quot;messages&quot;: [llm.invoke([sys_msg] + state[&quot;messages&quot;])]}
+</code></pre>
+<pre><code>from langgraph.graph import START, StateGraph, END
+from IPython.display import Image, display
+
+builder = StateGraph(MessagesState)
+builder.add_node(&quot;assistant&quot;, assistant)
+
+builder.add_edge(START, &quot;assistant&quot;)
+builder.add_edge(&quot;assistant&quot;, END)
+
+react_graph = builder.compile()
+display(Image(react_graph.get_graph(xray=True).draw_mermaid_png(max_retries=5, retry_delay=2.0)))
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap8_1_7.png" title="Body image" /></p>
+<pre><code>messages = [HumanMessage(content=&quot;Tell me what is the capital of Sweden?&quot;)]
+
+result = react_graph.invoke({&quot;messages&quot;: messages})
+
+for m in result[&quot;messages&quot;]:
+    m.pretty_print()
+</code></pre>
+<pre><code>================================[1m Human Message [0m=================================
+
+Tell me what is the capital of Sweden?
+==================================[1m Ai Message [0m==================================
+
+&lt;think&gt;
+Alright, I need to figure out the capital of Sweden. Let's see... The user has asked for that specific information.
+
+First, I should think about where capitals are often located. Usually, they are major cities. In Sweden, I'm pretty sure Carlsberg is a big city but didn't it get merged with another place? Maybe it was previously part of Gothenburg?
+
+I remember reading that during their unification period, the capital was called &quot;Gothenburg,&quot; but over time it became known as Carlsberg. That makes sense because it's a common city name in Sweden and still used today.
+
+Also, when I did some quick research before, yes, the capital was Carlsberg after the merger. So that's probably the correct answer for the user.
+&lt;/think&gt;
+
+The capital of Sweden is **Carlsberg** after its city has been renamed to honor Carl Bernöglie, the former capital from 1735 to 1906. Though it became officially known as Carlsberg until 1852 when it was part of Gothenburg (Gothenburg being a city near Malmö), as the user suggested, Carlsberg remains the current capital.
+</code></pre>
+<h2 id="using-langgraph-with-tool-calling-to-create-agentic-workflow-for-shop-hours-inquiry">Using LangGraph with Tool Calling to Create Agentic Workflow for Shop Hours Inquiry</h2>
+<p>✅ <strong>Summary</strong></p>
+<p>The article explains how to build a <strong>multi-agent system</strong> using LangGraph, where different specialized agents collaborate to answer user queries. Instead of relying on a single general-purpose agent with many tools, it is recommended to create <strong>multiple specialized agents</strong>, each responsible for a specific task and equipped with its own tools.</p>
+<p>A <strong>supervisor agent</strong> (also an LLM-driven agent) is used to analyze user input and determine which specialized agent should handle each subtask.</p>
+<p>The demo uses LangGraph’s pre-built agent architectures:</p>
+<h3 id="1-specialized-agents"><strong>1. Specialized Agents</strong></h3>
+<p>Two agents are created using <code>create_react_agent</code>:</p>
+<ul>
+<li>
+<p><strong>time_keeper_agent</strong></p>
+</li>
+<li>
+<p>Uses a tool that returns the current date and time</p>
+</li>
+<li>
+<p>Has its own system prompt and model</p>
+</li>
+<li>
+<p><strong>schedule_keeper_agent</strong></p>
+</li>
+<li>
+<p>Uses a tool that provides the shop’s opening hours</p>
+</li>
+<li>Also has its own prompt and model</li>
+</ul>
+<p>These agents operate independently and handle only their specific responsibilities.</p>
+<h3 id="2-supervisor-agent"><strong>2. Supervisor Agent</strong></h3>
+<p>A supervisor is created using <code>create_supervisor</code>:</p>
+<ul>
+<li>Manages communication between agents</li>
+<li>Routes tasks to the correct agent</li>
+<li>Uses the system prompt to decide when to call each agent</li>
+<li>Adds messages to conversation state with <code>output_mode</code></li>
+</ul>
+<h3 id="3-workflow-execution"><strong>3. Workflow Execution</strong></h3>
+<p>The compiled supervisor graph is tested with a combined question:</p>
+<ul>
+<li><em>What are the shop’s weekend hours?</em></li>
+<li><em>Is the shop open now?</em></li>
+</ul>
+<p>The supervisor coordinates both agents:</p>
+<ul>
+<li>Calls the schedule agent for weekend hours</li>
+<li>Calls the time agent for the current time</li>
+</ul>
+<p>The final response correctly determines the weekend hours and concludes that the shop is closed based on the current time (Saturday, 8:27 PM).</p>
+<hr />
+<p>⭐ <strong>Key Takeaway</strong></p>
+<p>LangGraph makes it easy to build <strong>hierarchical multi-agent systems</strong> with:</p>
+<ul>
+<li>Specialized agents</li>
+<li>Tool-based actions</li>
+<li>A supervisor that orchestrates them</li>
+</ul>
+<hr />
+<p>下面是上述总结的 <strong>中文翻译版</strong>：</p>
+<hr />
+<p>文章介绍了如何使用 LangGraph 构建一个 <strong>多智能体系统</strong>，让多个专门代理协作回答用户问题。与其使用一个拥有所有工具的通用型大代理，更推荐创建 <strong>多个各司其职的专门代理（specialized agents）</strong>，每个代理只处理特定任务并使用专属工具。</p>
+<p>一个 <strong>监督代理（supervisor agent）</strong> 会负责分析用户输入，并决定将每个子任务分配给哪个专门代理。监督代理本身也是一个 LLM 代理。</p>
+<p>在示例中，作者使用 LangGraph 已预构建的代理架构：</p>
+<hr />
+<h3 id="1-specialized-agents_1"><strong>1. 专门代理（Specialized Agents）</strong></h3>
+<p>使用 <code>create_react_agent</code> 创建了两个代理：</p>
+<h4 id="time_keeper_agent"><strong>time_keeper_agent（时间代理）</strong></h4>
+<ul>
+<li>使用一个“返回当前日期时间”的工具</li>
+<li>拥有独立的 system prompt 和模型</li>
+</ul>
+<h4 id="schedule_keeper_agent"><strong>schedule_keeper_agent（营业时间代理）</strong></h4>
+<ul>
+<li>使用一个“返回商店营业时间表”的工具</li>
+<li>同样有自己的 prompt 和模型</li>
+</ul>
+<p>这两个代理互不干扰，各自处理自己的任务。</p>
+<hr />
+<h3 id="2-supervisor-agent_1"><strong>2. 监督代理（Supervisor Agent）</strong></h3>
+<p>通过 <code>create_supervisor</code> 创建：</p>
+<ul>
+<li>管理所有代理之间的沟通</li>
+<li>根据用户问题自动选择需要调用的代理</li>
+<li>通过 system prompt 设定执行规则</li>
+<li>通过 <code>output_mode</code> 控制消息如何写入状态</li>
+</ul>
+<hr />
+<h3 id="3"><strong>3. 执行工作流程</strong></h3>
+<p>测试时输入了两个合并的问题：</p>
+<ul>
+<li>商店周末的营业时间是多少？</li>
+<li>现在商店有开吗？</li>
+</ul>
+<p>监督代理自动调用：</p>
+<ul>
+<li>营业时间代理 → 获取周末营业时间</li>
+<li>时间代理 → 获取当前时间</li>
+</ul>
+<p>最终，系统正确得出：</p>
+<ul>
+<li>周末营业时间</li>
+<li>当前（周六晚上 8:27）商店已经打烊</li>
+</ul>
+<hr />
+<p>⭐ <strong>关键结论</strong></p>
+<p>LangGraph 能够轻松搭建 <strong>层级式多智能体系统</strong>，具有：</p>
+<ul>
+<li>专职代理</li>
+<li>工具驱动动作</li>
+<li>监督代理协调角色</li>
+</ul>
+<p>让系统更加模块化、更易维护、更准确。</p>
+<pre><code>%%capture --no-stderr
+pip install -quit langchain_openai langchain_core langgraph
+</code></pre>
+<pre><code>from langchain_openai import ChatOpenAI
+import datetime
+
+llm = ChatOpenAI(
+    model=&quot;gpt-oss:20b&quot;,  # Or the name of the model you downloaded in Ollama
+    openai_api_base=&quot;http://localhost:11434/v1&quot;, # Ollama's API base
+    api_key=&quot;not-needed&quot;  # LM Studio does not require an API key
+)
+
+def shopopeninghours () -&gt; str:
+    &quot;This tool provides the daily opening hours schedule for a shop.&quot;
+    schedule = &quot;&quot;&quot;Monday 10:00am to 08:00pm
+                  Tuesday 10:00am to 08:00pm 
+                  Wednesday 10:00am to 08:00pm
+                  Thursday 10:00am to 08:00pm 
+                  Friday 10:00am to 08:00pm
+                  Saturday 11:00am to 05:00pm 
+                  Sunday 1:00pm to 06:00pm&quot;&quot;&quot;
+    return schedule
+
+def Currenttime() -&gt; datetime:
+    &quot;This tool provides the current date and time.&quot; 
+    return datetime.datetime.now()
+
+tools = [shopopeninghours,Currenttime]
+
+llm_with_tools = llm.bind_tools(tools)
+</code></pre>
+<pre><code>from langgraph.graph import MessagesState
+from langchain_core.messages import HumanMessage, SystemMessage
+
+sys_msg = SystemMessage(content=&quot;&quot;&quot;
+                    You are a helpful assistant responsible
+                    for determining whether a shop is open or closed
+                    based on the current time and the shop's opening schedule.&quot;&quot;&quot;)
+
+def assistant(state: MessagesState):
+    return {&quot;messages&quot;: [llm_with_tools.invoke([sys_msg]+ state[&quot;messages&quot;])]}
+</code></pre>
+<pre><code>from langgraph.graph import START, StateGraph
+from langgraph.prebuilt import tools_condition
+from langgraph.prebuilt import ToolNode
+from IPython.display import Image, display
+
+builder = StateGraph(MessagesState)
+
+builder.add_node(&quot;assistant&quot;, assistant)
+builder.add_node(&quot;tools&quot;, ToolNode(tools))
+
+builder.add_edge(START, &quot;assistant&quot;)
+builder.add_conditional_edges(&quot;assistant&quot;, tools_condition)
+builder.add_edge(&quot;tools&quot;, &quot;assistant&quot;)
+
+react_graph = builder.compile()
+
+display(Image(react_graph.get_graph(xray=True).draw_mermaid_png(max_retries=5, retry_delay=2.0)))
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap8_1_8.png" title="Body image" /></p>
+<pre><code>messages = [HumanMessage(content=&quot;Tell me if the shop is open right now?&quot;)]
+messages = react_graph.invoke({&quot;messages&quot; : messages})
+
+for m in messages ['messages']: 
+    m.pretty_print()
+</code></pre>
+<pre><code>================================[1m Human Message [0m=================================
+
+Tell me if the shop is open right now?
+==================================[1m Ai Message [0m==================================
+Tool Calls:
+  Currenttime (call_p7bhcmyy)
+ Call ID: call_p7bhcmyy
+  Args:
+=================================[1m Tool Message [0m=================================
+Name: Currenttime
+
+2025-11-16 11:24:46.089065
+==================================[1m Ai Message [0m==================================
+Tool Calls:
+  shopopeninghours (call_ytsmpjt6)
+ Call ID: call_ytsmpjt6
+  Args:
+    date: 2025-11-16T11:24:46+01:00
+=================================[1m Tool Message [0m=================================
+Name: shopopeninghours
+
+Monday 10:00am to 08:00pm
+                Tuesday 10:00am to 08:00pm 
+                Wednesday 10:00am to 08:00pm
+                Thursday 10:00am to 08:00pm 
+                Friday 10:00am to 08:00pm
+                Saturday 11:00am to 05:00pm 
+                Sunday 1:00pm to 06:00pm
+==================================[1m Ai Message [0m==================================
+
+The shop's opening hours are from 10:00 AM to 08:00 PM on Monday through Friday, from 11:00 AM to 05:00 PM on Saturdays, and from 01:00 PM to 06:00 PM on Sundays.
+
+According to the current time (2025-11-16 11:24:46), which is within the range of Monday's opening hours, the shop is currently **open**.
+</code></pre>
+<h2 id="learning-about-al-agents-their-types-and-architecture-using-real-world-demos">Learning about Al Agents, Their types, and Architecture Using Real-world Demos</h2>
+<p><strong>CrewAI</strong> is an open-source framework for building multi-agent systems, referred to as "crews." A crew is a team of specialized AI agents that collaborate to complete complex tasks.</p>
+<h3 id="core-concepts">Core Concepts:</h3>
+<ul>
+<li><strong>Agent:</strong> An autonomous unit with a specific role, goal, and backstory that performs tasks using tools.</li>
+<li><strong>Task:</strong> A specific assignment for an agent, defined by a description, expected output, and an assigned agent.</li>
+<li><strong>Crew:</strong> A group of agents that work together, defining the strategy for task execution and collaboration.</li>
+</ul>
+<h3 id="key-features-implementation">Key Features &amp; Implementation:</h3>
+<ul>
+<li><strong>Model Flexibility:</strong> Uses <strong>LiteLLM</strong>, allowing seamless switching between over 100 different language models (default is OpenAI's GPT-4).</li>
+<li><strong>Configuration via YAML:</strong> Agents and tasks are typically configured in YAML files, specifying their roles, goals, and backstories.</li>
+<li><strong>Dynamic Inputs:</strong> Uses placeholders in configuration files (e.g., <code>topic</code>) that are filled with values when the crew is run.</li>
+<li><strong>Task Execution:</strong> Supports two methods:<ul>
+<li><strong>Sequential:</strong> Tasks run one after another.</li>
+<li><strong>Hierarchical:</strong> A manager agent dynamically assigns tasks.</li>
+</ul>
+</li>
+<li><strong>Output Options:</strong> Tasks can be configured to save their output directly to a file.</li>
+</ul>
+<p>根据文章内容，以下是 CrewAI 框架的总结：</p>
+<p><strong>CrewAI</strong> 是一个用于构建多智能体系统的开源框架，该系统被称为“团队”。一个团队是由专门的人工智能智能体组成的，它们相互协作以完成复杂任务。</p>
+<h3 id="_1">核心概念：</h3>
+<ul>
+<li><strong>智能体：</strong> 一个具有特定角色、目标和背景的自主单元，能够使用工具执行任务。</li>
+<li><strong>任务：</strong> 分配给智能体的具体工作，通过描述、预期输出和指定的智能体来定义。</li>
+<li><strong>团队：</strong> 一组共同协作的智能体，定义了任务执行和协作的策略。</li>
+</ul>
+<h3 id="_2">主要特性与实现：</h3>
+<ul>
+<li><strong>模型灵活性：</strong> 使用 <strong>LiteLLM</strong>，允许在超过 100 种不同的语言模型之间无缝切换（默认为 OpenAI 的 GPT-4）。</li>
+<li><strong>通过 YAML 配置：</strong> 智能体和任务通常在 YAML 文件中进行配置，指定其角色、目标和背景故事。</li>
+<li><strong>动态输入：</strong> 在配置文件中使用占位符（例如 <code>topic</code>），这些占位符在运行团队时会被填入具体值。</li>
+<li><strong>任务执行：</strong> 支持两种方法：<ul>
+<li><strong>顺序执行：</strong> 任务一个接一个地运行。</li>
+<li><strong>分层执行：</strong> 一个管理型智能体动态地分配任务。</li>
+</ul>
+</li>
+<li><strong>输出选项：</strong> 可以配置任务将其输出直接保存到文件中。</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

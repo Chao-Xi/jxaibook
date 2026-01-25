@@ -1,0 +1,6351 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../1ai_agent/">
+      
+      
+        <link rel="next" href="../3ai_agents_his/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>第一章 初识智能体 - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              第一章 初识智能体
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/3OpenaiModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/4chatgpt_translate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/3AmazonBedrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/4assistantapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/2agent_buildout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0responseApi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0agents_demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1ai_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一章 初识智能体
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一章 初识智能体">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第 1 章 智能体基础：考试复习总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、智能体的基本概念（1.1）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、智能体的基本概念（1.1）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 智能体的定义（核心考点）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#111" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、传统视角下的智能体（1.1.1）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、传统视角下的智能体（1.1.1）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-simple-reflex-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 简单反射智能体（Simple Reflex Agent）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-model-based-reflex-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 基于模型的反射智能体（Model-Based Reflex Agent）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-goal-based-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 基于目标的智能体（Goal-Based Agent）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-utility-based-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 基于效用的智能体（Utility-Based Agent）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-learning-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 学习型智能体（Learning Agent）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、大语言模型驱动的新范式（1.1.2）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、大语言模型驱动的新范式（1.1.2）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-vs-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 核心区别：传统 vs LLM 智能体
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. LLM 智能体的三大能力（考试重点）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、智能体的分类（1.1.3）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#111_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        （一）按内部决策架构分类（与 1.1.1 一致）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        （二）按反应性 vs 规划性分类
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="（二）按反应性 vs 规划性分类">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-reactive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 反应式智能体（Reactive）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-deliberative" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 规划式智能体（Deliberative）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-hybrid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 混合式智能体（Hybrid）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#symbolic-vs-sub-symbolic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        （三）按知识表示方式分类（Symbolic vs Sub-symbolic）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="（三）按知识表示方式分类（Symbolic vs Sub-symbolic）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-aisymbolic-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 符号主义 AI（Symbolic AI）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-aisub-symbolic-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 亚符号主义 AI（Sub-symbolic AI）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-aineuro-symbolic-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 神经符号主义 AI（Neuro-Symbolic AI）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、本章复习重点（考前 1 分钟快速回顾）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-training-material" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 1.2 智能体的构成与运行原理（Training Material）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 1.2 智能体的构成与运行原理（Training Material）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✨ 1.2 智能体的构成与运行原理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✨ 1.2 智能体的构成与运行原理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-task-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 1.2.1 任务环境定义（Task Environment）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-agent-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 1.2.2 智能体的运行机制（Agent Loop）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 1.2.2 智能体的运行机制（Agent Loop）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 三个阶段详解
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123-interaction-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 1.2.3 智能体的感知与行动（Interaction Protocol）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 本节总结（Summary）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 动手体验：5 分钟实现第一个智能体
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 动手体验：5 分钟实现第一个智能体">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3.1 准备工作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 核心架构分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧠 核心架构分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 智能Agent系统
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 技术栈组成
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 详细知识点分解
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 详细知识点分解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、Python基础与模块
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、API集成技术
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、API集成技术">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api-wttrin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 天气API (wttr.in)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-tavilyapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Tavily搜索API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-openai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. OpenAI兼容接口
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、LLM相关技术
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、LLM相关技术">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-prompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Prompt工程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-react" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. ReAct模式实现
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 本地LLM部署
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、软件工程实践
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、软件工程实践">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 设计模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 配置管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 错误处理层级
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、文本处理与正则表达式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 工具系统分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 工具系统分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具注册机制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具设计原则
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Agent工作流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 关键学习点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 关键学习点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 现代AI应用架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. API集成最佳实践
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 可维护性设计
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 安全考虑
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 🎯 两种协作模式的核心对比
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.4 🎯 两种协作模式的核心对比">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 作为开发者工具的智能体
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 作为开发者工具的智能体">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心特征：
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        代表性工具分类：
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 作为自主协作者的智能体
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 作为自主协作者的智能体">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心特征：
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        技术架构范式：
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-vs-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Workflow vs Agent：根本差异
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Workflow vs Agent：根本差异">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 核心理念对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 技术实现差异
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow示例：报销流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent示例：旅行助手
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧩 知识架构总结
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧩 知识架构总结">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 演进路径
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 适用场景矩阵
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 深刻洞见
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 深刻洞见">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 范式转移的核心
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 自主性的不同层次
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 现实世界的混合模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 未来发展趋势
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 未来发展趋势">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 融合趋势
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 能力提升方向
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        习题
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3ai_agents_his/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Daily Blogs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Agent Daily Blogs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1agents_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4agent_arg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5Agent_google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Google AI Agent 白皮书深度拆解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一章 初识智能体
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一章 初识智能体">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第 1 章 智能体基础：考试复习总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、智能体的基本概念（1.1）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、智能体的基本概念（1.1）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 智能体的定义（核心考点）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#111" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、传统视角下的智能体（1.1.1）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、传统视角下的智能体（1.1.1）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-simple-reflex-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 简单反射智能体（Simple Reflex Agent）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-model-based-reflex-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 基于模型的反射智能体（Model-Based Reflex Agent）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-goal-based-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 基于目标的智能体（Goal-Based Agent）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-utility-based-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 基于效用的智能体（Utility-Based Agent）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-learning-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. 学习型智能体（Learning Agent）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、大语言模型驱动的新范式（1.1.2）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、大语言模型驱动的新范式（1.1.2）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-vs-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 核心区别：传统 vs LLM 智能体
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. LLM 智能体的三大能力（考试重点）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、智能体的分类（1.1.3）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#111_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        （一）按内部决策架构分类（与 1.1.1 一致）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        （二）按反应性 vs 规划性分类
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="（二）按反应性 vs 规划性分类">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-reactive" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 反应式智能体（Reactive）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-deliberative" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 规划式智能体（Deliberative）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-hybrid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 混合式智能体（Hybrid）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#symbolic-vs-sub-symbolic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        （三）按知识表示方式分类（Symbolic vs Sub-symbolic）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="（三）按知识表示方式分类（Symbolic vs Sub-symbolic）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-aisymbolic-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 符号主义 AI（Symbolic AI）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-aisub-symbolic-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 亚符号主义 AI（Sub-symbolic AI）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-aineuro-symbolic-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 神经符号主义 AI（Neuro-Symbolic AI）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、本章复习重点（考前 1 分钟快速回顾）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-training-material" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 1.2 智能体的构成与运行原理（Training Material）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎓 1.2 智能体的构成与运行原理（Training Material）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✨ 1.2 智能体的构成与运行原理
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✨ 1.2 智能体的构成与运行原理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-task-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 1.2.1 任务环境定义（Task Environment）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-agent-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 1.2.2 智能体的运行机制（Agent Loop）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📌 1.2.2 智能体的运行机制（Agent Loop）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 三个阶段详解
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123-interaction-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📌 1.2.3 智能体的感知与行动（Interaction Protocol）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎓 本节总结（Summary）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 动手体验：5 分钟实现第一个智能体
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.3 动手体验：5 分钟实现第一个智能体">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3.1 准备工作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 核心架构分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧠 核心架构分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 智能Agent系统
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 技术栈组成
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 详细知识点分解
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 详细知识点分解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、Python基础与模块
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、API集成技术
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、API集成技术">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-api-wttrin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 天气API (wttr.in)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-tavilyapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Tavily搜索API
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-openai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. OpenAI兼容接口
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、LLM相关技术
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、LLM相关技术">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-prompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Prompt工程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-react" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. ReAct模式实现
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 本地LLM部署
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、软件工程实践
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、软件工程实践">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 设计模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 配置管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 错误处理层级
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、文本处理与正则表达式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 工具系统分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔧 工具系统分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具注册机制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工具设计原则
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎯 Agent工作流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 关键学习点
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 关键学习点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 现代AI应用架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. API集成最佳实践
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 可维护性设计
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 安全考虑
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 🎯 两种协作模式的核心对比
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.4 🎯 两种协作模式的核心对比">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 作为开发者工具的智能体
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 作为开发者工具的智能体">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心特征：
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        代表性工具分类：
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 作为自主协作者的智能体
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 作为自主协作者的智能体">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心特征：
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        技术架构范式：
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-vs-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔄 Workflow vs Agent：根本差异
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔄 Workflow vs Agent：根本差异">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 核心理念对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 技术实现差异
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow示例：报销流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent示例：旅行助手
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧩 知识架构总结
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🧩 知识架构总结">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 演进路径
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 适用场景矩阵
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💡 深刻洞见
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💡 深刻洞见">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 范式转移的核心
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 自主性的不同层次
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 现实世界的混合模式
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 未来发展趋势
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 未来发展趋势">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 融合趋势
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 能力提升方向
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        习题
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>第一章 初识智能体</h1>
+
+<h2 id="_1">第一章 初识智能体</h2>
+<h3 id="1"><strong>第 1 章 智能体基础：考试复习总结</strong></h3>
+<p>本章主要介绍智能体（Agent）的概念、传统 AI 时代的智能体架构、LLM 驱动的智能体新范式，以及智能体的各种分类方式。</p>
+<p>--</p>
+<h3 id="11"><strong>一、智能体的基本概念（1.1）</strong></h3>
+<h4 id="1_1"><strong>1. 智能体的定义（核心考点）</strong></h4>
+<p>智能体（Agent）指能够：</p>
+<ul>
+<li><strong>感知（Sensors）</strong> —— 获取环境信息</li>
+<li><strong>行动（Actuators）</strong> —— 对环境施加影响</li>
+<li><strong>位于某个环境中（Environment）</strong></li>
+<li><strong>自主决策（Autonomy）</strong> —— 不完全依赖人工预设规则</li>
+</ul>
+<p>的任意实体。</p>
+<blockquote>
+<p>✨ <strong>记忆方法：SEAA —— Sensors、Environment、Actuators、Autonomy</strong></p>
+</blockquote>
+<p>智能体通过“感知 → 决策 → 行动”的闭环实现目标。</p>
+<hr />
+<h3 id="111"><strong>二、传统视角下的智能体（1.1.1）</strong></h3>
+<p>传统智能体的发展经历了 <strong>五个典型阶段</strong>，每种类型都可能作为考试考点。</p>
+<h4 id="1-simple-reflex-agent"><strong>1. 简单反射智能体（Simple Reflex Agent）</strong></h4>
+<ul>
+<li>基于 <strong>条件-动作规则（IF-THEN）</strong></li>
+<li><mark>不依赖记忆</mark></li>
+<li>特点：快速、简单、但无法处理复杂情境</li>
+<li>例：<strong>恒温器</strong></li>
+</ul>
+<h4 id="2-model-based-reflex-agent"><strong>2. 基于模型的反射智能体（Model-Based Reflex Agent）</strong></h4>
+<ul>
+<li>引入 <strong>内部世界模型（World Model）</strong></li>
+<li><mark>拥有对不可见环境的记忆和推断</mark></li>
+<li>例：<strong>自动驾驶在隧道中保持对前车的估计</strong></li>
+</ul>
+<h4 id="3-goal-based-agent"><strong>3. 基于目标的智能体（Goal-Based Agent）</strong></h4>
+<ul>
+<li>拥有明确目标</li>
+<li>能进行 <strong>规划（Planning）</strong></li>
+<li>例：<strong>GPS 路径规划（如 A* 算法）</strong></li>
+</ul>
+<h4 id="4-utility-based-agent"><strong>4. 基于效用的智能体（Utility-Based Agent）</strong></h4>
+<ul>
+<li>不仅看目标是否达成，还评估各状态的“满意度”</li>
+<li>决策目标：<strong>最大化效用值</strong></li>
+<li>例：兼顾速度、成本、拥堵的导航系统</li>
+</ul>
+<h4 id="5-learning-agent"><strong>5. 学习型智能体（Learning Agent）</strong></h4>
+<ul>
+<li>拥有学习模块</li>
+<li>通过与环境交互不断改进策略</li>
+<li>强化学习（RL）是典型实现方式</li>
+<li>例：<strong>AlphaGo Zero 自主对弈学习</strong></li>
+</ul>
+<blockquote>
+<p>✨ <strong>考点提示：理解五类智能体的“演进关系”与“关键区别”</strong></p>
+</blockquote>
+<hr />
+<h3 id="112"><strong>三、大语言模型驱动的新范式（1.1.2）</strong></h3>
+<p>LLM（如 GPT）带来了智能体的重大范式转变。</p>
+<h4 id="1-vs-llm"><strong>1. 核心区别：传统 vs LLM 智能体</strong></h4>
+<table>
+<thead>
+<tr>
+<th>传统智能体</th>
+<th>LLM 智能体</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>规则和知识由工程师显式编码</td>
+<td>模型通过大规模数据学习隐式世界知识</td>
+</tr>
+<tr>
+<td>能力范围窄、任务专用</td>
+<td>任务泛化能力强，可应对开放式任务</td>
+</tr>
+<tr>
+<td>强依赖预设目标、规则</td>
+<td>能自主分解任务、规划步骤</td>
+</tr>
+<tr>
+<td>推理有限</td>
+<td>涌现推理与规划能力突出</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2-llm"><strong>2. LLM 智能体的三大能力（考试重点）</strong></h4>
+<ul>
+<li><strong>规划（Reasoning/Planning）</strong>：把高层目标分解成子任务</li>
+<li><strong>工具使用（Tool Use）</strong>：调用 API、检索、计算等外部工具</li>
+<li><strong>动态修正（Reflection）</strong>：根据反馈迭代计划</li>
+</ul>
+<p>例如：“帮我规划厦门旅游行程”，智能体会：
+1）拆解任务 → 2）查天气 → 3）据反馈改计划 → 4）预订资源。</p>
+<blockquote>
+<p>✨ <strong>记忆法：R-A-O（Reason → Act → Observe）循环</strong></p>
+</blockquote>
+<hr />
+<h3 id="113"><strong>四、智能体的分类（1.1.3）</strong></h3>
+<p>智能体的分类有三种常考视角：
+<strong>（1）依据决策架构</strong>、<strong>（2）依据反应与规划特性</strong>、<strong>（3）依据知识表示方式</strong>。</p>
+<hr />
+<h3 id="111_1"><strong>（一）按内部决策架构分类（与 1.1.1 一致）</strong></h3>
+<ul>
+<li>简单反射</li>
+<li>基于模型</li>
+<li>基于目标</li>
+<li>基于效用</li>
+<li>学习型智能体</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/agent2_1_1.png" title="Body image" /></p>
+<h3 id="vs"><strong>（二）按反应性 vs 规划性分类</strong></h3>
+<p>理解三类智能体在“速度 vs 深度”上的权衡。</p>
+<h4 id="1-reactive"><strong>1. 反应式智能体（Reactive）</strong></h4>
+<ul>
+<li>快速、即时响应</li>
+<li>不进行深度规划</li>
+<li>优点：速度快</li>
+<li>缺点：短视</li>
+<li>例：安全气囊、高频交易机器人</li>
+</ul>
+<h4 id="2-deliberative"><strong>2. 规划式智能体（Deliberative）</strong></h4>
+<ul>
+<li>深思熟虑</li>
+<li>依赖世界模型</li>
+<li>优点：适合复杂策略任务</li>
+<li>缺点：耗时</li>
+<li>例：下棋、旅行规划</li>
+</ul>
+<h4 id="3-hybrid"><strong>3. 混合式智能体（Hybrid）</strong></h4>
+<ul>
+<li>综合反应与规划</li>
+<li>LLM 智能体属于该类别</li>
+<li>典型工作模式：<strong>Thought → Action → Observation 循环</strong></li>
+</ul>
+<blockquote>
+<p>✨ 考点：解释为何实际应用倾向于混合式智能体</p>
+</blockquote>
+<hr />
+<h3 id="symbolic-vs-sub-symbolic"><strong>（三）按知识表示方式分类（Symbolic vs Sub-symbolic）</strong></h3>
+<p>这是人工智能的发展脉络重点，需要重点理解概念区别。</p>
+<h4 id="1-aisymbolic-ai"><strong>1. 符号主义 AI（Symbolic AI）</strong></h4>
+<ul>
+<li><strong>基于逻辑、规则、知识图谱</strong></li>
+<li>优点：可解释性强</li>
+<li>缺点：对例外情况脆弱（知识获取瓶颈）</li>
+<li>例：专家系统、规则库</li>
+</ul>
+<h4 id="2-aisub-symbolic-ai"><strong>2. 亚符号主义 AI（Sub-symbolic AI）</strong></h4>
+<ul>
+<li><strong>知识隐含在神经网络中</strong></li>
+<li>优点：擅长处理图像、语音等非结构化数据</li>
+<li>坏处：不透明、可解释性弱</li>
+<li>例：深度学习、卷积神经网络</li>
+</ul>
+<h4 id="3-aineuro-symbolic-ai"><strong>3. 神经符号主义 AI（Neuro-Symbolic AI）</strong></h4>
+<ul>
+<li>综合符号与亚符号的优势</li>
+<li>
+<p>理念类似于人类的“系统 1 vs 系统 2”：</p>
+</li>
+<li>
+<p><strong>系统 1 = 快、直觉 → 类似神经网络</strong></p>
+</li>
+<li><strong>系统 2 = 慢、逻辑 → 类似符号推理</strong></li>
+<li>
+<p>LLM 智能体是一个典型的实际例子：</p>
+</li>
+<li>
+<p>内核是神经网络</p>
+</li>
+<li>工作时却会生成结构化符号（例如计划、API 调用）</li>
+</ul>
+<blockquote>
+<p>✨ 考点：写出符号主义/亚符号主义的优缺点对比</p>
+</blockquote>
+<p><img alt="Alt Image Text" src="../../images/agent2_1_2.png" title="Body image" /></p>
+<hr />
+<h3 id="1_2"><strong>五、本章复习重点（考前 1 分钟快速回顾）</strong></h3>
+<ol>
+<li><strong>智能体的四要素：传感器、执行器、环境、自主性（SEAA）</strong></li>
+<li><strong>五类传统智能体及其区别：反射 → 模型 → 目标 → 效用 → 学习</strong></li>
+<li><strong>LLM 智能体为何更强？具备规划、工具使用、动态反思能力</strong></li>
+<li><strong>三类智能体：反应式、规划式、混合式</strong></li>
+<li><strong>AI 三大范式：符号主义、亚符号主义、神经符号主义</strong></li>
+<li><strong>神经符号主义与 LLM 的关系：系统 1 + 系统 2 的融合</strong></li>
+</ol>
+<hr />
+<h2 id="12-training-material">🎓 <strong>1.2 智能体的构成与运行原理（Training Material）</strong></h2>
+<h3 id="12">✨ <strong>1.2 智能体的构成与运行原理</strong></h3>
+<h4 id="121-task-environment">📌 <strong>1.2.1 任务环境定义（Task Environment）</strong></h4>
+<p><strong>⭐ 核心概念：任务环境 (Task Environment)</strong></p>
+<p>为了正确设计和理解智能体，我们必须清晰描述其所处的任务环境。
+在人工智能领域，通常使用 <strong>PEAS 模型</strong> 对任务进行规约。</p>
+<p>🧩 <strong>PEAS 模型（Performance / Environment / Actuators / Sensors）</strong></p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>含义</th>
+<th>示例：智能旅行助手</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>P — Performance（性能度量）</strong></td>
+<td>如何衡量智能体表现</td>
+<td>推荐结果质量、时间效率、价格最优</td>
+</tr>
+<tr>
+<td><strong>E — Environment（环境）</strong></td>
+<td>智能体所处的世界</td>
+<td>航班数据库、用户偏好、实时价格</td>
+</tr>
+<tr>
+<td><strong>A — Actuators（执行器）</strong></td>
+<td>智能体能采取哪些动作</td>
+<td>调用航班 API、向用户回复信息</td>
+</tr>
+<tr>
+<td><strong>S — Sensors（传感器）</strong></td>
+<td>智能体如何获取信息</td>
+<td>API 返回结果、用户输入</td>
+</tr>
+</tbody>
+</table>
+<p>📌 <strong>教学提示（Trainer Note）</strong></p>
+<blockquote>
+<p>始终通过 PEAS 来“框定任务”，可以快速判断智能体需要什么能力。</p>
+</blockquote>
+<div align="center">
+  <p>表 1.2 智能旅行助手的 PEAS 描述</p>
+  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/1-figures/1757242319667-6.png" alt="图片描述" width="90%"/>
+</div>
+
+<p>🖼 <strong>PEAS 图示（适合 PPT）</strong></p>
+<pre><code>+-----------------------------+
+|            PEAS             |
++--------------+--------------+
+| Performance  | Environment  |
+| Actuators    | Sensors      |
++--------------+--------------+
+</code></pre>
+<hr />
+<p>🌍 <strong>数字环境的关键特性（LLM 智能体）</strong></p>
+<p><strong>🔹 1. 部分可观察（Partially Observable）</strong></p>
+<p>智能体无法看到全部状态，只能通过 API 或数据接口看到“切片”。</p>
+<p>📘 示例：
+旅行助手每次只能查询部分航班数据，而不是全球所有航空公司所有座位。</p>
+<p>→ 需要 <strong>记忆</strong> 与 <strong>探索能力</strong>。</p>
+<hr />
+<p><strong>🔹 2. 随机性（Stochastic）</strong></p>
+<p>行动结果不确定，同样的 API，两次可能返回不同价格。</p>
+<p>→ 需要 <strong>处理不确定性</strong>、<strong>动态决策</strong>。</p>
+<hr />
+<p><strong>🔹 3. 多智能体环境（Multi-Agent）</strong></p>
+<p>其他用户、其他智能体、甚至系统本身都是“环境中的行动者”。</p>
+<p>→ 需要 <strong>快速响应策略变化</strong>。</p>
+<hr />
+<p><strong>🔹 4. 序贯（Sequential）与动态（Dynamic）</strong></p>
+<ul>
+<li><strong>序贯</strong>：当前动作影响未来</li>
+<li><strong>动态</strong>：环境会在智能体思考过程中发生变化</li>
+</ul>
+<p>→ 需要 <strong>高频循环</strong>的 Agent Loop。</p>
+<hr />
+<h3 id="122-agent-loop">📌 <strong>1.2.2 智能体的运行机制（Agent Loop）</strong></h3>
+<p>🎯 <strong>核心概念：智能体循环（Agent Loop）</strong></p>
+<p>智能体不会一次完成任务，而是持续经历以下循环：</p>
+<pre><code>感知 → 思考 → 行动 →（导致环境变化）→ 再次感知
+</code></pre>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/1-figures/1757242319667-5.png" alt="图片描述" width="90%"/>
+  <p>图 1.5 智能体与环境交互的基本循环</p>
+</div>
+
+<p>🔄 <strong>Agent Loop（图示版）</strong></p>
+<pre><code>   +------------------+
+   |     感知         |
+   +---------+--------+
+             |
+             v
+   +------------------+
+   |     思考         |
+   | (规划 + 工具选择) |
+   +---------+--------+
+             |
+             v
+   +------------------+
+   |     行动         |
+   +---------+--------+
+             |
+             v
+   +------------------+
+   | 环境状态变化 &amp;   |
+   | 返回新观察        |
+   +------------------+
+</code></pre>
+<hr />
+<h4 id="_2">🧠 <strong>三个阶段详解</strong></h4>
+<p><strong>① 感知（Perception）</strong></p>
+<p>通过传感器接收环境信息，如：</p>
+<ul>
+<li>用户输入</li>
+<li>API 返回</li>
+<li>上一步执行结果</li>
+</ul>
+<p>→ 形成 <strong>Observation（观察）</strong></p>
+<p><strong>② 思考（Thought）</strong></p>
+<p>LLM 智能体的核心阶段，由大语言模型执行：</p>
+<ul>
+<li><strong>任务理解</strong></li>
+<li><strong>子任务拆解（Planning）</strong></li>
+<li><strong>工具选择（Tool Selection）</strong></li>
+<li><strong>参数规划</strong></li>
+</ul>
+<p>→ 输出下一步行动方案</p>
+<hr />
+<p><strong>③ 行动（Action）</strong></p>
+<p>智能体通过执行器执行决策，如：</p>
+<ul>
+<li>调用 API</li>
+<li>查询数据库</li>
+<li>运行代码</li>
+</ul>
+<p>行动改变环境，引发 <strong>下一轮 Observation</strong>。</p>
+<hr />
+<h3 id="123-interaction-protocol">📌 <strong>1.2.3 智能体的感知与行动（Interaction Protocol）</strong></h3>
+<p>⭐ 核心：LLM 智能体的交互不是简单问答，而是结构化协议。</p>
+<p>智能体每一次输出包含两个关键部分：</p>
+<p><strong>🔹 Thought（思考）</strong></p>
+<p>解释智能体“为什么这么做”，用于：</p>
+<ul>
+<li>显示推理过程</li>
+<li>便于调试</li>
+<li>便于外部控制器解析意图</li>
+</ul>
+<p><strong>🔹 Action（行动指令）</strong></p>
+<p>智能体真正希望执行的操作，例如：</p>
+<pre><code class="language-bash">Thought: 用户想知道北京的天气。我需要调用天气查询工具。
+Action: get_weather(&quot;北京&quot;)
+</code></pre>
+<p>外部系统会根据 Action 调用真实工具。</p>
+<hr />
+<p><strong>🔁 行动后的 Observation（观察）</strong></p>
+<p>工具执行后会产生结果：</p>
+<pre><code class="language-bash">Observation: 北京当前天气为晴，气温25摄氏度，微风。
+</code></pre>
+<p>Observation 会作为下一轮输入，形成完整循环：</p>
+<pre><code>Thought → Action → Observation → Thought → ...
+</code></pre>
+<h3 id="summary">🎓 本节总结（Summary）</h3>
+<table>
+<thead>
+<tr>
+<th>关键点</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PEAS 模型</td>
+<td>任务环境标准描述方法</td>
+</tr>
+<tr>
+<td>Agent Loop</td>
+<td>感知 → 思考 → 行动 → 观察</td>
+</tr>
+<tr>
+<td>智能体环境特点</td>
+<td>部分可观察、随机性、多智能体、动态</td>
+</tr>
+<tr>
+<td>LLM 智能体输出</td>
+<td>Thought + Action</td>
+</tr>
+<tr>
+<td>感知系统作用</td>
+<td>将环境输出转成 Observation</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="13-5">1.3 动手体验：5 分钟实现第一个智能体</h2>
+<p>在前面的小节，我们学习了智能体的任务环境、核心运行机制以及 <code>Thought-Action-Observation</code> 交互范式。理论知识固然重要，但最好的学习方式是亲手实践。</p>
+<p>在本节中，我们将引导您使用几行简单的 Python 代码，从零开始构建一个可以工作的智能旅行助手。这个过程将遵循我们刚刚学到的理论循环，让您直观地感受到一个智能体是如何“思考”并与外部“工具”互动的。让我们开始吧！</p>
+<p><strong>在本案例中，我们的目标是构建一个能处理分步任务的智能旅行助手。需要解决的用户任务定义为："你好，请帮我查询一下今天北京的天气，然后根据天气推荐一个合适的旅游景点。"</strong></p>
+<p>要完成这个任务，智能体必须展现出清晰的逻辑规划能力。它需要先调用天气查询工具，并将获得的观察结果作为下一步的依据。在下一轮循环中，它再调用景点推荐工具，从而得出最终建议。</p>
+<h3 id="131">1.3.1 准备工作</h3>
+<p>为了能从 Python 程序中访问网络 API，我们需要一个 HTTP 库。<code>requests</code>是 Python 社区中最流行、最易用的选择。<code>tavily-python</code>是一个强大的 AI 搜索 API 客户端，用于获取实时的网络搜索结果，可以在<a href="https://www.tavily.com/">官网</a>注册后获取 API。<code>openai</code>是 OpenAI 官方提供的 Python SDK，用于调用 GPT 等大语言模型服务。请先通过以下命令安装它们：：</p>
+<pre><code>%%capture --no-stderr
+pip install requests tavily-python openai
+</code></pre>
+<p>驱动真实 LLM 的关键在于<strong>提示工程（Prompt Engineering）</strong>。我们需要设计一个“指令模板”，告诉 LLM 它应该扮演什么角色、拥有哪些工具、以及如何格式化它的思考和行动。</p>
+<p><strong>这是我们智能体的“说明书”，它将作为<code>system_prompt</code>传递给 LLM。</strong></p>
+<pre><code>AGENT_SYSTEM_PROMPT = &quot;&quot;&quot;
+你是一个智能旅行助手。你的任务是分析用户的请求，并使用可用工具一步步地解决问题。
+
+# 可用工具:
+- `get_weather(city: str)`: 查询指定城市的实时天气。
+- `get_attraction(city: str, weather: str)`: 根据城市和天气搜索推荐的旅游景点。
+
+# 行动格式:
+你的回答必须严格遵循以下格式。首先是你的思考过程，然后是你要执行的具体行动，每次回复只输出一对Thought-Action：
+Thought: [这里是你的思考过程和下一步计划]
+Action: [这里是你要调用的工具，格式为 function_name(arg_name=&quot;arg_value&quot;)]
+
+# 任务完成:
+当你收集到足够的信息，能够回答用户的最终问题时，你必须在`Action:`字段后使用 `finish(answer=&quot;...&quot;)` 来输出最终答案。
+
+请开始吧！
+&quot;&quot;&quot;
+</code></pre>
+<p>（2）工具 1：查询真实天气</p>
+<p>我们将使用免费的天气查询服务 <code>wttr.in</code>，它能以 JSON 格式返回指定城市的天气数据。下面是实现该工具的代码：</p>
+<pre><code>import requests
+import json
+
+def get_weather(city: str) -&gt; str:
+    &quot;&quot;&quot;
+    通过调用 wttr.in API 查询真实的天气信息。
+    &quot;&quot;&quot;
+    # API端点，我们请求JSON格式的数据
+    url = f&quot;https://wttr.in/{city}?format=j1&quot;
+
+    try:
+        # 发起网络请求
+        response = requests.get(url)
+        # 检查响应状态码是否为200 (成功)
+        response.raise_for_status() 
+        # 解析返回的JSON数据
+        data = response.json()
+
+        # 提取当前天气状况
+        current_condition = data['current_condition'][0]
+        weather_desc = current_condition['weatherDesc'][0]['value']
+        temp_c = current_condition['temp_C']
+
+        # 格式化成自然语言返回
+        return f&quot;{city}当前天气:{weather_desc}，气温{temp_c}摄氏度&quot;
+
+    except requests.exceptions.RequestException as e:
+        # 处理网络错误
+        return f&quot;错误:查询天气时遇到网络问题 - {e}&quot;
+    except (KeyError, IndexError) as e:
+        # 处理数据解析错误
+        return f&quot;错误:解析天气数据失败，可能是城市名称无效 - {e}&quot;
+</code></pre>
+<p>（3）工具 2：搜索并推荐旅游景点</p>
+<p>我们将定义一个新工具 <code>search_attraction</code>，它会根据城市和天气状况，互联网上搜索合适的景点：</p>
+<pre><code>import os
+from tavily import TavilyClient
+
+def get_attraction(city: str, weather: str) -&gt; str:
+    &quot;&quot;&quot;
+    根据城市和天气，使用Tavily Search API搜索并返回优化后的景点推荐。
+    &quot;&quot;&quot;
+    # 1. 从环境变量中读取API密钥
+    api_key = os.environ.get(&quot;TAVILY_API_KEY&quot;)
+    if not api_key:
+        return &quot;错误:未配置TAVILY_API_KEY环境变量。&quot;
+
+    # 2. 初始化Tavily客户端
+    tavily = TavilyClient(api_key=api_key)
+
+    # 3. 构造一个精确的查询
+    query = f&quot;'{city}' 在'{weather}'天气下最值得去的旅游景点推荐及理由&quot;
+
+    try:
+        # 4. 调用API，include_answer=True会返回一个综合性的回答
+        response = tavily.search(query=query, search_depth=&quot;basic&quot;, include_answer=True)
+
+        # 5. Tavily返回的结果已经非常干净，可以直接使用
+        # response['answer'] 是一个基于所有搜索结果的总结性回答
+        if response.get(&quot;answer&quot;):
+            return response[&quot;answer&quot;]
+
+        # 如果没有综合性回答，则格式化原始结果
+        formatted_results = []
+        for result in response.get(&quot;results&quot;, []):
+            formatted_results.append(f&quot;- {result['title']}: {result['content']}&quot;)
+
+        if not formatted_results:
+             return &quot;抱歉，没有找到相关的旅游景点推荐。&quot;
+
+        return &quot;根据搜索，为您找到以下信息:\n&quot; + &quot;\n&quot;.join(formatted_results)
+
+    except Exception as e:
+        return f&quot;错误:执行Tavily搜索时出现问题 - {e}&quot;
+</code></pre>
+<p>最后，我们将所有工具函数放入一个字典，供主循环调用：</p>
+<pre><code># 将所有工具函数放入一个字典，方便后续调用
+available_tools = {
+    &quot;get_weather&quot;: get_weather,
+    &quot;get_attraction&quot;: get_attraction,
+}
+</code></pre>
+<p>当前，许多 LLM 服务提供商（包括 OpenAI、Azure、以及众多开源模型服务框架如 Ollama、vLLM 等）都遵循了与 OpenAI API 相似的接口规范。这种标准化为开发者带来了极大的便利。智能体的自主决策能力来源于 LLM。我们将实现一个通用的客户端 OpenAICompatibleClient，它可以连接到任何兼容 OpenAI 接口规范的 LLM 服务。</p>
+<pre><code>from openai import OpenAI
+
+class OpenAICompatibleClient:
+    &quot;&quot;&quot;
+    一个用于调用任何兼容OpenAI接口的LLM服务的客户端。
+    （已适配本地 Ollama）
+    &quot;&quot;&quot;
+    def __init__(self, model: str, api_key: str = &quot;ollama&quot;, base_url: str = &quot;http://localhost:11434/v1&quot;):
+        self.model = model
+        # ★ Ollama 不需要 api_key，但 SDK 必须有值，因此默认填 &quot;ollama&quot;
+        self.client = OpenAI(api_key=api_key, base_url=base_url)
+
+    def generate(self, prompt: str, system_prompt: str) -&gt; str:
+        &quot;&quot;&quot;调用LLM API来生成回应。&quot;&quot;&quot;
+        print(&quot;正在调用大语言模型...&quot;)
+        try:
+            messages = [
+                {'role': 'system', 'content': system_prompt},
+                {'role': 'user', 'content': prompt}
+            ]
+            response = self.client.chat.completions.create(
+                model=self.model,   # ★ 直接写 ollama 模型名，如 qwen2.5:7b
+                messages=messages,
+                stream=False
+            )
+            answer = response.choices[0].message.content
+            print(&quot;大语言模型响应成功。&quot;)
+            return answer
+        except Exception as e:
+            print(f&quot;调用LLM API时发生错误: {e}&quot;)
+            return &quot;错误:调用语言模型服务时出错。&quot;
+
+</code></pre>
+<pre><code>client = OpenAICompatibleClient(
+    model=&quot;qwen2.5:7b&quot;,                  # ★ 本地 Ollama 模型名
+    base_url=&quot;http://localhost:11434/v1&quot; # ★ Ollama 的 OpenAI 接口
+)
+
+res = client.generate(
+    prompt=&quot;介绍一下大语言模型 LLM。&quot;,
+    system_prompt=&quot;你是一位资深 AI 讲师。&quot;
+)
+
+print(res)
+</code></pre>
+<pre><code>正在调用大语言模型...
+大语言模型响应成功。
+大型语言模型（Large Language Model，LLM）是一类通过深度学习方法训练的预训练语言模型，它们被设计为能够生成连贯和相关性强的语言文本，支持从机器翻译、文本摘要到对话系统等多种自然语言处理任务的应用。这类模型通常具有上亿甚至万亿个参数，并且可以理解复杂的人类语言和语境。
+
+### LLM的关键特征：
+
+1. **大数据量预训练**：通常在互联网或书籍等大数据集上进行训练，学习大量文本数据中隐含的语言规律。
+2. **多任务能力**：经过大规模预训练后，LLM能够理解和执行多种自然语言处理的任务，例如文本生成、语义理解、机器翻译等等。
+3. **持续学习与自适应性**：一些模型设计时考虑了动态更新机制，可以定期通过少量的额外数据来提升性能。
+4. **代码和计算能力需求高**：训练一个大型的语言模型需要巨大的计算资源和支持庞大的内存要求。
+
+### 经典案例：
+
+1. **通义千问**：由阿里云研发的一个大语言模型系列，它能够生成连贯完整的长篇文本。
+2. **文心一言**：“百度版”的对话式语言模型，用于回答问题和进行多轮对话等。
+3. **ChatGPT**：由OpenAI开发的AI应用，可以基于用户提示生成各种各样的文本内容。
+
+### 应用场景：
+
+- 在线聊天机器人
+- 职业培训与教育
+- 内容创作助理
+- 客户支持
+- 翻译和语言学习
+
+值得注意的是，随着技术的发展和进步，大语言模型的应用场景还在不断拓展。同时在使用过程中也应关注其潜在的伦理和社会影响问题。
+</code></pre>
+<p>下面的主循环将整合所有组件，并通过格式化后的 Prompt 驱动 LLM 进行决策。</p>
+<pre><code>import re
+import os
+
+# --- 1. 配置LLM客户端 ---
+# 请根据您使用的服务，将这里替换成对应的凭证和地址
+
+API_KEY = &quot;ollama&quot;
+BASE_URL = &quot;http://localhost:11434/v1&quot;
+MODEL_ID = &quot;qwen2.5:7b&quot;
+TAVILY_API_KEY=&quot;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&quot;
+os.environ['TAVILY_API_KEY'] = &quot;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&quot;
+
+llm = OpenAICompatibleClient(
+    model=MODEL_ID,
+    api_key=API_KEY,
+    base_url=BASE_URL
+)
+
+# --- 2. 初始化 ---
+user_prompt = &quot;你好，请帮我查询一下今天北京的天气，然后根据天气推荐一个合适的旅游景点。&quot;
+prompt_history = [f&quot;用户请求: {user_prompt}&quot;]
+
+print(f&quot;用户输入: {user_prompt}\n&quot; + &quot;=&quot;*40)
+
+# --- 3. 运行主循环 ---
+for i in range(5): # 设置最大循环次数
+    print(f&quot;--- 循环 {i+1} ---\n&quot;)
+
+    # 3.1. 构建Prompt
+    full_prompt = &quot;\n&quot;.join(prompt_history)
+
+    # 3.2. 调用LLM进行思考
+    llm_output = llm.generate(full_prompt, system_prompt=AGENT_SYSTEM_PROMPT)
+    # 模型可能会输出多余的Thought-Action，需要截断
+    match = re.search(r'(Thought:.*?Action:.*?)(?=\n\s*(?:Thought:|Action:|Observation:)|\Z)', llm_output, re.DOTALL)
+    if match:
+        truncated = match.group(1).strip()
+        if truncated != llm_output.strip():
+            llm_output = truncated
+            print(&quot;已截断多余的 Thought-Action 对&quot;)
+    print(f&quot;模型输出:\n{llm_output}\n&quot;)
+    prompt_history.append(llm_output)
+
+    # 3.3. 解析并执行行动
+    action_match = re.search(r&quot;Action: (.*)&quot;, llm_output, re.DOTALL)
+    if not action_match:
+        print(&quot;解析错误:模型输出中未找到 Action。&quot;)
+        break
+    action_str = action_match.group(1).strip()
+
+    if action_str.startswith(&quot;finish&quot;):
+        final_answer = re.search(r'finish\(answer=&quot;(.*)&quot;\)', action_str).group(1)
+        print(f&quot;任务完成，最终答案: {final_answer}&quot;)
+        break
+
+    tool_name = re.search(r&quot;(\w+)\(&quot;, action_str).group(1)
+    args_str = re.search(r&quot;\((.*)\)&quot;, action_str).group(1)
+    kwargs = dict(re.findall(r'(\w+)=&quot;([^&quot;]*)&quot;', args_str))
+
+    if tool_name in available_tools:
+        observation = available_tools[tool_name](**kwargs)
+    else:
+        observation = f&quot;错误:未定义的工具 '{tool_name}'&quot;
+
+    # 3.4. 记录观察结果
+    observation_str = f&quot;Observation: {observation}&quot;
+    print(f&quot;{observation_str}\n&quot; + &quot;=&quot;*40)
+    prompt_history.append(observation_str)
+</code></pre>
+<p>通过以上步骤，我们构建了一个完整的、由真实 LLM 驱动的智能体。其核心在于“工具”和“提示工程”的结合，这正是当前主流智能体框架（如 LangChain、LlamaIndex 等）的设计精髓。</p>
+<p>以下输出完整地展示了一个成功的智能体执行流程。通过对这个三轮循环的分析，我们可以清晰地看到智能体解决问题的核心能力。</p>
+<pre><code>用户输入: 你好，请帮我查询一下今天北京的天气，然后根据天气推荐一个合适的旅游景点。
+========================================
+--- 循环 1 ---
+
+正在调用大语言模型...
+大语言模型响应成功。
+模型输出:
+Thought: 首先需要查询北京今天的天气情况。
+Action: get_weather(city=&quot;北京&quot;)
+
+Observation: 北京当前天气:Clear，气温-7摄氏度
+========================================
+--- 循环 2 ---
+
+正在调用大语言模型...
+大语言模型响应成功。
+模型输出:
+Action: get_attraction(city=&quot;北京&quot;, weather=&quot;Clear&quot;)
+
+Observation: 在晴天，北京的长城和故宫是最值得去的景点。长城提供壮丽景观，而故宫展示了丰富的历史。
+========================================
+--- 循环 3 ---
+
+正在调用大语言模型...
+大语言模型响应成功。
+模型输出:
+Thought: 根据查询结果，今天北京的天气是晴朗，并且建议去长城或故宫旅游。
+Action: finish(answer=&quot;今天的北京天气晴朗，气温-7摄氏度。根据推荐，你可以选择去长城欣赏壮丽景观或者到故宫了解丰富历史。&quot;)
+
+任务完成，最终答案: 今天的北京天气晴朗，气温-7摄氏度。根据推荐，你可以选择去长城欣赏壮丽景观或者到故宫了解丰富历史。
+</code></pre>
+<p>这个简单的旅行助手案例，集中演示了基于Thought-Action-Observation范式的智能体所具备的四项基本能力：任务分解、工具调用、上下文理解和结果合成。正是通过这个循环的不断迭代，智能体才得以将一个模糊的用户意图，转化为一系列具体、可执行的步骤，并最终达成目标。</p>
+<p>这段代码实现了一个<strong>基于LLM的智能旅行助手Agent系统</strong>，结合了多种AI技术和API调用。以下是详细分析和包含的知识点：</p>
+<h3 id="_3">🧠 <strong>核心架构分析</strong></h3>
+<h4 id="1-agent"><strong>1. 智能Agent系统</strong></h4>
+<ul>
+<li><strong>ReAct范式</strong>：采用Thought-Action-Observation循环（思考-行动-观察）</li>
+<li><strong>工具调用架构</strong>：LLM作为决策大脑，外部工具作为执行手段</li>
+<li><strong>多轮对话管理</strong>：通过prompt_history维护对话状态</li>
+</ul>
+<h4 id="2"><strong>2. 技术栈组成</strong></h4>
+<pre><code>LLM推理 (OpenAICompatibleClient)
+    ↓
+工具调用 (Tools)
+    ↓
+外部API (Weather + Tavily Search)
+    ↓
+结果整合 → 用户
+</code></pre>
+<hr />
+<h3 id="_4">📚 <strong>详细知识点分解</strong></h3>
+<h4 id="python"><strong>一、Python基础与模块</strong></h4>
+<ol>
+<li><strong>模块导入与依赖管理</strong></li>
+</ol>
+<p><code>python
+   import requests, json, os, re
+   from tavily import TavilyClient
+   from openai import OpenAI</code></p>
+<ol>
+<li>
+<p><strong>函数定义与类型提示</strong>
+   <code>python
+   def get_weather(city: str) -&gt; str:  # 类型注解</code></p>
+</li>
+<li>
+<p><strong>异常处理机制</strong></p>
+</li>
+</ol>
+<pre><code class="language-python">   try:
+       response.raise_for_status()
+   except requests.exceptions.RequestException as e:
+       return f&quot;错误:查询天气时遇到网络问题 - {e}&quot;
+</code></pre>
+<h3 id="api"><strong>二、API集成技术</strong></h3>
+<h4 id="1-api-wttrin"><strong>1. 天气API (wttr.in)</strong></h4>
+<ul>
+<li>RESTful API调用</li>
+<li>JSON数据解析</li>
+<li>错误状态码处理</li>
+<li>数据提取与格式化</li>
+</ul>
+<h4 id="2-tavilyapi"><strong>2. Tavily搜索API</strong></h4>
+<ul>
+<li>环境变量管理 (<code>os.environ.get()</code>)</li>
+<li>API密钥安全存储</li>
+<li>结构化搜索查询构建</li>
+<li>搜索结果后处理</li>
+</ul>
+<h4 id="3-openai"><strong>3. OpenAI兼容接口</strong></h4>
+<ul>
+<li>通用LLM客户端抽象</li>
+<li>适配不同后端（本地Ollama、云端API）</li>
+<li>消息格式标准化</li>
+</ul>
+<h3 id="llm"><strong>三、LLM相关技术</strong></h3>
+<h4 id="1-prompt"><strong>1. Prompt工程</strong></h4>
+<ul>
+<li><strong>系统提示设计</strong>：定义了Agent的角色、工具、输出格式</li>
+<li><strong>结构化输出控制</strong>：强制要求<code>Thought:</code>和<code>Action:</code>格式</li>
+<li><strong>上下文管理</strong>：通过prompt_history维护多轮对话</li>
+</ul>
+<h4 id="2-react"><strong>2. ReAct模式实现</strong></h4>
+<pre><code class="language-python"># 典型循环结构
+Thought: [分析用户需求，制定计划]
+Action: [调用工具]
+Observation: [工具执行结果]
+Thought: [分析结果，决定下一步]
+...
+</code></pre>
+<h4 id="3-llm"><strong>3. 本地LLM部署</strong></h4>
+<ul>
+<li><strong>Ollama集成</strong>：本地运行开源模型（qwen2.5:7b）</li>
+<li><strong>OpenAI API兼容层</strong>：统一接口调用不同LLM服务</li>
+<li><strong>流式与非流式响应处理</strong></li>
+</ul>
+<h3 id="_5"><strong>四、软件工程实践</strong></h3>
+<h4 id="1_3"><strong>1. 设计模式</strong></h4>
+<ul>
+<li><strong>工厂模式</strong>：<code>OpenAICompatibleClient</code>统一不同LLM后端</li>
+<li><strong>策略模式</strong>：工具函数字典<code>available_tools</code>动态选择</li>
+<li><strong>单例模式</strong>：LLM客户端实例化</li>
+</ul>
+<h4 id="2_1"><strong>2. 配置管理</strong></h4>
+<pre><code class="language-python"># 集中化配置
+API_KEY = &quot;ollama&quot;
+BASE_URL = &quot;http://localhost:11434/v1&quot;
+MODEL_ID = &quot;qwen2.5:7b&quot;
+</code></pre>
+<h4 id="3"><strong>3. 错误处理层级</strong></h4>
+<ul>
+<li>网络错误 → API错误 → 解析错误 → 业务逻辑错误</li>
+</ul>
+<h3 id="_6"><strong>五、文本处理与正则表达式</strong></h3>
+<pre><code class="language-python"># 1. 模式匹配提取Action
+action_match = re.search(r&quot;Action: (.*)&quot;, llm_output, re.DOTALL)
+
+# 2. 参数解析
+kwargs = dict(re.findall(r'(\\w+)=\&quot;([^\&quot;]*)\&quot;', args_str))
+
+# 3. 输出截断控制
+match = re.search(r'(Thought:.*?Action:.*?)(?=\\n\\s*(?:Thought:|Action:|Observation:)|\\Z)', llm_output, re.DOTALL)
+</code></pre>
+<hr />
+<h3 id="_7">🔧 <strong>工具系统分析</strong></h3>
+<h4 id="_8"><strong>工具注册机制</strong></h4>
+<pre><code class="language-python">available_tools = {
+    &quot;get_weather&quot;: get_weather,
+    &quot;get_attraction&quot;: get_attraction,
+}
+</code></pre>
+<ul>
+<li><strong>字符串到函数的映射</strong></li>
+<li><strong>动态调用</strong>：<code>available_tools[tool_name](**kwargs)</code></li>
+</ul>
+<h4 id="_9"><strong>工具设计原则</strong></h4>
+<ol>
+<li><strong>单一职责</strong>：每个工具只做一件事</li>
+<li><strong>输入验证</strong>：通过类型提示和错误处理</li>
+<li><strong>输出标准化</strong>：返回格式化字符串</li>
+</ol>
+<hr />
+<h3 id="agent">🎯 <strong>Agent工作流程</strong></h3>
+<pre><code>开始
+  ↓
+用户输入 → Prompt历史
+  ↓
+LLM思考 → 生成Thought/Action
+  ↓
+解析Action → 调用对应工具
+  ↓
+获取Observation → 更新Prompt历史
+  ↓
+判断是否完成？ → 否 → 继续循环
+  ↓
+是 → 输出最终答案
+</code></pre>
+<hr />
+<h3 id="_10">💡 <strong>关键学习点</strong></h3>
+<h4 id="1-ai"><strong>1. 现代AI应用架构</strong></h4>
+<ul>
+<li>LLM作为协调器而非全能模型</li>
+<li>工具扩展弥补LLM的实时性和准确性不足</li>
+<li>链式思考（Chain-of-Thought）提升推理能力</li>
+</ul>
+<h4 id="2-api"><strong>2. API集成最佳实践</strong></h4>
+<ul>
+<li><strong>优雅降级</strong>：API失败时提供友好错误信息</li>
+<li><strong>参数验证</strong>：输入清洗和安全处理</li>
+<li><strong>速率限制考虑</strong>：虽然代码中未实现，但实际需要</li>
+</ul>
+<h4 id="3_1"><strong>3. 可维护性设计</strong></h4>
+<ul>
+<li><strong>配置与代码分离</strong>：API密钥等敏感信息可配置</li>
+<li><strong>模块化设计</strong>：每个功能独立，易于测试和替换</li>
+<li><strong>清晰的日志输出</strong>：调试友好</li>
+</ul>
+<h4 id="4"><strong>4. 安全考虑</strong></h4>
+<ul>
+<li>环境变量存储敏感信息</li>
+<li>输入验证防止注入攻击</li>
+<li>API调用错误不泄露内部细节</li>
+</ul>
+<hr />
+<h2 id="14">1.4 🎯 <strong>两种协作模式的核心对比</strong></h2>
+<h3 id="1_4"><strong>1. 作为开发者工具的智能体</strong></h3>
+<h4 id="_11"><strong>核心特征：</strong></h4>
+<ul>
+<li><strong>增强而非取代</strong>：AI作为生产力工具，提升人类效率</li>
+<li><strong>人机协同</strong>：开发者保持主导，AI提供实时辅助</li>
+<li><strong>场景驱动</strong>：针对具体开发任务优化</li>
+</ul>
+<h4 id="_12"><strong>代表性工具分类：</strong></h4>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>定位</th>
+<th>特色</th>
+<th>协作模式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GitHub Copilot</strong></td>
+<td>代码补全专家</td>
+<td>整行/函数级建议，深度编辑器集成</td>
+<td>实时协同编码</td>
+</tr>
+<tr>
+<td><strong>Claude Code</strong></td>
+<td>终端编程伙伴</td>
+<td>理解代码库，支持全流程开发</td>
+<td>命令行自然语言交互</td>
+</tr>
+<tr>
+<td><strong>Trae</strong></td>
+<td>轻量级代码优化</td>
+<td>快速响应，适合快速迭代</td>
+<td>专注代码生成与重构</td>
+</tr>
+<tr>
+<td><strong>Cursor</strong></td>
+<td>AI原生编辑器</td>
+<td>深度理解整个项目上下文</td>
+<td>重构级代码理解与修改</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2_2"><strong>2. 作为自主协作者的智能体</strong></h3>
+<h4 id="_13"><strong>核心特征：</strong></h4>
+<ul>
+<li><strong>目标导向</strong>：人类只给目标，智能体自主完成</li>
+<li><strong>端到端自动化</strong>：规划-执行-反思的全流程自主</li>
+<li><strong>协作网络</strong>：多智能体模拟真实团队协作</li>
+</ul>
+<h4 id="_14"><strong>技术架构范式：</strong></h4>
+<ol>
+<li><strong>单智能体自主循环</strong></li>
+<li><strong>代表</strong>：BabyAGI, AutoGPT, AgentGPT</li>
+<li><strong>模式</strong>：思考→规划→执行→反思的闭环</li>
+<li>
+<p><strong>优点</strong>：简单直接，适合独立任务</p>
+</li>
+<li>
+<p><strong>多智能体协作系统</strong></p>
+</li>
+<li>
+<p><strong>角色扮演式</strong>（CAMEL）</p>
+<ul>
+<li>两个智能体设定特定角色</li>
+<li>通过结构化对话协同</li>
+<li>例：程序员+产品经理共同开发</li>
+</ul>
+</li>
+<li>
+<p><strong>组织化工作流</strong>（MetaGPT, CrewAI）</p>
+<ul>
+<li>虚拟团队分工（CEO、产品经理、工程师等）</li>
+<li>预设SOP（标准作业程序）</li>
+<li>产出完整复杂成果（代码库、报告）</li>
+</ul>
+</li>
+<li>
+<p><strong>灵活对话网络</strong>（AutoGen, AgentScope）</p>
+<ul>
+<li>可自定义的智能体交互图</li>
+<li>支持复杂对话模式</li>
+<li>更灵活的协作策略</li>
+</ul>
+</li>
+<li>
+<p><strong>高级控制流架构</strong>（LangGraph）</p>
+</li>
+<li>状态图（State Graph）建模</li>
+<li>支持循环、分支、回溯</li>
+<li>可加入人工干预点</li>
+</ol>
+<h3 id="workflow-vs-agent">🔄 <strong>Workflow vs Agent：根本差异</strong></h3>
+<div align="center">
+  <img src="https://raw.githubusercontent.com/datawhalechina/Hello-Agents/main/docs/images/1-figures/1757242319667-18.png" alt="图片描述" width="90%"/>
+  <p>图 1.6 Workflow 和 Agent 的差异</p>
+</div>
+
+<h4 id="1_5"><strong>1. 核心理念对比</strong></h4>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Workflow（工作流）</th>
+<th>Agent（智能体）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>哲学</strong></td>
+<td>确定性的指令执行</td>
+<td>自主性的目标达成</td>
+</tr>
+<tr>
+<td><strong>决策权</strong></td>
+<td>人类预设所有规则</td>
+<td>智能体动态推理决策</td>
+</tr>
+<tr>
+<td><strong>灵活性</strong></td>
+<td>静态流程图，条件固定</td>
+<td>动态适应，实时调整</td>
+</tr>
+<tr>
+<td><strong>输入</strong></td>
+<td>触发条件+数据</td>
+<td>目标描述+上下文</td>
+</tr>
+<tr>
+<td><strong>输出</strong></td>
+<td>预设的下一步骤</td>
+<td>创造性的解决方案</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2_3"><strong>2. 技术实现差异</strong></h4>
+<h4 id="workflow"><strong>Workflow示例：报销流程</strong></h4>
+<pre><code>触发：员工提交报销单
+    ↓
+条件判断：金额 &lt; 500？
+    ├─ 是 → 部门经理审批 → 结束
+    └─ 否 → 部门经理审批 → 财务总监审批 → 结束
+</code></pre>
+<ul>
+<li><strong>特点</strong>：每一步都预先定义，if-else逻辑明确</li>
+</ul>
+<h4 id="agent_1"><strong>Agent示例：旅行助手</strong></h4>
+<pre><code>输入：查询北京天气并推荐景点
+    ↓
+**智能体自主决策过程：**
+1. 规划：需要先查天气，再推荐
+2. 执行：调用天气API(&quot;北京&quot;)
+3. 推理：晴天 → 适合户外活动
+4. 决策：搜索北京户外景点
+5. 输出：推荐颐和园并给出理由
+</code></pre>
+<ul>
+<li><strong>特点</strong>：没有预设规则，基于实时信息动态推理</li>
+</ul>
+<h3 id="_15">🧩 <strong>知识架构总结</strong></h3>
+<h4 id="1_6"><strong>1. 演进路径</strong></h4>
+<pre><code>传统自动化（Workflow）
+    ↓
+AI增强工具（Copilot类）
+    ↓
+单智能体自主（AutoGPT类）
+    ↓
+多智能体协作（MetaGPT类）
+    ↓
+复杂状态管理（LangGraph类）
+</code></pre>
+<h4 id="2_4"><strong>2. 适用场景矩阵</strong></h4>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>确定性程度</th>
+<th>任务复杂度</th>
+<th>创新性要求</th>
+<th>示例场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Workflow</strong></td>
+<td>高</td>
+<td>低-中</td>
+<td>低</td>
+<td>审批流程、数据ETL</td>
+</tr>
+<tr>
+<td><strong>AI工具</strong></td>
+<td>中</td>
+<td>中</td>
+<td>中</td>
+<td>代码补全、文档生成</td>
+</tr>
+<tr>
+<td><strong>单智能体</strong></td>
+<td>中-低</td>
+<td>中-高</td>
+<td>中</td>
+<td>个人助手、内容创作</td>
+</tr>
+<tr>
+<td><strong>多智能体</strong></td>
+<td>低</td>
+<td>高</td>
+<td>高</td>
+<td>软件项目、复杂研究</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_16">💡 <strong>深刻洞见</strong></h3>
+<h4 id="1_7"><strong>1. 范式转移的核心</strong></h4>
+<p>从 <strong>"如何做"</strong> 到 <strong>"做什么"</strong>：</p>
+<ul>
+<li><strong>Workflow</strong>：告诉AI每一步的具体操作</li>
+<li><strong>Agent</strong>：告诉AI最终目标，让它自己想办法</li>
+</ul>
+<h4 id="2_5"><strong>2. 自主性的不同层次</strong></h4>
+<ol>
+<li><strong>工具级自主</strong>：在给定任务中自主选择执行方式</li>
+<li><strong>目标级自主</strong>：自主分解高层目标为子任务</li>
+<li><strong>协作级自主</strong>：在团队中自主协商分工和协作</li>
+<li><strong>反思级自主</strong>：能够评估自身表现并调整策略</li>
+</ol>
+<h4 id="3_2"><strong>3. 现实世界的混合模式</strong></h4>
+<p>在实际应用中，往往是<strong>分层架构</strong>：</p>
+<ul>
+<li><strong>上层</strong>：Agent负责高层规划和目标分解</li>
+<li><strong>中层</strong>：Workflow处理确定性的标准流程</li>
+<li><strong>下层</strong>：工具类AI提供具体的执行能力</li>
+</ul>
+<h3 id="_17">🚀 <strong>未来发展趋势</strong></h3>
+<h4 id="1_8"><strong>1. 融合趋势</strong></h4>
+<ul>
+<li><strong>Agent内部包含Workflow</strong>：复杂任务分解后，某些子任务可用Workflow实现</li>
+<li><strong>Workflow调用Agent</strong>：在流程关键节点引入智能决策</li>
+<li><strong>混合编排引擎</strong>：统一管理两种执行模式</li>
+</ul>
+<h4 id="2_6"><strong>2. 能力提升方向</strong></h4>
+<ul>
+<li><strong>更深的上下文理解</strong>：理解整个组织/项目的目标</li>
+<li><strong>更复杂的规划能力</strong>：处理不确定性和意外情况</li>
+<li><strong>更自然的协作</strong>：与人类和其他AI的无缝协作</li>
+<li><strong>更强的反思学习</strong>：从经验中持续改进策略</li>
+</ul>
+<h2 id="_18">习题</h2>
+<ol>
+<li>请分析以下四个 <code>case</code> 中的<strong>主体</strong>是否属于智能体，如果是，那么属于哪种类型的智能体（可以从多个分类维度进行分析），并说明理由：</li>
+</ol>
+<p><code>case A</code>：<strong>一台符合冯·诺依曼结构的超级计算机</strong>，拥有高达每秒 2EFlop 的峰值算力</p>
+<p><code>case B</code>：<strong>特斯拉自动驾驶系统</strong>在高速公路上行驶时，突然检测到前方有障碍物，需要在毫秒级做出刹车或变道决策</p>
+<p><code>case C</code>：<strong>AlphaGo</strong>在与人类棋手对弈时，需要评估当前局面并规划未来数十步的最优策略</p>
+<p><code>case D</code>：<strong>ChatGPT 扮演的智能客服</strong>在处理用户投诉时，需要查询订单信息、分析问题原因、提供解决方案并安抚用户情绪</p>
+<p>让我从多个维度分析这四个案例，判断它们是否属于智能体以及具体的智能体类型：</p>
+<p>📊 分析框架</p>
+<p>我将从以下<strong>5个维度</strong>进行分析：</p>
+<ol>
+<li><strong>智能体基本属性</strong>：感知-决策-执行闭环</li>
+<li><strong>自主性程度</strong>：从完全预设到完全自主</li>
+<li><strong>学习适应性</strong>：能否从经验中学习改进</li>
+<li><strong>目标导向性</strong>：是否追求特定目标</li>
+<li><strong>环境交互性</strong>：如何与外部世界交互</li>
+</ol>
+<hr />
+<p>🔍 <strong>Case A：超级计算机</strong></p>
+<p><strong>是否智能体？</strong> ❌ <strong>不是智能体</strong></p>
+<p>维度分析：</p>
+<ol>
+<li><strong>感知-决策-执行</strong>：缺乏完整的感知-决策-执行闭环</li>
+<li><strong>感知</strong>：被动接收输入数据，没有主动感知机制</li>
+<li><strong>决策</strong>：执行预设算法，没有自主决策能力</li>
+<li>
+<p><strong>执行</strong>：输出计算结果，不与环境产生交互</p>
+</li>
+<li>
+<p><strong>自主性</strong>：零自主性</p>
+</li>
+<li>完全依赖人类编程的指令</li>
+<li>
+<p>无法自主设定目标或调整策略</p>
+</li>
+<li>
+<p><strong>学习能力</strong>：无学习能力（除非专门配备机器学习系统）</p>
+</li>
+<li>纯粹的算力工具</li>
+<li>
+<p>性能不随经验改进</p>
+</li>
+<li>
+<p><strong>目标导向</strong>：无内在目标</p>
+</li>
+<li>目标由外部（人类用户）赋予</li>
+<li>
+<p>自身没有目标追求机制</p>
+</li>
+<li>
+<p><strong>环境交互</strong>：最小化交互</p>
+</li>
+<li>主要交互是输入/输出数据</li>
+<li>不主动改变环境状态</li>
+</ol>
+<p><strong>本质</strong>：这是<strong>计算工具</strong>，不是智能体。就像一把非常锋利的刀，工具性能极高，但没有自主性。</p>
+<hr />
+<p>🔍 <strong>Case B：特斯拉自动驾驶系统</strong></p>
+<p><strong>是否智能体？</strong> ✅ <strong>是智能体</strong></p>
+<p><strong>类型</strong>：<strong>嵌入式感知-反应型智能体</strong>（带一定学习能力）</p>
+<p>维度分析：</p>
+<ol>
+<li><strong>感知-决策-执行</strong>：完整闭环</li>
+<li><strong>感知</strong>：摄像头、雷达、传感器实时感知环境</li>
+<li><strong>决策</strong>：神经网络+规则系统评估风险，选择最优行动</li>
+<li>
+<p><strong>执行</strong>：控制刹车、转向等执行器</p>
+</li>
+<li>
+<p><strong>自主性</strong>：高度自主（但有边界）</p>
+</li>
+<li>在驾驶域内高度自主决策</li>
+<li>边界：遵守交通规则、安全限制</li>
+<li>
+<p>实时决策无需人类干预</p>
+</li>
+<li>
+<p><strong>学习能力</strong>：持续学习型</p>
+</li>
+<li><strong>离线学习</strong>：通过车队数据收集改进模型</li>
+<li><strong>在线适应</strong>：适应不同天气、路况</li>
+<li>
+<p><strong>影子模式</strong>：对比人类驾驶持续优化</p>
+</li>
+<li>
+<p><strong>目标导向</strong>：明确目标</p>
+</li>
+<li>主要目标：安全到达目的地</li>
+<li>
+<p>子目标：避障、遵守交规、舒适性</p>
+</li>
+<li>
+<p><strong>环境交互</strong>：主动与环境交互</p>
+</li>
+<li>直接影响物理世界（车辆运动）</li>
+<li>实时应对环境变化</li>
+</ol>
+<p><strong>分类维度补充</strong>：</p>
+<ul>
+<li><strong>反应式 vs 慎思式</strong>：<strong>混合型</strong>，既有实时反应（紧急刹车），也有短期规划（变道策略）</li>
+<li><strong>单智能体 vs 多智能体</strong>：单智能体，但可视为V2X（车联网）中的节点</li>
+<li><strong>物理 vs 虚拟</strong>：<strong>物理智能体</strong>，在真实世界执行</li>
+</ul>
+<hr />
+<p>🔍 <strong>Case C：AlphaGo</strong></p>
+<p><strong>是否智能体？</strong> ✅ <strong>是智能体</strong></p>
+<p><strong>类型</strong>：<strong>专域目标导向型智能体</strong>（纯虚拟环境）</p>
+<p>维度分析：</p>
+<ol>
+<li><strong>感知-决策-执行</strong>：完整闭环（虚拟环境）</li>
+<li><strong>感知</strong>：识别棋盘状态（19×19网格）</li>
+<li><strong>决策</strong>：蒙特卡洛树搜索+神经网络评估</li>
+<li>
+<p><strong>执行</strong>：落子动作改变游戏状态</p>
+</li>
+<li>
+<p><strong>自主性</strong>：高度自主</p>
+</li>
+<li>完全自主决定每一步棋</li>
+<li>无需人类干预或建议</li>
+<li>
+<p>在围棋规则内完全自由</p>
+</li>
+<li>
+<p><strong>学习能力</strong>：<strong>强学习型</strong></p>
+</li>
+<li><strong>监督学习</strong>：从人类棋谱学习</li>
+<li><strong>强化学习</strong>：自我对弈提升</li>
+<li>
+<p><strong>迁移学习</strong>：AlphaGo Zero从零开始学习</p>
+</li>
+<li>
+<p><strong>目标导向</strong>：单一明确目标</p>
+</li>
+<li>终极目标：赢棋</li>
+<li>
+<p>子目标：控制领地、获得先手、消除对方潜力</p>
+</li>
+<li>
+<p><strong>环境交互</strong>：虚拟环境交互</p>
+</li>
+<li>交互对象是虚拟棋盘</li>
+<li>动作空间离散（361个可能落点）</li>
+</ol>
+<p><strong>分类维度补充</strong>：</p>
+<ul>
+<li><strong>通用 vs 专用</strong>：<strong>高度专用</strong>（仅围棋）</li>
+<li><strong>在线 vs 离线</strong>：训练离线，对弈时在线决策</li>
+<li><strong>符号 vs 亚符号</strong>：<strong>亚符号处理</strong>（神经网络直接处理局面）</li>
+<li><strong>基于模型 vs 无模型</strong>：<strong>混合</strong>，有棋局模型但决策基于价值网络</li>
+</ul>
+<p><strong>特殊性质</strong>：</p>
+<ul>
+<li><strong>超级人类性能</strong>：但只在狭窄领域</li>
+<li><strong>透明性问题</strong>：决策过程难以解释</li>
+<li><strong>无泛化能力</strong>：不能直接应用于其他棋类</li>
+</ul>
+<hr />
+<p>🔍 <strong>Case D：ChatGPT智能客服</strong></p>
+<p><strong>是否智能体？</strong> ✅ <strong>是智能体</strong></p>
+<p><strong>类型</strong>：<strong>对话型任务导向智能体</strong>（多轮复杂任务处理）</p>
+<p>维度分析：</p>
+<ol>
+<li><strong>感知-决策-执行</strong>：完整闭环（对话空间）</li>
+<li><strong>感知</strong>：理解自然语言查询（文本）</li>
+<li><strong>决策</strong>：多步骤推理、工具调用选择</li>
+<li>
+<p><strong>执行</strong>：生成回复、调用API、安抚情绪</p>
+</li>
+<li>
+<p><strong>自主性</strong>：<strong>中度到高度自主</strong></p>
+</li>
+<li><strong>任务分解自主</strong>：自动将投诉处理分解为子任务</li>
+<li><strong>工具调用自主</strong>：自主决定何时查询订单、何时安抚</li>
+<li>
+<p><strong>策略调整自主</strong>：根据用户情绪调整沟通策略</p>
+</li>
+<li>
+<p><strong>学习能力</strong>：<strong>基础能力固定+上下文学习</strong></p>
+</li>
+<li><strong>基础能力</strong>：预训练固定（不实时更新）</li>
+<li><strong>上下文学习</strong>：在对话中学习用户特定情况</li>
+<li>
+<p><strong>few-shot学习</strong>：通过示例快速适应新任务类型</p>
+</li>
+<li>
+<p><strong>目标导向</strong>：<strong>多目标协调</strong></p>
+</li>
+<li>主要目标：解决用户问题</li>
+<li>子目标：查询信息、分析原因、提供方案、安抚情绪</li>
+<li>
+<p><strong>目标优先级动态调整</strong>：例如，用户极度愤怒时，安抚优先于问题解决</p>
+</li>
+<li>
+<p><strong>环境交互</strong>：<strong>复杂符号交互</strong></p>
+</li>
+<li>主要交互：自然语言对话</li>
+<li>工具交互：调用外部系统（订单数据库）</li>
+<li>社会性交互：情感支持、建立信任</li>
+</ol>
+<p><strong>分类维度补充</strong>：
+- <strong>单轮 vs 多轮</strong>：<strong>典型多轮智能体</strong>
+- <strong>纯对话 vs 工具增强</strong>：<strong>工具增强型</strong>（RAG+API调用）
+- <strong>情感智能</strong>：具备基本情感识别和回应能力
+- <strong>角色扮演</strong>：扮演“客服”特定角色</p>
+<p><strong>ReAct模式体现</strong>：</p>
+<pre><code>用户：&quot;订单1234没收到，很生气！&quot;
+Thought: 用户情绪激动，需要先安抚，同时查询订单
+Action: 安抚语句 + 调用订单查询API(&quot;1234&quot;)
+Observation: API返回&quot;订单已发货，物流延迟&quot;
+Thought: 需要解释原因并提供解决方案
+Action: 解释延迟原因 + 提供补偿方案
+</code></pre>
+<hr />
+<p>📈 <strong>对比总结</strong></p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Case A (超算)</th>
+<th>Case B (特斯拉)</th>
+<th>Case C (AlphaGo)</th>
+<th>Case D (ChatGPT客服)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>是否智能体</strong></td>
+<td>❌ 否</td>
+<td>✅ 是</td>
+<td>✅ 是</td>
+<td>✅ 是</td>
+</tr>
+<tr>
+<td><strong>自主性</strong></td>
+<td>无</td>
+<td>高(有边界)</td>
+<td>极高(规则内)</td>
+<td>中-高</td>
+</tr>
+<tr>
+<td><strong>学习能力</strong></td>
+<td>无</td>
+<td>持续学习</td>
+<td>强学习</td>
+<td>基础+上下文学习</td>
+</tr>
+<tr>
+<td><strong>环境类型</strong></td>
+<td>无交互</td>
+<td>物理世界</td>
+<td>虚拟棋盘</td>
+<td>对话空间</td>
+</tr>
+<tr>
+<td><strong>目标复杂度</strong></td>
+<td>无目标</td>
+<td>多目标协调</td>
+<td>单目标优化</td>
+<td>多目标协调</td>
+</tr>
+<tr>
+<td><strong>实时性要求</strong></td>
+<td>无</td>
+<td>毫秒级</td>
+<td>分钟级</td>
+<td>秒级</td>
+</tr>
+<tr>
+<td><strong>可解释性</strong></td>
+<td>完全透明</td>
+<td>部分黑盒</td>
+<td>高度黑盒</td>
+<td>部分可解释</td>
+</tr>
+<tr>
+<td><strong>社会性</strong></td>
+<td>无</td>
+<td>间接社会影响</td>
+<td>无</td>
+<td>强社会交互</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>🧠 <strong>深层次洞察</strong></p>
+<p><strong>1. 智能体的核心本质</strong></p>
+<p>智能体的<strong>核心不是智能程度</strong>，而是<strong>自主的目标追求能力</strong>：</p>
+<ul>
+<li><strong>超算</strong>：有智能（计算能力）但不是智能体</li>
+<li><strong>ChatGPT客服</strong>：智能程度可能不如AlphaGo，但是更完整的智能体</li>
+</ul>
+<p><strong>2. 维度间的权衡</strong></p>
+<ul>
+<li><strong>专用性 vs 通用性</strong>：AlphaGo极端专用，ChatGPT相对通用</li>
+<li><strong>确定性 vs 不确定性环境</strong>：特斯拉应对开放不确定性，AlphaGo在封闭确定性环境</li>
+<li><strong>物理 vs 虚拟影响</strong>：特斯拉有物理风险，其他主要是虚拟影响</li>
+</ul>
+<p><strong>3. 进化路径</strong></p>
+<pre><code>计算工具(A) → 游戏AI(C) → 对话AI(D) → 物理AI(B)
+    ↓           ↓           ↓           ↓
+无自主性    规则内自主    社会性自主    物理世界自主
+</code></pre>
+<p><strong>4. 实用启示</strong></p>
+<ol>
+<li><strong>不是所有AI系统都是智能体</strong>：要看是否有感知-决策-执行闭环</li>
+<li><strong>智能体类型决定设计重点</strong>：</li>
+<li>物理智能体（B）：安全、实时性</li>
+<li>游戏智能体（C）：策略优化、探索效率</li>
+<li>对话智能体（D）：多轮协调、情感智能</li>
+<li><strong>自主性需要边界</strong>：越是影响物理世界，越需要安全边界</li>
+</ol>
+<p>这四个案例完美展示了<strong>智能体光谱</strong>：从纯工具到高度自主系统，帮助我们理解智能体的多样性和复杂性。</p>
+<ol>
+<li>
+<p>假设你需要为一个"智能健身教练"设计任务环境。这个智能体能够：</p>
+</li>
+<li>
+<p>通过可穿戴设备监测用户的心率、运动强度等生理数据</p>
+</li>
+<li>根据用户的健身目标（减脂/增肌/提升耐力）动态调整训练计划</li>
+<li>在用户运动过程中提供实时语音指导和动作纠正</li>
+<li>评估训练效果并给出饮食建议</li>
+</ol>
+<p>请使用 PEAS 模型完整描述这个智能体的任务环境，并分析该环境具有哪些特性（如部分可观察、随机性、动态性等）。</p>
+<p>基于PEAS模型，我来完整描述"智能健身教练"智能体的任务环境，并深入分析其特性：</p>
+<p>🎯 <strong>PEAS模型描述</strong></p>
+<p><strong>P（Performance Measure，性能度量）</strong></p>
+<p>智能体的成功程度由以下综合指标衡量：</p>
+<ol>
+<li><strong>用户健康指标改善度</strong></li>
+<li>体脂率下降百分比（减脂目标）</li>
+<li>肌肉量增加百分比（增肌目标）</li>
+<li>最大摄氧量（VO₂ max）提升（耐力目标）</li>
+<li>
+<p>静息心率下降幅度</p>
+</li>
+<li>
+<p><strong>用户依从性与满意度</strong></p>
+</li>
+<li>训练计划完成率（≥85%为优秀）</li>
+<li>用户主动训练频率（次/周）</li>
+<li>NPS（净推荐值）评分 ≥ 8/10</li>
+<li>
+<p>用户反馈积极度（情感分析得分）</p>
+</li>
+<li>
+<p><strong>安全性与有效性</strong></p>
+</li>
+<li>运动损伤发生率 ≤ 1%</li>
+<li>过度训练综合征检测准确率 ≥ 95%</li>
+<li>
+<p>心率区间命中率（在目标区间时间占比）</p>
+</li>
+<li>
+<p><strong>个性化适配度</strong></p>
+</li>
+<li>计划调整及时性（检测到疲劳/不适应在15分钟内调整）</li>
+<li>建议采纳率（用户执行建议的比例）</li>
+</ol>
+<p><strong>E（Environment，环境）</strong></p>
+<p>智能体交互的环境包含以下要素：</p>
+<ol>
+<li><strong>物理环境</strong></li>
+<li>用户所在空间（家庭/健身房/户外）</li>
+<li>可用健身器材（哑铃/跑步机/瑜伽垫等）</li>
+<li>
+<p>环境温湿度、空气质量</p>
+</li>
+<li>
+<p><strong>用户状态环境</strong></p>
+</li>
+<li>生理状态：实时心率、血氧、体温、运动姿态</li>
+<li>心理状态：动机水平、疲劳感、疼痛感知</li>
+<li>
+<p>行为状态：动作标准度、运动节奏、休息间隔</p>
+</li>
+<li>
+<p><strong>时间与环境动态</strong></p>
+</li>
+<li>训练时段（晨练/午间/晚间）</li>
+<li>用户日程变化（出差/假期/伤病）</li>
+<li>
+<p>季节与天气影响（户外训练时）</p>
+</li>
+<li>
+<p><strong>数据环境</strong></p>
+</li>
+<li>可穿戴设备数据流（实时传感器数据）</li>
+<li>历史训练记录数据库</li>
+<li>营养摄入日志（如果用户记录）</li>
+<li>医疗健康档案（如果有权限接入）</li>
+</ol>
+<p><strong>A（Actuators，执行器）</strong></p>
+<p>智能体影响环境的方式：</p>
+<ol>
+<li><strong>信息输出执行器</strong></li>
+<li>语音指导系统（实时音频反馈）</li>
+<li>可视化界面（手机/手表/AR眼镜显示）</li>
+<li>
+<p>振动提示（手表/设备振动提醒）</p>
+</li>
+<li>
+<p><strong>计划控制执行器</strong></p>
+</li>
+<li>训练计划生成器（调整强度/时长/频率）</li>
+<li>动作库调用器（选择替代动作）</li>
+<li>
+<p>紧急停止机制（检测危险时强制中止）</p>
+</li>
+<li>
+<p><strong>激励与社交执行器</strong></p>
+</li>
+<li>成就系统（虚拟徽章/进度条）</li>
+<li>社交分享接口（连接健身社区）</li>
+<li>
+<p>激励语音库（不同风格鼓励语）</p>
+</li>
+<li>
+<p><strong>协调执行器</strong></p>
+</li>
+<li>智能设备控制（调整跑步机速度/阻力）</li>
+<li>营养建议生成器（基于训练后状态）</li>
+<li>休息提醒系统（防止过度训练）</li>
+</ol>
+<p><strong>S（Sensors，传感器）</strong></p>
+<p>智能体感知环境的方式：</p>
+<ol>
+<li><strong>生理传感器</strong></li>
+<li>光学心率传感器（连续监测）</li>
+<li>三轴加速度计+陀螺仪（动作识别）</li>
+<li>皮肤电反应传感器（压力/兴奋度）</li>
+<li>
+<p>血氧饱和度传感器（SpO₂）</p>
+</li>
+<li>
+<p><strong>环境传感器</strong></p>
+</li>
+<li>GPS定位（户外训练轨迹）</li>
+<li>环境温度/湿度传感器</li>
+<li>
+<p>气压计（海拔变化监测）</p>
+</li>
+<li>
+<p><strong>用户输入传感器</strong></p>
+</li>
+<li>麦克风（语音反馈/呼吸声分析）</li>
+<li>摄像头（动作捕捉与纠正）</li>
+<li>
+<p>触控屏/按钮（用户手动输入）</p>
+</li>
+<li>
+<p><strong>间接数据源</strong></p>
+</li>
+<li>日历API（用户日程冲突检测）</li>
+<li>健康数据同步（睡眠/步数/体重变化）</li>
+<li>营养记录APP接口（如果用户授权）</li>
+</ol>
+<hr />
+<p>🔍 <strong>环境特性深度分析</strong></p>
+<p><strong>1. 可观察性：部分可观察（Partially Observable）</strong></p>
+<ul>
+<li><strong>可观察部分</strong>：</li>
+<li>实时心率、运动强度等传感器数据</li>
+<li>用户选择的训练目标</li>
+<li>
+<p>环境温度和基本空间信息</p>
+</li>
+<li>
+<p><strong>不可观察部分</strong>：</p>
+</li>
+<li><strong>用户真实疲劳程度</strong>：主观感受 ≠ 生理指标</li>
+<li><strong>心理状态</strong>：动机波动、情绪变化</li>
+<li><strong>潜在健康风险</strong>：隐匿性疾病、旧伤复发风险</li>
+<li>
+<p><strong>外部干扰</strong>：家庭/工作压力影响训练表现</p>
+</li>
+<li>
+<p><strong>不确定性来源</strong>：</p>
+</li>
+<li>传感器误差（心率监测±5%误差）</li>
+<li>用户报告偏差（主观疼痛评级不准）</li>
+<li>动作识别误判（复杂动作分类错误）</li>
+</ul>
+<p><strong>2. 确定性 vs 随机性：高度随机（Stochastic）</strong></p>
+<ul>
+<li><strong>随机性来源</strong>：</li>
+<li>
+<p><strong>生理反应的随机性</strong></p>
+<ul>
+<li>相同训练量，不同日期的恢复速度不同</li>
+<li>激素水平波动影响表现</li>
+<li>睡眠质量带来的状态差异</li>
+</ul>
+</li>
+<li>
+<p><strong>用户行为的随机性</strong></p>
+<ul>
+<li>依从性波动（今天有动力/明天想偷懒）</li>
+<li>动作执行偏差（标准度每日不同）</li>
+<li>饮食计划执行的不确定性</li>
+</ul>
+</li>
+<li>
+<p><strong>环境因素的随机性</strong></p>
+<ul>
+<li>天气突变影响户外训练</li>
+<li>设备故障或电量不足</li>
+<li>家庭突发事件打断训练</li>
+</ul>
+</li>
+</ul>
+<p><strong>3. 静态 vs 动态：高度动态（Dynamic）</strong></p>
+<ul>
+<li><strong>环境变化速度</strong>：秒级到天级变化</li>
+<li>
+<p><strong>秒级动态</strong>：</p>
+<ul>
+<li>心率实时变化</li>
+<li>动作姿态连续调整</li>
+<li>语音指导实时响应</li>
+</ul>
+</li>
+<li>
+<p><strong>分级动态</strong>：</p>
+<ul>
+<li>训练计划执行进度</li>
+<li>疲劳累积过程</li>
+<li>水分/能量消耗</li>
+</ul>
+</li>
+<li>
+<p><strong>天级动态</strong>：</p>
+<ul>
+<li>恢复状态变化</li>
+<li>体重/体脂趋势</li>
+<li>长期适应与平台期</li>
+</ul>
+</li>
+</ul>
+<p><strong>4. 离散 vs 连续：混合型（Mixed）</strong></p>
+<ul>
+<li><strong>连续维度</strong>：</li>
+<li>生理信号（心率连续值50-200 bpm）</li>
+<li>运动强度（%VO₂ max连续变化）</li>
+<li>
+<p>时间维度（连续的训练时长）</p>
+</li>
+<li>
+<p><strong>离散维度</strong>：</p>
+</li>
+<li>动作类别（深蹲/卧推/跑步等）</li>
+<li>训练阶段（热身/主训/拉伸）</li>
+<li>用户反馈选择（疼痛等级1-10）</li>
+</ul>
+<p><strong>5. 单智能体 vs 多智能体：协作型环境</strong></p>
+<ul>
+<li><strong>本质上单智能体</strong>：但需考虑：</li>
+<li><strong>用户作为"半合作智能体"</strong>：有自主意志，不完全受控</li>
+<li><strong>可能的多设备协作</strong>：手表+手机+智能器材协同</li>
+<li><strong>人类教练补充</strong>：线上线下混合指导场景</li>
+</ul>
+<p><strong>6. 已知 vs 未知：部分已知（Partially Known）</strong></p>
+<ul>
+<li><strong>已知部分</strong>：</li>
+<li>运动生理学基本原理</li>
+<li>标准动作规范</li>
+<li>
+<p>设备技术规格</p>
+</li>
+<li>
+<p><strong>未知部分</strong>：</p>
+</li>
+<li><strong>用户个性化反应模型</strong>：需实时学习适应</li>
+<li><strong>长期效果预测</strong>：个体差异极大</li>
+<li><strong>最优策略空间</strong>：亿万种计划组合</li>
+</ul>
+<p><strong>7. 对抗性 vs 合作性：本质合作但有冲突</strong></p>
+<ul>
+<li><strong>合作性</strong>：智能体与用户根本利益一致</li>
+<li><strong>潜在冲突</strong>：</li>
+<li>短期舒适 vs 长期收益（用户想偷懒）</li>
+<li>激进进步 vs 安全保守（风险权衡）</li>
+<li>标准化计划 vs 个性化偏好</li>
+</ul>
+<p><strong>8. 时间约束：实时性要求高</strong></p>
+<ul>
+<li><strong>不同层级的实时性</strong>：</li>
+</ul>
+<p><code>毫秒级：安全监控（心率异常报警）
+  秒级：  动作纠正（姿态偏差反馈）
+  分钟级：强度调整（有氧区间维持）
+  小时级：计划调整（疲劳过度时减量）
+  天级：  长期规划（周期化训练安排）</code></p>
+<hr />
+<p>🧩 <strong>综合特性评估矩阵</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>程度</th>
+<th>具体表现</th>
+<th>设计挑战</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>可观察性</strong></td>
+<td>中-部分</td>
+<td>生理数据可测，心理状态不可测</td>
+<td>需从有限信号推断完整状态</td>
+</tr>
+<tr>
+<td><strong>确定性</strong></td>
+<td>低-随机</td>
+<td>生理反应、用户行为均有随机性</td>
+<td>需概率模型与安全边界</td>
+</tr>
+<tr>
+<td><strong>动态性</strong></td>
+<td>高-动态</td>
+<td>状态连续变化，环境也在变化</td>
+<td>需要持续感知与快速适应</td>
+</tr>
+<tr>
+<td><strong>连续性</strong></td>
+<td>混合</td>
+<td>连续信号+离散事件混合</td>
+<td>需设计混合状态表示</td>
+</tr>
+<tr>
+<td><strong>协作性</strong></td>
+<td>合作但有冲突</td>
+<td>用户是半自治合作者</td>
+<td>需协商机制与激励设计</td>
+</tr>
+<tr>
+<td><strong>知识完备性</strong></td>
+<td>部分已知</td>
+<td>原理已知，个体模型未知</td>
+<td>需在线学习与个性化</td>
+</tr>
+<tr>
+<td><strong>时间约束</strong></td>
+<td>多层次实时</td>
+<td>从毫秒到天的多尺度</td>
+<td>需分层决策架构</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>🚀 <strong>设计启示与挑战</strong></p>
+<p><strong>关键设计决策</strong></p>
+<ol>
+<li><strong>状态表示设计</strong></li>
+</ol>
+<p>```python
+   # 混合状态表示示例
+   state = {
+       # 连续变量
+       'heart_rate': 145.3,      # bpm
+       'intensity': 75.2,        # %HRmax
+       'fatigue_index': 0.68,    # 0-1</p>
+<pre><code>   # 离散变量
+   'exercise_phase': 'main', # warmup/main/cooldown
+   'form_quality': 'good',   # poor/fair/good/excellent
+   'user_motivation': 'high',# low/medium/high
+
+   # 时间相关
+   'time_in_zone': 423,      # 秒
+   'recovery_days': 1,       # 距离上次训练天数
+</code></pre>
+<p>}
+   ```</p>
+<ol>
+<li><strong>决策架构设计</strong></li>
+<li>
+<p><strong>分层控制</strong>：
+     <code>顶层：长期目标规划（周/月）
+        ↓
+     中层：训练计划动态调整
+        ↓
+     底层：实时指导与安全监控</code></p>
+</li>
+<li>
+<p><strong>混合决策</strong>：
+     <code>规则引擎：安全边界检查（IF心率&gt;180 THEN警告）
+        +
+     机器学习：个性化建议生成
+        +
+     优化算法：计划优化（线性规划）</code></p>
+</li>
+<li>
+<p><strong>不确定性处理策略</strong></p>
+</li>
+<li><strong>安全边界设计</strong>：保守估计用户极限</li>
+<li><strong>渐进式适应</strong>：小步调整，观察反应</li>
+<li><strong>多模态验证</strong>：结合传感器+用户报告</li>
+<li><strong>冗余安全机制</strong>：多种方式检测危险</li>
+</ol>
+<p><strong>特殊挑战与解决方案</strong></p>
+<ol>
+<li><strong>部分可观察性挑战</strong></li>
+<li><strong>解决方案</strong>：贝叶斯推断 + 多时间窗融合</li>
+<li>
+<p><strong>示例</strong>：结合实时心率 + 历史表现 + 用户报告来推断真实疲劳</p>
+</li>
+<li>
+<p><strong>个性化适应挑战</strong></p>
+</li>
+<li><strong>解决方案</strong>：元学习 + 迁移学习</li>
+<li>
+<p><strong>示例</strong>：从大量用户数据学习共性，快速适应新用户</p>
+</li>
+<li>
+<p><strong>人机协作挑战</strong></p>
+</li>
+<li><strong>解决方案</strong>：可解释AI + 协商界面</li>
+<li>
+<p><strong>示例</strong>：显示调整理由，让用户参与决策</p>
+</li>
+<li>
+<p><strong>实时性多尺度挑战</strong></p>
+</li>
+<li><strong>解决方案</strong>：异步分层处理</li>
+<li><strong>示例</strong>：底层实时监控独立运行，高层规划定期更新</li>
+</ol>
+<hr />
+<p>这个"智能健身教练"的任务环境展现了<strong>复杂智能体系统的典型特征</strong>：部分可观察、高度随机、动态变化、多时间尺度、人机协作。成功设计需要平衡科学精准性、个性化适配、用户体验和安全可靠性，是一个极具挑战但价值巨大的智能体应用场景。</p>
+<ol>
+<li>某电商公司正在考虑两种方案来处理售后退款申请：</li>
+</ol>
+<p>方案 A（<code>Workflow</code>）：设计一套固定流程，例如：</p>
+<p>A.1 对于一般商品且在 7 天之内，金额 <code>&lt; 100RMB</code> 自动通过；<code>100-500RMB</code>由客服审核；<code>&gt;500RMB</code> 需主管审批；而特殊商品（如定制品）一律拒绝退款</p>
+<p>A.2 对于超过 7 天的商品，无论金额，只能由客服审核或主管审批；</p>
+<p>方案 B（<code>Agent</code>）：搭建一个智能体系统，让它理解退款政策、分析用户历史行为、评估商品状况，并自主决策是否批准退款</p>
+<p>请分析：
+   - 这两种方案各自的优缺点是什么？
+   - 在什么情况下 <code>Workflow</code> 更合适？什么情况下 <code>Agent</code> 更有优势？如果你是该电商公司的负责人，你更倾向于采用哪种方案？
+   - 是否存在一个方案 C，能够结合两种方案，达到扬长避短的效果？</p>
+<ol>
+<li>在 1.3 节的智能旅行助手基础上，请思考如何添加以下功能（可以只描述设计思路，也可以进一步尝试代码实现）：</li>
+</ol>
+<blockquote>
+<p><strong>提示</strong>：思考如何修改 <code>Thought-Action-Observation</code> 循环来实现这些功能。</p>
+</blockquote>
+<ul>
+<li>添加一个"记忆"功能，让智能体记住用户的偏好（如喜欢历史文化景点、预算范围等）</li>
+<li>当推荐的景点门票已售罄时，智能体能够自动推荐备选方案</li>
+<li>
+<p>如果用户连续拒绝了 3 个推荐，智能体能够反思并调整推荐策略</p>
+</li>
+<li>
+<p>卡尼曼的"系统 1"（快速直觉）和"系统 2"（慢速推理）理论<sup>[2]</sup>为神经符号主义 AI 提供了很好的类比。请首先构思一个具体的智能体的落地应用场景，然后说明场景中的：</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>提示</strong>：医疗诊断助手、法律咨询机器人、金融风控系统等都是常见的应用场景</p>
+</blockquote>
+<ul>
+<li>哪些任务应该由"系统 1"处理？</li>
+<li>哪些任务应该由"系统 2"处理？</li>
+<li>
+<p>这两个系统如何协同工作以达成最终目标？</p>
+</li>
+<li>
+<p>尽管大语言模型驱动的智能体系统展现出了强大的能力，但它们仍然存在诸多局限。请分析以下问题：</p>
+</li>
+<li>为什么智能体或智能体系统有时会产生"幻觉"（生成看似合理但实际错误的信息）？</li>
+<li>在 1.3 节的案例中，我们设置了最大循环次数为 5 次。如果没有这个限制，智能体可能会陷入什么问题？</li>
+<li>如何评估一个智能体的"智能"程度？仅使用准确率指标是否足够？</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

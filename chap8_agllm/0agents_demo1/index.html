@@ -1,0 +1,4794 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../0responseApi/">
+      
+      
+        <link rel="next" href="../1ai_agent/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践 - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#openai-agents-sdk" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/3OpenaiModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/4chatgpt_translate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/3AmazonBedrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/4assistantapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/2agent_buildout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0responseApi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1 - 架构分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1 - 架构分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、背景与动机（Why）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、背景与动机（Why）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 传统 LLM 应用的局限
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 为什么选择 Agent 架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 本项目解决了什么问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、项目整体架构概览（What）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、项目整体架构概览（What）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 系统整体流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 核心组件说明
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、项目目录结构解析（How）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mainpy-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、核心设计理念：main.py 不是 Agent
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、核心设计理念：main.py 不是 Agent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-mainpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 main.py 的职责边界
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 为什么不把逻辑写进 Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、多轮对话与 Session 设计
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、多轮对话与 Session 设计">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-sqlitesession" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 SQLiteSession 的作用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Session 带来的好处
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profile-collector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、Profile Collector：对话式信息收集
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、Profile Collector：对话式信息收集">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-collector-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 为什么要拆出 Collector Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-done" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 DONE 信号设计
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guardrails-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        七、Guardrails：让 Agent 可控而不是“放飞”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="七、Guardrails：让 Agent 可控而不是“放飞”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-inputguardrailtripwiretriggered" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 InputGuardrailTripwireTriggered
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-guardrail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Guardrail 在系统中的位置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profile-extractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        八、Profile Extractor：从对话到结构化数据
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="八、Profile Extractor：从对话到结构化数据">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-extractor-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 为什么需要 Extractor Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-pydantic-typed-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Pydantic + Typed Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent-handoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        九、多 Agent 编排与 Handoff
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="九、多 Agent 编排与 Handoff">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-planner-packager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Planner → Packager 的责任拆分
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-handoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Handoff 的价值
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        十、Context 的工程化使用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tracing-logging-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        十一、Tracing &amp; Logging：让 Agent 系统可观测
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="十一、Tracing &amp; Logging：让 Agent 系统可观测">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-logginghooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 LoggingHooks 的作用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 对生产环境的意义
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        十二、完整运行流程回顾
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        十三、这个项目学到的关键经验
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="十三、这个项目学到的关键经验">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.1 Agent ≠ 应用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132-session-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.2 Session 是 Agent 应用的核心基础设施
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#133-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.3 强类型是对抗 LLM 不确定性的关键
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#134-agent-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.4 多 Agent 比“一个超级 Agent”更可靠
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2 多智能体Agents系统分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2 多智能体Agents系统分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、整体架构概览（你这套设计在做什么）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#toolspy-tool-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、tools.py —— 工具层（Tool Layer）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、tools.py —— 工具层（Tool Layer）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1️⃣ 脚本职责
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2️⃣ 设计亮点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3️⃣ 工具层在整体架构中的定位
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trip_agentspy-agent-orchestration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、trip_agents.py —— 核心智能体编排（Agent Orchestration）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、trip_agents.py —— 核心智能体编排（Agent Orchestration）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-safety-guardrail-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1️⃣ Safety Guardrail（安全护栏 Agent）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-profile-collector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2️⃣ Profile Collector（对话式信息采集）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-profile-extractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3️⃣ Profile Extractor（结构化提取）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-planner-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4️⃣ Planner Agent（规划核心）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-packager-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5️⃣ Packager Agent（输出美化）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logging-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、logging / hooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、整体设计亮点总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、可改进建议（进阶优化点）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3 - 云端 Agent 项目”真正落地成本地可控系统
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3 - 云端 Agent 项目”真正落地成本地可控系统">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、整体改造思路（先理解）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、前置条件（你需要先完成）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、前置条件（你需要先完成）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-ollama" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 安装并启动 Ollama
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 拉取模型（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、关键改造点总览
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1mainpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、核心修改 1：main.py（最重要）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、核心修改 1：main.py（最重要）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-openai-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 删除 OpenAI API Key 逻辑
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-ollama-openai-compatible-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 配置 Ollama 为 OpenAI-Compatible Endpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-mainpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 main.py 修改后关键结构（简化版）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2trip_agentspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、核心修改 2：trip_agents.py（模型切换）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 推荐统一管理模型名
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-tools-guardrails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、Function Tools / Guardrails 是否受影响？
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、Function Tools / Guardrails 是否受影响？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        答案：完全不受影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        七、一个完整「已修改」Agent 示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        八、性能 &amp; 成本现实提醒（很重要）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="八、性能 &amp; 成本现实提醒（很重要）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 推荐配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-token-latency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 token &amp; latency
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最终效果（你将获得）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1ai_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2ai_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3ai_agents_his/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Daily Blogs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Agent Daily Blogs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1agents_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4agent_arg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5Agent_google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Google AI Agent 白皮书深度拆解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#part-1-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 1 - 架构分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1 - 架构分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、背景与动机（Why）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、背景与动机（Why）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 传统 LLM 应用的局限
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 为什么选择 Agent 架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 本项目解决了什么问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、项目整体架构概览（What）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、项目整体架构概览（What）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 系统整体流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 核心组件说明
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、项目目录结构解析（How）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mainpy-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、核心设计理念：main.py 不是 Agent
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、核心设计理念：main.py 不是 Agent">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-mainpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 main.py 的职责边界
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 为什么不把逻辑写进 Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、多轮对话与 Session 设计
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、多轮对话与 Session 设计">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-sqlitesession" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 SQLiteSession 的作用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-session" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Session 带来的好处
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profile-collector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、Profile Collector：对话式信息收集
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、Profile Collector：对话式信息收集">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-collector-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 为什么要拆出 Collector Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-done" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 DONE 信号设计
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#guardrails-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        七、Guardrails：让 Agent 可控而不是“放飞”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="七、Guardrails：让 Agent 可控而不是“放飞”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-inputguardrailtripwiretriggered" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 InputGuardrailTripwireTriggered
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-guardrail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Guardrail 在系统中的位置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#profile-extractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        八、Profile Extractor：从对话到结构化数据
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="八、Profile Extractor：从对话到结构化数据">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-extractor-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 为什么需要 Extractor Agent
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-pydantic-typed-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Pydantic + Typed Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent-handoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        九、多 Agent 编排与 Handoff
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="九、多 Agent 编排与 Handoff">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-planner-packager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Planner → Packager 的责任拆分
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-handoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Handoff 的价值
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        十、Context 的工程化使用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tracing-logging-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        十一、Tracing &amp; Logging：让 Agent 系统可观测
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="十一、Tracing &amp; Logging：让 Agent 系统可观测">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-logginghooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 LoggingHooks 的作用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 对生产环境的意义
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        十二、完整运行流程回顾
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        十三、这个项目学到的关键经验
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="十三、这个项目学到的关键经验">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.1 Agent ≠ 应用
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132-session-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.2 Session 是 Agent 应用的核心基础设施
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#133-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.3 强类型是对抗 LLM 不确定性的关键
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#134-agent-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.4 多 Agent 比“一个超级 Agent”更可靠
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-2-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 2 多智能体Agents系统分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 2 多智能体Agents系统分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、整体架构概览（你这套设计在做什么）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#toolspy-tool-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、tools.py —— 工具层（Tool Layer）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、tools.py —— 工具层（Tool Layer）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1️⃣ 脚本职责
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2️⃣ 设计亮点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3️⃣ 工具层在整体架构中的定位
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trip_agentspy-agent-orchestration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、trip_agents.py —— 核心智能体编排（Agent Orchestration）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、trip_agents.py —— 核心智能体编排（Agent Orchestration）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-safety-guardrail-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1️⃣ Safety Guardrail（安全护栏 Agent）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-profile-collector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2️⃣ Profile Collector（对话式信息采集）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-profile-extractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3️⃣ Profile Extractor（结构化提取）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-planner-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4️⃣ Planner Agent（规划核心）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-packager-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5️⃣ Packager Agent（输出美化）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logging-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、logging / hooks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、整体设计亮点总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、可改进建议（进阶优化点）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-3-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part 3 - 云端 Agent 项目”真正落地成本地可控系统
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 3 - 云端 Agent 项目”真正落地成本地可控系统">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、整体改造思路（先理解）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、前置条件（你需要先完成）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、前置条件（你需要先完成）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-ollama" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 安装并启动 Ollama
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 拉取模型（推荐）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、关键改造点总览
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1mainpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、核心修改 1：main.py（最重要）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、核心修改 1：main.py（最重要）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-openai-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 删除 OpenAI API Key 逻辑
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-ollama-openai-compatible-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 配置 Ollama 为 OpenAI-Compatible Endpoint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-mainpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 main.py 修改后关键结构（简化版）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2trip_agentspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、核心修改 2：trip_agents.py（模型切换）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 推荐统一管理模型名
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-tools-guardrails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、Function Tools / Guardrails 是否受影响？
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、Function Tools / Guardrails 是否受影响？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        答案：完全不受影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        七、一个完整「已修改」Agent 示例
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        八、性能 &amp; 成本现实提醒（很重要）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="八、性能 &amp; 成本现实提醒（很重要）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 推荐配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-token-latency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 token &amp; latency
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        最终效果（你将获得）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="openai-agents-sdk"><strong>从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践</strong></h1>
+<p><strong>项目代码:</strong></p>
+<p><a href="https://github.com/Chao-Xi/jxaibook/tree/main/docs/chap8_agllm/agentic_app">agentic_app(OpenAI API)</a></p>
+<h2 id="part-1-">Part 1 - 架构分析</h2>
+<h3 id="why">一、背景与动机（Why）</h3>
+<h4 id="11-llm">1.1 传统 LLM 应用的局限</h4>
+<ul>
+<li>单轮 Prompt，难以维护上下文</li>
+<li>业务逻辑混在 Prompt 中</li>
+<li>无法可靠地输出结构化结果</li>
+<li>难以调试、难以扩展</li>
+</ul>
+<h4 id="12-agent">1.2 为什么选择 Agent 架构</h4>
+<ul>
+<li>Agent ≠ Chatbot</li>
+<li>
+<p>Agent 可以：</p>
+</li>
+<li>
+<p>自主决策</p>
+</li>
+<li>使用工具</li>
+<li>多智能体协作</li>
+<li>更接近真实业务系统</li>
+</ul>
+<h4 id="13">1.3 本项目解决了什么问题</h4>
+<ul>
+<li>多轮对话收集需求</li>
+<li>结构化用户画像</li>
+<li>自动规划并输出行程</li>
+<li>全流程可控、可观测</li>
+</ul>
+<h3 id="what">二、项目整体架构概览（What）</h3>
+<p><img alt="Alt Image Text" src="../../images/chap8_0_6.png" title="Body image" /></p>
+<h4 id="21">2.1 系统整体流程</h4>
+<pre><code class="language-text">用户输入
+  ↓
+Profile Collector Agent（多轮对话）
+  ↓ DONE
+Profile Extractor Agent（结构化提取）
+  ↓
+Planner Agent（行程规划）
+  ↓ Handoff
+Packager Agent（Markdown 输出）
+</code></pre>
+<h4 id="22">2.2 核心组件说明</h4>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agents</td>
+<td>执行业务逻辑</td>
+</tr>
+<tr>
+<td>Runner</td>
+<td>Agent 执行引擎</td>
+</tr>
+<tr>
+<td>Session</td>
+<td>对话状态管理</td>
+</tr>
+<tr>
+<td>Guardrails</td>
+<td>输入安全控制</td>
+</tr>
+<tr>
+<td>Hooks</td>
+<td>Tracing &amp; Logging</td>
+</tr>
+<tr>
+<td>main.py</td>
+<td>Orchestration 控制层</td>
+</tr>
+</tbody>
+</table>
+<h3 id="how">三、项目目录结构解析（How）</h3>
+<pre><code class="language-text">├── main.py                # 应用入口 &amp; Agent 编排
+├── trip_agents.py         # 所有 Agent 定义
+├── tools.py               # 工具函数（Function Tools）
+├── logging_hooks.py       # Tracing &amp; Logging
+├── config.json            # API Key 配置
+</code></pre>
+<blockquote>
+<p>main.py 是系统“大脑”，Agent 只是“能力模块”。</p>
+</blockquote>
+<h3 id="mainpy-agent">四、核心设计理念：main.py 不是 Agent</h3>
+<h4 id="41-mainpy">4.1 main.py 的职责边界</h4>
+<ul>
+<li><strong>管理 Session 生命周期</strong></li>
+<li>控制 Agent 调用顺序</li>
+<li>处理异常和 Guardrail</li>
+<li>决定什么时候进入下一阶段</li>
+</ul>
+<h4 id="42-agent">4.2 为什么不把逻辑写进 Agent</h4>
+<ul>
+<li>Agent 是不确定的</li>
+<li>程序是确定的</li>
+<li><strong>控制权必须在代码侧</strong></li>
+</ul>
+<h3 id="session">五、多轮对话与 Session 设计</h3>
+<h4 id="51-sqlitesession">5.1 SQLiteSession 的作用</h4>
+<pre><code class="language-python">session = SQLiteSession(&quot;trip_planner_chat&quot;)
+</code></pre>
+<ul>
+<li>自动保存历史消息</li>
+<li>支持多轮上下文</li>
+<li>支持后续 Extractor 访问</li>
+</ul>
+<h4 id="52-session">5.2 Session 带来的好处</h4>
+<ul>
+<li>不需要手动拼 Prompt</li>
+<li>Extractor 能“回看”完整对话</li>
+<li>更接近真实聊天产品</li>
+</ul>
+<h3 id="profile-collector">六、Profile Collector：对话式信息收集</h3>
+<h4 id="61-collector-agent">6.1 为什么要拆出 Collector Agent</h4>
+<ul>
+<li>不强迫用户一次性输入</li>
+<li>更自然的对话体验</li>
+<li>Agent 决定下一步该问什么</li>
+</ul>
+<h4 id="62-done">6.2 DONE 信号设计</h4>
+<pre><code class="language-text">Agent → &quot;DONE&quot; → 程序
+</code></pre>
+<ul>
+<li>Agent 判断任务完成</li>
+<li>main.py 决定后续流程</li>
+</ul>
+<h3 id="guardrails-agent">七、Guardrails：让 Agent 可控而不是“放飞”</h3>
+<h4 id="71-inputguardrailtripwiretriggered">7.1 InputGuardrailTripwireTriggered</h4>
+<pre><code class="language-python">except InputGuardrailTripwireTriggered:
+</code></pre>
+<ul>
+<li>非法输入直接中断</li>
+<li>防 Prompt Injection</li>
+<li>防跑偏对话</li>
+</ul>
+<h4 id="72-guardrail">7.2 Guardrail 在系统中的位置</h4>
+<blockquote>
+<p>Guardrail 是<strong>系统级能力</strong>，不是 Prompt 技巧</p>
+</blockquote>
+<h3 id="profile-extractor">八、Profile Extractor：从对话到结构化数据</h3>
+<h4 id="81-extractor-agent">8.1 为什么需要 Extractor Agent</h4>
+<ul>
+<li>Collector 输出是“文本”</li>
+<li>Planner 需要“结构化输入”</li>
+</ul>
+<h4 id="82-pydantic-typed-output">8.2 Pydantic + Typed Output</h4>
+<pre><code class="language-python">final_profile = extraction_result.final_output_as(TripProfile)
+</code></pre>
+<ul>
+<li>降低幻觉</li>
+<li>提升稳定性</li>
+<li>Agent 之间的协议</li>
+</ul>
+<h3 id="agent-handoff">九、多 Agent 编排与 Handoff</h3>
+<h4 id="91-planner-packager">9.1 Planner → Packager 的责任拆分</h4>
+<ul>
+<li>Planner：规划内容</li>
+<li>Packager：组织输出格式</li>
+</ul>
+<h4 id="92-handoff">9.2 Handoff 的价值</h4>
+<ul>
+<li>main.py 不需要关心中间过程</li>
+<li>Agent 自己决定“交接”</li>
+</ul>
+<h3 id="context">十、Context 的工程化使用</h3>
+<pre><code class="language-python">context=profile.model_dump()
+</code></pre>
+<ul>
+<li>Context ≠ Prompt</li>
+<li>Context 是 Agent 的“隐式输入”</li>
+<li>支持跨 Agent 共享状态</li>
+</ul>
+<h3 id="tracing-logging-agent">十一、Tracing &amp; Logging：让 Agent 系统可观测</h3>
+<h4 id="111-logginghooks">11.1 LoggingHooks 的作用</h4>
+<ul>
+<li>Agent 执行顺序</li>
+<li>Tool / Handoff 调用</li>
+<li>错误与耗时分析</li>
+</ul>
+<h4 id="112">11.2 对生产环境的意义</h4>
+<ul>
+<li>Debug Agent 行为</li>
+<li>性能与成本分析</li>
+<li>后续 Eval / Fine-tuning</li>
+</ul>
+<h3 id="_1">十二、完整运行流程回顾</h3>
+<ol>
+<li>用户开始对话</li>
+<li>Collector 多轮收集信息</li>
+<li>Guardrail 校验输入</li>
+<li>DONE 触发 Extractor</li>
+<li>Planner 规划行程</li>
+<li>Packager 输出 Markdown</li>
+<li>main.py 打印最终结果</li>
+</ol>
+<h3 id="_2">十三、这个项目学到的关键经验</h3>
+<h4 id="131-agent">13.1 Agent ≠ 应用</h4>
+<ul>
+<li>Agent 是能力单元</li>
+<li>应用逻辑必须在代码中</li>
+</ul>
+<h4 id="132-session-agent">13.2 Session 是 Agent 应用的核心基础设施</h4>
+<h4 id="133-llm">13.3 强类型是对抗 LLM 不确定性的关键</h4>
+<h4 id="134-agent-agent">13.4 多 Agent 比“一个超级 Agent”更可靠</h4>
+<h2 id="part-2-agents">Part 2 多智能体Agents系统分析</h2>
+<p>通过 OpenAI Agents SDK 构建了一个<strong>高度模块化的多智能体系统，将安全校验、对话采集、结构化提取、规划决策与输出渲染彻底解耦</strong>，展示了 Agent 编排、强类型输出与 Handoff 机制在复杂业务场景中的工程化价值。</p>
+<p>下面我从<strong>整体架构 → 各脚本职责 → 关键设计亮点 → 可改进点</strong>四个层次，对这三份 Python 脚本做一次系统性分析</p>
+<h3 id="_3">一、整体架构概览（你这套设计在做什么）</h3>
+<p>这三份脚本共同实现了一个<strong>基于 OpenAI Agents SDK 的多智能体旅行规划系统</strong>，其核心特征是：</p>
+<ul>
+<li><strong>工具（Tools）能力解耦</strong></li>
+<li><strong>多 Agent 分工协作</strong></li>
+<li><strong>强类型输出（Pydantic Schema）</strong></li>
+<li><strong>安全 Guardrail + 任务 Handoff 的标准化编排</strong></li>
+</ul>
+<p>整体流程可以概括为：</p>
+<blockquote>
+<p>用户输入 → 安全校验 → 逐步采集需求 → 结构化提取 → 活动规划 → 行程打包输出</p>
+</blockquote>
+<p>这是一个非常标准、也非常“官方推荐风格”的 Agents SDK 示例工程。</p>
+<h3 id="toolspy-tool-layer">二、tools.py —— 工具层（Tool Layer）</h3>
+<h4 id="1">1️⃣ 脚本职责</h4>
+<p><code>tools.py</code> 专门定义 <strong>Agent 可调用的 function_tool 工具函数</strong>，用于扩展模型能力。</p>
+<pre><code class="language-python">@function_tool
+def currency_convert(...)
+</code></pre>
+<pre><code class="language-python">@function_tool
+def activity_search(...)
+</code></pre>
+<p>它们具备以下特点：</p>
+<ul>
+<li><strong>纯函数、无副作用</strong></li>
+<li><strong>输入输出明确</strong></li>
+<li><strong>结果可预测（stub/mock）</strong></li>
+</ul>
+<h4 id="2">2️⃣ 设计亮点</h4>
+<p>✅ 使用 <code>@function_tool</code> 装饰器</p>
+<p>这是 Agents SDK 的核心能力之一：</p>
+<ul>
+<li>自动生成 <strong>Tool Schema</strong></li>
+<li>自动参与 <strong>工具调用决策</strong></li>
+<li>支持被 Agent “理解并调用”</li>
+</ul>
+<p>✅ Mock / Stub 设计非常适合教学 &amp; Demo</p>
+<p>例如：</p>
+<pre><code class="language-python">fx_rate = 1.17
+</code></pre>
+<pre><code class="language-python">time.sleep(0.3)
+</code></pre>
+<p>优点是：</p>
+<ul>
+<li>不依赖外部 API</li>
+<li>结果稳定</li>
+<li>演示 Tool Calling 行为更清晰</li>
+</ul>
+<h4 id="3">3️⃣ 工具层在整体架构中的定位</h4>
+<pre><code class="language-text">Agent
+ ├── Reasoning
+ ├── Tool Decision
+ │     └── function_tool (tools.py)
+ └── Final Output
+</code></pre>
+<blockquote>
+<p>tools.py 不参与“思考”，只负责“能力补充”。</p>
+</blockquote>
+<h3 id="trip_agentspy-agent-orchestration">三、<code>trip_agents.py</code> —— 核心智能体编排（Agent Orchestration）</h3>
+<p>这是整个系统的<strong>中枢文件</strong>。</p>
+<h4 id="1-safety-guardrail-agent">1️⃣ Safety Guardrail（安全护栏 Agent）</h4>
+<p><strong>作用</strong></p>
+<pre><code class="language-text">所有用户输入 → 必须先通过安全校验
+</code></pre>
+<p><strong>关键设计</strong></p>
+<ul>
+<li>使用 <strong>独立 Agent 做安全判断</strong></li>
+<li>输出结构化 <code>SafetyCheckOut</code></li>
+<li>通过 <code>InputGuardrail</code> 挂载到其他 Agent</li>
+</ul>
+<pre><code class="language-python">tripwire_triggered=not final_output.is_safe_and_relavant
+</code></pre>
+<p>这是 Agents SDK 中非常推荐的 <strong>“软拦截”模式</strong>。</p>
+<h4 id="2-profile-collector">2️⃣ Profile Collector（对话式信息采集）</h4>
+<p><strong>核心能力</strong></p>
+<ul>
+<li><strong>多轮对话</strong></li>
+<li>一次只问一个问题</li>
+<li>信息齐全后返回 <code>"DONE"</code></li>
+</ul>
+<pre><code class="language-text">城市 → 天数 → 预算 → 兴趣 → 避免项
+</code></pre>
+<p>这是一个典型的 <strong>Conversational Agent</strong>。</p>
+<h4 id="3-profile-extractor">3️⃣ Profile Extractor（结构化提取）</h4>
+<p><strong>为什么需要它？</strong></p>
+<p>对话 ≠ 结构化数据</p>
+<p>Extractor 的价值在于：</p>
+<ul>
+<li>将“自然语言上下文”</li>
+<li>转换为 <strong>Pydantic 强类型对象</strong></li>
+</ul>
+<pre><code class="language-python">class TripProfile(BaseModel):
+    city: Optional[str]
+    days: Optional[int]
+    budget: Optional[float]
+    ...
+</code></pre>
+<p>👉 <strong>这是减少 LLM 幻觉、提升可控性的关键设计</strong></p>
+<h4 id="4-planner-agent">4️⃣ Planner Agent（规划核心）</h4>
+<p><strong>特点</strong></p>
+<ul>
+<li>依赖 Context 中的 TripProfile</li>
+<li>
+<p>严格遵守：</p>
+</li>
+<li>
+<p>兴趣匹配</p>
+</li>
+<li>避免项过滤</li>
+<li>预算上限</li>
+</ul>
+<pre><code class="language-python">&quot;You MUST create a plan that reflects the user's interests.&quot;
+</code></pre>
+<p><strong>关键点：Handoff</strong></p>
+<pre><code class="language-python">handoffs=[packager_agent]
+</code></pre>
+<blockquote>
+<p>Planner 不负责最终展示，而是把结果交给下游 Agent</p>
+</blockquote>
+<h4 id="5-packager-agent">5️⃣ Packager Agent（输出美化）</h4>
+<p><strong>职责非常清晰</strong></p>
+<ul>
+<li>把结构化活动列表</li>
+<li>转换为 <strong>Markdown 行程</strong></li>
+<li>按天拆分 + emoji + 总价</li>
+</ul>
+<p>这是一个 <strong>纯输出 Agent</strong>。</p>
+<h3 id="logging-hooks">四、logging / hooks</h3>
+<ul>
+<li>用于 <strong>Tracing / Observability</strong></li>
+<li>配合 <code>trace(workflow_name=...)</code></li>
+<li>
+<p>可用于调试：</p>
+</li>
+<li>
+<p>Agent 运行顺序</p>
+</li>
+<li>Tool 调用</li>
+<li>Handoff 流转</li>
+</ul>
+<p>这是生产级 Agent 系统<strong>必不可少的一层</strong>。</p>
+<h3 id="_4">五、整体设计亮点总结</h3>
+<p>✅ 1. Agent 单一职责原则（SRP）</p>
+<p>每个 Agent 只做一件事：</p>
+<ul>
+<li>Guardrail → 安全</li>
+<li>Collector → 对话</li>
+<li>Extractor → 结构化</li>
+<li>Planner → 规划</li>
+<li>Packager → 展示</li>
+</ul>
+<p>✅ 2. 强类型输出，显著降低幻觉风险</p>
+<pre><code class="language-python">output_type=TripProfile
+output_type=PlannerOut
+</code></pre>
+<p>这点在 <strong>多 Agent 协作</strong>中尤为关键。</p>
+<p>✅ 3. Context 贯穿全流程</p>
+<ul>
+<li>Guardrail</li>
+<li>Planner</li>
+<li>Extractor</li>
+</ul>
+<p>共享同一 <code>context</code>，而非反复 Prompt 拼接。</p>
+<p>✅ 4. Handoff 替代“一个 Agent 干所有事”</p>
+<p>这是 Agents SDK 的<strong>核心设计哲学</strong>：</p>
+<blockquote>
+<p>Orchestration &gt; Prompt Engineering</p>
+</blockquote>
+<h3 id="_5">六、可改进建议（进阶优化点）</h3>
+<p>如果你想在博客里“拔高一个层次”，可以提这些：</p>
+<ol>
+<li><strong>Planner Agent 引入 tools</strong></li>
+</ol>
+<p><code>python
+   tools=[activity_search]</code></p>
+<ol>
+<li><strong>增加 Budget Guardrail</strong></li>
+<li><strong>Session + Memory 持久化</strong></li>
+<li><strong>失败重试 / fallback Agent</strong></li>
+<li><strong>Planner → 多 Planner 并行再聚合</strong></li>
+</ol>
+<h2 id="part-3-agent">Part 3 - 云端 Agent 项目”真正落地成本地可控系统</h2>
+<p><strong>项目代码:</strong></p>
+<p><a href="https://github.com/Chao-Xi/jxaibook/tree/main/docs/chap8_agllm/agentic_app_local">agentic_app(Local Model Qwen)</a></p>
+<p>把整个项目<strong>从 OpenAI 云端模型 → 本地 Ollama + qwen2.5</strong>，<strong>系统性地改一遍</strong>。</p>
+<blockquote>
+<p>结论先给：</p>
+<p><strong>Agent 架构、Session、Runner、Guardrail 都不用动</strong></p>
+<p><strong>只改「模型接入层」和「客户端初始化方式」</strong></p>
+</blockquote>
+<h3 id="_6">一、整体改造思路（先理解）</h3>
+<p>你的当前项目依赖的是：</p>
+<pre><code class="language-text">Agents SDK
+  ↓
+OpenAI Responses API
+  ↓
+OpenAI Cloud Model
+</code></pre>
+<p>我们要改成：</p>
+<pre><code class="language-text">Agents SDK（保持）
+  ↓
+OpenAI-Compatible Client
+  ↓
+Ollama 本地 HTTP API
+  ↓
+qwen2.5:7b
+</code></pre>
+<p><strong>核心原则：</strong></p>
+<ul>
+<li>不重写 Agent</li>
+<li>不动 Session / Runner</li>
+<li>不动多 Agent orchestration</li>
+<li>只替换 <strong>LLM Provider</strong></li>
+</ul>
+<h3 id="_7">二、前置条件（你需要先完成）</h3>
+<h4 id="21-ollama">2.1 安装并启动 Ollama</h4>
+<pre><code class="language-bash">brew install ollama
+ollama serve
+</code></pre>
+<h4 id="22_1">2.2 拉取模型（推荐）</h4>
+<pre><code class="language-bash">ollama pull qwen2.5:7b
+</code></pre>
+<p>确认可用：</p>
+<pre><code class="language-bash">ollama run qwen2.5:7b
+</code></pre>
+<h3 id="_8">三、关键改造点总览</h3>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>是否修改</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>main.py</code></td>
+<td>✅</td>
+<td>移除 OpenAI Key，配置 BASE_URL</td>
+</tr>
+<tr>
+<td><code>trip_agents.py</code></td>
+<td>✅</td>
+<td>Agent model 改为 qwen2.5</td>
+</tr>
+<tr>
+<td><code>tools.py</code></td>
+<td>❌</td>
+<td>不用改</td>
+</tr>
+<tr>
+<td><code>logging_hooks.py</code></td>
+<td>❌</td>
+<td>不用改</td>
+</tr>
+<tr>
+<td><code>config.json</code></td>
+<td>❌ / 可删</td>
+<td>Ollama 不需要 Key</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1mainpy">四、核心修改 1：main.py（最重要）</h3>
+<h4 id="41-openai-api-key">4.1 删除 OpenAI API Key 逻辑</h4>
+<p><strong>删除这部分：</strong></p>
+<pre><code class="language-python">with open(&quot;../../config.json&quot;) as f:
+    config = json.load(f)
+
+API_KEY = config[&quot;openai_api_key&quot;]
+os.environ[&quot;OPENAI_API_KEY&quot;] = API_KEY
+</code></pre>
+<h4 id="42-ollama-openai-compatible-endpoint">4.2 配置 Ollama 为 OpenAI-Compatible Endpoint</h4>
+<p>在 <code>main.py</code> 顶部 <strong>新增</strong>：</p>
+<pre><code class="language-python"># Ollama OpenAI-compatible endpoint
+os.environ[&quot;OPENAI_BASE_URL&quot;] = &quot;http://localhost:11434/v1&quot;
+os.environ[&quot;OPENAI_API_KEY&quot;] = &quot;ollama&quot;  # 任意字符串即可
+</code></pre>
+<p>👉 <strong>为什么要这样？</strong></p>
+<ul>
+<li>Agents SDK 仍然“以为”自己在用 OpenAI</li>
+<li>实际请求会被转发给 Ollama</li>
+<li>Ollama 完全兼容 <code>/v1/chat/completions</code></li>
+</ul>
+<h4 id="43-mainpy">4.3 main.py 修改后关键结构（简化版）</h4>
+<pre><code class="language-python">import os
+import asyncio
+from agents import Runner, SQLiteSession
+from logging_hooks import LoggingHooks
+import trip_agents as tg
+
+# 指向本地 Ollama
+os.environ[&quot;OPENAI_BASE_URL&quot;] = &quot;http://localhost:11434/v1&quot;
+os.environ[&quot;OPENAI_API_KEY&quot;] = &quot;ollama&quot;
+
+HOOKS = LoggingHooks()
+</code></pre>
+<p>✅ <strong>main.py 的 orchestration 逻辑完全不用动</strong></p>
+<h3 id="2trip_agentspy">五、核心修改 2：trip_agents.py（模型切换）</h3>
+<p>你现在的 Agent 大概是这样定义的（示例）：</p>
+<pre><code class="language-python">planner_agent = Agent(
+    name=&quot;Planner&quot;,
+    instructions=&quot;...&quot;,
+    model=&quot;gpt-4.1&quot;,
+)
+</code></pre>
+<p>👉 全部统一改成：</p>
+<pre><code class="language-python">MODEL_NAME = &quot;qwen2.5:7b&quot;
+</code></pre>
+<p>然后：</p>
+<pre><code class="language-python">planner_agent = Agent(
+    name=&quot;Planner&quot;,
+    instructions=&quot;...&quot;,
+    model=MODEL_NAME,
+)
+</code></pre>
+<h3 id="51">5.1 推荐统一管理模型名</h3>
+<p>在 <code>trip_agents.py</code> 顶部：</p>
+<pre><code class="language-python">MODEL = &quot;qwen2.5:7b&quot;
+</code></pre>
+<p>所有 Agent 使用：</p>
+<pre><code class="language-python">model=MODEL
+</code></pre>
+<h3 id="function-tools-guardrails">六、Function Tools / Guardrails 是否受影响？</h3>
+<h4 id="_9">答案：<strong>完全不受影响</strong></h4>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>Ollama qwen2.5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>多轮对话</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>工具调用</td>
+<td>✅（模型能力决定）</td>
+</tr>
+<tr>
+<td>JSON / 结构化输出</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Agent Handoff</td>
+<td>✅（SDK 层）</td>
+</tr>
+<tr>
+<td>Session</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p>⚠️ 注意：
+qwen2.5 的 <strong>function calling 稳定性略弱于 GPT-4</strong>
+👉 建议你 <strong>Extractor Agent 用更强约束的 instructions</strong></p>
+<h3 id="agent">七、一个完整「已修改」Agent 示例</h3>
+<pre><code class="language-python">from agents import Agent
+from pydantic import BaseModel
+
+MODEL = &quot;qwen2.5:7b&quot;
+
+class TripProfile(BaseModel):
+    city: str
+    days: int
+    budget: int
+    interests: list[str]
+    interests_to_avoid: list[str]
+
+profile_extractor_agent = Agent(
+    name=&quot;ProfileExtractor&quot;,
+    instructions=&quot;&quot;&quot;
+    Extract the user's trip profile from the conversation.
+    Return ONLY valid JSON that matches the schema.
+    &quot;&quot;&quot;,
+    model=MODEL,
+    output_type=TripProfile,
+)
+</code></pre>
+<h3 id="_10">八、性能 &amp; 成本现实提醒（很重要）</h3>
+<h4 id="81">8.1 推荐配置</h4>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAM</td>
+<td>≥ 16GB</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>Apple Silicon / 8C+</td>
+</tr>
+<tr>
+<td>GPU</td>
+<td>可选（Metal / CUDA）</td>
+</tr>
+</tbody>
+</table>
+<h4 id="82-token-latency">8.2 token &amp; latency</h4>
+<ul>
+<li>qwen2.5:7b 比 GPT-4 慢</li>
+<li><strong>一定要用 streaming（如果接 UI）</strong></li>
+<li>控制 Session 长度（你已经做得很好）</li>
+</ul>
+<h3 id="_11">最终效果（你将获得）</h3>
+<ul>
+<li>✅ 完全离线</li>
+<li>✅ 零 token 成本</li>
+<li>✅ 可控 Agent 系统</li>
+<li>✅ 可私有化部署</li>
+<li>✅ 架构不缩水</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

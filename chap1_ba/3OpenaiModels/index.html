@@ -1,0 +1,3445 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../2embedding_openai/">
+      
+      
+        <link rel="next" href="../4chatgpt_translate/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>3 大模型实战--OpenAI开发 - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#3-openai" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3 大模型实战--OpenAI开发
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT模型实战：技巧与原则
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GPT模型实战：技巧与原则">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#official-playground" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official Playground
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-calling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        新特性: Function Calling 介绍与实战
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        概述
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安装依赖包
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        定义工具函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        如何使用 functions 参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        强制使用指定函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpt_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用 GPT 模型生成函数和对应参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        强制使用指定函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        强制不使用函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gpt_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        执行 GPT 模型生成的函数
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="执行 GPT 模型生成的函数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        定义一个执行SQL查询的函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        执行 SQL 查询
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#homework-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Homework 1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1example_chat_completionpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1、example_chat_completion.py 使用说明
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4chatgpt_translate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/3AmazonBedrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/4assistantapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/2agent_buildout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0responseApi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0agents_demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1ai_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/2ai_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/3ai_agents_his/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Daily Blogs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Agent Daily Blogs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1agents_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/4agent_arg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/5Agent_google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Google AI Agent 白皮书深度拆解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gpt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPT模型实战：技巧与原则
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GPT模型实战：技巧与原则">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#official-playground" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official Playground
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#function-calling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        新特性: Function Calling 介绍与实战
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        概述
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安装依赖包
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        定义工具函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        如何使用 functions 参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        强制使用指定函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpt_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用 GPT 模型生成函数和对应参数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        强制使用指定函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        强制不使用函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gpt_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        执行 GPT 模型生成的函数
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="执行 GPT 模型生成的函数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        定义一个执行SQL查询的函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        执行 SQL 查询
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#homework-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Homework 1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1example_chat_completionpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1、example_chat_completion.py 使用说明
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="3-openai">3 大模型实战--OpenAI开发</h1>
+<h2 id="gpt">GPT模型实战：技巧与原则</h2>
+<ul>
+<li><strong>角色设定</strong>：擅于使用 System 给GPT设定角色和任务，如“哲学大师”；</li>
+<li><strong>指令注入</strong>：在System 中注入常驻任务指令，如“主题创作”；</li>
+<li><strong>问题拆解</strong>：将复杂问题拆解成的子问题，分步骤执行，如：Debug 和多任务；</li>
+<li><strong>分层设计</strong>：创作长篇内容，分层提问，先概览再章节，最后补充细节，如：小说生成；</li>
+<li><strong>编程思维</strong>：将prompt当做编程语言，主动设计变量、模板和正文，如：评估模型输出质量；</li>
+<li><strong>Few-Shot</strong>：基于样例的prompt设计，规范推理路径和输出样式，如：<strong>构造训练数据；</strong></li>
+</ul>
+<h3 id="official-playground">Official Playground</h3>
+<p><strong>角色设定</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_1.png" title="Body image" /></p>
+<p><strong>指令注入</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_2.png" title="Body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_3.png" title="Body image" /></p>
+<p><strong>分层设计</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_4.png" title="Body image" /></p>
+<p><strong>问题拆解： debug</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_5.png" title="Body image" /></p>
+<h3 id="function-calling">新特性: Function Calling 介绍与实战</h3>
+<p>基于 Chat Completions API 实现外部函数调用</p>
+<p>2023年6月20日，OpenAI 官方在 Chat Completions API 原有的三种不同角色设定（System, Assistant, User）基础上，新增了 Function Calling 功能。</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_6.png" title="Body image" /></p>
+<p><a href="https://openai.com/blog/function-calling-and-other-api-updates">https://openai.com/blog/function-calling-and-other-api-updates</a></p>
+<p><code>functions</code> 是 Chat Completion API 中的可选参数，用于提供函数定义。其目的是使 GPT 模型能够生成符合所提供定义的函数参数。请注意，API不会实际执行任何函数调用。开发人员需要使用GPT 模型输出来执行函数调用。</p>
+<p><strong>如果提供了<code>functions</code>参数，默认情况下，GPT 模型将决定在何时适当地使用其中一个函数。</strong></p>
+<p>可以通过将<code>function_call</code>参数设置为<code>{"name": "&lt;insert-function-name&gt;"}</code>来强制 API 使用指定函数。</p>
+<p>同时，也支持通过将function_call参数设置为"none"来强制API不使用任何函数。</p>
+<p>如果使用了某个函数，则响应中的输出将包含"finish_reason": "function_call"，以及一个具有该函数名称和生成的函数参数的function_call对象。</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_7.png" title="Body image" /></p>
+<h3 id="_1">概述</h3>
+<p>本Notebook介绍了如何将ChatcompletionsAPI与外部函数结合使用，以扩展GPT模型的功能。包含以下2个部分</p>
+<ul>
+<li>如何使用<code>functions</code>参数</li>
+<li>如何使用<code>function_call</code>参数</li>
+<li>使用GPT模型生成函数和参数</li>
+<li>实际执行GPT模型生成的函数（以SQL查询为例）</li>
+</ul>
+<h3 id="_2">安装依赖包</h3>
+<p><strong><code>function_call.ipynb</code></strong></p>
+<pre><code>!pip install scipy tenacity tiktoken termcolor openai requests
+</code></pre>
+<pre><code>import json
+import openai
+import requests
+from tenacity import retry, wait_random_exponential, stop_after_attempt
+from termcolor import colored
+
+GPT_MODEL = &quot;gpt-3.5-turbo&quot;
+openai.api_key = open(&quot;key.txt&quot;,&quot;r&quot;).read().strip('\n')
+</code></pre>
+<h3 id="_3">定义工具函数</h3>
+<p>首先，让我们定义一些用于调用聊天完成 API 的实用工具，并维护和跟踪对话状态。</p>
+<pre><code># 使用了retry库，指定在请求失败时的重试策略。
+# 这里设定的是指数等待（wait_random_exponential），时间间隔的最大值为40秒，并且最多重试3次（stop_after_attempt(3)）。
+# 定义一个函数chat_completion_request，主要用于发送 聊天补全 请求到OpenAI服务器
+@retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
+def chat_completion_request(messages, functions=None, function_call=None, model=GPT_MODEL):
+
+    # 设定请求的header信息，包括 API_KEY
+    headers = {
+        &quot;Content-Type&quot;: &quot;application/json&quot;,
+        &quot;Authorization&quot;: &quot;Bearer &quot; + openai.api_key,
+    }
+
+    # 设定请求的JSON数据，包括GPT 模型名和要进行补全的消息
+    json_data = {&quot;model&quot;: model, &quot;messages&quot;: messages}
+
+    # 如果传入了functions，将其加入到json_data中
+    if functions is not None:
+        json_data.update({&quot;functions&quot;: functions})
+
+    # 如果传入了function_call，将其加入到json_data中
+    if function_call is not None:
+        json_data.update({&quot;function_call&quot;: function_call})
+
+    # 尝试发送POST请求到OpenAI服务器的chat/completions接口
+    try:
+        response = requests.post(
+            &quot;https://api.chatanywhere.com.cn/v1/chat/completions&quot;,
+            headers=headers,
+            json=json_data,
+        )
+        # 返回服务器的响应
+        return response
+
+    # 如果发送请求或处理响应时出现异常，打印异常信息并返回
+    except Exception as e:
+        print(&quot;Unable to generate ChatCompletion response&quot;)
+        print(f&quot;Exception: {e}&quot;)
+        return e
+</code></pre>
+<pre><code># 定义一个函数pretty_print_conversation，用于打印消息对话内容
+def pretty_print_conversation(messages):
+
+    # 为不同角色设置不同的颜色
+    role_to_color = {
+        &quot;system&quot;: &quot;red&quot;,
+        &quot;user&quot;: &quot;green&quot;,
+        &quot;assistant&quot;: &quot;blue&quot;,
+        &quot;function&quot;: &quot;magenta&quot;,
+    }
+
+    # 遍历消息列表
+    for message in messages:
+
+        # 如果消息的角色是&quot;system&quot;，则用红色打印“content”
+        if message[&quot;role&quot;] == &quot;system&quot;:
+            print(colored(f&quot;system: {message['content']}\n&quot;, role_to_color[message[&quot;role&quot;]]))
+
+        # 如果消息的角色是&quot;user&quot;，则用绿色打印“content”
+        elif message[&quot;role&quot;] == &quot;user&quot;:
+            print(colored(f&quot;user: {message['content']}\n&quot;, role_to_color[message[&quot;role&quot;]]))
+
+        # 如果消息的角色是&quot;assistant&quot;，并且消息中包含&quot;function_call&quot;，则用蓝色打印&quot;function_call&quot;
+        elif message[&quot;role&quot;] == &quot;assistant&quot; and message.get(&quot;function_call&quot;):
+            print(colored(f&quot;assistant[function_call]: {message['function_call']}\n&quot;, role_to_color[message[&quot;role&quot;]]))
+
+        # 如果消息的角色是&quot;assistant&quot;，但是消息中不包含&quot;function_call&quot;，则用蓝色打印“content”
+        elif message[&quot;role&quot;] == &quot;assistant&quot; and not message.get(&quot;function_call&quot;):
+            print(colored(f&quot;assistant[content]: {message['content']}\n&quot;, role_to_color[message[&quot;role&quot;]]))
+
+        # 如果消息的角色是&quot;function&quot;，则用品红色打印“function”
+        elif message[&quot;role&quot;] == &quot;function&quot;:
+            print(colored(f&quot;function ({message['name']}): {message['content']}\n&quot;, role_to_color[message[&quot;role&quot;]]))
+</code></pre>
+<h3 id="functions">如何使用 functions 参数</h3>
+<p>这段代码定义了两个可以在程序中调用的函数，分别是获取当前天气和获取未来N天的天气预报。</p>
+<p>每个函数(function)都有其名称、描述和需要的参数（包括参数的类型、描述等信息）。</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_8.png" title="Body image" /></p>
+<p>我们将把这些传递给 Chat Completions API，以生成符合规范的函数。</p>
+<pre><code># 定义一个名为functions的列表，其中包含两个字典，这两个字典分别定义了两个功能的相关参数
+
+# 第一个字典定义了一个名为&quot;get_current_weather&quot;的函数
+functions = [
+    {
+        &quot;name&quot;: &quot;get_current_weather&quot;,  # 功能的名称
+        &quot;description&quot;: &quot;Get the current weather&quot;,  # 功能的描述
+        &quot;parameters&quot;: {  # 定义该功能需要的参数
+            &quot;type&quot;: &quot;object&quot;,
+            &quot;properties&quot;: {  # 参数的属性
+                &quot;location&quot;: {  # 地点参数
+                    &quot;type&quot;: &quot;string&quot;,  # 参数类型为字符串
+                    &quot;description&quot;: &quot;The city and state, e.g. San Francisco, CA&quot;,  # 参数的描述
+                },
+                &quot;format&quot;: {  # 温度单位参数
+                    &quot;type&quot;: &quot;string&quot;,  # 参数类型为字符串
+                    &quot;enum&quot;: [&quot;celsius&quot;, &quot;fahrenheit&quot;],  # 参数的取值范围
+                    &quot;description&quot;: &quot;The temperature unit to use. Infer this from the users location.&quot;,  # 参数的描述
+                },
+            },
+            &quot;required&quot;: [&quot;location&quot;, &quot;format&quot;],  # 该功能需要的必要参数
+        },
+    },
+    # 第二个字典定义了一个名为&quot;get_n_day_weather_forecast&quot;的功能
+    {
+        &quot;name&quot;: &quot;get_n_day_weather_forecast&quot;,  # 功能的名称
+        &quot;description&quot;: &quot;Get an N-day weather forecast&quot;,  # 功能的描述
+        &quot;parameters&quot;: {  # 定义该功能需要的参数
+            &quot;type&quot;: &quot;object&quot;,
+            &quot;properties&quot;: {  # 参数的属性
+                &quot;location&quot;: {  # 地点参数
+                    &quot;type&quot;: &quot;string&quot;,  # 参数类型为字符串
+                    &quot;description&quot;: &quot;The city and state, e.g. San Francisco, CA&quot;,  # 参数的描述
+                },
+                &quot;format&quot;: {  # 温度单位参数
+                    &quot;type&quot;: &quot;string&quot;,  # 参数类型为字符串
+                    &quot;enum&quot;: [&quot;celsius&quot;, &quot;fahrenheit&quot;],  # 参数的取值范围
+                    &quot;description&quot;: &quot;The temperature unit to use. Infer this from the users location.&quot;,  # 参数的描述
+                },
+                &quot;num_days&quot;: {  # 预测天数参数
+                    &quot;type&quot;: &quot;integer&quot;,  # 参数类型为整数
+                    &quot;description&quot;: &quot;The number of days to forecast&quot;,  # 参数的描述
+                }
+            },
+            &quot;required&quot;: [&quot;location&quot;, &quot;format&quot;, &quot;num_days&quot;]  # 该功能需要的必要参数
+        },
+    },
+]
+</code></pre>
+<p><strong>这段代码首先定义了一个messages列表用来存储聊天的消息，然后向列表中添加了系统和用户的消息。</strong></p>
+<p>然后，它使用了之前定义的<code>chat_completion_request</code>函数发送一个请求，传入的参数包括消息列表和函数列表。</p>
+<p>在接收到响应后，它从JSON响应中解析出助手的消息，并将其添加到消息列表中。</p>
+<p>最后，它打印出 GPT 模型回复的消息。</p>
+<p>（<strong>如果我们询问当前天气，GPT 模型会回复让你给出更准确的问题。</strong>）</p>
+<pre><code> # 定义一个空列表messages，用于存储聊天的内容
+messages = []
+
+# 使用append方法向messages列表添加一条系统角色的消息
+messages.append({
+    &quot;role&quot;: &quot;system&quot;,  # 消息的角色是&quot;system&quot;
+    &quot;content&quot;: &quot;Don't make assumptions about what values to plug into functions. Ask for clarification if a user request is ambiguous.&quot;  # 消息的内容
+})
+
+# 向messages列表添加一条用户角色的消息
+messages.append({
+    &quot;role&quot;: &quot;user&quot;,  # 消息的角色是&quot;user&quot;
+    &quot;content&quot;: &quot;What's the weather like today&quot;  # 用户询问今天的天气情况
+})
+
+# 使用定义的chat_completion_request函数发起一个请求，传入messages和functions作为参数
+chat_response = chat_completion_request(
+    messages, functions=functions
+)
+
+# 解析返回的JSON数据，获取助手的回复消息
+assistant_message = chat_response.json()[&quot;choices&quot;][0][&quot;message&quot;]
+
+# 将助手的回复消息添加到messages列表中
+messages.append(assistant_message)
+
+pretty_print_conversation(messages)
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_9.png" title="Body image" /></p>
+<p>(我们需要提供更详细的信息，以便于 GPT 模型为我们生成适当的函数和对应参数。)</p>
+<h3 id="_4">强制使用指定函数</h3>
+<pre><code>type(assistant_message)
+
+dict
+</code></pre>
+<h3 id="gpt_1">使用 GPT 模型生成函数和对应参数</h3>
+<p>下面这段代码先向messages列表中添加了用户的位置信息。</p>
+<p><strong>然后再次使用了<code>chat_completion_request</code>函数发起请求，只是这次传入的消息列表已经包括了用户的新消息。</strong></p>
+<p>在获取到响应后，它同样从JSON响应中解析出助手的消息，并将其添加到消息列表中。</p>
+<p>最后，打印出助手的新的回复消息。</p>
+<pre><code># 向messages列表添加一条用户角色的消息，用户告知他们在苏格兰的格拉斯哥
+messages.append({
+    &quot;role&quot;: &quot;user&quot;,  # 消息的角色是&quot;user&quot;
+    &quot;content&quot;: &quot;I'm in Shanghai, China.&quot;  # 用户的消息内容
+})
+
+# 再次使用定义的chat_completion_request函数发起一个请求，传入更新后的messages和functions作为参数
+chat_response = chat_completion_request(
+    messages, functions=functions
+)
+
+# 解析返回的JSON数据，获取助手的新的回复消息
+assistant_message = chat_response.json()[&quot;choices&quot;][0][&quot;message&quot;]
+
+# 将助手的新的回复消息添加到messages列表中
+messages.append(assistant_message)
+
+pretty_print_conversation(messages)
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_10.png" title="Body image" /></p>
+<p>这段代码的逻辑大体与上一段代码相同，区别在于这次用户的询问中涉及到未来若干天（x天）的天气预报。</p>
+<p>在获取到回复后，它同样从JSON响应中解析出助手的消息，并将其添加到消息列表中。</p>
+<p>然后打印出助手的回复消息。</p>
+<p>（<strong>通过不同的prompt方式，我们可以让它针对我们告诉它的其他功能。</strong>）</p>
+<pre><code># 初始化一个空的messages列表
+messages = []
+
+# 向messages列表添加一条系统角色的消息，要求不做关于函数参数值的假设，如果用户的请求模糊，应该寻求澄清
+messages.append({
+    &quot;role&quot;: &quot;system&quot;,  # 消息的角色是&quot;system&quot;
+    &quot;content&quot;: &quot;Don't make assumptions about what values to plug into functions. Ask for clarification if a user request is ambiguous.&quot;
+})
+
+# 向messages列表添加一条用户角色的消息，用户询问在未来x天内苏格兰格拉斯哥的天气情况
+messages.append({
+    &quot;role&quot;: &quot;user&quot;,  # 消息的角色是&quot;user&quot;
+    &quot;content&quot;: &quot;what is the weather going to be like in Shanghai, China over the next x days&quot;
+})
+
+# 使用定义的chat_completion_request函数发起一个请求，传入messages和functions作为参数
+chat_response = chat_completion_request(
+    messages, functions=functions
+)
+
+# 解析返回的JSON数据，获取助手的回复消息
+assistant_message = chat_response.json()[&quot;choices&quot;][0][&quot;message&quot;]
+
+# 将助手的回复消息添加到messages列表中
+messages.append(assistant_message)
+
+# 打印助手的回复消息
+pretty_print_conversation(messages)
+</code></pre>
+<p>(<strong>GPT 模型再次要求我们澄清，因为它还没有足够的信息。在这种情况下，它已经知道预测的位置，但需要知道需要多少天的预测</strong>。)</p>
+<p>这段代码的主要目标是将用户指定的天数（5天）添加到消息列表中，然后再次调用chat_completion_request函数发起一个请求。</p>
+<p>返回的响应中包含了助手对用户的回复，即未来5天的天气预报。</p>
+<p>这个预报是基于用户指定的地点（上海）和天数（5天）生成的。</p>
+<p>在代码的最后，它解析出返回的JSON响应中的第一个选项，这就是助手的回复消息。</p>
+<pre><code># 向messages列表添加一条用户角色的消息，用户指定接下来的天数为5天
+messages.append({
+    &quot;role&quot;: &quot;user&quot;,  # 消息的角色是&quot;user&quot;
+    &quot;content&quot;: &quot;5 days&quot;
+})
+
+# 使用定义的chat_completion_request函数发起一个请求，传入messages和functions作为参数
+chat_response = chat_completion_request(
+    messages, functions=functions
+)
+
+# 解析返回的JSON数据，获取第一个选项
+assistant_message = chat_response.json()[&quot;choices&quot;][0][&quot;message&quot;]
+
+# 将助手的回复消息添加到messages列表中
+messages.append(assistant_message)
+
+# 打印助手的回复消息
+pretty_print_conversation(messages)
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_11.png" title="Body image" /></p>
+<h3 id="_5"><strong>强制使用指定函数</strong></h3>
+<p>我们可以通过使用<code>function_call</code>参数来强制GPT 模型使用指定函数，例如<code>get_n_day_weather_forecast</code>。</p>
+<p>通过这种方式，可以让 GPT 模型学习如何使用该函数。</p>
+<pre><code># 在这个代码单元中，我们强制GPT 模型使用get_n_day_weather_forecast函数
+messages = []  # 创建一个空的消息列表
+
+# 添加系统角色的消息
+messages.append({
+    &quot;role&quot;: &quot;system&quot;,  # 角色为系统
+    &quot;content&quot;: &quot;Don't make assumptions about what values to plug into functions. Ask for clarification if a user request is ambiguous.&quot;
+})
+
+# 添加用户角色的消息
+messages.append({
+    &quot;role&quot;: &quot;user&quot;,  # 角色为用户
+    &quot;content&quot;: &quot;Give me a weather report for San Diego, USA.&quot;
+})
+
+# 使用定义的chat_completion_request函数发起一个请求，传入messages、functions以及特定的function_call作为参数
+chat_response = chat_completion_request(
+    messages, functions=functions, function_call={&quot;name&quot;: &quot;get_n_day_weather_forecast&quot;}
+)
+
+# 解析返回的JSON数据，获取第一个选项
+assistant_message = chat_response.json()[&quot;choices&quot;][0][&quot;message&quot;]
+
+# 将助手的回复消息添加到messages列表中
+messages.append(assistant_message)
+
+# 打印助手的回复消息
+pretty_print_conversation(messages)
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_12.png" title="Body image" /></p>
+<p>下面这段代码演示了在不强制使用特定函数（<code>get_n_day_weather_forecast</code>）的情况下，GPT 模型可能会选择不同的方式来回应用户的请求。对于给定的用户请求"Give me a weather report for San Diego, USA."，GPT 模型可能不会调用<code>get_n_day_weather_forecast</code>函数。</p>
+<pre><code> # 如果我们不强制GPT 模型使用 get_n_day_weather_forecast，它可能不会使用
+messages = []  # 创建一个空的消息列表
+
+# 添加系统角色的消息
+messages.append({
+    &quot;role&quot;: &quot;system&quot;,  # 角色为系统
+    &quot;content&quot;: &quot;Don't make assumptions about what values to plug into functions. Ask for clarification if a user request is ambiguous.&quot;
+})
+
+# 添加用户角色的消息
+messages.append({
+    &quot;role&quot;: &quot;user&quot;,  # 角色为用户
+    &quot;content&quot;: &quot;Give me a weather report for San Diego, USA.&quot;
+})
+
+# 使用定义的chat_completion_request函数发起一个请求，传入messages和functions作为参数
+chat_response = chat_completion_request(
+    messages, functions=functions
+)
+
+# 解析返回的JSON数据，获取第一个选项
+assistant_message = chat_response.json()[&quot;choices&quot;][0][&quot;message&quot;]
+
+# 将助手的回复消息添加到messages列表中
+messages.append(assistant_message)
+
+# 打印助手的回复消息
+pretty_print_conversation(messages)
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_13.png" title="Body image" /></p>
+<h3 id="_6">强制不使用函数</h3>
+<p>然后，我们创建另一个消息列表，并添加系统和用户的消息。这次用户请求的是加拿大多伦多当前的天气（使用摄氏度）。</p>
+<p><strong>随后，代码再次调用<code>chat_completion_request</code>函数，</strong></p>
+<p>但这次在<code>function_call</code>参数中明确指定了"none"，表示GPT 模型在处理此请求时不能调用任何函数。</p>
+<p>最后，代码解析返回的JSON响应，获取第一个选项的消息，即 GPT 模型的回应。</p>
+<pre><code># 创建另一个空的消息列表
+messages = []
+
+# 添加系统角色的消息
+messages.append({
+    &quot;role&quot;: &quot;system&quot;,  # 角色为系统
+    &quot;content&quot;: &quot;Don't make assumptions about what values to plug into functions. Ask for clarification if a user request is ambiguous.&quot;
+})
+
+# 添加用户角色的消息
+messages.append({
+    &quot;role&quot;: &quot;user&quot;,  # 角色为用户
+    &quot;content&quot;: &quot;Give me the current weather (use Celcius) for Toronto, Canada.&quot;
+})
+
+# 使用定义的chat_completion_request函数发起一个请求，传入messages、functions和function_call作为参数
+chat_response = chat_completion_request(
+    messages, functions=functions, function_call=&quot;none&quot;
+)
+
+# 解析返回的JSON数据，获取第一个选项
+assistant_message = chat_response.json()[&quot;choices&quot;][0][&quot;message&quot;]
+
+# 将助手的回复消息添加到messages列表中
+messages.append(assistant_message)
+
+# 打印助手的回复消息
+pretty_print_conversation(messages)
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_14.png" title="Body image" /></p>
+<h2 id="gpt_2">执行 GPT 模型生成的函数</h2>
+<p>接着，我们将演示如何执行输入为 GPT 模型生成的函数，并利用这一点来实现一个可以帮助我们回答关于数据库的问题的代理。</p>
+<p>为了简单起见，我们将使用<a href="https://github.com/Chao-Xi/openai-quickstart/blob/main/openai_api/data/chinook.db">Chinook样本数据库</a>。</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_15.jpeg" title="Body image" /></p>
+<blockquote>
+<p>注意： 在生产环境中，SQL生成可能存在较高风险，因为GPT 模型在生成正确的SQL方面并不完全可靠。</p>
+</blockquote>
+<h3 id="sql">定义一个执行SQL查询的函数</h3>
+<p>首先，让我们定义一些有用的实用函数来从SQLite数据库中提取数据。</p>
+<pre><code>import sqlite3
+
+conn = sqlite3.connect(&quot;../openai-quickstart/openai_api/data/chinook.db&quot;)
+print(&quot;Opened database successfully&quot;)
+</code></pre>
+<p>Opened database successfully</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_16.png" title="Body image" /></p>
+<p>首先定义三个函数<code>get_table_names</code>、<code>get_column_names</code>和<code>get_database_info</code>，用于从数据库连接对象中获取数据库的表名、表的列名以及整体数据库的信息。</p>
+<pre><code>def get_table_names(conn):
+    &quot;&quot;&quot;返回一个包含所有表名的列表&quot;&quot;&quot;
+    table_names = []  # 创建一个空的表名列表
+    # 执行SQL查询，获取数据库中所有表的名字
+    tables = conn.execute(&quot;SELECT name FROM sqlite_master WHERE type='table';&quot;)
+    # 遍历查询结果，并将每个表名添加到列表中
+    for table in tables.fetchall():
+        table_names.append(table[0])
+    return table_names  # 返回表名列表
+
+
+def get_column_names(conn, table_name):
+    &quot;&quot;&quot;返回一个给定表的所有列名的列表&quot;&quot;&quot;
+    column_names = []  # 创建一个空的列名列表
+    # 执行SQL查询，获取表的所有列的信息
+    columns = conn.execute(f&quot;PRAGMA table_info('{table_name}');&quot;).fetchall()
+    # 遍历查询结果，并将每个列名添加到列表中
+    for col in columns:
+        column_names.append(col[1])
+    return column_names  # 返回列名列表
+
+
+def get_database_info(conn):
+    &quot;&quot;&quot;返回一个字典列表，每个字典包含一个表的名字和列信息&quot;&quot;&quot;
+    table_dicts = []  # 创建一个空的字典列表
+    # 遍历数据库中的所有表
+    for table_name in get_table_names(conn):
+        columns_names = get_column_names(conn, table_name)  # 获取当前表的所有列名
+        # 将表名和列名信息作为一个字典添加到列表中
+        table_dicts.append({&quot;table_name&quot;: table_name, &quot;column_names&quot;: columns_names})
+    return table_dicts  # 返回字典列表
+ ```
+
+ 将数据库信息转换为 Python 字典类型
+
+ ```
+ # 获取数据库信息，并存储为字典列表
+database_schema_dict = get_database_info(conn)
+
+# 将数据库信息转换为字符串格式，方便后续使用
+database_schema_string = &quot;\n&quot;.join(
+    [
+        f&quot;Table: {table['table_name']}\nColumns: {', '.join(table['column_names'])}&quot;
+        for table in database_schema_dict
+    ]
+)
+</code></pre>
+<pre><code>database_schema_dict
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_17.png" title="Body image" /></p>
+<p>然后，定义一个函数<code>ask_database</code>。</p>
+<p>目标是让 GPT 模型帮我们构造一个完整的 SQL 查询。</p>
+<pre><code># 定义一个功能列表，其中包含一个功能字典，该字典定义了一个名为&quot;ask_database&quot;的功能，用于回答用户关于音乐的问题
+functions = [
+    {
+        &quot;name&quot;: &quot;ask_database&quot;,
+        &quot;description&quot;: &quot;Use this function to answer user questions about music. Output should be a fully formed SQL query.&quot;,
+        &quot;parameters&quot;: {
+            &quot;type&quot;: &quot;object&quot;,
+            &quot;properties&quot;: {
+                &quot;query&quot;: {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;description&quot;: f&quot;&quot;&quot;
+                            SQL query extracting info to answer the user's question.
+                            SQL should be written using this database schema:
+                            {database_schema_string}
+                            The query should be returned in plain text, not in JSON.
+                            &quot;&quot;&quot;,
+                }
+            },
+            &quot;required&quot;: [&quot;query&quot;],
+        },
+    }
+]
+</code></pre>
+<h3 id="sql_1">执行 SQL 查询</h3>
+<p><strong>首先，定义两个函数<code>ask_database</code>和<code>execute_function_call</code></strong></p>
+<ul>
+<li>前者用于实际执行 SQL 查询并返回结果</li>
+<li>后者用于根据消息中的功能调用信息来执行相应的功能并获取结果</li>
+</ul>
+<p>然后，创建一个消息列表，并向其中添加了一个系统消息和一个用户消息。系统消息的内容是指示对话的目标，用户消息的内容是用户的问题。</p>
+<p>接着，使用<code>chat_completion_request</code>函数发出聊天请求并获取响应，然后从响应中提取出助手的消息并添加到消息列表中。</p>
+<p>如果助手的消息中包含功能调用，那么就使用<code>execute_function_call</code>函数执行这个功能调用并获取结果，然后将结果作为一个功能消息添加到消息列表中。</p>
+<p>最后，使用<code>pretty_print_conversation</code>函数打印出整个对话。</p>
+<pre><code>def ask_database(conn, query):
+    &quot;&quot;&quot;使用 query 来查询 SQLite 数据库的函数。&quot;&quot;&quot;
+    try:
+        results = str(conn.execute(query).fetchall())  # 执行查询，并将结果转换为字符串
+    except Exception as e:  # 如果查询失败，捕获异常并返回错误信息
+        results = f&quot;query failed with error: {e}&quot;
+    return results  # 返回查询结果
+
+
+def execute_function_call(message):
+    &quot;&quot;&quot;执行函数调用&quot;&quot;&quot;
+    # 判断功能调用的名称是否为 &quot;ask_database&quot;
+    if message[&quot;function_call&quot;][&quot;name&quot;] == &quot;ask_database&quot;:
+        # 如果是，则获取功能调用的参数，这里是 SQL 查询
+        query = json.loads(message[&quot;function_call&quot;][&quot;arguments&quot;])[&quot;query&quot;]
+        # 使用 ask_database 函数执行查询，并获取结果
+        results = ask_database(conn, query)
+    else:
+        # 如果功能调用的名称不是 &quot;ask_database&quot;，则返回错误信息
+        results = f&quot;Error: function {message['function_call']['name']} does not exist&quot;
+    return results  # 返回结果
+</code></pre>
+<pre><code># 创建一个空的消息列表
+messages = []
+
+# 向消息列表中添加一个系统角色的消息，内容是 &quot;Answer user questions by generating SQL queries against the Chinook Music Database.&quot;
+messages.append({&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;Answer user questions by generating SQL queries against the Chinook Music Database.&quot;})
+
+# 向消息列表中添加一个用户角色的消息，内容是 &quot;Hi, who are the top 5 artists by number of tracks?&quot;
+messages.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Hi, who are the top 5 artists by number of tracks?&quot;})
+
+# 使用 chat_completion_request 函数获取聊天响应
+chat_response = chat_completion_request(messages, functions)
+
+# 从聊天响应中获取助手的消息
+assistant_message = chat_response.json()[&quot;choices&quot;][0][&quot;message&quot;]
+
+# 将助手的消息添加到消息列表中
+messages.append(assistant_message)
+
+# 如果助手的消息中有功能调用
+if assistant_message.get(&quot;function_call&quot;):
+    # 使用 execute_function_call 函数执行功能调用，并获取结果
+    results = execute_function_call(assistant_message)
+    # 将功能的结果作为一个功能角色的消息添加到消息列表中
+    messages.append({&quot;role&quot;: &quot;function&quot;, &quot;name&quot;: assistant_message[&quot;function_call&quot;][&quot;name&quot;], &quot;content&quot;: results})
+
+# 使用 pretty_print_conversation 函数打印对话
+pretty_print_conversation(messages)
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_18.png" title="Body image" /></p>
+<pre><code>database_schema_dict
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_19.png" title="Body image" /></p>
+<pre><code># 向消息列表中添加一个用户的问题，内容是 &quot;What is the name of the album with the most tracks?&quot;
+messages.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What is the name of the album with the most tracks?&quot;})
+
+# 使用 chat_completion_request 函数获取聊天响应
+chat_response = chat_completion_request(messages, functions)
+
+# 从聊天响应中获取助手的消息
+assistant_message = chat_response.json()[&quot;choices&quot;][0][&quot;message&quot;]
+
+# 将助手的消息添加到消息列表中
+messages.append(assistant_message)
+
+# 如果助手的消息中有功能调用
+if assistant_message.get(&quot;function_call&quot;):
+    # 使用 execute_function_call 函数执行功能调用，并获取结果
+    results = execute_function_call(assistant_message)
+    # 将功能的结果作为一个功能角色的消息添加到消息列表中
+    messages.append({&quot;role&quot;: &quot;function&quot;, &quot;content&quot;: results, &quot;name&quot;: assistant_message[&quot;function_call&quot;][&quot;name&quot;]})
+
+# 使用 pretty_print_conversation 函数打印对话
+pretty_print_conversation(messages)
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_20.png" title="Body image" /></p>
+<h3 id="homework-1">Homework 1</h3>
+<p><strong>使用 openai.ChatCompletion.create 方法代替 <code>chat_completion_request</code> 实现本 notebook 所有功能.</strong></p>
+<pre><code># 使用了retry库，指定在请求失败时的重试策略。
+# 这里设定的是指数等待（wait_random_exponential），时间间隔的最大值为40秒，并且最多重试3次（stop_after_attempt(3)）。
+# 定义一个函数chat_completion_api，通过 OpenAI Python 库调用 Chat Completions API
+@retry(wait=wait_random_exponential(multiplier=1, max=40), stop=stop_after_attempt(3))
+def chat_completion_api(messages, functions=None, function_call=None, model=GPT_MODEL):
+    try:
+        # TODO
+        pass
+
+    # 如果发送请求或处理响应时出现异常，打印异常信息并返回
+    except Exception as e:
+        print(&quot;Unable to generate ChatCompletion response&quot;)
+        print(f&quot;Exception: {e}&quot;)
+        return e
+</code></pre>
+<p><code>example_chat_completion.py</code></p>
+<pre><code>import os
+import openai
+import configparser
+
+conf = configparser.ConfigParser()
+current_directory = os.path.dirname(os.path.realpath('__file__'))
+config_file_path = os.path.join(current_directory, 'config.ini')
+conf.read(config_file_path)
+api_key = conf.get(&quot;Openai&quot;, &quot;api_key&quot;)  # 在config.ini中配置自己的APIkey
+openai.api_key = api_key
+openai.api_base = &quot;https://api.chatanywhere.com.cn/v1&quot;
+# os.environ[&quot;HTTP_PROXY&quot;] = conf.get(&quot;Proxy&quot;, &quot;HTTP_PROXY&quot;)  # 配置自己的代理
+# os.environ[&quot;HTTPS_PROXY&quot;] = conf.get(&quot;Proxy&quot;, &quot;HTTPS_PROXY&quot;)
+chat_model = &quot;gpt-3.5-turbo&quot;
+text_model = &quot;text-davinci-003&quot;
+
+# 请根据自己的需求调整以下参数
+model = 'gpt-3.5-turbo'
+max_tokens = 500
+temperature = 0.2
+
+
+def chat_with_bot(message):
+    &quot;&quot;&quot;
+    :param message: eg: {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;you are a translation assistant&quot;})
+    :return: eg: {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: &quot;....&quot;})
+    &quot;&quot;&quot;
+    # ChatCompletion
+    conversation_3 = openai.ChatCompletion.create(
+        model=model,
+        messages=message,
+        # max_tokens=max_tokens,
+        temperature=temperature,
+    )
+    answer = conversation_3['choices'][0][&quot;message&quot;]
+    new_message_dict = {&quot;role&quot;: answer.role, &quot;content&quot;: answer.content}
+    return new_message_dict
+
+
+def start_chat():
+    &quot;&quot;&quot;
+    第一次开始会话时：需要给一个role
+    后面每次会话时将前面的内容加载到message里（后面可以优化，如何控制那些内容需要加载进去）
+    :return:
+    &quot;&quot;&quot;
+    message = []
+    start = 0
+    while True:
+        if not start:
+            content = input(
+                &quot;首次开始会话，请定义角色以及简单描述：如：你是我的翻译助手，请帮我将下面的内容翻译成中文，输入q 并回车结束对话。\nprompt system: &quot;)
+            message.append({&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: content})
+            userinput = input(&quot;user：&quot;)
+            message.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: userinput})
+        else:
+            content = input(&quot;user： &quot;)
+            message.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: content})
+        if content == 'q':
+            break
+        # print('message:', message)
+        res = chat_with_bot(message)
+        print(f&quot;{res['role']}：{res['content']}&quot;)
+        message.append(res)
+        start += 1
+
+
+if __name__ == '__main__':
+    start_chat()
+
+# 你是专业的记者，请帮我写一份人物介绍
+# 
+# 请用英语帮我介绍一下Matthew Perry的一生，并用英语为他写一份讣告
+</code></pre>
+<h3 id="1example_chat_completionpy">1、<code>example_chat_completion.py</code> 使用说明</h3>
+<p>一个简单的命令行聊天机器人，允许用户与机器人进行交互并记录对话历史。start_chat() 函数用于开始对话，用户可以输入消息进行交流，直到输入 "q" 结束对话。<code>chat_with_bot(message)</code> 函数用于与聊天机器人进行对话，调用 OpenAI 的 ChatCompletion API 生成机器人的回复。整个程序提供了基本的对话功能，可以根据用户的输入和机器人的回复形成对话历史，为交互提供了简单的聊天体验。</p>
+<p><strong><code>chat_with_bot(message)</code>函数说明</strong></p>
+<p>该函数用于与聊天机器人进行对话。根据传入的消息 message（以字典形式表示），函数调用了 OpenAI 的 ChatCompletion API 进行对话生成，并返回机器人的回复。</p>
+<p>参数：message（字典）：表示聊天对话的消息列表。每条消息都由 <code>{"role": "角色", "content": "内容"}</code>格式的字典表示。"角色" 表示消息的发送者，可以是用户、系统或助手等，"内容" 表示消息的内容。</p>
+<p>返回值：机器人的回复，以字典形式表示。字典包含两个键值对：<code>{"role": "角色", "content": "回复内容"}</code>。其中 "角色" 表示机器人的角色，"回复内容" 表示机器人的回复内容。</p>
+<p><strong>使用方法</strong></p>
+<ul>
+<li>构造一个消息列表 message，其中包含对话的初始消息，可以是系统消息或用户消息。</li>
+<li>调用 <code>chat_with_bot(message)</code> 函数，并传入消息列表 message。</li>
+<li><strong>函数将根据传入的消息列表 message 调用 OpenAI 的 ChatCompletion API，并获取机器人的回复</strong>。</li>
+<li>返回机器人的回复，以字典形式表示。</li>
+</ul>
+<p>请注意，这是一个示例函数，实际使用时，需要根据 OpenAI ChatCompletion API 的具体接口和返回格式进行调整。同时，确保安全处理用户输入和返回的内容，避免潜在的安全问题。</p>
+<p><strong><code>start_chat()</code> 函数说明</strong></p>
+<p>运行 <code>start_chat()</code> 函数后，您可以开始与聊天机器人进行对话。</p>
+<p>首次开始会话时，您需要定义一个角色并提供简单描述。输入完成后，该信息将被添加到对话消息列表中，并显示为系统消息。</p>
+<p>后续每次会话时，程序将加载之前的对话内容到 message 列表中，以便您可以查看之前的对话历史。</p>
+<p>输入任意消息以与机器人进行对话，当您输入 'q' 并回车时，对话将结束。</p>
+<p>在对话过程中，您的输入将显示为用户消息，机器人的回复将显示为机器人消息。</p>
+<p>请注意，这是一个示例函数，<code>chat_with_bot()</code> 函数的实现未在代码中给出，您需要根据实际情况自行定义并实现该函数。同时，确保安全处理用户输入和返回的内容，避免潜在的安全问题。</p>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_21.png" title="Body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/chap1_3_22.png" title="Body image" /></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
