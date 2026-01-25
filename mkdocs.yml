@@ -64,9 +64,10 @@ nav:
     - '1 Introduction to Developing AI Agents': 'chap8_agllm/1ai_agent.md'
     - '第一章 初识智能体': 'chap8_agllm/2ai_agents.md'
     - '第二章 智能体发展史': 'chap8_agllm/3ai_agents_his.md'
-  - 'AI Daily Blogs':
+  - 'AI Agent Daily Blogs':
     - '1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战': 'chap8_agllm/1agents_intro.md'
     - '2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化': 'chap8_agllm/4agent_arg.md'
+    - '3 Google AI Agent 白皮书深度拆解': 'chap8_agllm/5Agent_google.md'
 
 repo_url: https://github.com/Chao-Xi/jxaibook.git
 repo_name: "jxaibook"
