@@ -4,7 +4,7 @@
 
 AI Agent正迎来从“对话交互”到“任务执行”的关键转折，但在真实世界场景中，它们往往面临“知其然，不知其所以然”的困境——空有强大的模型能力，却缺乏落地任务所需的过程知识与组织背景。
 
-今年10月16日，Anthropic发布的官方文档《Equipping agents for the real world with Agent Skills》，提出了革命性的Skill机制，为Agent突破落地瓶颈提供了标准化解决方案，让智能体真正具备“会做事”的核心能力。
+2025年10月16日，Anthropic发布的官方文档《Equipping agents for the real world with Agent Skills》，提出了革命性的Skill机制，为Agent突破落地瓶颈提供了标准化解决方案，让智能体真正具备“会做事”的核心能力。
 
 ### 一、Agent的真实世界困境：聪明却“无经验”的新员工
 
