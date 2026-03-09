@@ -71,10 +71,9 @@ nav:
     - '4 Equipping agents for the real world with Agent Skills': 'chap8_agllm/7agents_skill.md'
   - 'Anthropic Claude Code':
     - '0 Claude Code 全解析：终端 AI 编程助手的核心玩法与基础实战指南': 'chap9_claude/0intro.md'
-    - '1 Claude Code基础使用教程：从安装到核心命令全掌握': 'chap9_claude/1inro.md'
-    - '2 基于 Claude Agent SDK 构建智能体': 'chap9_claude/1inro.md'
+    - '1 Claude Code基础使用教程：从安装到核心命令全掌握': 'chap9_claude/1intro.md'
+    - '2 基于 Claude Agent SDK 构建智能体': 'chap8_agllm/8claude.md'
   
-
 repo_url: https://github.com/Chao-Xi/jxaibook.git
 repo_name: "jxaibook"
 
