@@ -250,8 +250,6 @@ github:
   Type: stdio
   Command: npx
   Args: -y @modelcontextprotocol/server-github
-  Environment:
-To remove this server, run: claude mcp remove "github" -s project
 ```
 
 ### 七、验证集成是否成功
