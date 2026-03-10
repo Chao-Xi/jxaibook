@@ -1,0 +1,3716 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>6google agent - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#day-05agent" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              6google agent
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/3OpenaiModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/4chatgpt_translate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/3AmazonBedrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/4assistantapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/2agent_buildout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0responseApi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0agents_demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1ai_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2ai_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3ai_agents_his/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Daily Blogs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Agent Daily Blogs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1agents_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4agent_arg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5Agent_google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Google AI Agent 白皮书深度拆解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7agents_skill/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 Equipping agents for the real world with Agent Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anthropic Claude Code
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Anthropic Claude Code
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9_claude/0intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Claude Code 全解析：终端 AI 编程助手的核心玩法与基础实战指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9_claude/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Claude Code基础使用教程：从安装到核心命令全掌握
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8claude/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 基于 Claude Agent SDK 构建智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9_claude/3claude_adv1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Claude Code连接外部工具：MCP协议实战指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#day-05agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Day 05：Agent从原型到生产环境的“最后一公里”实战
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Day 05：Agent从原型到生产环境的“最后一公里”实战">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#80" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、破局“最后一公里”：80%的工作不在“智能”，而在“可信交付”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、破局“最后一公里”：80%的工作不在“智能”，而在“可信交付”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agentdemo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent运维的非确定性困局：从Demo到生产的“三座大山”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agentops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AgentOps三大支柱：构建工业化运维体系
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#people-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        People &amp; Process：重构人、流程与技术的铁三角
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mlopsgenai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        团队架构进化：从传统MLOps到GenAI时代的角色重塑
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、从落地工具到质量门禁，企业级Agent的生产级方案
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、从落地工具到质量门禁，企业级Agent的生产级方案">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#google-cloud-agent-starter-pack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Google Cloud Agent Starter Pack：开箱即用的企业级工具箱
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么Agent需要“质量门禁”？传统测试的失效与新评估逻辑
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        评估核心：从“结果黑盒”到“轨迹透明”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        质量门禁方案：从人工到自动化的落地选择
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#golden-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Golden Dataset：评估体系的“真理标准”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cicdshift-left" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CI/CD自动化流水线：三阶段漏斗模型，实现Shift Left
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-merge-ci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Merge CI：速度与质量左移，绝不污染主干分支
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#staging-cd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Staging CD：仿真战场，验证系统级真实运行状态
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Production发布：人工把关，最小化风险的三大防线
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        评估体系的两大基石：环境一致与自动化测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secrets-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安全红线：Secrets Management，拒绝密钥“裸奔”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、 Agent生产运维：从可观测到自主优化的全链路体系
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、 Agent生产运维：从可观测到自主优化的全链路体系">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agent_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent范式转移：从“确定性服务”到“自主系统”的挑战
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        可观测性体系：告别盲盒，构建透明化推理链路
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="可观测性体系：告别盲盒，构建透明化推理链路">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#google-cloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Google Cloud全链路可观测实践
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实时干预机制：从“被动看图”到“主动控制”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        系统健康的不可能三角：性能、成本、规模的博弈
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stateless" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        状态管理：从Stateless到记忆外置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        性能优化三板斧：降本提效的核心策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        可靠性架构：重试策略与幂等性的生死线
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        成本控制：拒绝Token浪费的三大抓手
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prompt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安全防线：从Prompt到记忆的全链路防护
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一道：Agent宪法（行为准则）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二道：安全围栏（强制执行层）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三道：持续性审计
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三道：持续性审计">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#playbook" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        应急响应Playbook：从熔断到修复的闭环
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        进化闭环：将失败转化为资产
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-agenta2amcpregistry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 Agent进阶架构：打破孤岛，构建A2A×MCP×Registry互联体系
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4 Agent进阶架构：打破孤岛，构建A2A×MCP×Registry互联体系">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        孤岛效应：规模化的隐形高墙
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent互操作性协议：双层架构定义通用语言
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mcp-vs-a2a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MCP vs A2A：场景差异
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MCP vs A2A：场景差异">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a2aagent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A2A核心机制：一键实现Agent互联
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        层级组合架构：从单兵到军团化编排
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a2a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A2A落地的两大技术天堑
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registry引入时机：以规模和复杂度为核心
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tool-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tool Registry访问模式：在全能、专精与动态间博弈
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#registry_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Registry的治理价值：不止是索引，更是连接中枢
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent Registry：从工具到资产的跃迁
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心价值
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        未来形态
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agentops_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AgentOps全生命周期：从内循环到生态互联
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>6google agent</h1>
+
+<h2 id="day-05agent">Day 05：Agent从原型到生产环境的“最后一公里”实战</h2>
+<p>在AI Agent的研发周期中，“做出Demo”往往只完成了20%的工作——剩余80%的精力，都耗费在从“原型”到“生产环境”的落地过程中。Google与Kaggle联合推出的5日课程最后一期，聚焦<strong>AgentOps（智能体运维）</strong>，拆解了企业级Agent落地的核心挑战、运维困局与工业化解决方案。</p>
+<h3 id="80">一、破局“最后一公里”：80%的工作不在“智能”，而在“可信交付”</h3>
+<p>企业级Agent落地的核心矛盾在于：<strong>Demo阶段只需要“智能”，但生产环境需要“可信”</strong>。Google的数据显示，80%的AI项目折戟于上线前，根源是“智能”之外的四大风险：</p>
+<table>
+<thead>
+<tr>
+<th>生产环境风险</th>
+<th>核心表现</th>
+<th>风险类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>越权风险</strong></td>
+<td>Guardrails防护失效，Agent被恶意套话导致资产损失</td>
+<td>安全风险</td>
+</tr>
+<tr>
+<td><strong>数据泄露</strong></td>
+<td><strong>身份验证配置错误，Agent成为内网敏感数据的泄露通道</strong></td>
+<td>隐私风险</td>
+</tr>
+<tr>
+<td><strong>账单失控</strong></td>
+<td><strong>缺乏Token级监控，资源被无限制滥用导致成本超支</strong></td>
+<td>成本风险</td>
+</tr>
+<tr>
+<td><strong>质量回退</strong></td>
+<td>缺乏持续评估，Agent性能突然下降却无法定位原因</td>
+<td>质量风险</td>
+</tr>
+</tbody>
+</table>
+<h4 id="agentdemo">Agent运维的非确定性困局：从Demo到生产的“三座大山”</h4>
+<p>Agent的动态特性，让传统软件的运维方法完全失效，其核心困局可概括为“三座大山”：</p>
+<ol>
+<li>动态编排黑盒</li>
+</ol>
+<p>Agent的执行路径是<strong>动态生成</strong>的——每次调用的工具链可能完全不同，导致版本控制失效、Bug极难复现。传统“固定流程”的运维逻辑，无法适配Agent的“灵活决策”。</p>
+<ol>
+<li>记忆一致性挑战</li>
+</ol>
+<p>多轮对话的记忆不是简单的KV存储，在分布式架构下，保持<strong>记忆上下文的实时一致性与持久化</strong>，是巨大的系统工程。某电商Agent曾因记忆同步延迟，向用户重复推荐已购买的商品。</p>
+<ol>
+<li>SLA难以量化</li>
+</ol>
+<p>Agent的思考路径不确定，导致Token消耗、延迟等指标波动极大——今天思考3步，明天可能思考10步，<strong>成本与延迟完全不可控</strong>，传统SLA（服务等级协议）的量化标准失效。</p>
+<h4 id="agentops">AgentOps三大支柱：构建工业化运维体系</h4>
+<p>要解决Agent的生产落地问题，需要建立<strong>AgentOps（智能体运维）</strong>体系，其核心是三大支柱：</p>
+<table>
+<thead>
+<tr>
+<th>支柱</th>
+<th>核心能力</th>
+<th>价值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>自动化评估</strong></td>
+<td>建立严格的测试基准，通过LLM-as-Judge等方式自动验证Agent行为</td>
+<td><strong>质量门禁：确保每一次回复都符合预期</strong></td>
+</tr>
+<tr>
+<td><strong>自动化部署（CI/CD）</strong></td>
+<td>打通Notebook到生产环境的流程，支持快速试错、无痛上线</td>
+<td><strong>迭代引擎：连接开发与生产的“高速公路”</strong></td>
+</tr>
+<tr>
+<td><strong>全链路可观测</strong></td>
+<td>追踪Token流动、透视LLM的决策路径，避免“黑盒盲猜”</td>
+<td><strong>感官系统：理解Agent的思考过程</strong></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Alt Image Text" src="../../images/chap8_5_11.png" title="Body image" /></p>
+<h4 id="people-process">People &amp; Process：重构人、流程与技术的铁三角</h4>
+<p>AgentOps的本质不是“纯技术问题”，而是<strong>人、流程、技术的协同</strong>。Google强调：“技术无法解决组织架构带来的管理真空”，三者的核心分工是：</p>
+<ul>
+<li><strong>People（人）</strong>：定义Guardrails、审核评估报告，明确团队角色与责任边界；</li>
+<li><strong>Process（流程）</strong>：建立标准化流水线与协作机制，避免因流程缺失导致执行混乱；</li>
+<li><strong>Technology（技术）</strong>：CI/CD、自动化脚本等是底座，但不能替代人的决策与流程的规范。</li>
+</ul>
+<h4 id="mlopsgenai">团队架构进化：从传统MLOps到GenAI时代的角色重塑</h4>
+<p><strong>传统MLOps团队（Cloud Platform、Data Engineering、DS &amp; MLOps、ML Governance）已无法适配Agent的复杂需求，GenAI时代的团队角色需要重塑：</strong></p>
+<table>
+<thead>
+<tr>
+<th>新角色</th>
+<th>核心职责</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Prompt工程师</td>
+<td>不仅写提示词，更要结合领域知识定义评估标准（Eval）</td>
+</tr>
+<tr>
+<td>AI工程师</td>
+<td>系<strong>统构建者，负责RAG集成、工具链编排、Guardrails安全护栏</strong></td>
+</tr>
+<tr>
+<td>DevOps/开发工程师</td>
+<td>聚焦前端交互与用户界面集成，打通“最后一公里”</td>
+</tr>
+</tbody>
+</table>
+<p>在初创团队中，“一人多职”是常态，<strong>全栈AI工程师</strong>正成为核心角色——他们需要同时掌握Prompt设计、系统开发、运维监控等能力。</p>
+<h3 id="agent">二、从落地工具到质量门禁，企业级Agent的生产级方案</h3>
+<h4 id="google-cloud-agent-starter-pack">Google Cloud Agent Starter Pack：开箱即用的企业级工具箱</h4>
+<p>Agent落地的最大成本，往往是“配置基建”而非业务逻辑。Google Cloud的Starter Pack提供了<strong>开箱即用的生产级工具链</strong>，核心组件包括：</p>
+<table>
+<thead>
+<tr>
+<th>组件类型</th>
+<th>核心能力</th>
+<th>价值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>生产级Python模板</td>
+<td>标准化项目结构，内置最佳实践</td>
+<td>无需从头搭建脚手架，直接复用成熟框架</td>
+</tr>
+<tr>
+<td>自动化CI/CD配置</td>
+<td>预置Cloud Build脚本，代码提交自动构建测试</td>
+<td>加速迭代，减少人工操作</td>
+</tr>
+<tr>
+<td>基础设施即代码（IaC）</td>
+<td>内置Terraform模组，一键拉起云资源</td>
+<td>确保环境一致性100%，避免“本地能跑、线上崩溃”</td>
+</tr>
+<tr>
+<td>内置评估与可观测性</td>
+<td>集成Vertex AI Evaluation</td>
+<td>让Agent的效果可量化、可追踪，解决“黑盒问题”</td>
+</tr>
+</tbody>
+</table>
+<h4 id="agent_1">为什么Agent需要“质量门禁”？传统测试的失效与新评估逻辑</h4>
+<p>Agent的“概率性行为”，让传统软件的“输入A→输出B”测试逻辑完全失效——一个Agent可能结果正确，但过程存在逻辑跳跃、工具调用错误，甚至隐藏风险操作。</p>
+<p>传统测试与Agent评估的核心差异：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>传统软件测试</th>
+<th>AI Agent评估</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>核心目标</td>
+<td>功能正确性</td>
+<td>行为质量</td>
+</tr>
+<tr>
+<td>路径特性</td>
+<td>确定性路径</td>
+<td>概率性发散</td>
+</tr>
+<tr>
+<td>评估维度</td>
+<td>仅验证逻辑跑通</td>
+<td>多维度（逻辑/语气/安全性）</td>
+</tr>
+<tr>
+<td>风险点</td>
+<td>功能失效</td>
+<td>过程“绕弯路”、行为失控</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_1">评估核心：从“结果黑盒”到“轨迹透明”</h4>
+<p>Agent的质量评估不能只看“最终答案”，必须深入<strong>思考轨迹（Trajectory）</strong>——这是避免生产环境灾难的关键。轨迹评估的四个核心维度：</p>
+<table>
+<thead>
+<tr>
+<th>评估维度</th>
+<th>核心问题</th>
+<th>风险防控点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reasoning Trace（推理链）</td>
+<td>逻辑是否连贯？</td>
+<td>避免中间步骤的逻辑跳跃与幻觉</td>
+</tr>
+<tr>
+<td>Tool Selection（工具选择）</td>
+<td>调用是否精准？</td>
+<td>确保函数参数与上下文匹配</td>
+</tr>
+<tr>
+<td>Action Path（行动路径）</td>
+<td>是否存在无效步骤？</td>
+<td>检测冗余循环与高危操作</td>
+</tr>
+<tr>
+<td>Final Answer（最终答案）</td>
+<td>结果是否正确？</td>
+<td>传统Output校验，仅为最后一步</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>专家视角：生产环境中，Agent通过100个单元测试不重要，<strong>行动路径出现一次不可控，就是灾难</strong>。</p>
+</blockquote>
+<h4 id="_2">质量门禁方案：从人工到自动化的落地选择</h4>
+<p>质量门禁是Agent生产级部署的“安全阀”，Google提供了两种适配不同团队阶段的方案：</p>
+<p><strong>方案一：人工Pre-PR门禁（适配早期团队）</strong></p>
+<p>成本低、快速实施，核心流程：
+1. <strong>本地执行</strong>：在本地运行评估套件，确保Agent基础能力达标；
+2. <strong>生成报告</strong>：产出性能对比报告，与生产环境基线做差异分析；
+3. <strong>提交PR</strong>：代码合并请求必须附带评估报告；
+4. <strong>人工评审</strong>：Reviewer同时检查代码质量与Agent行为数据是否退步。</p>
+<p><strong>方案二：自动化流水线门禁（适配成熟团队）</strong></p>
+<p>集成到CI/CD流程，用程序替代人工审核的不确定性，核心逻辑：</p>
+<ul>
+<li>代码提交自动触发评估；</li>
+<li>设置质量阈值（如工具调用成功率&gt;99%、有用性评分&gt;4.5/5）；</li>
+<li>未达阈值则拦截部署，确保“不达标不上线”。</li>
+</ul>
+<h4 id="golden-dataset">Golden Dataset：评估体系的“真理标准”</h4>
+<p>黄金数据集是质量门禁的核心资产，它不是普通题库，而是<strong>人工校准、高度代表性的测试用例集</strong>，承担三大角色：</p>
+<ol>
+<li><strong>核心意图覆盖</strong>：覆盖80%的常见场景（“必考题”），确保Happy Path功能正常；</li>
+<li><strong>安全边界校验</strong>：包含诱导攻击、敏感话题拦截等“送命题”，严守安全底线；</li>
+<li><strong>回归测试基准</strong>：在版本迭代中对比新旧版本表现，确保能力“不退反进”。</li>
+</ol>
+<h4 id="cicdshift-left">CI/CD自动化流水线：三阶段漏斗模型，实现Shift Left</h4>
+<p>Agent的CI/CD流水线遵循<strong>Shift Left（左移）</strong>原则，将问题拦截在早期阶段，核心分为三阶段：</p>
+<ol>
+<li><strong>Pre-Merge（代码合并前）</strong>：CI前置拦截，通过单元测试、集成测试过滤低级错误；</li>
+<li><strong>Staging（预发布环境）</strong>：CD仿真实体，在类生产环境做深度集成测试，模拟真实流量；</li>
+<li><strong>Production（生产环境）</strong>：人工确认后的灰度发布+全量上线，作为最后一道防线。</li>
+</ol>
+<p><img alt="Alt Image Text" src="../../images/chap8_5_12.png" title="Body image" /></p>
+<h4 id="pre-merge-ci">Pre-Merge CI：速度与质量左移，绝不污染主干分支</h4>
+<p>Pre-Merge CI的核心目标是<strong>在代码合并前拦截所有问题</strong>，确保主干分支的“纯净性”。其流程包含三个关键环节：</p>
+<table>
+<thead>
+<tr>
+<th>环节</th>
+<th>核心能力</th>
+<th>价值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基础代码规范</td>
+<td>Unit Tests + Linting</td>
+<td>快速过滤语法、逻辑低级错误</td>
+</tr>
+<tr>
+<td>依赖安全性扫描</td>
+<td>Dependency Scanning</td>
+<td>避免引入含漏洞的第三方依赖</td>
+</tr>
+<tr>
+<td>轻量级Agent评估</td>
+<td>核心子集（Small Subset）测试</td>
+<td>聚焦核心功能逻辑，兼顾评估效率与质量</td>
+</tr>
+</tbody>
+</table>
+<p>核心特征：自动化触发+极速反馈，通过<code>pr_checks.yaml</code>配置，实现“代码提交即验证”。</p>
+<h4 id="staging-cd">Staging CD：仿真战场，验证系统级真实运行状态</h4>
+<p>Staging是生产环境的“高保真副本”，核心目标是验证<strong>系统级的真实表现</strong>，避免“环境差异”导致的上线故障。其流程包含四步：</p>
+<ol>
+<li><strong>部署至Staging</strong>：建立与生产环境1:1的副本，杜绝环境玄学；</li>
+<li><strong>集成测试</strong>：调用真实远程服务，验证组件交互逻辑；</li>
+<li><strong>压力测试</strong>：模拟高并发场景，提前暴露性能瓶颈；</li>
+<li><strong>内部试用（Dogfooding）</strong>：让团队成员在真实场景中发现“机器测不出的体验问题”。</li>
+</ol>
+<h4 id="production">Production发布：人工把关，最小化风险的三大防线</h4>
+<p>生产环境发布拒绝“全自动化”，必须通过三层防线将风险降到最低：</p>
+<table>
+<thead>
+<tr>
+<th>防线</th>
+<th>核心机制</th>
+<th>风险防控点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>人工核准（Sign-off）</td>
+<td>由PO（产品负责人）最终确认</td>
+<td>明确责任归属，避免“无人担责”</td>
+</tr>
+<tr>
+<td>制品直接晋级</td>
+<td>复用Staging验证过的制品包，严禁重新构建</td>
+<td>确保“测什么、发什么”，消除环境差异风险</td>
+</tr>
+<tr>
+<td>安全灰度发布</td>
+<td>Canary（金丝雀）/蓝绿部署，逐步引入流量</td>
+<td>出现问题可快速回滚，避免全量故障</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_3">评估体系的两大基石：环境一致与自动化测试</h4>
+<p>Agent的全流程评估，依赖两大基建支撑：</p>
+<ol>
+<li><strong>基础设施即代码（IaC）</strong>：通过Terraform模组，确保Dev/Staging/Production环境100%同步，消除“环境玄学”；</li>
+<li><strong>自动化测试框架（Pytest）</strong>：不仅是测试工具，更是评估“驱动器”——负责多轮对话推进、Trace管理与Log记录，让Agent的行为可复现、可分析。</li>
+</ol>
+<h4 id="secrets-management">安全红线：Secrets Management，拒绝密钥“裸奔”</h4>
+<p>Agent开发中，密钥泄露是最致命的安全风险之一。Google的安全规范明确：</p>
+<ul>
+<li><strong>死亡禁区（DON'T）</strong>：禁止硬编码API密钥、禁止将敏感信息提交到Git仓库；</li>
+<li><strong>最佳实践（DO）</strong>：通过Secret Manager云端加密存储密钥，运行时注入内存（仅在Agent启动时通过IAM权限拉取），确保“密钥不落地”。</li>
+</ul>
+<h3 id="agent_2">三、 Agent生产运维：从可观测到自主优化的全链路体系</h3>
+<p>AI Agent上线后，“运维”才是长期稳定运行的核心——Google Cloud通过<strong>“观测-干预-进化”</strong>的闭环体系，将Agent从“被动服务”升级为“自治系统”，同时解决自主性带来的不确定性、成本失控等问题。</p>
+<h4 id="agent_3">Agent范式转移：从“确定性服务”到“自主系统”的挑战</h4>
+<p>Agent的“自主性”带来了传统服务没有的三大痛点，导致传统监控逻辑彻底失效：</p>
+<table>
+<thead>
+<tr>
+<th>痛点</th>
+<th>核心表现</th>
+<th>风险</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自主决策体</td>
+<td>路径非线性、决策逻辑动态生成，不再遵循“输入A→输出B”</td>
+<td>行为不可预测</td>
+</tr>
+<tr>
+<td>涌现性行为</td>
+<td>多轮交互中产生未预期的“模型发疯”，超出开发者边界</td>
+<td>输出失控</td>
+</tr>
+<tr>
+<td>隐形算力堆积</td>
+<td>自主推理“绕弯路”，后台悄悄消耗巨额Token</td>
+<td>成本失控</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_4">可观测性体系：告别盲盒，构建透明化推理链路</h3>
+<p>Agent的可观测性需覆盖“事实-因果-指标”三层，核心是<strong>还原推理链条</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>可观测支柱</th>
+<th>核心作用</th>
+<th>Agent场景价值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logs（事实记录）</td>
+<td>记录离散事件</td>
+<td>捕捉工具调用的原始输入输出、报错堆栈</td>
+</tr>
+<tr>
+<td>Traces（因果路径）</td>
+<td>串联全生命周期链路</td>
+<td>还原推理链（CoT），解释工具选择、死循环原因</td>
+</tr>
+<tr>
+<td>Metrics（聚合指标）</td>
+<td>时间序列数值统计</td>
+<td>监控Cost（Token消耗）、Latency（推理耗时）、Quality（任务成功率）</td>
+</tr>
+</tbody>
+</table>
+<h4 id="google-cloud">Google Cloud全链路可观测实践</h4>
+<p>通过<strong>Request ID上下文透传</strong>，串联三大工具实现深度透视：</p>
+<ol>
+<li><strong>Cloud Trace</strong>：调用链可视化，生成分布式火焰图，追踪从Agent到Tool的每一跳延迟；</li>
+<li><strong>Cloud Logging</strong>：结构化日志中枢，毫秒级定位模型幻觉、工具调用失败的上下文；</li>
+<li><strong>Cloud Monitoring</strong>：实时看板+告警，延迟超标/错误率激增时触发Slack/PagerDuty通知。</li>
+</ol>
+<p>配合ADK自动化插桩技术，实现“开箱即用、零代码侵入、全链路透视”——无需手动埋点，自动捕获从Prompt到Response的所有推理细节。</p>
+<h4 id="_5">实时干预机制：从“被动看图”到“主动控制”</h4>
+<p>Agent运维的核心是<strong>“主动控制”</strong>，而非仅看Dashboard：</p>
+<ul>
+<li>传统误区：只观测不干预，数据再漂亮也无法解决实时问题；</li>
+<li>AgentOps正解：设置“干预预制”与“安全熔断”拉杆——当系统跑偏时，可实时介入、切断风险操作。</li>
+</ul>
+<h4 id="_6">系统健康的不可能三角：性能、成本、规模的博弈</h4>
+<p>Agent系统无法同时满足“高性能、低成本、大规模”，需基于优先级取舍：</p>
+<ul>
+<li>性能：低延迟、高响应；</li>
+<li>成本：控制Token消耗、算力支出；</li>
+<li>规模：高吞吐、高并发。</li>
+</ul>
+<p>Google的架构策略是<strong>“无状态+异步驱动”</strong>，实现弹性扩展：</p>
+<ol>
+<li><strong>水平扩展</strong>：逻辑层容器化、无状态化，拒绝本地状态存储，支持随时弹性伸缩；</li>
+<li><strong>异步处理</strong>：事件驱动架构，通过Pub/Sub消息队列触发Cloud Run无服务器计算，耗时任务后台异步执行，保证前端轻量。</li>
+</ol>
+<h4 id="stateless">状态管理：从Stateless到记忆外置</h4>
+<p>LLM本身是无状态的，若状态存在本地内存，扩容/重启会丢失上下文。解决方案是<strong>Memory Externalization（记忆外置）</strong>：</p>
+<p>构建独立于计算层的外部存储架构，实现Session持久化与跨节点同步。Google提供两种路径：</p>
+<ul>
+<li><strong>Managed Path（Vertex AI Agent Engine）</strong>：内置Session管理，零运维成本，适合快速迭代；</li>
+<li><strong>Custom Path（Cloud Run + AlloyDB/SQL）</strong>：手动对接数据库，灵活可控，适合复杂状态机。</li>
+</ul>
+<h4 id="_7">性能优化三板斧：降本提效的核心策略</h4>
+<p>通过三大手段平衡性能与成本：</p>
+<ol>
+<li><strong>并行化调用</strong>：能同时调多个工具就不串行，利用异步并发压缩I/O等待时间；</li>
+<li><strong>激进缓存</strong>：语义缓存匹配相似问题，避免重复调用LLM，实现Zero Latency；</li>
+<li><strong>模型分级</strong>：简单任务（分类/提取）用小模型，复杂任务用大模型，“好钢用在刀刃上”。</li>
+</ol>
+<p>AI Agent的生产落地，不仅要“能用”，更要“可靠、省钱、安全”。Google Cloud通过<strong>可靠性架构、成本控制、安全防线与进化闭环</strong>，构建了Agent从稳定运行到持续优化的完整体系。</p>
+<h4 id="_8">可靠性架构：重试策略与幂等性的生死线</h4>
+<p>Agent调用外部服务时，失败重试是常态，但“盲目重试”会引发生产事故——核心是<strong>指数退避+幂等性保障</strong>：</p>
+<p><strong>1. 指数退避（Exponential Backoff）</strong></p>
+<p>通过“失败后等待时间指数增长”的策略（如T=0s失败→等1s，T=1s失败→等2s），避免瞬间流量击穿下游服务，最终实现成功调用。</p>
+<p><strong>2. 幂等性（Idempotency）</strong></p>
+<p>这是重试的“前提条件”——确保“调用多少次，结果都一致”：</p>
+<ul>
+<li><strong>安全重试场景</strong>：读操作/查询（重复调用无副作用）；</li>
+<li><strong>危险场景</strong>：非幂等操作（如支付），重复重试会导致“重复扣费”，这是生产事故的根源。</li>
+</ul>
+<h4 id="token">成本控制：拒绝Token浪费的三大抓手</h4>
+<p>Agent的成本核心是Token消耗，Google的降本策略聚焦“精准、分级、批量”：</p>
+<table>
+<thead>
+<tr>
+<th>策略</th>
+<th>核心逻辑</th>
+<th>价值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>提示词工程</td>
+<td>精简上下文，去除冗余话术，精准描述意图</td>
+<td>减少不必要的Token消耗</td>
+</tr>
+<tr>
+<td>模型分级路由</td>
+<td>简单任务（分类/提取）用小模型，复杂任务用大模型</td>
+<td>“杀鸡不用牛刀”，降低调用成本</td>
+</tr>
+<tr>
+<td>异步批处理</td>
+<td>非实时任务攒一批请求再调用LLM</td>
+<td>提高吞吐量，降低单位调用成本</td>
+</tr>
+</tbody>
+</table>
+<h4 id="prompt">安全防线：从Prompt到记忆的全链路防护</h4>
+<p>Agent的安全风险是“专属且隐蔽”的，核心风险包括：</p>
+<ul>
+<li><strong>Prompt注入</strong>：用户诱导Agent绕过安全限制，执行未授权操作；</li>
+<li><strong>数据泄露</strong>：Agent意外暴露训练数据、隐私或系统Prompt；</li>
+<li><strong>记忆污染</strong>：恶意交互向Agent灌输错误知识，污染RAG/长期记忆。</li>
+</ul>
+<p>Google构建了<strong>三道安全防线</strong>：</p>
+<h4 id="agent_4">第一道：Agent宪法（行为准则）</h4>
+<p>通过<code>system_prompt</code>定义Agent的“绝对不能做”的边界（如“No PII泄露”“中立立场”），像“阿西莫夫三定律”一样，作为所有交互的安全底座。</p>
+<h3 id="_9">第二道：安全围栏（强制执行层）</h3>
+<ul>
+<li><strong>输入过滤</strong>：Prompt进入模型前，用Perspective API拦截恶意注入；</li>
+<li><strong>输出熔断</strong>：生成内容返回前，用Vertex AI Safety Filters阻断有害内容；</li>
+<li><strong>人机回环</strong>：高风险操作自动转入人工审核流程。</li>
+</ul>
+<h3 id="_10">第三道：持续性审计</h3>
+<p>安全不是“一次性交付”，而是持续对抗：</p>
+<ul>
+<li><strong>严苛回归评估</strong>：任何代码/模型变更，都触发全量安全回归测试；</li>
+<li><strong>RAI专项测试</strong>：验证中立性、公平性，消除算法偏见；</li>
+<li><strong>主动红队演练</strong>：内部模拟对抗性攻击，提前挖掘逻辑漏洞。</li>
+</ul>
+<h4 id="playbook">应急响应Playbook：从熔断到修复的闭环</h4>
+<p>当安全/故障发生时，核心是“快速止血、有序处理、根治问题”：</p>
+<ol>
+<li><strong>遏制（Contain）</strong>：用Circuit Breaker/Feature Flag切断问题工具的调用链路，停止损失；</li>
+<li><strong>分流（Triage）</strong>：将流量切至人机回环队列，人工审查清洗，不直接丢弃请求；</li>
+<li><strong>解决（Resolve）</strong>：修复Prompt/代码逻辑，必须通过完整CI/CD流程发布，严禁生产环境热修复。</li>
+</ol>
+<h4 id="_11">进化闭环：将失败转化为资产</h4>
+<p>Agent的优化不是“修复Bug”，而是“把失败变成数据资产”：</p>
+<ol>
+<li><strong>Insight to Action</strong>：分析生产日志，执行根因分析（RCA），定位模型能力边界；</li>
+<li><strong>Dataset Augmentation</strong>：将生产环境的Bad Case自动清洗，注入测试集，把“偶发故障”变成“必测考题”；</li>
+<li><strong>Virtuous Cycle（良性循环）</strong>：持续扩充Golden Dataset，构建“数据飞轮”，驱动模型每一次跌倒后定向进化。</li>
+</ol>
+<h3 id="4-agenta2amcpregistry">4  Agent进阶架构：打破孤岛，构建A2A×MCP×Registry互联体系</h3>
+<p>当企业内Agent数量从“个位数”增长到“数十个”，<strong>孤岛效应</strong>会成为规模化的最大障碍——不同Agent各自为战，导致能力冗余、数据割裂、协作成本飙升。Google的进阶架构通过<strong>A2A（Agent协作协议）、MCP（模型上下文协议）、Registry（注册中心）</strong>，实现Agent从“单兵作战”到“军团化编排”的升级。</p>
+<h4 id="_12">孤岛效应：规模化的隐形高墙</h4>
+<p>企业规模化部署Agent时，会陷入三大痛点：</p>
+<ul>
+<li><strong>能力冗余</strong>：不同团队重复开发相同功能（如预测模型），研发资源严重浪费；</li>
+<li><strong>洞察割裂</strong>：数据无法跨Agent流通（如客服数据喂不进预测模型），Agent“智能不足”；</li>
+<li><strong>协作成本高</strong>：打通两个Agent需人工硬编码集成，维护成本随数量指数上升。</li>
+</ul>
+<h4 id="agent_5">Agent互操作性协议：双层架构定义通用语言</h4>
+<p>要打破孤岛，需建立Agent间的“通用语言”——Google提出<strong>双层协议架构</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>协议层级</th>
+<th>核心定位</th>
+<th>解决痛点</th>
+<th>类比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MCP（Model Context Protocol，底层）</strong></td>
+<td>模型上下文协议</td>
+<td>标准化工具/API的结构化输入输出，解决“集成难”</td>
+<td>Agent的“双手”（连接资源）</td>
+</tr>
+<tr>
+<td><strong>A2A（Agent2Agent，上层）</strong></td>
+<td>智能体协作协议</td>
+<td>定义Agent间的协作规则，解决“复杂目标拆分”</td>
+<td>Agent的“社交网络”（连接同类）</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Alt Image Text" src="../../images/chap8_5_13.png" title="Body image" /></p>
+<h3 id="mcp-vs-a2a">MCP vs A2A：场景差异</h3>
+<ul>
+<li>
+<p><strong>MCP</strong>：聚焦“指令执行”（Do this specific thing），<strong>交互对象是资源/API，能力层级是“执行”，类似“计算器”</strong>；</p>
+</li>
+<li>
+<p><strong>A2A</strong>：聚焦“复杂目标达成”（Achieve complex goal），<strong>交互对象是其他Agent，能力层级是“推理与规划”，类似“领域专家”。</strong></p>
+</li>
+</ul>
+<h4 id="a2aagent">A2A核心机制：一键实现Agent互联</h4>
+<p>A2A的接入流程极简，通过ADK工具链实现“暴露即复用”：</p>
+<ol>
+<li><strong>Expose（暴露服务）</strong>：用<code>to_a2a(agent, port=8000)</code>将Agent服务化，自动生成“Agent Card”（包含能力描述、调用方式）；</li>
+<li><strong>Consume（消费服务）</strong>：通过<code>RemoteA2aAgent(card_url=...)</code>，像调用本地对象一样使用远程Agent的能力。</li>
+</ol>
+<h4 id="_13">层级组合架构：从单兵到军团化编排</h4>
+<p>基于A2A，可构建<strong>Root Agent + 子Agent</strong>的层级架构：</p>
+<ul>
+<li><strong>Root Agent（编排者）</strong>：负责意图识别、任务分发，根据复杂度动态选择“调用本地能力”或“委托远程专家”；</li>
+<li><strong>Local Sub-agents</strong>：内置轻量工具（如字符串处理），低延迟响应简单任务；</li>
+<li><strong>Remote Agents</strong>：独立部署的专家Agent（如复杂数学验证），通过A2A松耦合协作，处理异步任务。</li>
+</ul>
+<p>核心价值：能力复用、各司其职，避免重复造轮子。</p>
+<h4 id="a2a">A2A落地的两大技术天堑</h4>
+<p>分布式Agent协作的硬性要求：</p>
+<ol>
+<li><strong>分布式追踪</strong>：跨Agent透传Trace ID，实现全链路审计与调试，精准定位“谁搞崩了什么”；</li>
+<li><strong>鲁棒状态管理</strong>：多轮交互的状态持久化、分布式事务一致性（要么全成，要么全滚），避免上下文丢失。</li>
+</ol>
+<h4 id="registry">Registry引入时机：以规模和复杂度为核心</h4>
+<p>Registry（注册中心）是Agent与工具的“中心化目录”，引入需避免过度设计：</p>
+<ul>
+<li><strong>工具数&lt;50</strong>：手动配置即可，引入Registry是过度设计；</li>
+<li><strong>工具数&gt;500</strong>：规模激增+跨团队协作，Registry是系统化治理的“生存刚需”。</li>
+</ul>
+<h4 id="tool-registry">Tool Registry访问模式：在全能、专精与动态间博弈</h4>
+<p>Agent访问Tool Registry的三种策略，各有优劣：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>核心逻辑</th>
+<th>优势</th>
+<th>风险</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Generalist（全量目录直连）</strong></td>
+<td>直接访问所有工具</td>
+<td>能力边界最广</td>
+<td>上下文过载，易产生幻觉</td>
+</tr>
+<tr>
+<td><strong>Specialist（预定义精准子集）</strong></td>
+<td>仅开放预设工具</td>
+<td>Prompt精简、推理性能高、安全可控</td>
+<td>灵活性低，无法处理长尾需求</td>
+</tr>
+<tr>
+<td><strong>Dynamic（运行时动态检索）</strong></td>
+<td>按需实时搜索工具</td>
+<td>适应性强，Agent自主加载</td>
+<td>多轮推理成本高，依赖检索准确性</td>
+</tr>
+</tbody>
+</table>
+<h4 id="registry_1">Registry的治理价值：不止是索引，更是连接中枢</h4>
+<p>Registry的核心是“治理”，而非单纯的“工具列表”，其价值体现在四个维度：</p>
+<ol>
+<li><strong>全域发现</strong>：打破信息孤岛，开发者秒级检索现有工具，避免重复造轮子；</li>
+<li><strong>安全审计</strong>：集中式权限管控，全链路审计工具访问，消除“影子IT”风险；</li>
+<li><strong>能力版图</strong>：可视化呈现系统能力（Capabilities Map），帮助产品经理掌握技术边界；</li>
+<li><strong>标准化治理</strong>：统一工具版本管理与下线流程，避免陈旧资产堆积。</li>
+</ol>
+<h4 id="agent-registry">Agent Registry：从工具到资产的跃迁</h4>
+<p>当Registry延伸到Agent层面，会推动Agent从“脚本”升级为“企业数字资产”：</p>
+<h4 id="_14">核心价值</h4>
+<ol>
+<li><strong>资产化跃迁</strong>：将Agent封装为“Agent as a Service”，成为可复用的核心资产；</li>
+<li><strong>打破孤岛效应</strong>：实现跨部门全域复用，让能力在组织内自由流动。</li>
+</ol>
+<h4 id="_15">未来形态</h4>
+<ul>
+<li><strong>自动委托（Auto-delegation）</strong>：Agent主动查询Registry，“雇佣”其他Agent解决子任务；</li>
+<li><strong>动态编排（Dynamic Orchestration）</strong>：系统根据任务上下文，实时组建Agent Squad（智能体小队），无需人工介入。</li>
+</ul>
+<h4 id="agentops_1">AgentOps全生命周期：从内循环到生态互联</h4>
+<p>Registry是AgentOps全流程的“最后一块拼图”，完整的Agent生命周期包含5个阶段：</p>
+<ol>
+<li><strong>Inner Loop（开发内循环）</strong>：快速原型+本地测试；</li>
+<li><strong>Pre-Production（门禁评估）</strong>：严格准入测试；</li>
+<li><strong>Deployment（安全发布）</strong>：金丝雀/蓝绿部署；</li>
+<li><strong>Production（进化闭环）</strong>：观测→干预→进化；</li>
+<li><strong>Ecosystem（生态互联）</strong>：通过A2A协议+Registry，实现Agent间的协作与互操作。</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

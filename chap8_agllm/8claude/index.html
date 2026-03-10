@@ -1,0 +1,4263 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../../chap9_claude/1intro/">
+      
+      
+        <link rel="next" href="../../chap9_claude/3claude_adv1/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>2 基于 Claude Agent SDK 构建智能体 - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#claude-agent-sdk" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2 基于 Claude Agent SDK 构建智能体
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/3OpenaiModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/4chatgpt_translate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/3AmazonBedrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/4assistantapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/2agent_buildout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0responseApi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0agents_demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1ai_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2ai_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3ai_agents_his/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Daily Blogs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Agent Daily Blogs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1agents_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4agent_arg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5Agent_google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Google AI Agent 白皮书深度拆解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7agents_skill/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 Equipping agents for the real world with Agent Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anthropic Claude Code
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Anthropic Claude Code
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9_claude/0intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Claude Code 全解析：终端 AI 编程助手的核心玩法与基础实战指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9_claude/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Claude Code基础使用教程：从安装到核心命令全掌握
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 基于 Claude Agent SDK 构建智能体
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 基于 Claude Agent SDK 构建智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-agentclaude-agent-sdkagent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1、 给Agent一台电脑：Claude Agent SDK的设计哲学与通用Agent构建指南
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1、 给Agent一台电脑：Claude Agent SDK的设计哲学与通用Agent构建指南">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#claude-agent-sdkagent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、Claude Agent SDK的诞生：从编码工具到通用Agent框架
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、核心设计哲学：给Agent一台电脑，而非一个工具箱
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、核心设计哲学：给Agent一台电脑，而非一个工具箱">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 终端：最通用的交互入口
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 四大基础工具：覆盖信息处理全闭环
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 两大核心优势：无限扩展与透明可审计
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、Agent工作流：循环迭代的自主执行闭环
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、Agent工作流：循环迭代的自主执行闭环">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-gather-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 第一步：Gather Context（收集上下文）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-take-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 第二步：Take Action（执行行动）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-verify-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 第三步：Verify Work（验证结果）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、典型应用场景：从个人工具到企业级解决方案
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、典型应用场景：从个人工具到企业级解决方案">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 金融Agent：智能投资评估
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 个人助理Agent：智能日程与事务管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 客服Agent：高模糊度请求处理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 深度研究Agent：大型文档集合分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code-vs-claude-agent-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、Claude Code vs Claude Agent SDK：产品与工具的本质区别
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总结：通用Agent的构建核心是“赋能而非限制”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-claude-code4agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 Claude Code上下文收集策略：4大核心方法突破Agent信息获取与容量瓶颈
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Claude Code上下文收集策略：4大核心方法突破Agent信息获取与容量瓶颈">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、上下文收集的核心挑战：为什么需要专门策略？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、信息获取策略：从海量数据中精准“淘金”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、信息获取策略：从海量数据中精准“淘金”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-agent-searchbash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Agent Search：基于Bash命令的精准文件检索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-semantic-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Semantic Search：基于向量的快速语义匹配
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、上下文维护策略：让Agent“装得下”又“跑得久”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、上下文维护策略：让Agent“装得下”又“跑得久”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-subagents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Subagents：上下文隔离的“并行处理单元”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-compaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Compaction：时间维度的上下文“瘦身术”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、四大策略协同逻辑：Claude Code的上下文管理闭环
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总结：上下文管理的核心是“精准筛选+智能减负”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-claude-codetoolbashcodemcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 Claude Code行动层设计：Tool、Bash、Code、MCP四大能力构建智能体做事核心
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3 Claude Code行动层设计：Tool、Bash、Code、MCP四大能力构建智能体做事核心">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、四大行动能力的形象隐喻：像白领一样高效工作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、四大行动能力深度拆解：定位、设计原则与实战价值
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、四大行动能力深度拆解：定位、设计原则与实战价值">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Tool：智能体的核心业务能力，遵循“少即是多”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-bash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Bash：智能体的通用操作底座，灵活组合解决通用问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-code-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Code Generation：智能体的创造性解决能力，动态生成专属工具
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. MCP：智能体连接外部世界的标准化桥梁，实现跨系统协作
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、四大能力的优劣势对比与选型策略：并非三选一，而是组合拳
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、四大能力的优劣势对比与选型策略：并非三选一，而是组合拳">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 四大能力核心优劣势对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 实战选型策略：按任务特性精准匹配
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#digital-employee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、行动层设计的核心价值：让智能体成为真正的Digital Employee
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、后续展望：行动后的验证，让智能体“把事做对”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-claude-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 从“做事”到“做对事”：Claude Code的自我验证机制与可靠性工程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4 从“做事”到“做对事”：Claude Code的自我验证机制与可靠性工程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#claude-code_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、技术博客：Claude Code的自我验证机制与可靠性工程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、技术博客：Claude Code的自我验证机制与可靠性工程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引言：为什么需要“自我验证”？
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、自我验证的三大支柱：从基础到高阶的全链路检查
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、自我验证的三大支柱：从基础到高阶的全链路检查">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-result-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 结果验证（Result Verification）：事实存在性的检查
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-execution-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 执行验证（Execution Verification）：代码正确性的校验
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-requirement-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 需求验证（Requirement Verification）：目标一致性的对齐
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、完整执行闭环：一个任务的“生死时速”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、架构启示：如何构建高可靠性的Agent？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9_claude/3claude_adv1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Claude Code连接外部工具：MCP协议实战指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-agentclaude-agent-sdkagent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1、 给Agent一台电脑：Claude Agent SDK的设计哲学与通用Agent构建指南
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1、 给Agent一台电脑：Claude Agent SDK的设计哲学与通用Agent构建指南">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#claude-agent-sdkagent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、Claude Agent SDK的诞生：从编码工具到通用Agent框架
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、核心设计哲学：给Agent一台电脑，而非一个工具箱
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、核心设计哲学：给Agent一台电脑，而非一个工具箱">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 终端：最通用的交互入口
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 四大基础工具：覆盖信息处理全闭环
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 两大核心优势：无限扩展与透明可审计
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、Agent工作流：循环迭代的自主执行闭环
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、Agent工作流：循环迭代的自主执行闭环">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-gather-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 第一步：Gather Context（收集上下文）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-take-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 第二步：Take Action（执行行动）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-verify-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 第三步：Verify Work（验证结果）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、典型应用场景：从个人工具到企业级解决方案
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、典型应用场景：从个人工具到企业级解决方案">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 金融Agent：智能投资评估
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 个人助理Agent：智能日程与事务管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 客服Agent：高模糊度请求处理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 深度研究Agent：大型文档集合分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code-vs-claude-agent-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、Claude Code vs Claude Agent SDK：产品与工具的本质区别
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总结：通用Agent的构建核心是“赋能而非限制”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-claude-code4agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 Claude Code上下文收集策略：4大核心方法突破Agent信息获取与容量瓶颈
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Claude Code上下文收集策略：4大核心方法突破Agent信息获取与容量瓶颈">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、上下文收集的核心挑战：为什么需要专门策略？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、信息获取策略：从海量数据中精准“淘金”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、信息获取策略：从海量数据中精准“淘金”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-agent-searchbash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Agent Search：基于Bash命令的精准文件检索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-semantic-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Semantic Search：基于向量的快速语义匹配
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、上下文维护策略：让Agent“装得下”又“跑得久”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、上下文维护策略：让Agent“装得下”又“跑得久”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-subagents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Subagents：上下文隔离的“并行处理单元”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-compaction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Compaction：时间维度的上下文“瘦身术”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、四大策略协同逻辑：Claude Code的上下文管理闭环
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总结：上下文管理的核心是“精准筛选+智能减负”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-claude-codetoolbashcodemcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 Claude Code行动层设计：Tool、Bash、Code、MCP四大能力构建智能体做事核心
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3 Claude Code行动层设计：Tool、Bash、Code、MCP四大能力构建智能体做事核心">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、四大行动能力的形象隐喻：像白领一样高效工作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、四大行动能力深度拆解：定位、设计原则与实战价值
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、四大行动能力深度拆解：定位、设计原则与实战价值">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Tool：智能体的核心业务能力，遵循“少即是多”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-bash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Bash：智能体的通用操作底座，灵活组合解决通用问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-code-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Code Generation：智能体的创造性解决能力，动态生成专属工具
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. MCP：智能体连接外部世界的标准化桥梁，实现跨系统协作
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、四大能力的优劣势对比与选型策略：并非三选一，而是组合拳
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、四大能力的优劣势对比与选型策略：并非三选一，而是组合拳">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 四大能力核心优劣势对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 实战选型策略：按任务特性精准匹配
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#digital-employee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、行动层设计的核心价值：让智能体成为真正的Digital Employee
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、后续展望：行动后的验证，让智能体“把事做对”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-claude-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 从“做事”到“做对事”：Claude Code的自我验证机制与可靠性工程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4 从“做事”到“做对事”：Claude Code的自我验证机制与可靠性工程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#claude-code_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、技术博客：Claude Code的自我验证机制与可靠性工程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、技术博客：Claude Code的自我验证机制与可靠性工程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        引言：为什么需要“自我验证”？
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、自我验证的三大支柱：从基础到高阶的全链路检查
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、自我验证的三大支柱：从基础到高阶的全链路检查">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-result-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 结果验证（Result Verification）：事实存在性的检查
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-execution-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 执行验证（Execution Verification）：代码正确性的校验
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-requirement-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 需求验证（Requirement Verification）：目标一致性的对齐
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、完整执行闭环：一个任务的“生死时速”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、架构启示：如何构建高可靠性的Agent？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="claude-agent-sdk">基于 Claude Agent SDK 构建智能体</h1>
+<h2 id="1-agentclaude-agent-sdkagent">1、 给Agent一台电脑：Claude Agent SDK的设计哲学与通用Agent构建指南</h2>
+<p>当AI Agent从“对话工具”向“自主工作助手”进化时，核心瓶颈不再是模型能力，而是与现实世界的交互方式。Anthropic发布的Claude Agent SDK，从内部编码工具Claude Code的底层架构演变而来，以“给Agent一台电脑”为核心设计理念，重新定义了通用智能体的构建范式。本文将从设计哲学、核心能力、实践场景三个维度，拆解Claude Agent SDK的技术逻辑，为开发者提供通用Agent的构建思路。</p>
+<h3 id="claude-agent-sdkagent">一、Claude Agent SDK的诞生：从编码工具到通用Agent框架</h3>
+<p>Claude Agent SDK的起源，源于一次意外的“能力溢出”。Anthropic最初为提升内部开发效率，打造了代理编码工具Claude Code，却发现其底层架构的能力边界远超编程场景——从深度研究、视频创作到笔记整理，无数非编码场景中，这套架构都展现出极强的通用性。</p>
+<p>这一发现推动Anthropic做出关键决策：将驱动Claude Code的底层框架开放，正式命名为Claude Agent SDK。这个名字的变更绝非营销噱头，而是明确传递了核心定位：编程只是应用场景之一，其终极目标是建立通用Agent的构建标准，让开发者能够基于这套框架，打造适配各类业务场景的智能体。</p>
+<p>如今，Claude Agent SDK已成为Anthropic所有核心智能体的底层驱动框架，其通用性背后，是对Agent交互本质的深刻洞察。</p>
+<h3 id="agent">二、核心设计哲学：给Agent一台电脑，而非一个工具箱</h3>
+<p>传统Agent设计思路陷入“工具堆砌陷阱”——为每个场景定制专属工具（如发邮件工具、订票工具），导致系统越来越臃肿，能力边界被预定义工具牢牢限制。Claude Agent SDK跳出这一思维定式，提出了颠覆性设计原则：<strong>给Agent一台完整的电脑，让它像人类一样自主工作</strong>。</p>
+<h4 id="1">1. 终端：最通用的交互入口</h4>
+<p>为什么选择“电脑终端”作为核心交互载体？因为终端是计算机最底层、最通用的操作接口，能够串联起文件系统、应用程序、网络服务等所有数字化资源。通过终端，Agent无需依赖预定义工具，仅通过基础命令就能组合出无限能力。</p>
+<p>这一设计如同“授人以渔”：传统方案是给Agent一把锤子、一把螺丝刀（特定工具），而Claude的方案是给Agent一个完整的工作台（电脑终端），让它根据任务需求自主选择工具，甚至创造新工具。</p>
+<h4 id="2">2. 四大基础工具：覆盖信息处理全闭环</h4>
+<p>Claude Agent SDK仅提供四大基础工具，却能支撑所有数字化任务，核心在于它们覆盖了“输入-处理-输出-反馈”的完整信息闭环：</p>
+<table>
+<thead>
+<tr>
+<th>基础工具</th>
+<th>对应能力</th>
+<th>信息处理环节</th>
+<th>典型应用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>搜索文件</td>
+<td>发现信息</td>
+<td>输入</td>
+<td>查找文档、定位数据、识别资源路径</td>
+</tr>
+<tr>
+<td>读取/运行命令</td>
+<td>理解信息</td>
+<td>处理</td>
+<td>解析CSV数据、运行代码计算、调用系统程序</td>
+</tr>
+<tr>
+<td>创建文件</td>
+<td>生成结果</td>
+<td>输出</td>
+<td>撰写报告、生成代码、存储处理结果</td>
+</tr>
+<tr>
+<td>编辑文件</td>
+<td>迭代优化</td>
+<td>反馈</td>
+<td>修改报告内容、调试代码、更新数据表格</td>
+</tr>
+</tbody>
+</table>
+<p>这一极简工具集的设计逻辑，如同人类仅通过“眼（输入）、脑（处理）、手（输出/反馈）”就能完成绝大多数物理任务，Agent通过四大基础工具的组合，可覆盖从数据处理到内容创作的所有数字化场景。</p>
+<h4 id="3">3. 两大核心优势：无限扩展与透明可审计</h4>
+<ul>
+<li><strong>能力无限扩展</strong>：无需预定义所有功能，Agent可通过终端命令调用系统中任何程序，甚至自主编写脚本实现新能力，突破传统工具集的边界限制；</li>
+<li><strong>透明可审计</strong>：所有操作均以标准命令行指令执行，每一步行动都可追溯、可审计，同时支持精细化权限管控，平衡自主性与安全性。</li>
+</ul>
+<h3 id="agent_1">三、Agent工作流：循环迭代的自主执行闭环</h3>
+<p>有了“电脑终端”这一工作台和四大基础工具，Claude Agent SDK定义了标准的Agent Loop（智能体循环），核心通过“收集上下文-执行行动-验证结果”的三步循环，实现任务的自主推进与迭代优化：</p>
+<h4 id="1-gather-context">1. 第一步：Gather Context（收集上下文）</h4>
+<p>Agent并非盲目执行任务，而是通过<code>grab</code>、<code>tail</code>等命令在文件系统中动态探测，收集与任务相关的所有信息——包括用户需求、已有数据、可用资源等，确保行动有明确依据。例如，金融Agent在评估投资组合时，会先搜索本地存储的资产数据文件、调用外部API获取实时行情，构建完整的决策上下文。</p>
+<h4 id="2-take-action">2. 第二步：Take Action（执行行动）</h4>
+<p>基于收集到的上下文，Agent自主决策执行方案：可能是编写一段Python脚本进行数据计算，可能是调用外部API获取补充信息，也可能是直接编辑文件生成初步结果。这一步的核心是Agent的自主决策能力——无需人工干预，根据任务目标选择最优行动路径。</p>
+<h4 id="3-verify-work">3. 第三步：Verify Work（验证结果）</h4>
+<p>这是确保任务质量的关键一步，也是Claude Agent SDK设计的核心亮点。Agent会通过多种方式验证行动结果：运行测试用例检查代码正确性、查看日志确认程序执行状态、甚至通过视觉反馈检查文档排版是否符合要求。若验证失败，Agent会自动回到第一步，重新收集上下文、调整行动方案，进入下一轮循环，直至任务成功完成。</p>
+<p>这种“循环迭代”的工作模式，让Agent摆脱了传统AI“一次性响应”的局限，具备了持续优化、自主纠错的能力，真正成为能够独立完成复杂任务的“工作助手”。</p>
+<h3 id="_1">四、典型应用场景：从个人工具到企业级解决方案</h3>
+<p>Claude Agent SDK的通用性，使其能支撑从个人助理到企业级系统的各类Agent开发，四大典型场景充分展现其价值：</p>
+<h4 id="1-agent">1. 金融Agent：智能投资评估</h4>
+<ul>
+<li>核心能力：访问外部金融API获取实时行情、存储用户资产数据、运行代码计算投资收益、生成风险评估报告；</li>
+<li>价值体现：替代人工完成数据收集、计算分析、报告撰写的全流程，支持7×24小时持续监控投资组合状态。</li>
+</ul>
+<h4 id="2-agent">2. 个人助理Agent：智能日程与事务管理</h4>
+<ul>
+<li>核心能力：连接日历系统预订行程、管理待办事项、跨应用追踪上下文、整理每日简报；</li>
+<li>价值体现：打破应用壁垒，实现事务的一站式管理，减少用户在多个工具间的切换成本。</li>
+</ul>
+<h4 id="3-agent">3. 客服Agent：高模糊度请求处理</h4>
+<ul>
+<li>核心能力：收集用户工单数据、调用业务系统查询用户信息、通过外部API反馈处理结果、复杂问题自动升级人工；</li>
+<li>价值体现：处理传统客服机器人无法应对的模糊需求，提升工单处理效率与用户满意度。</li>
+</ul>
+<h4 id="4-agent">4. 深度研究Agent：大型文档集合分析</h4>
+<ul>
+<li>核心能力：搜索文件系统中的文档资源、跨多来源综合信息、交叉引用数据、生成详细研究报告；</li>
+<li>价值体现：替代人工完成文献检索、信息整合的繁琐工作，大幅提升研究效率与报告质量。</li>
+</ul>
+<p>这四大场景的共同特点是：<strong>需要长时间运行、多步骤操作、跨系统协作，无法通过单次LLM调用完成——这正是Claude Agent SDK的核心价值</strong>，将LLM从“问答机器”升级为“持续工作助手”。</p>
+<h3 id="claude-code-vs-claude-agent-sdk">五、Claude Code vs Claude Agent SDK：产品与工具的本质区别</h3>
+<p>很多开发者会困惑：Claude Code已经足够强大，为何还需要Claude Agent SDK？二者的核心区别在于“产品”与“工具”的定位差异：</p>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>Claude Code</th>
+<th>Claude Agent SDK</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>核心定位</td>
+<td>个人智能工具</td>
+<td>通用Agent构建框架</td>
+</tr>
+<tr>
+<td>服务对象</td>
+<td>单个用户</td>
+<td>开发者（用于构建面向多用户的Agent）</td>
+</tr>
+<tr>
+<td>核心价值</td>
+<td>提升个人工作效率</td>
+<td>快速构建、定制化部署企业级Agent</td>
+</tr>
+<tr>
+<td>灵活度</td>
+<td>固定功能，不可定制</td>
+<td>支持接入业务系统、定义合规规则、品牌化改造</td>
+</tr>
+<tr>
+<td>典型场景</td>
+<td>个人编码、文档处理</td>
+<td>企业客服机器人、行业解决方案、SaaS产品集成</td>
+</tr>
+</tbody>
+</table>
+<p>用一个形象的隐喻总结：Claude Code是你随身携带的多功能军刀，适合个人日常使用；而Claude Agent SDK是军刀工厂的完整生产线，让你能够批量生产、定制化改造，打造符合业务需求的专属工具。</p>
+<h3 id="agent_2">总结：通用Agent的构建核心是“赋能而非限制”</h3>
+<p>Claude Agent SDK的设计哲学，本质是对Agent自主性的深度赋能——不通过预定义工具限制Agent的能力边界，而是通过“给Agent一台电脑”的方式，赋予其与人类相同的数字化工作环境，让Agent通过自主决策、循环迭代完成复杂任务。</p>
+<p>对于开发者而言，这套框架提供了构建通用Agent的清晰路径：以终端为交互入口，以四大基础工具为核心能力，以“收集-执行-验证”的循环为工作流，即可快速打造适配各类场景的智能体。随着Agent技术的普及，这种“赋能而非限制”的设计理念，将成为通用Agent构建的主流范式。</p>
+<p>要不要我帮你整理一份<strong>Claude Agent SDK快速入门指南</strong>，包含环境搭建、基础工具调用、Agent Loop实现的核心代码示例？</p>
+<h2 id="2-claude-code4agent">2 Claude Code上下文收集策略：4大核心方法突破Agent信息获取与容量瓶颈</h2>
+<p>在Agent的自主工作循环中，“收集上下文（Gather Context）”是决定任务成败的关键第一步——只有精准获取所需信息，同时避免上下文窗口溢出，Agent才能高效推进后续行动。Anthropic在《Building agents with the Claude Agent SDK》中，系统拆解了Claude Code的上下文收集逻辑，通过“信息获取+容量维护”两类共4种策略，完美解决了“找得到信息”与“装得下信息”的核心矛盾。本文将深入解析这4大策略的设计逻辑与实战场景，帮开发者掌握Agent上下文管理的核心方法。</p>
+<h3 id="_2">一、上下文收集的核心挑战：为什么需要专门策略？</h3>
+<p>Agent在收集上下文时，面临两个根本性难题，这也是所有通用Agent的共性瓶颈：</p>
+<ol>
+<li><strong>信息获取难题</strong>：如何从海量文件、日志、数据中快速定位与任务相关的关键信息，避免“大海捞针”式的低效检索？</li>
+<li><strong>容量限制难题</strong>：大模型的上下文窗口存在物理上限，当Agent处理大型文件、长时间运行任务时，如何避免信息过载导致的上下文“撑爆”？</li>
+</ol>
+<p>针对这两个难题，Claude Agent SDK将上下文收集策略分为两类：<strong>收集策略（解决“找得到”）</strong> 和 <strong>维护策略（解决“装得下”）</strong>，两类策略协同工作，实现“精准获取+高效管理”的闭环。</p>
+<h3 id="_3">二、信息获取策略：从海量数据中精准“淘金”</h3>
+<p>信息获取策略的核心目标是“高效筛选相关信息”，Claude Code提供了两种互补方案：<strong>Agent Search（文件系统搜索）和Semantic Search（语义搜索），分别适配不同场景需求</strong>。</p>
+<h4 id="1-agent-searchbash">1. Agent Search：基于Bash命令的精准文件检索</h4>
+<p>Agent Search是Claude Code的默认信息获取方式，核心通过<code>grep</code>和<code>tail</code>等Bash命令，直接操作文件系统进行精准检索，相当于让Agent拥有“逐行扫描文件”的能力。</p>
+<p><strong>（1）核心工具：<code>grep</code>与<code>tail</code>的核心作用</strong></p>
+<ul>
+<li><strong><code>grep</code></strong>：文本过滤工具，可快速查找文件中包含特定关键词的行。例如，在10万行的日志文件中查找所有错误信息：  </li>
+</ul>
+<p><code>bash
+  grep "error" app.log  # 精准匹配包含"error"的行</code>
+- <strong><code>tail</code></strong>：读取文件末尾指定行数的内容，适合获取最新数据（如实时日志）。例如，查看日志文件的最后100行：  </p>
+<p><code>bash
+  tail -n 100 app.log  # 读取最后100行内容</code></p>
+<p><strong>（2）三大核心优势：精准、透明、可组合</strong></p>
+<ul>
+<li><strong>精准过滤，降低上下文压力</strong>：无需将整个大文件（如100MB日志）塞入上下文，仅提取关键词相关行（可能仅几十行，占比不足1%），大幅节省Token成本；</li>
+<li><strong>全程透明，可审计验证</strong>：Agent的检索过程完全通过标准Bash命令实现，开发者可清晰看到“<code>grep error app.log</code>”这类操作，明确信息来源，便于验证结果准确性（区别于向量搜索的“黑盒检索”）；</li>
+<li><strong>组合能力强，适配复杂场景</strong>：<code>grep</code>与<code>tail</code>可搭配其他Bash命令，实现更灵活的检索逻辑。例如：  </li>
+</ul>
+<p><code>bash
+  grep "error" app.log | tail -n 10  # 先找所有错误行，再取最后10条（最新错误）
+  grep -A 5 "error" app.log  # 查找错误行，并显示后续5行上下文</code>
+  这种组合能力让Agent仅用基础工具，就能完成复杂的信息提取任务。</p>
+<h4 id="2-semantic-search">2. Semantic Search：基于向量的快速语义匹配</h4>
+<p>Semantic Search（语义搜索）是补充性信息获取方式，核心逻辑是将文件分块、嵌入为向量，通过查询向量匹配语义相关的内容，相当于让Agent拥有“理解含义”的检索能力。</p>
+<p><strong>（1）核心原理：按“含义”匹配，而非关键词</strong></p>
+<p>与<code>grep</code>的“精准关键词匹配”不同，语义搜索能识别同义词、语义关联的表达。例如，用户用“错误”“异常”“故障”描述同一问题时，语义搜索能全部匹配，而<code>grep</code>仅能匹配完全一致的关键词。</p>
+<p><strong>（2）与Agent Search的核心区别：速度换精度</strong></p>
+<p>用一个形象的类比理解两者差异：</p>
+<ul>
+<li>Agent Search：像在档案室按“关键词标签”查找完整卷宗，精准、透明，但速度较慢；</li>
+<li>Semantic Search：像把卷宗剪成碎片按“含义分类”，快速汇集相关碎片，但准确性较低、难以追溯来源。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>Agent Search（<code>grep</code>/<code>tail</code>）</th>
+<th>Semantic Search（向量搜索）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>匹配逻辑</td>
+<td>关键词精准匹配</td>
+<td><strong>语义关联匹配</strong></td>
+</tr>
+<tr>
+<td>速度</td>
+<td>较慢（逐行扫描文件）</td>
+<td><strong>较快（向量快速比对）</strong></td>
+</tr>
+<tr>
+<td>准确性</td>
+<td>高（结果可验证）</td>
+<td>中等（可能匹配无关内容）</td>
+</tr>
+<tr>
+<td>透明度</td>
+<td>高（命令可审计）</td>
+<td>低（向量匹配过程黑盒）</td>
+</tr>
+<tr>
+<td>维护难度</td>
+<td>低（无需预处理文件）</td>
+<td>高（需分块、嵌入、维护向量库）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>（3）适用场景：仅在“必要时”使用</strong></p>
+<p>Claude官方建议优先使用Agent Search，仅在以下两种场景引入语义搜索：</p>
+<ol>
+<li>追求更快检索速度：当Agent Search的逐行扫描无法满足实时性需求时（如超大文件集合检索）；</li>
+<li>处理多表达变体：用户查询存在大量同义词、语义变体时（如“支付失败”“扣款未成功”“交易异常”）。</li>
+</ol>
+<h3 id="agent_3">三、上下文维护策略：让Agent“装得下”又“跑得久”</h3>
+<p>上下文维护策略的核心目标是“控制上下文容量”，通过隔离、压缩等方式，避免窗口溢出，同时支持Agent长时间运行，Claude Code提供了Subagents（子智能体）和Compaction（压缩）两种核心方案。</p>
+<h4 id="1-subagents">1. Subagents：上下文隔离的“并行处理单元”</h4>
+<p>Subagents（子智能体）是 Claude Agent SDK 的原生能力，本质是为主Agent分配“专属助手”，每个子Agent拥有独立的上下文窗口，核心解决“并行处理+容量隔离”问题。</p>
+<p>（1）两大核心用途</p>
+<ul>
+<li><strong>并行化处理</strong>：主Agent可同时启动多个子Agent，分别处理不同的检索任务，提升整体效率。例如，同时检索邮件历史、订单数据、用户偏好三类信息；</li>
+<li><strong>上下文隔离</strong>：子Agent的上下文与主Agent完全隔离，子Agent可处理海量信息，但仅将“摘要结果”返回给主Agent，避免主Agent的上下文被冗余数据淹没。</li>
+</ul>
+<p>（2）实战案例：邮件Agent的上下文管理</p>
+<p>设计“邮件整理Agent”时，可配置“搜索子Agent”：</p>
+<ol>
+<li>主Agent接收用户需求“整理近3个月的工作邮件，提取关键任务”；</li>
+<li>主Agent启动3个并行子Agent，分别检索“项目沟通邮件”“会议通知邮件”“任务分配邮件”；</li>
+<li>每个子Agent在独立上下文窗口中扫描对应邮件，仅返回“任务名称+截止日期+负责人”的摘要；</li>
+<li>主Agent汇总3个子Agent的摘要，生成最终报告，全程主Agent的上下文仅包含摘要信息，无冗余数据。</li>
+</ol>
+<h4 id="2-compaction">2. Compaction：时间维度的上下文“瘦身术”</h4>
+<p>Compaction（压缩）是针对“长时间运行任务”的维护策略，核心通过自动总结历史信息，释放上下文空间，让Agent能持续工作而不溢出。</p>
+<p>（1）核心逻辑：总结历史，保留关键</p>
+<p>当上下文容量接近上限时，Claude Code会自动触发Compaction机制：</p>
+<ul>
+<li>对之前的对话记录、检索结果、行动日志进行精简总结；</li>
+<li>仅保留“任务目标、关键结论、未完成步骤”等核心信息；</li>
+<li>删除冗余的中间过程、重复内容，大幅压缩上下文体积。</li>
+</ul>
+<p>（2）与Subagents的区别：空间隔离vs时间压缩</p>
+<ul>
+<li>Subagents解决“空间维度”的容量问题：通过并行隔离，避免主Agent一次性接收大量数据；</li>
+<li>Compaction解决“时间维度”的容量问题：通过总结历史，让Agent能长时间运行（如持续工作数小时、处理成百上千步任务）。</li>
+</ul>
+<p>两者协同，可支撑Agent应对“复杂+长时间”的超级任务——Subagents负责并行处理多源信息，Compaction负责持续压缩历史上下文。</p>
+<h3 id="claude-code">四、四大策略协同逻辑：Claude Code的上下文管理闭环</h3>
+<p>Claude Code的上下文收集并非单一策略的叠加，而是形成“精准获取-高效维护”的完整闭环，核心逻辑可总结为：</p>
+<ol>
+<li><strong>优先精准检索</strong>：默认使用Agent Search（<code>grep</code>/<code>tail</code>），确保信息获取的准确性与透明度；</li>
+<li><strong>按需补充速度</strong>：仅在需要更快速度或多表达变体时，引入Semantic Search；</li>
+<li><strong>空间隔离减负</strong>：通过Subagents并行处理多源信息，仅返回摘要，保护主Agent上下文；</li>
+<li><strong>时间压缩续命</strong>：通过Compaction自动总结历史，支持Agent长时间运行。</li>
+</ol>
+<p>这一闭环的核心设计哲学是“文件系统即上下文”——让Agent直接操作文件系统自主检索信息，而非依赖预定义的信息接口，同时通过隔离、压缩等机制，平衡“信息完整性”与“容量可控性”。</p>
+<h3 id="_4">总结：上下文管理的核心是“精准筛选+智能减负”</h3>
+<p>Claude Code的4大上下文收集策略，本质是围绕“精准”与“高效”两个核心：信息获取策略确保Agent“找得到、找得准”，上下文维护策略确保Agent“装得下、跑得久”。</p>
+<p>对于开发者而言，这套策略提供了明确的实践指引：</p>
+<ul>
+<li>优先使用Agent Search构建基础检索能力，保证结果可审计；</li>
+<li>仅在特定场景补充语义搜索，避免过度依赖黑盒检索；</li>
+<li>用Subagents处理多源并行任务，隔离上下文容量；</li>
+<li>用Compaction支持长时间运行任务，压缩历史冗余。</li>
+</ul>
+<h2 id="3-claude-codetoolbashcodemcp">3 Claude Code行动层设计：Tool、Bash、Code、MCP四大能力构建智能体做事核心</h2>
+<p>在Claude Agent SDK的Agent Loop三大核心步骤中，<strong>Take Action（执行行动）</strong> 是将“信息收集”转化为“实际成果”的关键环节，也是让智能体从“能思考”升级为“能做事”的核心支撑。Anthropic在《Building agents with the Claude Agent SDK》中，为Claude Code设计了<strong>Tool、Bash、Code Generation、MCP</strong> 四大执行能力，四者各司其职又可灵活组合，构成了智能体完整的行动体系。本文将深入拆解这四大能力的设计逻辑、适用场景与选型策略，让开发者掌握构建高执行力智能体的核心方法。</p>
+<h3 id="_5">一、四大行动能力的形象隐喻：像白领一样高效工作</h3>
+<p>为了更好理解四大能力的定位与分工，我们可以将Claude Code智能体比作一名现代职场白领，四大能力对应其不同维度的工作技能，缺一不可：</p>
+<ul>
+<li><strong>Tool</strong>：核心岗位技能，是完成本职工作的高频、核心能力，直接对接核心业务需求；</li>
+<li><strong>Bash</strong>：基础办公能力，熟练操作电脑的各类基础功能，处理日常文件、系统操作等通用事务；</li>
+<li><strong>Code Generation</strong>：定制化解决问题的能力，遇到复杂、个性化问题时，能现场编写脚本实现专属解决方案；</li>
+<li><strong>MCP</strong>：跨部门协作的人脉与接口，无需自己搭建连接，通过标准化接口对接外部系统，实现跨平台协作。</li>
+</ul>
+<p>这一设计的核心精髓在于<strong>“分层赋能、按需组合”</strong>，既保证核心业务的高效可靠，又兼顾通用场景的灵活性与复杂场景的拓展性，让智能体具备像人类一样应对多样化工作的能力。</p>
+<h3 id="_6">二、四大行动能力深度拆解：定位、设计原则与实战价值</h3>
+<h4 id="1-tool">1. Tool：智能体的核心业务能力，遵循“少即是多”</h4>
+<p>Tool是Claude Code执行行动的<strong>主要构建块</strong>，在智能体的上下文窗口中占据显著位置，也是智能体处理任务时<strong>最优先考虑的操作方式</strong>。简单来说，当开发者为智能体定义了某一专属工具，智能体会将其作为解决对应任务的第一选择，无需再通过其他方式探索。</p>
+<p><strong>核心设计原则：少即是多，拒绝过度封装</strong></p>
+<p>Anthropic强调，工具设计的关键并非“越多越好”，而是要聚焦<strong>高频、高影响的核心动作</strong>，拒绝将所有API都包装成工具，避免分散智能体的注意力，同时减少上下文空间的占用。</p>
+<ul>
+<li><strong>错误做法</strong>：做一个<code>list context</code>工具返回通讯录所有联系人，让智能体自行翻找，效率极低且占用大量上下文；</li>
+<li><strong>正确做法</strong>：做一个<code>search context</code>工具，支持智能体按关键词精准搜索目标联系人，直接命中需求，大幅提升效率。</li>
+</ul>
+<p><strong>核心价值</strong></p>
+<p>工具是智能体处理<strong>核心、确定、高频业务</strong>的最佳选择，其高度结构化的特性保证了执行的可靠性与稳定性，是智能体行动层的“压舱石”。</p>
+<h4 id="2-bash">2. Bash：智能体的通用操作底座，灵活组合解决通用问题</h4>
+<p>Bash赋予了Claude Code直接操作计算机的<strong>通用系统能力</strong>，让智能体能够通过标准的Bash命令，完成文件处理、系统操作、数据筛选等各类无预定义工具的通用任务。</p>
+<p><strong><em>核心优势：一行命令实现多步骤组合，通用性拉满</em></strong></p>
+<p>Bash的核心价值在于<strong>强大的组合能力</strong>，多个操作可通过一行命令串联实现，无需为每个小任务单独定义工具。例如，处理邮件附件中的PDF信息时，智能体可通过一行Bash命令，完成<strong>PDF转文本→搜索指定关键词行→提取最后十条结果</strong>三个步骤，高效解决问题。</p>
+<p><strong>核心价值</strong></p>
+<p>Bash是智能体处理<strong>灵活、探索性、无预定义工具</strong>任务的最优解，其脚本静态化的特性占用上下文空间极低，且能覆盖绝大多数系统与文件操作场景，是智能体的“通用工具箱”。</p>
+<h4 id="3-code-generation">3. Code Generation：智能体的创造性解决能力，动态生成专属工具</h4>
+<p>Code Generation（代码生成）让Claude Code具备了<strong>现场编写代码解决复杂问题</strong>的能力，Anthropic将其定义为智能体的“动态工具制造能力”——智能体可根据任务需求，实时生成Python等代码脚本，为当前问题打造专属解决方案。</p>
+<p><strong>核心优势：高度可组合，实现复杂逻辑与标准化输出</strong></p>
+<p>代码的确定性、可组合性与可重用性，让其能解决Bash和工具无法覆盖的<strong>复杂、有动态逻辑</strong>的任务。例如，创建Excel表格时，若仅输出CSV文本，实用性极低；而智能体生成Python代码并调用pandas库，不仅能生成标准Excel文件，还能实现格式调整、报表生成、数据透视分析等复杂操作。
+Claude AI的文件创建功能正是完全依赖代码生成实现，通过编写Python脚本，智能体可自主创建Word、PPT、Excel等各类标准化文件，真正实现“按需造工具”。</p>
+<p><strong>注意事项</strong></p>
+<p>代码生成的缺点是<strong>存在一定风险</strong>，生成的代码可能出现语法错误，因此运行前建议增加自动检查环节；同时这一能力对API设计的规范性要求较高，否则智能体难以写出正确的调用代码。</p>
+<p><strong>核心价值</strong></p>
+<p>代码生成是智能体处理<strong>复杂、个性化、需要动态逻辑</strong>任务的核心能力，让智能体具备了超越预定义能力的创造性，是其应对复杂场景的“杀手锏”。</p>
+<h4 id="4-mcp">4. MCP：智能体连接外部世界的标准化桥梁，实现跨系统协作</h4>
+<p>MCP（Model Context Protocol）是Claude Code为智能体设计的<strong>连接外部系统的标准化接口</strong>，解决了传统智能体对接外部系统时，需要自行处理鉴权、API封装等繁琐工程细节的问题。</p>
+<p>核心逻辑：外部能力工具化，对智能体透明</p>
+<p>MCP通过<strong>MCP Server</strong>实现外部系统与智能体的连接，外部系统可将自身能力以工具的形式暴露给智能体，从智能体的视角来看，MCP提供的能力与开发者自定义的工具完全一致，无需区分来源。例如，配置Slack MCP Server后，智能体可直接调用<code>search slack messages</code>工具，实现Slack消息的检索，无需开发者单独封装Slack API。</p>
+<p>核心价值</p>
+<p>MCP是智能体<strong>对接外部世界、实现跨系统协作</strong>的标准化解决方案，大幅降低了智能体的集成成本，让智能体能快速接入Slack、各类云服务、业务系统等外部资源，成为真正的“跨平台工作助手”。</p>
+<h3 id="_7">三、四大能力的优劣势对比与选型策略：并非三选一，而是组合拳</h3>
+<p>四大行动能力各有优劣，适用于不同的任务场景，Anthropic强调，智能体的行动层设计<strong>并非单一能力的选择</strong>，而是根据任务需求的<strong>组合使用</strong>，高阶的智能体往往能在一次任务中灵活混合四大能力，实现效率与效果的最大化。</p>
+<h4 id="1_1">1. 四大能力核心优劣势对比</h4>
+<table>
+<thead>
+<tr>
+<th>能力类型</th>
+<th>核心优势</th>
+<th>核心劣势</th>
+<th>核心特性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tool</td>
+<td>高度结构化、执行可靠、优先级最高</td>
+<td>占用上下文空间大、不可组合</td>
+<td>核心业务、高频确定</td>
+</tr>
+<tr>
+<td>Bash</td>
+<td>可组合性强、上下文占用低、脚本静态</td>
+<td>探索时间较长、调用成功率略低</td>
+<td>通用操作、文件处理</td>
+</tr>
+<tr>
+<td>Code Generation</td>
+<td>高度可组合、脚本动态生成、创造性强</td>
+<td>有语法错误风险、对API设计要求高</td>
+<td>复杂任务、动态逻辑</td>
+</tr>
+<tr>
+<td>MCP</td>
+<td>标准化对接、无繁琐工程细节、外部能力工具化</td>
+<td>依赖外部MCP Server配置</td>
+<td>跨系统协作、外部连接</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2_1">2. 实战选型策略：按任务特性精准匹配</h4>
+<ol>
+<li><strong>高频、确定的核心业务</strong>→用Tool：固化为结构化工具，保证执行的可靠性与效率，作为智能体的优先选择；</li>
+<li><strong>灵活的探索性操作、文件/系统通用操作</strong>→用Bash：利用其组合能力与低上下文占用优势，快速解决无预定义工具的通用问题；</li>
+<li><strong>复杂的、需要动态逻辑的个性化任务</strong>→用Code Generation：通过动态生成代码打造专属解决方案，实现复杂逻辑与标准化输出；</li>
+<li><strong>需要对接外部系统、跨平台协作的任务</strong>→用MCP：通过标准化接口快速接入外部能力，避免繁琐的API封装与鉴权处理。</li>
+</ol>
+<h3 id="digital-employee">四、行动层设计的核心价值：让智能体成为真正的Digital Employee</h3>
+<p>Claude Code的四大行动能力，构建了一个<strong>分层、灵活、可扩展</strong>的行动层体系，其核心设计逻辑在于<strong>贴合人类的工作方式</strong>——将核心能力固化、通用能力灵活、复杂能力定制、外部能力标准化，让智能体不再是只会机械执行命令的Chatbot，而是能像人类员工一样，根据任务需求自主选择工作方式、灵活解决问题的<strong>Digital Employee（数字化员工）</strong>。</p>
+<p>四大能力如同智能体行动层的四根支柱，相互支撑、互补协同：</p>
+<ul>
+<li>Tool定住<strong>核心业务</strong>，保证基础工作的高效可靠；</li>
+<li>Bash筑牢<strong>通用底座</strong>，覆盖日常各类通用操作；</li>
+<li>Code Generation赋予<strong>创新能力</strong>，应对复杂个性化场景；</li>
+<li>MCP打通<strong>外部连接</strong>，实现跨系统的生态化协作。</li>
+</ul>
+<p>正是这四大能力的组合，让Claude Code智能体具备了处理多样化、复杂化真实世界任务的核心执行力，也是Anthropic打造通用智能体的关键设计。</p>
+<h3 id="_8">五、后续展望：行动后的验证，让智能体“把事做对”</h3>
+<p>执行行动只是智能体完成任务的中间环节，如何确保行动结果的正确性、如何从错误中学习并迭代优化，是智能体成为可靠工作助手的关键。Claude Agent SDK的Agent Loop第三步<strong>Verify Work（验证工作）</strong>，正是为了解决这一问题，让智能体具备自我验证、自主纠错的能力，这也是我们下一期要深入拆解的核心内容。</p>
+<h3 id="_9">总结</h3>
+<p>Claude Code的行动层设计，是Anthropic对智能体“如何高效做事”的深度思考，其核心并非简单的能力堆砌，而是<strong>基于任务场景的分层赋能与灵活组合</strong>。Tool、Bash、Code Generation、MCP四大能力，分别对应了智能体处理核心业务、通用操作、复杂任务、外部协作的不同需求，让智能体具备了全方位的执行能力。</p>
+<p>对于开发者而言，这一设计为构建高执行力智能体提供了清晰的指引：<strong>聚焦核心业务打造精简工具，依托Bash覆盖通用场景，通过代码生成应对复杂需求，借助MCP打通外部连接</strong>，并根据实际任务灵活组合四大能力，让智能体真正成为能落地、能做事、能解决真实问题的数字化助手。</p>
+<h2 id="4-claude-code">4 从“做事”到“做对事”：Claude Code的自我验证机制与可靠性工程</h2>
+<p>在智能体（Agent）的开发中，“能执行”只是基础，“能验证”才是核心。一个只会盲目执行命令的Agent，在真实世界中往往会因为微小的偏差导致灾难性后果。Anthropic在《Building agents with the Claude Agent SDK》第四部分，详细阐述了Claude Code的<strong>自我验证（Verify Work）</strong> 机制。这一机制作为Agent Loop的最后也是最关键的一步，赋予了AI“自查、自省、自纠”的能力，彻底解决了大模型“幻觉”与“执行偏差”带来的可靠性难题。</p>
+<p>本文将深入拆解Claude Code自我验证的<strong>三大核心策略</strong>与<strong>完整执行闭环</strong>，揭示如何将一个“鲁莽的执行者”训练成一名“严谨的专业人士”。</p>
+<h3 id="claude-code_1">一、技术博客：Claude Code的自我验证机制与可靠性工程</h3>
+<h4 id="_10">引言：为什么需要“自我验证”？</h4>
+<p>在大模型应用开发中，我们常陷入一个误区：认为只要Prompt写得足够好，工具调用得足够多，Agent就能完美完成任务。然而，现实是残酷的：</p>
+<ol>
+<li><strong>代码幻觉</strong>：Agent生成的Python脚本可能存在语法错误或逻辑漏洞。</li>
+<li><strong>执行偏差</strong>：文件路径写错、命令参数缺失，导致行动“空转”。</li>
+<li><strong>目标漂移</strong>：做了很多事，最后产出的结果与用户的核心需求不符。</li>
+</ol>
+<p>Claude Code的核心竞争力，就在于它将<strong>验证（Verification）</strong> 从“事后人工审核”前置为“Agent内部闭环”。通过<strong>结果验证、执行验证、需求验证</strong>三重防线，Claude Code确保每一次行动的产出都是“可运行、可交付、符合预期”的。</p>
+<h3 id="_11">二、自我验证的三大支柱：从基础到高阶的全链路检查</h3>
+<p>Claude Code的验证体系并非单一的“检查动作”，而是分层设计的逻辑体系。这三个层面由浅入深，分别解决了“有没有产出”“产出对不对”“产出准不准”的问题。</p>
+<p>Claude Code 的自我验证是 Agent 实现任务闭环的关键环节，三种由硬到软的落地策略。</p>
+<ul>
+<li><strong>定义规则</strong>：通过 Code Linting 等静态检查工具，无需运行代码即可揪出少括号、变量未使用等低级错误，反馈确定且高效。</li>
+<li><strong>视觉反馈</strong>：用 Playwright 生成 UI 截图，Agent 从布局、样式、信息层级、响应式四个维度审计，确保界面渲染符合预期。</li>
+<li><strong>LLM 评判</strong>：引入另一个 LLM 评估语气、风格等主观内容，类似同事把关，但成本和延迟更高。</li>
+</ul>
+<h4 id="1-result-verification">1. 结果验证（Result Verification）：事实存在性的检查</h4>
+<p><strong>核心定义</strong>：通过操作系统命令，验证行动的物理产出是否存在且符合基本预期。</p>
+<p><strong>适用场景</strong>：文件生成、数据导出、目录创建等有明确实体产出的任务。</p>
+<p><strong>技术实现</strong>：</p>
+<p>Claude Code会调用<code>ls</code>、<code>stat</code>、<code>head</code>、<code>wc -l</code>等Bash命令，对产出物进行“体检”。</p>
+<ul>
+<li><strong>存在性检查</strong>：执行<code>ls -l output.csv</code>，确认文件是否被创建。</li>
+<li><strong>完整性检查</strong>：执行<code>wc -l output.csv</code>，确认数据行数是否大于0，避免生成空文件。</li>
+<li><strong>格式检查</strong>：执行<code>head -n 5 output.csv</code>，快速预览前几行，确认CSV格式是否正确，有无乱码。</li>
+</ul>
+<p><strong>价值</strong>：这是最基础的“守门人”，能有效避免Agent将“未生成的文件”或“空文件”当作成果提交。</p>
+<h4 id="2-execution-verification">2. 执行验证（Execution Verification）：代码正确性的校验</h4>
+<p><strong>核心定义</strong>：<strong>主动运行</strong>Agent自身生成的代码或脚本，捕获运行时错误并自动调试。这是Claude Code区别于其他Agent的标志性能力。</p>
+<p><strong>适用场景</strong>：编写Python脚本、运行数据分析、生成可视化图表等需要代码介入的复杂任务。</p>
+<p><strong>技术实现</strong>：</p>
+<ol>
+<li><strong>执行</strong>：将生成的代码保存为<code>.py</code>文件后，立即执行<code>python analyze_data.py</code>。</li>
+<li><strong>捕获</strong>：监听标准错误输出（<code>stderr</code>）和返回码（<code>exit code</code>）。</li>
+<li><strong>调试</strong>：一旦捕获到<code>FileNotFoundError</code>或<code>SyntaxError</code>，Agent会将错误日志纳入上下文，自动分析原因（如路径错误、变量未定义），并修改代码重新执行。</li>
+</ol>
+<p><strong>价值</strong>：这一步彻底解决了大模型“写代码很溜，跑代码报错”的痛点。它让Agent成为了自己的“代码审查员”，将错误扼杀在内部循环中。</p>
+<h4 id="3-requirement-verification">3. 需求验证（Requirement Verification）：目标一致性的对齐</h4>
+<p><strong>核心定义</strong>：将最终产出与用户的原始需求进行双向比对，确保“做的事”精准匹配“要做的事”。</p>
+<p><strong>适用场景</strong>：有明确筛选条件、格式要求、范围限制的分析类任务。</p>
+<p><strong>技术实现</strong>：</p>
+<p>Agent会“回溯”用户的初始Prompt，提取关键约束条件（Constraints），并对结果进行验证。</p>
+<ul>
+<li><strong>案例</strong>：用户要求“统计2024年12月的华北地区销售额”。</li>
+<li><strong>验证动作</strong>：Agent在生成报表后，会检查报表的时间维度是否严格限定在12月？地区维度是否只包含“北京、天津、河北”等华北区域？是否混入了其他月份或地区的数据？</li>
+</ul>
+<p><strong>价值</strong>：这一步解决了“答非所问”的问题。它确保Agent不仅是一个高效的执行者，更是一个精准的理解者。</p>
+<h3 id="_12">三、完整执行闭环：一个任务的“生死时速”</h3>
+<p>将三大验证策略融入Agent Loop，便形成了Claude Code的<strong>自主纠错闭环</strong>。我们以“分析日志生成错误统计图表”为例，还原这一全过程：</p>
+<ol>
+<li><strong>行动（Take Action）</strong>：Agent编写了一段Python代码，计划读取<code>app.log</code>并统计500错误。</li>
+<li><strong>执行验证（Execution）</strong>：Agent运行代码，终端返回<code>FileNotFoundError: [Errno 2] No such file or directory: 'app.log'</code>。</li>
+<li><strong>修正（Amend）</strong>：Agent意识到路径错误，调用<code>ls</code>发现日志在<code>/var/log/app.log</code>，修改代码中的路径。</li>
+<li><strong>再执行验证</strong>：重新运行代码，执行成功，无报错。</li>
+<li><strong>结果验证（Result）</strong>：Agent执行<code>ls</code>，确认<code>error_chart.png</code>已生成，且文件大小合理。</li>
+<li><strong>需求验证（Requirement）</strong>：Agent快速扫描日志片段，确认代码逻辑确实是筛选<code>500 Internal Server Error</code>，而非<code>404</code>，且时间范围符合要求。</li>
+<li><strong>输出（Output）</strong>：确认所有验证通过，将图表和分析报告提交给用户。</li>
+</ol>
+<h3 id="agent_4">四、架构启示：如何构建高可靠性的Agent？</h3>
+<p>从Claude Code的设计中，开发者可以提炼出构建可靠Agent的三个关键原则：</p>
+<ol>
+<li><strong>验证即行动</strong>：不要将验证视为独立的步骤，而应将其编码为Agent的行动规则。每一个产生产出的行动，都必须紧跟一个验证行动。</li>
+<li><strong>工具化验证</strong>：不要依赖大模型的“脑补”去验证，要依赖<strong>工具</strong>。用<code>grep</code>验证内容，用<code>python</code>验证代码，用<code>diff</code>验证差异。工具的反馈是客观且可信赖的。</li>
+<li><strong>错误即上下文</strong>：执行失败不是终点，而是新的起点。将错误信息作为下一轮决策的核心上下文，实现“自我修复”。</li>
+</ol>
+<h3 id="_13">总结</h3>
+<p>Claude Code的自我验证机制，是Anthropic对“Agent可靠性”的深刻回答。它告诉我们，一个优秀的智能体，不仅需要强大的<strong>行动能力</strong>（Tool/Bash/Code），更需要严谨的<strong>评判能力</strong>。</p>
+<p><strong>结果验证</strong>确保了产出的存在，<strong>执行验证</strong>确保了逻辑的正确，<strong>需求验证</strong>确保了目标的对齐。这三道防线，共同将大模型的“不确定性”转化为了“确定性产出”，让Claude Code能够真正胜任企业级的复杂任务，成为一名值得信赖的“数字化员工”。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

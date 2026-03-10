@@ -1,0 +1,4177 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../5Agent_google/">
+      
+      
+        <link rel="next" href="../../chap9_claude/0intro/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
+    
+    
+      
+        <title>4 Equipping agents for the real world with Agent Skills - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#equipping-agents-for-the-real-world-with-agent-skills" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4 Equipping agents for the real world with Agent Skills
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/3OpenaiModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/4chatgpt_translate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/3AmazonBedrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/4assistantapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/2agent_buildout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0responseApi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0agents_demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1ai_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2ai_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3ai_agents_his/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Daily Blogs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Agent Daily Blogs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1agents_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4agent_arg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5Agent_google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Google AI Agent 白皮书深度拆解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 Equipping agents for the real world with Agent Skills
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 Equipping agents for the real world with Agent Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-agentsopanthropic-skillai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1 Agent架构的SOP革命：Anthropic Skill机制让AI从“会聊”到“会做”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Agent架构的SOP革命：Anthropic Skill机制让AI从“会聊”到“会做”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、Agent的真实世界困境：聪明却“无经验”的新员工
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、Agent的真实世界困境：聪明却“无经验”的新员工">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 缺乏过程知识：不知道“事情该怎么做”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 缺乏组织背景：不知道“东西在哪里”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skillagent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、Skill机制核心解析：Agent的“可动态加载能力模块”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、Skill机制核心解析：Agent的“可动态加载能力模块”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Skill的定义：结构化的“任务解决方案包”、
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Skill的核心优势：动态扩展，突破上下文限制
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、Skill的系统架构：从配置到执行的全链路逻辑
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、Skill的系统架构：从配置到执行的全链路逻辑">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 右侧：Agent虚拟机——“动手做事”的硬件基础
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 左侧：Agent配置——“思考决策”的大脑索引
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 全链路执行流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skill-vs-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、Skill vs Tool：流程编排者与原子执行者的本质区别
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skillagent_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、总结：Skill机制开启Agent落地新时代
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-anthropic-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 突破上下文限制：Anthropic Skill的渐进式机制实现“近似无限上下文”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2 突破上下文限制：Anthropic Skill的渐进式机制实现“近似无限上下文”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#skillskillmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、Skill的内部结构：以skill.md为核心的结构化目录
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、Skill的内部结构：以skill.md为核心的结构化目录">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-skillmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 核心入口：skill.md的双重角色
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 附属资源：无限扩展的外部文件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 附属资源：无限扩展的外部文件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 预加载设计：只加载“索引”，不加载“全文”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、渐进式批露机制：三层加载，随用随取
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        关键优势：Token消耗与任务复杂度解耦
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、核心突破：认知与执行分离，避免上下文“撑爆”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、核心突破：认知与执行分离，避免上下文“撑爆”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        认知空间与执行空间核心对比表
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-cognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 认知空间(Cognition)：上下文仅承载“思考所需信息”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 行动空间：外部虚拟机承载“执行与存储”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实例验证：PDF字段提取的执行流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、额外价值：外部脚本带来确定性与效率
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、上下文动态变化全过程：从触发到完成
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、核心结论：无限上下文的本质是“架构创新”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 Skill全生命周期指南：从开发、评估到安全共享，构建可落地的智能体技能体系
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3 Skill全生命周期指南：从开发、评估到安全共享，构建可落地的智能体技能体系">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、开发前置：以评估为起点，用问题驱动技能设计
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、开发前置：以评估为起点，用问题驱动技能设计">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-agent_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 评估先行：定位Agent的能力瓶颈
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 迭代式开发：小步验证，逐步扩展
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、结构设计：为规模与复用性搭建分层架构
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、结构设计：为规模与复用性搭建分层架构">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 三层文件结构：兼顾轻量化与扩展性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-agentskill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 关键设计原则：让Agent“读懂、用好”Skill
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 从Agent视角优化：观察并调整使用行为
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skill_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、迭代进化：人机共创式学习，让Skill持续成长
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、迭代进化：人机共创式学习，让Skill持续成长">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 成功案例沉淀
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 失败案例反思
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skill_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、安全底线：三大原则防范Skill使用风险
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、安全底线：三大原则防范Skill使用风险">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-skill_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 严格筛选来源：仅使用可信Skill
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 全面审查内容：使用前必做“安全检查”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 明确权限边界：最小权限原则
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skillmcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、未来展望：Skill与MCP协同，构建知识共享生态
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、未来展望：Skill与MCP协同，构建知识共享生态">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-skillmcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Skill与MCP：互补协同的核心架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 知识共享生态：从孤立到互联
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-agent_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 终极愿景：Agent自主创建技能
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skill_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总结：Skill体系的核心价值的是“可编程的行为标准”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anthropic Claude Code
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Anthropic Claude Code
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9_claude/0intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Claude Code 全解析：终端 AI 编程助手的核心玩法与基础实战指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9_claude/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Claude Code基础使用教程：从安装到核心命令全掌握
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../8claude/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 基于 Claude Agent SDK 构建智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9_claude/3claude_adv1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Claude Code连接外部工具：MCP协议实战指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-agentsopanthropic-skillai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1 Agent架构的SOP革命：Anthropic Skill机制让AI从“会聊”到“会做”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1 Agent架构的SOP革命：Anthropic Skill机制让AI从“会聊”到“会做”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、Agent的真实世界困境：聪明却“无经验”的新员工
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、Agent的真实世界困境：聪明却“无经验”的新员工">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 缺乏过程知识：不知道“事情该怎么做”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 缺乏组织背景：不知道“东西在哪里”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skillagent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、Skill机制核心解析：Agent的“可动态加载能力模块”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、Skill机制核心解析：Agent的“可动态加载能力模块”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Skill的定义：结构化的“任务解决方案包”、
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Skill的核心优势：动态扩展，突破上下文限制
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、Skill的系统架构：从配置到执行的全链路逻辑
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、Skill的系统架构：从配置到执行的全链路逻辑">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 右侧：Agent虚拟机——“动手做事”的硬件基础
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 左侧：Agent配置——“思考决策”的大脑索引
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 全链路执行流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skill-vs-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、Skill vs Tool：流程编排者与原子执行者的本质区别
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skillagent_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、总结：Skill机制开启Agent落地新时代
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-anthropic-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 突破上下文限制：Anthropic Skill的渐进式机制实现“近似无限上下文”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2 突破上下文限制：Anthropic Skill的渐进式机制实现“近似无限上下文”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#skillskillmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、Skill的内部结构：以skill.md为核心的结构化目录
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、Skill的内部结构：以skill.md为核心的结构化目录">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-skillmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 核心入口：skill.md的双重角色
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 附属资源：无限扩展的外部文件
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. 附属资源：无限扩展的外部文件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 预加载设计：只加载“索引”，不加载“全文”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、渐进式批露机制：三层加载，随用随取
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        关键优势：Token消耗与任务复杂度解耦
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、核心突破：认知与执行分离，避免上下文“撑爆”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、核心突破：认知与执行分离，避免上下文“撑爆”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        认知空间与执行空间核心对比表
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-cognition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 认知空间(Cognition)：上下文仅承载“思考所需信息”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 行动空间：外部虚拟机承载“执行与存储”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实例验证：PDF字段提取的执行流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、额外价值：外部脚本带来确定性与效率
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、上下文动态变化全过程：从触发到完成
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、核心结论：无限上下文的本质是“架构创新”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 Skill全生命周期指南：从开发、评估到安全共享，构建可落地的智能体技能体系
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3 Skill全生命周期指南：从开发、评估到安全共享，构建可落地的智能体技能体系">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、开发前置：以评估为起点，用问题驱动技能设计
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、开发前置：以评估为起点，用问题驱动技能设计">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-agent_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 评估先行：定位Agent的能力瓶颈
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 迭代式开发：小步验证，逐步扩展
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、结构设计：为规模与复用性搭建分层架构
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、结构设计：为规模与复用性搭建分层架构">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 三层文件结构：兼顾轻量化与扩展性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-agentskill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 关键设计原则：让Agent“读懂、用好”Skill
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 从Agent视角优化：观察并调整使用行为
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skill_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、迭代进化：人机共创式学习，让Skill持续成长
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、迭代进化：人机共创式学习，让Skill持续成长">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 成功案例沉淀
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 失败案例反思
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skill_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、安全底线：三大原则防范Skill使用风险
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、安全底线：三大原则防范Skill使用风险">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-skill_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 严格筛选来源：仅使用可信Skill
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 全面审查内容：使用前必做“安全检查”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 明确权限边界：最小权限原则
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skillmcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、未来展望：Skill与MCP协同，构建知识共享生态
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、未来展望：Skill与MCP协同，构建知识共享生态">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-skillmcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Skill与MCP：互补协同的核心架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 知识共享生态：从孤立到互联
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-agent_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 终极愿景：Agent自主创建技能
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skill_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总结：Skill体系的核心价值的是“可编程的行为标准”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="equipping-agents-for-the-real-world-with-agent-skills">Equipping agents for the real world with Agent Skills</h1>
+<h2 id="1-agentsopanthropic-skillai">1 Agent架构的SOP革命：Anthropic Skill机制让AI从“会聊”到“会做”</h2>
+<p>AI Agent正迎来从“对话交互”到“任务执行”的关键转折，但在真实世界场景中，它们往往面临“知其然，不知其所以然”的困境——空有强大的模型能力，却缺乏落地任务所需的过程知识与组织背景。</p>
+<p>2025年10月16日，Anthropic发布的官方文档《Equipping agents for the real world with Agent Skills》，提出了革命性的Skill机制，为Agent突破落地瓶颈提供了标准化解决方案，让智能体真正具备“会做事”的核心能力。</p>
+<h3 id="agent">一、Agent的真实世界困境：聪明却“无经验”的新员工</h3>
+<p>Anthropic在文档中明确指出，即便强大如Claude，在处理真实世界任务时仍存在两大核心能力缺口，这恰如一位聪明但毫无工作经验的新员工：</p>
+<h4 id="1">1. 缺乏过程知识：不知道“事情该怎么做”</h4>
+<p>新员工入职第一天，即便智商再高，也会困惑“报销流程是什么”“如何提交代码”“合同审批要走哪些步骤”。同样，Agent若没有明确的流程指引，<strong>面对“生成合规文档”“提取合同字段”等具体任务时</strong>，要么输出杂乱无章，要么遗漏关键步骤，无法形成标准化结果。</p>
+<h4 id="2">2. 缺乏组织背景：不知道“东西在哪里”</h4>
+<p>新员工不清楚“项目API密钥存放在哪里”“汇报模板的格式要求”“客户资料的存储路径”，就无法高效开展工作。Agent也面临同样问题——没有对组织内部资源、配置、模板的认知，即便能理解任务意图，也因缺少必要的资源支撑而无法落地。</p>
+<p>这两大缺口，让Agent始终停留在“能聊天、难落地”的阶段。而Anthropic提出的Skill机制，正是为Agent量身打造的“标准化入职手册”，填补过程知识与组织背景的双重空白。</p>
+<h3 id="skillagent">二、Skill机制核心解析：Agent的“可动态加载能力模块”</h3>
+<h4 id="1-skill">1. Skill的定义：结构化的“任务解决方案包”、</h4>
+<p>Skill并非简单的知识片段，而是由<strong>指令（instructions）、脚本（scripts）、资源（resources）</strong> 组成的结构化文件夹，智能体能够动态发现、挂载并使用这些内容，精准提升特定任务的执行表现。</p>
+<p>这三要素形成了完整的任务闭环，恰好对应Agent的两大能力缺口：</p>
+<ul>
+<li><strong>指令+脚本</strong>：解决“不知道怎么做”的过程知识缺口，明确任务的步骤、逻辑与执行方式；</li>
+<li><strong>资源</strong>：解决“不知道东西在哪里”的组织背景缺口，提供任务所需的模板、配置文件等关键素材。</li>
+</ul>
+<h4 id="2-skill">2. Skill的核心优势：动态扩展，突破上下文限制</h4>
+<p>与传统“固定在系统提示中”的知识不同，Skill具备<strong>动态加载特性</strong>：</p>
+<ul>
+<li><strong>当Agent面对不同任务时（如分析财报、处理PDF、生成合规报告），会主动检索并匹配最相关的Skill</strong>；</li>
+<li>无需重启系统，<strong>即可实时挂载Skill中的SOP、脚本与模板，让输出更精准、一致且可复制</strong>；</li>
+<li>突破了大模型上下文窗口的限制，让Agent的智能边界随任务需求实时扩展，实现“近似无限上下文”的工作流。</li>
+</ul>
+<p>简单来说，Skill赋予了Agent“按需学习”的心智模式——面对新任务时，无需重新训练模型，只需加载对应的Skill模块，就能快速具备专业的任务执行能力。</p>
+<h3 id="skill">三、Skill的系统架构：从配置到执行的全链路逻辑</h3>
+<p>Skill机制的落地，依赖“Agent配置+虚拟机执行”的双层架构，清晰划分了“决策”与“执行”的边界：</p>
+<p>LLM通过 Agent 配置找到技能，再让虚拟机加载技能目录并执行脚本。</p>
+<p><img alt="Alt Image Text" src="../../images/chap8_7_1.png" title="Body image" /></p>
+<h4 id="1-agent">1. 右侧：Agent虚拟机——“动手做事”的硬件基础</h4>
+<p>虚拟机是Agent的“电脑与双手”，是任务的实际执行载体，核心包含两大能力：</p>
+<ul>
+<li>环境支撑：内置Python引擎与Bash命令行终端，支持执行脚本、操作文件（如<code>ls</code>列出文件、<code>cut</code>提取内容）等实际操作；</li>
+<li>存储载体：文件系统中存放着所有Skill的实体文件，包括指令文档、Python脚本、JSON配置、docx模板等，供虚拟机随时调用。</li>
+</ul>
+<p>这一设计让Agent摆脱了“只能输出文字”的局限，真正具备了“动手操作”的能力。</p>
+<h4 id="2-agent">2. 左侧：Agent配置——“思考决策”的大脑索引</h4>
+<p>左侧的LLM（大语言模型）是Agent的决策中心，而Agent配置则是LLM可访问的“Skill索引”，核心包含：、</p>
+<ul>
+<li>核心系统提示：定义Agent的基础行为准则与工作边界；</li>
+<li>已装备技能清单：列出可用的Skill名称与简介（如PDF处理、合同提取、财报分析等），方便LLM快速检索。</li>
+</ul>
+<h4 id="3">3. 全链路执行流程</h4>
+<p>当Agent需要处理某一任务时，执行逻辑如下：</p>
+<ol>
+<li>LLM（大脑）通过任务意图，从Agent配置的技能清单中匹配目标Skill；</li>
+<li>通过Tool工具向虚拟机发送指令（如<code>run bash command</code>），调用对应的Skill文件；</li>
+<li>虚拟机读取Skill中的指令、脚本与资源，执行具体操作（如运行Python脚本提取PDF字段、调用模板生成文档）；</li>
+<li>执行结果返回给LLM，由LLM整合后输出最终结果，或决定下一步操作。</li>
+</ol>
+<h3 id="skill-vs-tool">四、Skill vs Tool：流程编排者与原子执行者的本质区别</h3>
+<blockquote>
+<p>Skill  不是 Tool，它是 Tool 的 SOP</p>
+</blockquote>
+<p><strong>很多人会混淆Skill与Tool，但二者在架构中的角色、定位完全不同——Skill是“调用Tool的SOP”，Tool是“被Skill调用的原子能力</strong>”，具体差异可通过下表清晰区分：</p>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>Tool（工具）</th>
+<th>Skill（技能模块）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>核心定位</td>
+<td>回答“我能做什么”</td>
+<td>回答“我该如何做好这件事”</td>
+</tr>
+<tr>
+<td>技术本质</td>
+<td>原子化能力（API/函数）</td>
+<td>完整SOP（指令+脚本+资源）</td>
+</tr>
+<tr>
+<td>角色属性</td>
+<td>被动执行者，等待调用</td>
+<td>主动编排者，指导LLM调用Tool</td>
+</tr>
+<tr>
+<td>核心目标</td>
+<td>提供单一执行能力</td>
+<td>封装可移植、可复用的过程知识</td>
+</tr>
+<tr>
+<td>类比对象</td>
+<td>一台功能强大的烤箱</td>
+<td>一份详细的烤鸡食谱（含原料、温度、步骤）</td>
+</tr>
+</tbody>
+</table>
+<p>简单来说，Tool是“硬件”，提供基础执行能力；Skill是“软件+说明书”，通过编排Tool的使用流程，实现复杂任务的标准化落地。Skill并非替代Tool，而是让Tool的能力得到更高效、精准的发挥。</p>
+<h3 id="skillagent_1">五、总结：Skill机制开启Agent落地新时代</h3>
+<p>Anthropic的Skill机制，本质是为Agent建立了“过程知识标准化、组织背景资源化、能力扩展动态化”的落地体系。它让Agent从“聪明的聊天机器人”，升级为“具备专业执行能力的数字化员工”：</p>
+<ul>
+<li>对企业而言，Skill可复用、可移植，无需重复开发，降低了Agent的落地成本；</li>
+<li>对开发者而言，Skill的结构化设计让任务逻辑更清晰，便于维护与迭代；</li>
+<li>对用户而言，Agent的输出更一致、更精准，真正能解决真实世界的具体问题。</li>
+</ul>
+<p>随着Skill机制的普及，Agent将彻底摆脱“纸上谈兵”的困境，在办公自动化、企业流程优化、专业任务处理等场景中发挥核心价值。而Skill与Tool的协同模式，也为后续Agent架构的演进提供了清晰的方向——未来，Agent的竞争核心，将是“Skill生态的丰富度与复用性”。</p>
+<h2 id="2-anthropic-skill">2 突破上下文限制：Anthropic Skill的渐进式机制实现“近似无限上下文”</h2>
+<p>大模型的上下文窗口始终是Agent落地的核心瓶颈——过长的文本会导致推理效率下降、成本飙升，而复杂任务又离不开海量过程知识与资源支撑。Anthropic在《Equipping agents for the real world with Agent Skills》中提出的<strong>渐进式批露机制</strong>，通过“分层加载+认知与执行分离”的架构设计，让Agent无需扩大上下文窗口，就能实现“近似无限上下文”的工作模式，彻底解决了“信息过载”与“知识不足”的矛盾。</p>
+<h3 id="skillskillmd">一、Skill的内部结构：以skill.md为核心的结构化目录</h3>
+<p>要理解渐进式机制，首先要明确Skill的底层结构。每个Skill本质是一个标准化文件夹，其核心入口是<strong>skill.md文件</strong>——相当于技能的“使用说明书”，统筹元数据、核心指令与资源关联，具体结构如下：</p>
+<h4 id="1-skillmd">1. 核心入口：skill.md的双重角色</h4>
+<p>skill.md文件分为两部分，既承担“技能索引”功能，又包含“核心执行逻辑”：</p>
+<ul>
+<li>顶部YAML元数据区（frontmatter）：包含两个关键字段——<code>name</code>（技能名称，如“pdf处理”）和<code>description</code>（技能简介，如“从PDF中抽取文本和表单字段”），用于系统快速识别技能用途；</li>
+<li>正文Markdown区：存储技能的核心指令、SOP流程（如PDF字段提取的步骤），是Agent执行任务的核心依据。</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap8_7_2.png" title="Body image" /></p>
+<h3 id="2_1">2. 附属资源：无限扩展的外部文件</h3>
+<p>Skill文件夹中除skill.md外，还可包含各类附属文件，构成任务执行的“资源库”：</p>
+<ul>
+<li>文档类：如forms.md（表单提取规则）、reference.md（参考资料）；</li>
+<li>配置类：如.json格式的参数配置文件；</li>
+<li>脚本类：如.py格式的执行脚本（用于字段提取、数据处理等）。</li>
+</ul>
+<p>这些附属文件不直接加载进上下文，而是通过指令按需调用，为“无限上下文”提供了基础。</p>
+<h4 id="3_1">3. 预加载设计：只加载“索引”，不加载“全文”</h4>
+<p><strong>系统启动时，会自动扫描所有Skill的skill.md文件，但仅提取YAML元数据（name和description）预加载到系统提示词中。</strong></p>
+<p>这意味着Agent启动后，立刻知道“自己拥有哪些技能、能做什么”，但无需加载技能的完整内容——既节省了Token成本，又为后续分层加载埋下伏笔。</p>
+<h3 id="_1">二、渐进式批露机制：三层加载，随用随取</h3>
+<p>渐进式批露的核心逻辑，如同阅读一本结构化手册：<strong>先看目录（元数据），再读相关章节（核心指令），最后按需查阅细节（附属文件）</strong>。Anthropic将其拆解为三层加载机制，每层都对应明确的加载时机、内容与Token消耗：</p>
+<table>
+<thead>
+<tr>
+<th>加载层级</th>
+<th>文件位置</th>
+<th>核心内容</th>
+<th>加载方式</th>
+<th>Token消耗</th>
+<th>核心作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Level 1：元数据层</strong></td>
+<td>skill.md顶部YAML</td>
+<td>技能名称（name）、技能简介（description）</td>
+<td>系统启动时始终加载</td>
+<td>约100 Token</td>
+<td>让Agent快速知晓“有哪些技能、能做什么”，无需加载完整内容</td>
+</tr>
+<tr>
+<td><strong>Level 2：核心指令层</strong></td>
+<td>skill.md正文Markdown</td>
+<td>技能的SOP流程、核心执行逻辑</td>
+<td>技能被触发时加载</td>
+<td>平均&lt;5000 Token</td>
+<td>提供任务执行的关键步骤，确保Agent“知道怎么做”</td>
+</tr>
+<tr>
+<td><strong>Level 3：附属资源层</strong></td>
+<td>Skill文件夹内其他文件（.md/.json/.py等）</td>
+<td>参考资料、配置参数、执行脚本</td>
+<td>指令要求时按需加载</td>
+<td>理论无上限</td>
+<td>补充任务所需的细节资源，支持复杂操作</td>
+</tr>
+</tbody>
+</table>
+<h3 id="token">关键优势：Token消耗与任务复杂度解耦</h3>
+<p>传统Agent需将所有相关知识一次性塞进上下文，导致Token消耗随任务复杂度指数增长；</p>
+<p>而渐进式加载仅在需要时提取对应层级的信息，比如处理PDF时，仅加载“PDF技能”的核心指令，无需加载其他无关技能的内容，大幅降低了上下文压力。</p>
+<h3 id="_2">三、核心突破：认知与执行分离，避免上下文“撑爆”</h3>
+<p>为什么Level 3可以包含海量文件甚至超长脚本，却不会导致上下文溢出？关键在于Anthropic设计的<strong>认知与执行分离架构</strong>——将Agent的“思考空间”与“行动空间”彻底拆分：</p>
+<h4 id="_3">认知空间与执行空间核心对比表</h4>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>认知空间（Cognition）</th>
+<th>执行空间（Execution）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>核心定义</td>
+<td>模型的思考空间，承载推理所需关键信息</td>
+<td>任务的行动空间，负责实际操作与数据存储</td>
+</tr>
+<tr>
+<td>包含内容</td>
+<td>系统提示、技能元数据、被触发技能的Markdown正文</td>
+<td>forms.md、reference.md等文档、.py脚本、PDF等真实文件</td>
+</tr>
+<tr>
+<td>核心功能</td>
+<td>完成推理、总结、决策等脑力活动</td>
+<td>执行脚本运行、文件读取、数据处理等实际操作</td>
+</tr>
+<tr>
+<td>信息特点</td>
+<td>体量小、易压缩，仅保留本轮任务必需信息</td>
+<td>可包含海量文件，支持复杂操作，理论无容量上限</td>
+</tr>
+<tr>
+<td>运行机制</td>
+<td>随任务推进动态筛选关键信息，剔除冗余</td>
+<td>接收模型工具调用指令，执行后返回精简结果</td>
+</tr>
+<tr>
+<td>优势特性</td>
+<td>聚焦核心推理，避免上下文冗余与成本浪费</td>
+<td>执行结果确定、可复现，效率高于语言描述</td>
+</tr>
+<tr>
+<td>典型示例</td>
+<td>识别PDF处理需求，明确需调用extract_fields.py脚本</td>
+<td>运行Python脚本提取PDF字段，生成forms.json并返回执行结果</td>
+</tr>
+</tbody>
+</table>
+<h4 id="1-cognition">1. 认知空间(Cognition)：上下文仅承载“思考所需信息”</h4>
+<p>Agent的上下文（思考空间）仅包含三类核心信息，体量始终可控：</p>
+<ul>
+<li><strong>系统提示词+所有Skill的Level 1元数据（索引）</strong>；</li>
+<li><strong>被触发技能的Level 2核心指令（SOP）</strong>；</li>
+<li><strong>任务执行过程中产生的结果（如脚本运行反馈）</strong>。</li>
+</ul>
+<p>这部分信息聚焦“决策与判断”，Token消耗始终维持在低水平，不会因附属资源增多而膨胀。</p>
+<h4 id="2_2">2. 行动空间：外部虚拟机承载“执行与存储”</h4>
+<p>所有复杂操作（如脚本运行、文件读取）都在<strong>外部虚拟机</strong>中执行，构成Agent的“行动空间”：</p>
+<ul>
+<li>虚拟机内置Python引擎、Bash终端，支持运行.py脚本、操作文件（如<code>ls</code>列出文件、<code>run bash command</code>执行脚本）；</li>
+<li>附属资源（脚本、配置文件）存储在虚拟机的文件系统中，Agent不会“阅读”脚本内容，而是通过指令调用执行；</li>
+<li>执行结果仅返回精简反馈（如“字段提取完成，结果已保存为forms.json”），不传递原始脚本或海量数据。</li>
+</ul>
+<h4 id="pdf">实例验证：PDF字段提取的执行流程</h4>
+<p>以“提取PDF表单字段”任务为例，认知与执行分离的架构优势一目了然：</p>
+<ol>
+<li>Agent通过Level 1元数据识别“PDF处理技能”，加载Level 2核心指令（如“读取forms.md规则→运行extract_fields.py脚本”）；</li>
+<li>收到“运行脚本”指令后，Agent向虚拟机发送<code>run bash command</code>命令，不加载5000行的Python脚本到上下文；</li>
+<li>虚拟机执行脚本，完成字段提取后，仅返回“提取成功”的精简结果；</li>
+<li><strong>Agent基于结果继续决策，全程上下文仅承载“指令+反馈”，无冗余信息</strong>。</li>
+</ol>
+<p>正如Anthropic在文档中强调：“具备合适框架、状态和代码执行工具的Agent，无需将Skill的全部内容加载到上下文窗口，Skill可捆绑的上下文量实际上是无限的。”</p>
+<h3 id="_4">四、额外价值：外部脚本带来确定性与效率</h3>
+<p>渐进式机制不仅解决了上下文限制，还通过外部脚本执行提升了任务的“确定性与效率”：</p>
+<ul>
+<li>确定性：语言模型处理排序、数学运算、字段提取等任务时，易出现误差，而Python脚本执行结果可重复、可验证，避免“幻觉”；</li>
+<li><strong>效率：脚本执行速度远超模型推理，尤其处理海量数据时，能大幅降低延迟与Token成本</strong>；</li>
+<li>可维护性：脚本与配置文件独立于模型，修改任务逻辑时无需调整Prompt，直接更新文件即可，降低迭代成本。</li>
+</ul>
+<h3 id="_5">五、上下文动态变化全过程：从触发到完成</h3>
+<p>Skill被触发后，上下文的动态加载流程清晰可追溯，全程保持“按需扩展、无用即弃”：</p>
+<blockquote>
+<p>忠实还原原文示意：System Prompt +元数据 -&gt; 触发 pdf -&gt; 读取 forms -&gt; 执行脚本。</p>
+</blockquote>
+<ol>
+<li>初始状态：上下文包含系统提示、所有Skill的Level 1元数据、用户初始请求（如“帮我填写这份PDF表单”）；</li>
+<li>技能触发：Agent匹配“PDF处理技能”，加载该技能的Level 2核心指令（skill.md正文）到上下文；</li>
+<li><strong>资源调用：若指令要求“参考forms.md规则”，Agent调用工具读取该文件内容，仅将核心规则加载进上下文，未提及的reference.md仍留在文件系统</strong>；</li>
+<li>外部执行：执行<code>extract_fields.py</code>脚本，虚拟机返回精简结果，上下文仅记录结果，不存储脚本；</li>
+<li><strong>生成响应：Agent整合上下文内的“指令+结果”，输出最终回复（如“表单字段已提取，可直接填写”</strong>）。</li>
+</ol>
+<p><img alt="Alt Image Text" src="../../images/chap8_7_3.png" title="Body image" /></p>
+<h3 id="_6">六、核心结论：无限上下文的本质是“架构创新”</h3>
+<p>Anthropic的Skill机制证明，“近似无限上下文”并非依赖模型参数的提升，而是架构设计的突破：</p>
+<ul>
+<li>分层加载：通过Level 1-3的渐进式机制，让信息“随用随取”，避免上下文过载；</li>
+<li>内外分离：认知空间（上下文）聚焦决策，行动空间（虚拟机）承载执行，二者协同且解耦；</li>
+<li>资源外置：将海量知识与工具以Skill文件夹形式存储，Agent通过指令按需调用，突破了上下文窗口的物理限制。</li>
+</ul>
+<p>这种架构思想，让Agent既能拥有处理复杂任务的“海量知识储备”，又能保持“轻量高效的思考状态”，为真实世界任务的落地提供了关键支撑。未来，Skill生态的丰富度与可复用性，将成为Agent能力竞争的核心。</p>
+<h2 id="3-skill">3 Skill全生命周期指南：从开发、评估到安全共享，构建可落地的智能体技能体系</h2>
+<p>Anthropic的Skill机制不仅解决了Agent“会做事”的核心问题，更通过渐进式披露实现了“近似无限上下文”的突破。</p>
+<p>而Skill从概念落地为实用体系，关键在于掌握“开发-评估-安全-共享”的全生命周期管理。本文结合《Equipping agents for the real world with Agent Skills》第三部分核心内容，拆解Skill的完整构建逻辑，帮你打造可复用、高安全、能进化的技能体系。</p>
+<h3 id="_7">一、开发前置：以评估为起点，用问题驱动技能设计</h3>
+<p>Skill的核心价值是弥补Agent的能力短板，而非盲目堆砌功能。Anthropic强调，开发的第一步不是编写文档，而是通过评估暴露问题，让任务失败样本成为技能设计的源头。</p>
+<h4 id="1-agent_1">1. 评估先行：定位Agent的能力瓶颈</h4>
+<p>让Agent执行真实业务任务（如填写表单、生成合规报告、分析合同条款），重点观察三类关键场景：</p>
+<ul>
+<li><strong>出错场景：哪些步骤频繁产生错误结果（如字段提取遗漏、格式不符合要求）</strong>；</li>
+<li><strong>卡顿场景：在哪类操作中需要人工补充提示才能继续（如不清楚表单填写规则、缺乏必要参考数据）</strong>；</li>
+<li><strong>低效场景：哪些任务处理耗时过长或流程冗余（如重复查询同类信息、手动转换数据格式）</strong>。</li>
+</ul>
+<p>这些场景对应的能力缺口，就是Skill的核心开发靶点——每一个Skill都应聚焦解决一类具体问题，避免“大而全”导致的逻辑混乱。</p>
+<h4 id="2_3">2. 迭代式开发：小步验证，逐步扩展</h4>
+<p>Skill的成长依赖持续验证，而非一次性完成：</p>
+<ul>
+<li>初始版本：仅保留核心SOP与必要资源，优先验证“能否解决核心问题”（如PDF表单提取Skill，先实现关键字段识别功能）；</li>
+<li>多轮迭代：基于实际使用反馈，逐步添加细节指令、补充参考文档、优化脚本逻辑；</li>
+<li><strong>避免过度设计：初期不追求完美覆盖所有边缘场景，先保证主流程稳定，再通过迭代完善</strong>。</li>
+</ul>
+<h3 id="_8">二、结构设计：为规模与复用性搭建分层架构</h3>
+<p>当Skill覆盖的场景逐渐复杂，单一文件会导致维护成本飙升。Anthropic推荐“分层拆分”的设计思路，既保证结构清晰，又能降低模型记忆负担。</p>
+<h4 id="1_1">1. 三层文件结构：兼顾轻量化与扩展性</h4>
+<p>延续渐进式披露的核心逻辑，Skill的文件结构应分为三层，实现“随用随取”：</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>核心内容</th>
+<th>体量控制</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>上层：元数据层</td>
+<td>Skill名称（name）、功能简介（description）</td>
+<td>约100词</td>
+<td>帮助Agent快速识别技能用途，决定是否调用</td>
+</tr>
+<tr>
+<td>中层：核心指令层</td>
+<td>主流程SOP、关键操作步骤、决策逻辑</td>
+<td>≤5000词</td>
+<td>提供任务执行的核心依据，确保Agent“知道怎么做”</td>
+</tr>
+<tr>
+<td>下层：附属资源层</td>
+<td>参考文档（如forms.md）、配置文件（.json）、执行脚本（.py）</td>
+<td>无明确上限</td>
+<td>存储细节信息与可执行代码，按需加载调用</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2-agentskill">2. 关键设计原则：让Agent“读懂、用好”Skill</h4>
+<ul>
+<li><strong>拆分复用</strong>：将主流程与细节分离（如把不同表单的填写规则拆分为独立.md文件，在主文档中引用），提升维护效率；</li>
+<li><strong>明确执行边界</strong>：用清晰指令区分“需阅读的文档”和“需执行的脚本”（如标注“运行scripts/extract.py”“参考reference.md”），避免Agent混淆；</li>
+<li><strong>优化命名与简介</strong>：这两个字段是Agent判断是否调用Skill的核心依据，需精准描述功能（如“pdf-form-fill：提取用户历史信息，自动填写PDF表单字段”），避免模糊表述导致误触发。</li>
+</ul>
+<h4 id="3-agent">3. 从Agent视角优化：观察并调整使用行为</h4>
+<p>Skill的使用者是Agent，需持续观察其使用表现并优化：</p>
+<ul>
+<li>若Agent频繁误触发技能，可能是简介描述过于宽泛，需细化功能边界；</li>
+<li>若Agent过度依赖某类上下文才能使用Skill，需补充更详细的前置条件说明；</li>
+<li>若Agent在执行中频繁卡顿，可能是核心指令缺失关键步骤，需完善SOP逻辑。</li>
+</ul>
+<h3 id="skill_1">三、迭代进化：人机共创式学习，让Skill持续成长</h3>
+<p>Anthropic提出核心理念：Skill的进化不应仅依赖人类编辑，而应是“人机共同完成的过程”。通过让Agent参与总结与反思，将经验沉淀为标准化SOP。</p>
+<h4 id="1_2">1. 成功案例沉淀</h4>
+<p>当Agent通过Skill顺利完成任务时，触发其总结关键信息：</p>
+<ul>
+<li>哪些指令或步骤起到了核心作用；</li>
+<li>哪些参考资源或脚本提升了执行效率；</li>
+<li>用户需求的共性特点（如表单填写的高频字段、报告生成的格式偏好）。</li>
+</ul>
+<p>将这些总结自动更新到Skill的核心指令层或附属资源层，成为下一次执行的标准依据。</p>
+<h4 id="2_4">2. 失败案例反思</h4>
+<p>当Agent执行失败时，不直接重试，而是引导其深度反思：</p>
+<ul>
+<li>错误的具体表现（如字段提取错误、脚本运行失败）；</li>
+<li>失败原因（如误解指令、缺少必要参数、资源文件缺失）；</li>
+<li>改进方案（如补充参数校验逻辑、明确资源文件路径、优化脚本容错机制）。</li>
+</ul>
+<p>基于反思结果优化Skill，避免同类错误重复发生，形成“执行-反思-优化”的闭环。</p>
+<h3 id="skill_2">四、安全底线：三大原则防范Skill使用风险</h3>
+<p>Skill的强大能力（运行脚本、访问文件、连接网络）同时带来安全隐患。Anthropic明确了三条安全使用原则，平衡能力与风险：</p>
+<h4 id="1-skill_1">1. 严格筛选来源：仅使用可信Skill</h4>
+<p>避免安装来源不明的Skill，优先选择官方认证、开源社区验证或内部团队开发的技能模块——恶意Skill可能通过脚本窃取数据、执行非法操作，危害系统安全。</p>
+<h4 id="2_5">2. 全面审查内容：使用前必做“安全检查”</h4>
+<p>安装Skill后，需逐一审查所有文件：</p>
+<ul>
+<li>脚本文件（.py等）：检查是否包含恶意代码（如数据窃取、远程控制逻辑）、是否有未授权的外部网络请求；</li>
+<li>配置文件与参考文档：核实是否包含敏感信息（如API密钥、隐私数据）、外部资源链接是否安全可信；</li>
+<li>执行逻辑：明确Skill的操作范围（如是否访问本地文件系统、是否修改核心数据），评估潜在风险。</li>
+</ul>
+<h4 id="3_2">3. 明确权限边界：最小权限原则</h4>
+<p>限制Skill的访问权限，避免过度授权：</p>
+<ul>
+<li><strong>脚本执行权限：仅允许在隔离的虚拟机环境中运行，禁止直接访问核心系统</strong>；</li>
+<li><strong>文件访问权限：仅开放必要的文件目录（如/mnt/skills/），禁止访问系统级文件或敏感数据目录</strong>；</li>
+<li><strong>网络权限：禁止Skill未经授权连接外部不明服务器，必要时仅允许访问指定白名单地址</strong>。</li>
+</ul>
+<h3 id="skillmcp">五、未来展望：Skill与MCP协同，构建知识共享生态</h3>
+<p>Anthropic为Skill规划了清晰的发展方向：从“个人技能模块”升级为“全社会知识生态”，核心在于“共享与协同”。</p>
+<h4 id="1-skillmcp">1. Skill与MCP：互补协同的核心架构</h4>
+<p>Skill与模型上下文协议（MCP）并非竞争关系，而是互补协同：</p>
+<ul>
+<li>Skill提供“方法论”：教Agent“如何做”（如合同审查的流程、风险判断标准）；</li>
+<li>MCP提供“连接力”：让Agent“能做到”（如连接企业数据库、调用外部API、操作业务系统）。</li>
+</ul>
+<p>二者结合可实现“混合式智能”——例如合同审查Skill通过MCP连接企业合同库，自动提取条款、比对风险规则、生成审查报告，真正实现“懂方法、能执行”。</p>
+<h4 id="2_6">2. 知识共享生态：从孤立到互联</h4>
+<p>未来Skill将形成完整的生命周期：个人可上传专业技能模块（如财务报销流程、法律文书撰写），企业可共享内部SOP与工作流，Agent可通过统一平台发现、调用这些技能。这将打破知识的孤立状态，让不同Agent之间形成“知识网络”，实现能力复用。</p>
+<h4 id="3-agent_1">3. 终极愿景：Agent自主创建技能</h4>
+<p>长远来看，Agent将具备自主创建、编辑、评估Skill的能力——通过总结自身的有效操作模式，生成可复用的技能模块；通过验证与优化，持续提升模块的可靠性。届时，Skill将不仅是人类写给Agent的“说明书”，更是Agent自我成长的“记录档案”。</p>
+<h3 id="skill_3">总结：Skill体系的核心价值的是“可编程的行为标准”</h3>
+<p>从开发、评估到安全共享，Skill的全生命周期管理本质是“将模糊的任务经验转化为结构化、可复用、可进化的知识模块”。它让Agent从“会聊天”升级为“能做事”，让有限的上下文窗口具备“无限的能力扩展”，更构建了人机协同、知识共享的基础。</p>
+<p>Anthropic的Skill体系，不仅为智能体落地提供了实用工具，更建立了未来智能体世界的“可编程行为层标准”——当技能可共享、可进化、可协同，智能体将真正融入真实世界的工作流，成为高效可靠的协作伙伴。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
