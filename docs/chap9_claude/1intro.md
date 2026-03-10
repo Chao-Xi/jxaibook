@@ -398,3 +398,4 @@ GLM、DeepSeek、Kimi 配置逻辑完全一样，只改：
 
 ```
 ollama launch claude --model qwen3-coder-next:cloud
+```

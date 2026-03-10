@@ -251,8 +251,7 @@ github:
   Command: npx
   Args: -y @modelcontextprotocol/server-github
   Environment:
-    GITHUB_PERSONAL_ACCESS_TOKEN=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
-
+    GITHUB_PERSONAL_ACCESS_TOKEN=github_pat_11...
 To remove this server, run: claude mcp remove "github" -s project
 ```
 
