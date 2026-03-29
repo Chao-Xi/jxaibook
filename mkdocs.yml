@@ -74,6 +74,7 @@ nav:
     - '1 Claude Code基础使用教程：从安装到核心命令全掌握': 'chap9_claude/1intro.md'
     - '2 基于 Claude Agent SDK 构建智能体': 'chap8_agllm/8claude.md'
     - '3 Claude Code连接外部工具：MCP协议实战指南': 'chap9_claude/3claude_adv1.md'
+    - '4 Claude Certification: Code in Action': 'chap9_claude/5claude_certs.md'
   
 repo_url: https://github.com/Chao-Xi/jxaibook.git
 repo_name: "jxaibook"
