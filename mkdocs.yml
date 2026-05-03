@@ -76,7 +76,11 @@ nav:
     - '3 Claude Code连接外部工具：MCP协议实战指南': 'chap9_claude/3claude_adv1.md'
     - '4 Claude Certification: Code in Action': 'chap9_claude/5claude_certs.md'
     - '6 Claude Certification: Claude Hooks and the SDKs': 'chap9_claude/6claude_certs2.md'
-  
+  - 'Agent skills':
+    - '1 Intro to Agent Skills': 'chap9/1skill_intro.md'
+    - '2 Claude Skills 从使用到创建': 'chap9/2skill_build.md'
+    - '3 Agent Skills 完全指南：从概念到集成': 'chap9/3skills_first.md'
+
 repo_url: https://github.com/Chao-Xi/jxaibook.git
 repo_name: "jxaibook"
 
