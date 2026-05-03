@@ -1,0 +1,5082 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+        <link rel="prev" href="../../chap8_agllm/7agents_skill/">
+      
+      
+        <link rel="next" href="../1intro/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>0 Claude Code 全解析：终端 AI 编程助手的核心玩法与基础实战指南 - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#0-claude-code-ai" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              0 Claude Code 全解析：终端 AI 编程助手的核心玩法与基础实战指南
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/3OpenaiModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/4chatgpt_translate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/3AmazonBedrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/4assistantapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/2agent_buildout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0responseApi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0agents_demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1ai_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/2ai_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/3ai_agents_his/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Daily Blogs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Agent Daily Blogs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1agents_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/4agent_arg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/5Agent_google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Google AI Agent 白皮书深度拆解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/7agents_skill/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 Equipping agents for the real world with Agent Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anthropic Claude Code
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Anthropic Claude Code
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Claude Code 全解析：终端 AI 编程助手的核心玩法与基础实战指南
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Claude Code 全解析：终端 AI 编程助手的核心玩法与基础实战指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#claude-code-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        什么是 Claude Code？终端里的 AI 编程伙伴
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="什么是 Claude Code？终端里的 AI 编程伙伴">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#claude-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、直观体验：Claude Code 能做什么？
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、直观体验：Claude Code 能做什么？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        示例 1：一键生成完整项目
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        示例 2：在现有代码上迭代优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        示例 3：审查和解释现有代码
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、Claude Code 的核心优势：为什么它与众不同？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、下一步：安装与设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claude-code_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        深入 Claude Code：智能体、工具与执行流程全解析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="深入 Claude Code：智能体、工具与执行流程全解析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、选择模型：用 /model 命令切换
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、执行过程：看得见的智能体计划
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、工具调用：超越纯文本响应的能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、总结：工具是 Claude Code 的核心能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claude-code_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Code 核心特性解析：权限管控机制（安全使用的关键）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Claude Code 核心特性解析：权限管控机制（安全使用的关键）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、权限管控的直观体验：每一步操作都可控
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、Claude Code 权限模型的核心规则
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、Claude Code 权限模型的核心规则">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 默认「只读」：最严格的安全基线
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 两种授权方式：灵活兼顾安全与效率
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、权限模型总结：安全与效率的平衡
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claude-code_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Code 上下文与记忆机制：完全解析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Claude Code 上下文与记忆机制：完全解析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#claude-code-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Code 上下文（Context）与记忆机制完全解析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查看、导出与清空上下文
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#init" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用 /init 命令创建项目级长期记忆
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        成本与上下文的权衡
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="成本与上下文的权衡">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        全文核心总结（可直接当博客结尾）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claude-code-skillstoken" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Code 技能（Skills）机制详解：可插拔、省Token、项目级自定义
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Claude Code 技能（Skills）机制详解：可插拔、省Token、项目级自定义">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#skills-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、Skills 核心优势：按需加载，不浪费 Token
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、Claude Code 技能的两种作用域
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、插件市场：技能的打包形式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、技能如何被触发？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、实战：一个现成的技能长什么样？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skillmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SKILL.md 由两部分组成
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、使用技能：会先申请权限
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文章小结
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claude-code-hooks-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Code 钩子（Hooks）机制：让 AI 行为从“不确定”变“可控制”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Claude Code 钩子（Hooks）机制：让 AI 行为从“不确定”变“可控制”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、什么是 Hooks？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、最常用的两个钩子
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、最常用的两个钩子">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-pretooluse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. PreToolUse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-posttooluse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. PostToolUse
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hooks_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、Hooks 实际能做什么？（两个真实示例）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、Hooks 实际能做什么？（两个真实示例）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-web-mdn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        示例 1：强制 Web 搜索优先查 MDN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        示例 2：强制代码格式化
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hooks_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、Hooks 不会改变什么？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、Claude Code 生命周期内置 Hooks（完整版）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claudecode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ClaudeCode项目实战操作指南
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ClaudeCode项目实战操作指南">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1claudecode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1、ClaudeCode关联到项目
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2、项目常用/命令
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2、项目常用/命令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1、切换项目目录
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2、清除对话历史
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3、压缩对话内容
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24claudemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4、打开并编辑CLAUDE.md文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5、查看和修改配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6、查看和切换模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27claudecode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7、显示当前ClaudeCode会话和系统状态
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#29token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.9、显示消耗的token与费用统计
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3、核心模式：按需切换
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3、核心模式：按需切换">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1、自动编辑模式：免确认批量操作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2、Plan 模式：只规划不执行
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33yolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3、Yolo 模式：最高权限，完全放手，自动化
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4、会话管理： 避免失控，快速回滚与重开
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4、会话管理： 避免失控，快速回滚与重开">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1、暂停与回滚
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2、上下文溢出
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3、恢复与查看历史对话
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5、批量执行任务
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Claude Code基础使用教程：从安装到核心命令全掌握
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/8claude/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 基于 Claude Agent SDK 构建智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3claude_adv1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Claude Code连接外部工具：MCP协议实战指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5claude_certs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 Claude Certification: Code in Action
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6claude_certs2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 Claude Certification: Claude Hooks and the SDKs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent skills
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent skills
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9/1skill_intro.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Intro to Agent Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9/2skill_build.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Claude Skills 从使用到创建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9/3skills_first.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Agent Skills 完全指南：从概念到集成
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#claude-code-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        什么是 Claude Code？终端里的 AI 编程伙伴
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="什么是 Claude Code？终端里的 AI 编程伙伴">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#claude-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、直观体验：Claude Code 能做什么？
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、直观体验：Claude Code 能做什么？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        示例 1：一键生成完整项目
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        示例 2：在现有代码上迭代优化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        示例 3：审查和解释现有代码
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、Claude Code 的核心优势：为什么它与众不同？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、下一步：安装与设置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claude-code_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        深入 Claude Code：智能体、工具与执行流程全解析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="深入 Claude Code：智能体、工具与执行流程全解析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、选择模型：用 /model 命令切换
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、执行过程：看得见的智能体计划
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、工具调用：超越纯文本响应的能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、总结：工具是 Claude Code 的核心能力
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claude-code_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Code 核心特性解析：权限管控机制（安全使用的关键）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Claude Code 核心特性解析：权限管控机制（安全使用的关键）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、权限管控的直观体验：每一步操作都可控
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、Claude Code 权限模型的核心规则
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、Claude Code 权限模型的核心规则">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 默认「只读」：最严格的安全基线
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. 两种授权方式：灵活兼顾安全与效率
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、权限模型总结：安全与效率的平衡
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claude-code_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Code 上下文与记忆机制：完全解析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Claude Code 上下文与记忆机制：完全解析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#claude-code-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Code 上下文（Context）与记忆机制完全解析
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查看、导出与清空上下文
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#init" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        使用 /init 命令创建项目级长期记忆
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        成本与上下文的权衡
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="成本与上下文的权衡">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        全文核心总结（可直接当博客结尾）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claude-code-skillstoken" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Code 技能（Skills）机制详解：可插拔、省Token、项目级自定义
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Claude Code 技能（Skills）机制详解：可插拔、省Token、项目级自定义">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#skills-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、Skills 核心优势：按需加载，不浪费 Token
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、Claude Code 技能的两种作用域
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、插件市场：技能的打包形式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、技能如何被触发？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、实战：一个现成的技能长什么样？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skillmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SKILL.md 由两部分组成
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、使用技能：会先申请权限
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        文章小结
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claude-code-hooks-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Claude Code 钩子（Hooks）机制：让 AI 行为从“不确定”变“可控制”
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Claude Code 钩子（Hooks）机制：让 AI 行为从“不确定”变“可控制”">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、什么是 Hooks？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、最常用的两个钩子
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、最常用的两个钩子">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-pretooluse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. PreToolUse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-posttooluse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. PostToolUse
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hooks_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、Hooks 实际能做什么？（两个真实示例）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、Hooks 实际能做什么？（两个真实示例）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-web-mdn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        示例 1：强制 Web 搜索优先查 MDN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        示例 2：强制代码格式化
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hooks_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、Hooks 不会改变什么？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#claude-code-hooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、Claude Code 生命周期内置 Hooks（完整版）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#claudecode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ClaudeCode项目实战操作指南
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="ClaudeCode项目实战操作指南">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1claudecode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1、ClaudeCode关联到项目
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2、项目常用/命令
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2、项目常用/命令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1、切换项目目录
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2、清除对话历史
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3、压缩对话内容
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24claudemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4、打开并编辑CLAUDE.md文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5、查看和修改配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.6、查看和切换模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27claudecode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.7、显示当前ClaudeCode会话和系统状态
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#29token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.9、显示消耗的token与费用统计
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3、核心模式：按需切换
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3、核心模式：按需切换">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1、自动编辑模式：免确认批量操作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2、Plan 模式：只规划不执行
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33yolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3、Yolo 模式：最高权限，完全放手，自动化
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4、会话管理： 避免失控，快速回滚与重开
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4、会话管理： 避免失控，快速回滚与重开">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1、暂停与回滚
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2、上下文溢出
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3、恢复与查看历史对话
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5、批量执行任务
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="0-claude-code-ai">0 Claude Code 全解析：终端 AI 编程助手的核心玩法与基础实战指南</h1>
+<h2 id="claude-code-ai">什么是 Claude Code？终端里的 AI 编程伙伴</h2>
+<p>Claude Code 是一款<strong>基于终端的 AI 工具</strong>，专门用于辅助你规划、编写和审查代码。在深入介绍它之前，我们先统一几个关键概念，避免混淆：</p>
+<ul>
+<li><strong>Claude</strong>：是 AI 公司 Anthropic 旗下的品牌名，代表其开发的大语言模型家族。</li>
+<li><strong>模型家族</strong>：目前主要有三个核心模型：Haiku、Sonnet 和 Opus。它们在能力、响应细节、速度和成本上各有侧重。</li>
+<li><strong>Claude 网页/桌面版</strong>：是运行在浏览器或桌面应用中的通用 AI 助手，地址是 claude.ai。</li>
+<li><strong>Claude Code</strong>：则是一个<strong>终端界面</strong>，它连接到 Claude 模型，但提供了一系列独特的能力。</li>
+</ul>
+<p>这意味着，你不需要下载桌面应用或打开网页，而是通过终端里的命令与它交互。在底层，它依然是在调用大语言模型，默认使用的就是 Anthropic 的三个模型之一。</p>
+<p>你可能会问：既然用的是同一个模型，为什么要选择 Claude Code，而不是其他界面呢？下面我用一个快速示例，让你直观地看到它的独特价值。</p>
+<h3 id="claude-code">一、直观体验：Claude Code 能做什么？</h3>
+<p>这是 Claude Code 的界面，不用担心我是怎么打开的，稍后会详细讲解安装和设置。你会看到一个输入提示词的地方。虽然理论上你可以问任何问题，但 Claude Code 的强项在于<strong>编写和阅读代码</strong>。</p>
+<h4 id="1">示例 1：一键生成完整项目</h4>
+<p>我现在还没有任何代码，所以让它生成一个演唱会门票售卖网站的原型。我会尽量把需求描述得具体一些：</p>
+<blockquote>
+<p>我需要一个页面，列出可售的演唱会门票。门票信息应包含：艺术家名、场馆名、活动日期和票价。请使用虚构的艺术家和场馆名作为占位符，并使用图片占位服务而非真实图片。点击任意活动可进入详情页，详情页应有“加入购物车”按钮，点击后将门票存入购物车。使用简单的 SQLite 数据库进行本地存储，用 Cookie 保存购物车当前内容。使用纯 HTML、CSS 和 JavaScript，不要用 React、Angular 等框架。</p>
+</blockquote>
+<pre><code>generate a prototype of a website for selling concert tickets.                            
+
+include a page that lists all available concert tickets                                   
+
+Information for each event should include the artist name, venue name, event date, and  ticket price                                                                              
+
+Make up fake artist and venue names as placeholders, and use a placeholder image service  instead of    real images                                                                 
+
+Any event can be clicked to show a details page                                           
+
+That details page should have an add to cart button, and when that's pressed, the page  should store    that ticket in a shopping cart                                            
+
+Use a simple SQLite database for local storage, and cookies to store the current contents of the cart                                                                              
+
+I want this prototype to use HTML, CSS, and JavaScript, but no frameworks like React or Angular 
+</code></pre>
+<p>输入后回车，稍等片刻，代码就生成了。我在 VS Code 中打开看看：</p>
+<p><img alt="Alt Image Text" src="../../images/chap9_0_1.png" title="Body image" /></p>
+<p>你会发现，Claude Code 不仅生成了代码，还<strong>自动创建了文件和文件夹结构</strong>，把代码分门别类地放好了。我完全不需要手动复制粘贴。</p>
+<h4 id="2">示例 2：在现有代码上迭代优化</h4>
+<p>现在这个原型有一个“加入购物车”的功能。我想让它更生动一些，于是我对 Claude Code 说：</p>
+<blockquote>
+<p>当新商品加入购物车时，给购物车图标加一点动画效果。</p>
+</blockquote>
+<pre><code>Can you update the cart workflow so that the cart icon in the header adds come animation whenever a new item is added to the cart?
+</code></pre>
+<p><img alt="Alt Image Text" src="../../images/chap9_0_2.png" title="Body image" /></p>
+<p>Claude Code 思考片刻后，直接修改了相关文件。回到 VS Code，我能清楚地看到哪些文件被改动了。在浏览器中预览，点击“加入购物车”，图标确实有了流畅的动画反馈。</p>
+<h4 id="3">示例 3：审查和解释现有代码</h4>
+<p>服务器代码中有一行 SQL 语句使用了问号占位符，我有点好奇它的工作原理。我直接问 Claude Code，它会详细解释这是参数化查询，能有效防止 SQL 注入。</p>
+<p>我还可以让它聚焦特定领域，比如：</p>
+<blockquote>
+<p>帮我检查这段代码，看看有没有潜在的安全问题。</p>
+<p>Analyze this code for any security concerns, and report back in a bulleted list of areas that are concerning.</p>
+</blockquote>
+<p><img alt="Alt Image Text" src="../../images/chap9_0_3.png" title="Body image" /></p>
+<p>它会指出需要优先修复的跨站脚本（XSS）漏洞。</p>
+<p>再比如，我故意在代码中埋了一个错误，然后问它：</p>
+<blockquote>
+<p>帮我检查整个代码库，找到并修复这个错误。</p>
+</blockquote>
+<p>它不仅定位了问题，还主动提供了修复方案。</p>
+<p>当你结束工作时，只需输入 <code>/exit</code> 即可结束会话。</p>
+<h3 id="claude-code_1">二、Claude Code 的核心优势：为什么它与众不同？</h3>
+<p>通过上面的例子，我们可以清晰地看到，与网页版 Claude AI 等通用工具相比，Claude Code 有几个不可替代的优势：</p>
+<ol>
+<li>
+<p><strong>直接操作本地文件系统</strong>
+    它不再是生成一段代码让你复制粘贴，而是直接在你的电脑上创建、修改和组织文件。这极大地减少了开发中的摩擦。</p>
+</li>
+<li>
+<p><strong>具备“智能体”（Agentic）能力</strong>
+    我只给了一个初始提示，Claude Code 就自动将任务拆解成多个步骤并执行，无需我一步步指导。这就是所谓的“智能体工作”——你设定方向，它自主决策如何完成。</p>
+</li>
+<li>
+<p><strong>能使用工具，超越纯文本响应</strong>
+    除了返回文本，它还能读写文件、执行命令等。在第一个示例中，它自动创建了新文件；在后续的交互中，它又读取这些文件来决定如何响应。这一切都无需我明确下达“读文件”或“写文件”的指令。</p>
+</li>
+</ol>
+<p>如果用一句话总结，那就是：<strong>Claude Code 是一个具备智能体能力的 AI 编程伙伴，它能使用工具完成多种操作，无需用户持续的直接输入。</strong></p>
+<h3 id="_1">三、下一步：安装与设置</h3>
+<p>现在你已经了解了 Claude Code 的强大之处，接下来我们就来看看如何安装和设置它，让它成为你日常开发的得力助手。</p>
+<blockquote>
+<p>注：安装和设置步骤会在下一篇文章中详细展开，包括不同操作系统的安装命令、API 密钥配置，以及如何连接本地模型（如 Ollama）等进阶玩法。</p>
+</blockquote>
+<h2 id="claude-code_2">深入 Claude Code：智能体、工具与执行流程全解析</h2>
+<p>之前我们快速预览了 Claude Code 的工作方式，现在让我们深入到它的核心机制中。我会再次使用那个演唱会门票售卖网站的例子，在一个全新的目录中启动 Claude Code。</p>
+<h3 id="model">一、选择模型：用 <code>/model</code> 命令切换</h3>
+<p>和网页版一样，你可以在 Claude Code 中选择使用哪个版本的 Claude 模型，这通过 <code>/model</code> 命令实现。</p>
+<p>根据官方说明，<strong>Sonnet 是默认模型</strong>，如果你不做任何修改，Claude Code 就会使用它。在这个例子中，我也会使用 Sonnet。</p>
+<pre><code class="language-bash"># 查看当前使用的模型
+/model
+
+# 切换到 Opus（如果需要更强的能力）
+/model claude-3-opus-20240229
+</code></pre>
+<h3 id="_2">二、执行过程：看得见的智能体计划</h3>
+<p>当我输入和之前一样的提示词后，Claude Code 开始工作，并显示了几个关键指示器。让我们暂停屏幕，逐一解析：</p>
+<ol>
+<li><strong>高亮当前步骤</strong>：它会清晰地显示正在执行的任务步骤。</li>
+<li><strong>计时</strong>：显示处理这个提示词已经花费了多长时间。</li>
+<li><strong>下一步提示</strong>：明确告知接下来要执行的操作。</li>
+<li><strong>查看完整计划</strong>：按 <code>Ctrl+T</code> 快捷键，可以查看一个更宏观的计划，列出本次运行将经历的所有步骤。</li>
+</ol>
+<p>这个计划是由 Claude Code 的任务智能体（Task Agent）自动生成的，我不需要手动输入这些步骤。能够看到这个计划非常有用，如果发现哪里不对劲，可以随时按下 <strong><code>Esc</code> 键</strong> 停止执行。如果想在不添加新提示的情况下重新开始，只需输入 <code>continue</code> 并回车即可。</p>
+<p>在执行过程中，Claude 会通过日志消息告知它即将进行的操作。最终，它会通知我正在写入文件。</p>
+<p><img alt="Alt Image Text" src="../../images/chap9_0_4.png" title="Body image" /></p>
+<p><img alt="Alt Image Text" src="../../images/chap9_0_5.png" title="Body image" /></p>
+<h3 id="_3">三、工具调用：超越纯文本响应的能力</h3>
+<p>Claude Code 显示的这种格式，表明它正在使用一个工具：</p>
+<pre><code>Write(public/index.html)
+</code></pre>
+<ul>
+<li>工具名称（如 <code>Write</code>）显示在括号外。</li>
+<li>工具执行的具体操作（如写入 <code>public/index.html</code>）显示在括号内。</li>
+</ul>
+<p>这意味着，这个内置的文件写入工具就叫做 <code>Write</code>。</p>
+<p>想要展示更多工具需要一点技巧，因为是 Claude 决定何时使用工具，而不是你。不过，我可以通过提问来触发 <code>Read</code> 工具：</p>
+<blockquote>
+<p>帮我从服务器文件中选一个函数，并解释它的工作原理。</p>
+</blockquote>
+<p>果然，Claude 决定使用 <code>Read</code> 工具来读取那个文件，然后给出了详细解释。</p>
+<p>还有一个强大的工具叫做 <code>Web Search</code>，它可以联网搜索信息来辅助生成回答。我们可以通过一个问题来触发它：</p>
+<blockquote>
+<p>帮我描述一下我作为项目依赖安装的 <code>better-sqlite3</code> 库，其版本 9 和版本 10 之间的主要区别。</p>
+</blockquote>
+<p>Claude Code 会自动调用 <code>Web Search</code> 工具，获取最新的库更新信息，然后给出准确的对比。</p>
+<h3 id="claude-code_3">四、总结：工具是 Claude Code 的核心能力</h3>
+<p>核心结论是：<strong>工具调用是 Claude Code 的强大特性</strong>，它使 AI 能够做的远不止是用纯文本响应一个提示词。</p>
+<p>我展示了最常见的几个工具：
+- <strong><code>Read</code></strong>：读取本地文件
+- <strong><code>Write</code></strong>：写入本地文件
+- <strong><code>Web Search</code></strong>：联网搜索信息</p>
+<p>但 Claude Code 内置的工具远不止这些，它还支持执行 Shell 命令、查看目录结构等。更重要的是，你还可以编写自己的自定义工具，让 Claude 来调用。即使只用内置工具，也已经能覆盖绝大多数开发场景了。</p>
+<h2 id="claude-code_4">Claude Code 核心特性解析：权限管控机制（安全使用的关键）</h2>
+<p>在深入使用 Claude Code 的过程中，除了智能体计划和工具调用能力，<strong>精细化的权限管控机制</strong> 是另一个核心特性——它能确保 AI 不会未经授权修改你的本地文件，也是 Claude Code 相比其他终端 AI 工具更安全的关键。</p>
+<h3 id="_4">一、权限管控的直观体验：每一步操作都可控</h3>
+<p>我还是以演唱会门票网站为例，来演示这个特性：</p>
+<p>我向 Claude Code 提出新需求：</p>
+<blockquote>
+<p>为门票网站新增一个购物车汇总页面，显示包含手续费和税费的总金额。</p>
+<p>generate a new feature for the ticket site, this time a cart summary page that will include the total cost, including fees and taxes. </p>
+</blockquote>
+<p><img alt="Alt Image Text" src="../../images/chap9_0_6.png" title="Body image" /></p>
+<p>Claude Code 开始执行任务，但在调用 <code>Write</code> 工具尝试创建新文件时，它突然暂停了代码生成流程，并弹出了权限确认提示：</p>
+<blockquote>
+<p>是否允许创建该文件？</p>
+<p>可选操作：</p>
+<ol>
+<li>Yes（仅创建当前文件）</li>
+<li>Yes, allow all edits during this session（允许本次会话内的所有编辑操作）</li>
+<li>No, tell me what to do instead（拒绝，并给出替代方案）</li>
+</ol>
+</blockquote>
+<p>这个交互看似简单，却体现了 Claude Code 权限模型的核心设计：<strong>所有可能修改本地文件的操作，都需要用户明确授权</strong>。</p>
+<h3 id="claude-code_5">二、Claude Code 权限模型的核心规则</h3>
+<h4 id="1_1">1. 默认「只读」：最严格的安全基线</h4>
+<p>Claude Code 的工具权限默认处于<strong>最严格状态</strong>：</p>
+<ul>
+<li>对于 <code>Write</code>（写入文件）、<code>Delete</code>（删除文件）等修改类工具，默认无执行权限；</li>
+<li>对于 <code>Read</code>（读取文件）、<code>List</code>（查看目录）等只读类工具，默认允许执行（无需授权）；</li>
+<li>只要 AI 尝试执行任何修改本地文件系统的操作（如创建新文件、修改已有文件），都会立即暂停并向你请求授权。</li>
+</ul>
+<p>这种设计从根源上避免了 AI 误操作覆盖你的重要代码、删除关键文件，尤其适合在已有项目目录中使用 Claude Code。</p>
+<h4 id="2_1">2. 两种授权方式：灵活兼顾安全与效率</h4>
+<p>面对权限请求，你有两种核心授权选择，可根据场景灵活切换：</p>
+<p>（1）单次授权：仅允许当前操作</p>
+<p>选择「Yes」，仅授权 Claude Code 完成<strong>当前这一次文件写入/修改操作</strong>。</p>
+<ul>
+<li>适用场景：你不确定 AI 的操作是否合理，想逐次确认；</li>
+<li>优势：完全可控，每一步修改都经过你的确认；</li>
+<li>不足：如果 AI 需创建/修改多个文件，需要多次确认，效率较低。</li>
+</ul>
+<p>（2）会话级授权：一次性放开本次会话权限</p>
+<p>选择「Yes, allow all edits during this session」，授权 Claude Code 在<strong>本次会话内拥有所有文件修改权限</strong>。</p>
+<ul>
+<li>核心定义：Claude Code 的「会话」以 <code>claude</code> 命令启动为开始，以关闭终端或执行 <code>/exit</code> 命令为结束；</li>
+<li>适用场景：你明确信任当前需求的执行逻辑，希望 AI 一次性完成所有文件修改；</li>
+<li>优势：无需重复确认，大幅提升开发效率；</li>
+<li>
+<p>注意：授权仅在本次会话有效，退出后权限自动重置为默认的「只读」状态，不会留下安全隐患。</p>
+</li>
+<li>
+<p>拒绝授权的兜底方案</p>
+</li>
+<li>如果选择「No, tell me what to do instead」，Claude Code 会放弃当前修改操作，并主动给出替代方案：</li>
+</ul>
+<p>比如它会先输出需要创建/修改的代码内容，由你手动复制到本地文件，既满足需求，又完全由你掌控文件修改过程。</p>
+<h3 id="_5">三、权限模型总结：安全与效率的平衡</h3>
+<p>Claude Code 的权限管控机制可以总结为三句话：</p>
+<ol>
+<li><strong>默认只读</strong>：所有修改类操作默认禁止，从底层保障文件安全；</li>
+<li><strong>按需授权</strong>：AI 需执行修改操作时，必须向用户请求明确许可；</li>
+<li><strong>会话级放开</strong>：支持一次性授权本次会话的所有修改权限，兼顾效率。</li>
+</ol>
+<p>这种设计既解决了「AI 乱改文件」的安全痛点，又避免了「每次操作都要授权」的繁琐，是终端 AI 工具权限设计的最优解之一。</p>
+<p>尤其在企业开发场景中，开发者可以放心在公司项目目录中使用 Claude Code——无需担心 AI 误操作破坏项目代码，同时通过会话级授权，在可信场景下提升开发效率。</p>
+<h2 id="claude-code_6">Claude Code 上下文与记忆机制：完全解析</h2>
+<h3 id="claude-code-context">Claude Code 上下文（Context）与记忆机制完全解析</h3>
+<p>Claude 的记忆能力，依靠在每一次提示的开头附加一段专门的数据区域——<strong>上下文（Context）</strong> 来实现。</p>
+<p>所有 Claude 模型都设计为支持 <strong>200,000 tokens</strong> 的上下文窗口。</p>
+<p>在 Claude Code 中，你可以通过 <code>/context</code> 命令查看这 200K 上限里已经用了多少。</p>
+<p><img alt="Alt Image Text" src="../../images/chap9_0_7.png" title="Body image" /></p>
+<p>在当前会话中，它会按类型展示详细的占用情况：</p>
+<ul>
+<li><strong>System Prompt（系统提示词）</strong></li>
+</ul>
+<p>始终会被包含在内，由 Anthropic 定义，并随 Claude Code 一起发布。</p>
+<ul>
+<li>
+<p><strong>System Tools（系统工具）</strong></p>
+<ul>
+<li>指 Claude Code 可以使用的内置工具，例如 <code>Read</code>、<code>Write</code>。</li>
+<li>这些工具的定义本身也会消耗 tokens。</li>
+<li>因此，每当带记忆的会话使用一个新工具时，这部分的 token 数量就会增加。</li>
+</ul>
+</li>
+<li>
+<p><strong>Messages（消息对话）</strong></p>
+</li>
+<li>包含<strong>完整的对话历史</strong>：你的提示词 + Claude 的所有回复。</li>
+<li>
+<p>如果你再写一条新指令，然后重新查看上下文，就会发现 token 用量明显上升。</p>
+</li>
+<li>
+<p><strong>Free Space（剩余空间）</strong></p>
+</li>
+<li>是自动压缩缓冲区之外的剩余空间。</li>
+<li>系统会预留一部分 tokens 给 <strong>autocompact</strong> 功能——当上下文占用达到 <strong>95%</strong> 时，它会自动对对话进行摘要总结，只保留总结内容。</li>
+<li>原本的完整消息会被清空，替换成摘要。</li>
+</ul>
+<p>你通常不需要过度关心这个机制，除非你在做性能或成本优化。</p>
+<p>随着对话消息越来越多，上下文会逐渐被占满；</p>
+<p><strong>当空间不足时，Claude Code 就会自动把消息总结成摘要保存。</strong></p>
+<p><img alt="Alt Image Text" src="../../images/chap9_0_8.png" title="Body image" /></p>
+<h3 id="_6">查看、导出与清空上下文</h3>
+<p>如果你好奇当前对话内容，可以使用 <code>/export</code> 命令导出 Messages 部分的全部内容。</p>
+<p>执行后，系统会把当前会话的完整历史导出，你可以复制到剪贴板查看。</p>
+<p>而 <code>/clear</code> 命令会清空 Messages 里的所有内容，</p>
+<p>效果基本等同于<strong>完全重新开始一个会话</strong>。</p>
+<p>但要注意：</p>
+<ul>
+<li>一旦你再次向 Claude Code 发送提示，它很可能需要重新运行一系列工具，</li>
+<li>重新扫描当前目录结构、重新读取文件，把刚刚被你清空的上下文再重建一遍。</li>
+</ul>
+<p>你可以把 <strong>Context（上下文）</strong> 理解为 Claude 的<strong>短期记忆</strong>。</p>
+<p>在工作过程中，内容会不断进出、更新、压缩，但系统会尽可能保证<strong>最关键的信息留在短期记忆里</strong>。</p>
+<blockquote>
+<p>export</p>
+</blockquote>
+<p><img alt="Alt Image Text" src="../../images/chap9_0_9.png" title="Body image" /></p>
+<h3 id="init">使用 <code>/init</code> 命令创建项目级长期记忆</h3>
+<p>我自己在新项目中启动 Claude Code 时，有一个习惯：</p>
+<p><strong>先运行 <code>/init</code> 命令。</strong></p>
+<p>这个命令会创建一个名为 <strong>CLAUDE.md</strong> 的全大写文件，它会自动总结当前目录下的项目状态。</p>
+<p>之后，<strong>每次发送提示词时，CLAUDE.md 都会被自动加入到上下文的系统提示部分</strong>。</p>
+<p>一旦有了这个文件，你就可以手动往里添加任何信息：</p>
+<ul>
+<li>项目规范、命名规则、架构说明、品牌色、技术栈……</li>
+<li>这相当于一种<strong>手动编辑 AI 记忆</strong>的方式。</li>
+</ul>
+<p>在实际使用中，你花在维护 <code>CLAUDE.md</code> 这类文件的时间，</p>
+<p>往往和你在终端里写提示词的时间差不多一样多。</p>
+<h3 id="_7">成本与上下文的权衡</h3>
+<p>这里存在一个明显的权衡：</p>
+<p><strong>上下文越大，token 消耗越多 → 成本越高，或月度额度消耗越快。</strong></p>
+<p>所以在使用过程中，你需要留意 token 的使用情况。</p>
+<h4 id="_8">全文核心总结（可直接当博客结尾）</h4>
+<ul>
+<li>Claude 的记忆依靠 <strong>200K token 上下文</strong> 实现。</li>
+<li><code>/context</code> 可以查看 token 占用与分布。</li>
+<li><code>/export</code> 导出对话历史，<code>/clear</code> 清空短期记忆。</li>
+<li>达到 95% 容量时会自动 <strong>autocompact 摘要压缩</strong>。</li>
+<li><code>/init</code> 生成 <code>CLAUDE.md</code>，相当于<strong>可编辑的长期项目记忆</strong>。</li>
+<li>上下文越大功能越强，但 token 成本也越高。</li>
+</ul>
+<p>理解 Claude Code 的上下文与记忆机制，</p>
+<p>是写出稳定、高效、低成本 AI 编程工作流的关键。</p>
+<h2 id="claude-code-skillstoken">Claude Code 技能（Skills）机制详解：可插拔、省Token、项目级自定义</h2>
+<p>如果你对 Claude 体系比较熟悉，那你大概率见过或用过 <strong>Skills（技能）</strong> 功能。
+技能可以理解成<strong>一套可复用的自定义规则</strong>，会作为上下文自动注入到提示词中。</p>
+<h3 id="skills-token">一、Skills 核心优势：按需加载，不浪费 Token</h3>
+<p>Skills 最大的特点是：<strong>按需加载（loaded on demand）</strong>。</p>
+<p>也就是说：<strong>只有被调用时，才会消耗 Token</strong>。</p>
+<p>我们可以和 <code>CLAUDE.md</code> 做个对比：</p>
+<ul>
+<li>如果你把规则写在 <code>CLAUDE.md</code>，<strong>每次发请求都会带上全部内容</strong>，哪怕这段规则和当前对话完全无关；</li>
+<li>而 Skills 只有在真正用到时才加载，更轻量、更省成本。</li>
+</ul>
+<blockquote>
+<p>Claude Skills vs. CLAUDE.md Effect on Context</p>
+</blockquote>
+<p><img alt="Alt Image Text" src="../../images/chap9_0_11.png" title="Body image" /></p>
+<h3 id="claude-code_7">二、Claude Code 技能的两种作用域</h3>
+<p>在 Claude Code 里，技能有两种存放级别：</p>
+<ol>
+<li><strong>系统级（system level）</strong></li>
+</ol>
+<p>存放后，<strong>所有 Claude Code 会话都能使用</strong>。</p>
+<blockquote>
+<p>~/.claude/skills/skill-name</p>
+</blockquote>
+<ol>
+<li><strong>项目级（project level）</strong></li>
+</ol>
+<p>只对<strong>当前目录及其所有子目录</strong>的对话生效。</p>
+<p>非常适合给特定项目绑定专属规范。</p>
+<blockquote>
+<p>.claude/skills/skill-name</p>
+</blockquote>
+<h3 id="_9">三、插件市场：技能的打包形式</h3>
+<p>Claude Code 还提供了<strong>插件市场（marketplace）</strong>，</p>
+<p>官方把一组相关的技能打包在一起，称为 <strong>plugins（插件）</strong>，方便一键使用。</p>
+<blockquote>
+<p>/plugin marketplace</p>
+</blockquote>
+<p>如果你不确定当前有哪些技能，<strong>直接问 Claude 就行</strong>：</p>
+<blockquote>
+<p>你现在有哪些可用的技能？</p>
+<p>what skills do you have avaiable?</p>
+</blockquote>
+<p>Claude 会直接列出已加载的技能列表。</p>
+<p><img alt="Alt Image Text" src="../../images/chap9_0_10.png" title="Body image" /></p>
+<h3 id="_10">四、技能如何被触发？</h3>
+<p>和工具调用一样：</p>
+<p><strong>Claude Code 自己决定什么时候调用技能</strong>，不需要你手动开关。</p>
+<p>但你可以轻松引导它触发：</p>
+<p>只要你的提问内容、关键词和<strong>技能描述（skill description）匹配</strong>，</p>
+<p>Claude Code 通常就会自动启用对应的技能。</p>
+<h3 id="_11">五、实战：一个现成的技能长什么样？</h3>
+<p>这门课程的目标不是教你从零构建技能，但我可以带你看一个<strong>已经写好的技能结构</strong>。</p>
+<p>技能默认放在项目根目录的：</p>
+<pre><code>.claude/skills/
+</code></pre>
+<p>典型目录结构如下：</p>
+<pre><code>.claude/
+└── skills/
+    └── brand-colors/
+        └── SKILL.md
+</code></pre>
+<p>每个技能一个独立文件夹，里面必须有一个 <strong>SKILL.md</strong>。</p>
+<h3 id="skillmd">SKILL.md 由两部分组成</h3>
+<ol>
+<li><strong>Frontmatter（YAML 格式）</strong>
+   最上方是一段 YAML，用于定义：</li>
+<li>技能名称（name）</li>
+<li>
+<p>技能描述（description）</p>
+</li>
+<li>
+<p><strong>Markdown 正文</strong>
+   下面就是普通的 Markdown，一般包含：</p>
+</li>
+<li>技能概述</li>
+<li>具体指令与规则</li>
+<li>使用示例</li>
+</ol>
+<blockquote>
+<p>小提示：
+新建或修改技能后，<strong>必须退出 Claude Code 再重新进入</strong>，技能才会生效。</p>
+</blockquote>
+<h3 id="_12">六、使用技能：会先申请权限</h3>
+<p>我现在输入一条和“颜色”相关的提示词。</p>
+<p>因为是本次会话<strong>第一次使用该技能</strong>，Claude 会先向你请求权限：</p>
+<blockquote>
+<p>是否允许使用 brand-colors 技能？</p>
+</blockquote>
+<p>我回复 <code>yes</code>，技能就被激活。</p>
+<p>这表明我自定义的 <code>brand-colors</code> 技能已经正常运行并生效。</p>
+<h3 id="_13">文章小结</h3>
+<ul>
+<li><strong>Skills = 可插拔、按需加载的自定义规则</strong></li>
+<li><strong>比 CLAUDE.md 更省 Token</strong>，只有调用时才加载</li>
+<li>支持<strong>系统级 + 项目级</strong>两种作用域</li>
+<li>可通过插件市场扩展，也能自己编写 SKILL.md 定制</li>
+<li>使用前会申请权限，安全可控</li>
+<li>修改技能后需重启 Claude Code 生效</li>
+</ul>
+<h2 id="claude-code-hooks-ai">Claude Code 钩子（Hooks）机制：让 AI 行为从“不确定”变“可控制”</h2>
+<p>在使用 Claude Code 时，你会发现所有交互都带有<strong>非确定性（non‑deterministic）</strong>。</p>
+<p>意思就是：<strong>同样的提示词提交 10 次，可能得到 10 种完全不同的响应</strong>。</p>
+<p>这种不确定性不仅体现在文字回答上，还包括：</p>
+<ul>
+<li>Claude 如何调用工具（tools）</li>
+<li>如何使用技能（skills）</li>
+<li>如何从上下文（context）中读取信息</li>
+</ul>
+<p>即便输入完全一样，你也无法保证 Claude 每一次都会做出相同的决策。</p>
+<p>它给出的结果可能相似，但<strong>实现路径、步骤、调用方式</strong>可能完全不同。</p>
+<p>但在真实开发中，我们经常需要：
+<strong>某些行为必须固定、必须稳定、必须每次都以同样方式执行。</strong></p>
+<p>这就是 <strong>Hooks（钩子）</strong> 要解决的问题。</p>
+<h3 id="hooks">一、什么是 Hooks？</h3>
+<p>Hooks 是一种<strong>以确定性方式控制 Claude Code 行为</strong>的机制。</p>
+<p>如果你用过前端、Git 或服务端框架，对这个概念一定不陌生：</p>
+<ul>
+<li>系统预先定义好一些<strong>固定执行时机</strong></li>
+<li>你可以监听这些事件</li>
+<li>在这些生命周期节点上插入<strong>自定义逻辑</strong></li>
+</ul>
+<p>重点：</p>
+<p><strong>Hooks 不保证 AI 回答内容完全一样，只保证“动作执行时机”是确定的。</strong></p>
+<p>它控制的是<strong>行为与流程</strong>，不是最终生成的文本。</p>
+<h3 id="_14">二、最常用的两个钩子</h3>
+<h4 id="1-pretooluse">1. PreToolUse</h4>
+<p>在<strong>任何工具被调用之前执行</strong>。</p>
+<h4 id="2-posttooluse">2. PostToolUse</h4>
+<p>在<strong>工具调用完成之后执行</strong>。</p>
+<h3 id="hooks_1">三、Hooks 实际能做什么？（两个真实示例）</h3>
+<h4 id="1-web-mdn">示例 1：强制 Web 搜索优先查 MDN</h4>
+<p>假设你希望：</p>
+<p><strong>所有关于 HTML、CSS、JavaScript 的搜索，必须优先搜索 MDN 文档。</strong></p>
+<p>你就可以写一个 <strong>PreToolUse Hook</strong>：</p>
+<ul>
+<li>监听 WebSearch 工具</li>
+<li>每次调用前自动插入规则</li>
+<li>让 AI 优先使用 MDN 链接</li>
+</ul>
+<p>这样无论 AI 想怎么搜，第一步都会先查 MDN。</p>
+<p><strong>行为变得确定、可控。</strong></p>
+<h4 id="2_2">示例 2：强制代码格式化</h4>
+<p>假设你希望：</p>
+<p><strong>Claude 生成或修改的所有代码，必须遵守统一的缩进、格式规范。</strong></p>
+<p>你可以写一个 <strong>PostToolUse Hook</strong>：</p>
+<ul>
+<li>监听 Write / Edit 工具</li>
+<li>每次写完文件后自动执行格式检查/格式化命令</li>
+<li>确保输出代码风格统一</li>
+</ul>
+<p>这就是典型的确定性控制：</p>
+<p><strong>不管 AI 怎么写，最终输出必须符合规范。</strong></p>
+<h3 id="hooks_2">四、Hooks 不会改变什么？</h3>
+<p>再次强调：</p>
+<ul>
+<li>Hooks <strong>不保证 AI 回答完全一样</strong></li>
+<li>Hooks <strong>不消除模型本身的随机性</strong></li>
+<li>Hooks <strong>只控制工具执行的时机与行为</strong></li>
+</ul>
+<p>它是<strong>流程控制机制</strong>，不是答案固定器。</p>
+<h3 id="claude-code-hooks">五、Claude Code 生命周期内置 Hooks（完整版）</h3>
+<p><img alt="Alt Image Text" src="../../images/chap9_0_12.png" title="Body image" /></p>
+<p>Claude Code 在整个运行流程中提供了多个内置钩子，覆盖完整生命周期：</p>
+<ul>
+<li>会话启动时</li>
+<li>加载技能时</li>
+<li>调用工具前/后</li>
+<li>读取文件前/后</li>
+<li>写入文件前/后</li>
+<li>搜索前/后</li>
+<li>会话结束时</li>
+</ul>
+<p>每一个节点都可以挂载自定义逻辑。</p>
+<p>更详细的使用方法与编写规则，会在后续进阶课程中继续讲解。</p>
+<p>在 Claude Code 中：</p>
+<ul>
+<li><strong>AI 回答 = 非确定</strong></li>
+<li><strong>工具调用 = 非确定</strong></li>
+<li><strong>技能触发 = 非确定</strong></li>
+</ul>
+<p>而 <strong>Hooks = 确定性控制</strong>。</p>
+<p>它让你能够：</p>
+<ul>
+<li>固定某些行为必须发生</li>
+<li>在固定时机插入自定义逻辑</li>
+<li>让 AI 工作流更稳定、更工程化、更可预测</li>
+</ul>
+<p>简单说：</p>
+<p><strong>Hooks 让 Claude Code 从“随缘助手”变成“可控工具”。</strong></p>
+<h2 id="claudecode">ClaudeCode项目实战操作指南</h2>
+<h3 id="1claudecode">1、ClaudeCode关联到项目</h3>
+<p>输出 <code>/init</code> 命令 回车</p>
+<p>此时就开始读取项目下的所有文件，并且分析项目，在项目根目录下生成CLAUDE.md文件</p>
+<p>读取每个文件的所有代码</p>
+<pre><code>-rw-r--r--@   1 jacob  staff    3551 Mar  8 15:30 CLAUDE.md
+-rw-r--r--@   1 jacob  staff    3451 Mar  8 21:10 CLAUDE-CN.md
+</code></pre>
+<p>案例解析</p>
+<pre><code>/Users/jacob/learnspace/ai/claude-code-guide
+
+
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Repository Structure
+
+This is a community-maintained guide for [Claude Code](https://code.claude.com), the official CLI tool by Anthropic.
+
+
+├── agents/              # Specialized subagent profiles for different technologies
+├── skills/              # SKILL.md files for security/penetration testing domains
+├── guides/              # CLAUDE.md collections and personal workflow guides
+├── README.md            # Overview of the guide
+└── CHANGELOG.md         # Claude Code release notes (aggregated)
+
+
+## Key Components
+
+### Agents (`agents/`)
+Specialized subagents for different technologies and roles:
+- **Backend**: `backend-developer`, `java-architect`, `golang-pro`, `python-pro`, `php-pro`, etc.
+- **Frontend**: `frontend-developer`, `react-specialist`, `vue-component-architect`, `angular-architect`
+- **Mobile**: `mobile-app-developer`, `flutter-expert`
+- **Fullstack**: `fullstack-developer`, `laravel-specialist`, `django-developer`, `rails-expert`
+- **DevOps/Cloud**: `devops-engineer`, `cloud-architect`, `kubernetes-specialist`, `terraform-engineer`
+- **Database**: `postgres-pro`, `database-administrator`, `database-optimizer`
+- **Security**: `security-auditor`, `security-engineer`, `blockchain-developer`
+- **Specialized**: `game-developer`, `fintech-engineer`, `iot-engineer`, `embedded-systems`
+
+### Skills (`skills/`)
+SKILL.md files for security penetration testing domains:
+- Web application testing (SQL injection, XSS, OWASP top 10)
+- Network security (SSH, SMB, LDAP, certificate services)
+- Cloud security (AWS, Azure, GCP)
+- Active Directory and Windows domain attacks
+- Exploitation frameworks (Metasploit, Burp Suite)
+- Reverse engineering and privilege escalation
+
+### Guides (`guides/`)
+Curated CLAUDE.md collections:
+- **CLAUDE.md by Sabrina**: Implementation best practices, TDD workflow, quality gates
+- **CLAUDE.md by zebbern**: 7-parallel-task feature implementation system
+- **CLAUDE.md Collection**: 32 specialized agents across categories (optimizers, orchestrators, universal framework-specific)
+
+## Commands and Setup
+
+No build process required. This is a documentation repository.
+
+To contribute agent profiles or guides:
+1. Copy an existing agent file as template
+2. Follow the frontmatter format: `name`, `description`, `tools`, `model`
+3. Include mission, workflow, and output format
+4. Test agents in Claude Code before submitting
+
+## Claude Code Commands Reference
+
+From the README:
+- `claude config` - Configure settings
+- `claude mcp list/add/remove` - Manage MCP servers
+- `claude agents` - List configured agents
+- `claude update` - Update to latest version
+- `/model` - Switch AI model
+- `/config` - View/change settings
+- `/skills` - List available skills
+- `/agents` - Manage subagents
+
+## Personal Guides
+
+### Sabrina's Guidelines (`guides/CLAUDE.md by Sabrina/`)
+- TDD workflow: failing test → implement → refactor
+- Functions &lt; 25 lines (refactor if &gt; 40)
+- No `any` types without justification
+- Colocate tests with source files
+- Use Conventional Commits format
+
+### zebbern's Guidelines (`guides/CLAUDE.md by zebbern/`)
+- 7-parallel-task system for feature implementation
+- ZNEW: Read guidelines, confirm understanding
+- ZPLAN: Analyze request, check patterns, draft approach
+- ZCODE: Implement using TDD, run typecheck/lint/test
+- ZCHECK: Review function and test checklists
+- ZDONE: Run gates and commit with conventional format
+</code></pre>
+<h3 id="2_3">2、项目常用/命令</h3>
+<h4 id="21">2.1、切换项目目录</h4>
+<pre><code>输入：/add-dir &lt;文件夹路径&gt;
+</code></pre>
+<pre><code>❯ /compact                                                                                                            
+  ⎿  Compacted (ctrl+o to see full summary)
+
+❯ /add-dir                                                                                                            
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Add directory to workspace                                                                                        
+
+    Claude Code will be able to read files in this directory and make edits when auto-accept edits is on.           
+
+    Enter the path to the directory:                                            
+
+    ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+    │ Directory path…                                                                                            │
+    ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+  Tab to complete · Enter to add · Esc to cancel
+</code></pre>
+<p>现在就将工作目录切换到了新的项目</p>
+<h4 id="22">2.2、清除对话历史</h4>
+<pre><code>输入： /clear
+</code></pre>
+<p>清除对话历史，当发现claude code跑偏了或者需要开始一个新的任务时，可以清除对话历史，再开始</p>
+<h4 id="23">2.3、压缩对话内容</h4>
+<pre><code>输入： /compat [指令(可选)]
+</code></pre>
+<p>压缩对话内容，例如：/compat "保留尚未解决的问题" 会让 Claude 在总结时侧重未解决部分，避免上下文过长</p>
+<h4 id="24claudemd">2.4、打开并编辑CLAUDE.md文件</h4>
+<pre><code>输入： /memory
+</code></pre>
+<p>直接打开并编辑当前项目的持久记忆文件 CLAUDE.md，该文件通常包含项目简介、架构要点、代码惯例等</p>
+<pre><code>❯ /memory                                                                                                             
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Memory                                             
+
+    Auto-memory: on
+
+  ❯ 1. Project memory           Checked in at ./CLAUDE.md
+    2. User memory              Saved in ~/.claude/CLAUDE.md
+    3. Open auto-memory folder   
+
+  Learn more: https://code.claude.com/docs/en/memory
+
+  Enter to confirm · Esc to cancel
+</code></pre>
+<p>选择1表示项目中的CLAUDE.md，选择2表示用户的CLAUDE.md</p>
+<p>选择对应的CLAUDE.md，然后进行修改，修改完保存即可</p>
+<h4 id="25">2.5、查看和修改配置</h4>
+<p>输入：/config</p>
+<pre><code> Settings:  Status   Config   Usage  (←/→ or tab to cycle)                                                         
+
+
+  Configure Claude Code preferences                                                                                   
+
+  ╭────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮  
+  │ ⌕ Search settings...                                                                                           │
+  ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯  
+
+  ❯ Auto-compact                              true
+    Show tips                                 true
+    Reduce motion                             false
+    Thinking mode                             true
+    Prompt suggestions                        true
+  ↓ 16 more below
+
+  Type to filter · Enter/↓ to select · Esc to clear
+</code></pre>
+<p>可以看到都有哪些配置，以及配置的打开和禁用情况</p>
+<h4 id="26">2.6、查看和切换模型</h4>
+<p>输入: /model</p>
+<pre><code>❯ /model                                                                                                              
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Select model                                                                                                      
+  Switch between Claude models. Applies to this session and future Claude Code sessions. For other/previous model   
+  names, specify with --model.                                                                                      
+
+  ❯ 1. Default (recommended) ✔  Use the default model (currently Sonnet 4.6) · $3/$15 per Mtok                      
+    2. Sonnet (1M context)      Sonnet 4.6 for long sessions · $6/$22.50 per Mtok                                   
+    3. Opus                     Opus 4.6 · Most capable for complex work · $5/$25 per Mtok
+    4. Opus (1M context)        Opus 4.6 for long sessions · $10/$37.50 per Mtok
+    5. Haiku                    Haiku 4.5 · Fastest for quick answers · $1/$5 per Mtok
+
+  ▌▌▌ Medium effort (default) ← → to adjust
+
+  Enter to confirm · Esc to exit
+</code></pre>
+<h4 id="27claudecode">2.7、显示当前ClaudeCode会话和系统状态</h4>
+<p>输入：/status</p>
+<pre><code>❯ /status                                                                                                             
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Settings:  Status   Config   Usage  (←/→ or tab to cycle)                                                         
+
+  Version: 2.1.71                                                                                                     
+  Session name: /rename to add a name                                                                                 
+  Session ID: aebe21bc-ab96-49c7-b8fb-6fd741dea036                                                                    
+  cwd: /Users/jacob/learnspace/ai/claude-code-guide
+  Auth token: none
+
+  Model: Default (claude-sonnet-4-6)                                                                                  
+  IDE: Connected to VS Code extension version 2.1.71                                                                  
+  Memory: project (CLAUDE.md)
+  Setting sources:
+  Esc to cancel
+  ```
+
+#### 2.8、检测当前ClaudeCode安装状态
+
+输入：/doctor
+
+</code></pre>
+<p>❯ /doctor                                                                                                             </p>
+<p>──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Diagnostics                                                                                                       <br />
+  └ Currently running: npm-global (2.1.71)                                                                          <br />
+  └ Path: /opt/homebrew/Cellar/node/25.6.1_1/bin/node
+  └ Invoked: /opt/homebrew/bin/claude                                                                               <br />
+  └ Config install method: global                                                                                   <br />
+  └ Search: OK (vendor)                                                                                             <br />
+  Updates                                                                                                           <br />
+  └ Auto-updates: enabled                                                                                           <br />
+  └ Update permissions: Yes                                                                                         <br />
+  └ Auto-update channel: latest                                                                                     <br />
+  └ Stable version: 2.1.58
+  └ Latest version: 2.1.71
+  Press Enter to continue…
+ ```</p>
+<h4 id="29token">2.9、显示消耗的token与费用统计</h4>
+<p>输入：/cost</p>
+<pre><code>❯ /cost                                                                                                               
+  ⎿  Total cost:            $0.0000                                                                                   
+     Total duration (API):  0s                                                                                        
+     Total duration (wall): 52m 57s                                                                                   
+     Total code changes:    0 lines added, 0 lines removed                                                            
+     Usage:                 0 input, 0 output, 0 cache read, 0 cache write         
+</code></pre>
+<h3 id="3_1">3、核心模式：按需切换</h3>
+<p>通常情况下，Claude Code 每次修改都需要我们手动进行确认，这样的话，它效率就比较低。</p>
+<p>通过快捷键来切换不同的模式，不同Claude Code 版本快捷键可能不一样，一般为<code>Shift+Tab</code>  或 Alt+m。</p>
+<h4 id="31">3.1、自动编辑模式：免确认批量操作</h4>
+<p>适用于无需逐次确认的文件创建、修改的场景</p>
+<h4 id="32plan">3.2、Plan 模式：只规划不执行</h4>
+<p>面对项目搭建或复杂问题时，开启 Plan 模式。它会先梳理方案框架，比如要做“像素风格的移动端 todolist”，会自动规划技术栈、页面结构、适配方案等，确认后再动手。若不满意可直接说“重新规划"直到符合预期。</p>
+<pre><code>──────────────────────────────────────────────────────────────────────────────────────────────────────────────── ▪▪▪ ─
+❯ Try &quot;create a util logging.py that...&quot;
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ⏸ plan mode on (shift+tab to cycle)        
+</code></pre>
+<h4 id="33yolo">3.3、Yolo 模式：最高权限，完全放手，自动化</h4>
+<p>重构代码、启动新项目或修复复杂bug时，用<code>claude --dangerously-skip-permissions</code>进入 Yolo 模
+式。</p>
+<p>Claude 拥有更高权限，可直接执行更多操作，进入后仍能用 shift+Tab 调整模式，灵活切换权限粒度。</p>
+<p>开启的时候，会有确认提示，选择接受：</p>
+<pre><code>% claude -c --dangerously-skip-permissions
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  WARNING: Claude Code running in Bypass Permissions mode
+
+  In Bypass Permissions mode, Claude Code will not ask for your approval before running potentially dangerous
+  commands.
+  This mode should only be used in a sandboxed container/VM that has restricted internet access and can easily be
+  restored if damaged.
+
+  By proceeding, you accept all responsibility for actions taken while running in Bypass Permissions mode.
+
+  https://code.claude.com/docs/en/security
+
+  ❯ 1. No, exit
+    2. Yes, I accept
+
+  Enter to confirm · Esc to cancel
+</code></pre>
+<p>然后通过快捷键进行模式的切换：</p>
+<h3 id="4">4、会话管理： 避免失控，快速回滚与重开</h3>
+<h4 id="41">4.1、暂停与回滚</h4>
+<p>在执行过程中，按ESC 键停止它当前的操作，比如安装依赖超时或思路跑偏时，及时停止减少无效操作；</p>
+<p>按两次 ESC 键，可查看历史对话节点；</p>
+<h4 id="42">4.2、上下文溢出</h4>
+<p>当会话提示 "Context left until auto-compact: 3%" 说明历史记录快满了。此时会自动触发压缩(约150s）</p>
+<p>也可手动用 /compact 命令续命，避免对话中断。</p>
+<h4 id="43">4.3、恢复与查看历史对话</h4>
+<p>如果你中途退出，或者是由于某些原因将Cluade code强制关闭了，可以使用下面的命令恢复历史对话：        </p>
+<pre><code>claude -c 直接进入上次对话；
+claude -r 打开历史对话记录（使用较多）；
+</code></pre>
+<h3 id="5">5、批量执行任务</h3>
+<p>在项目根目录下创建TASK.md文件，每一行写一个任务</p>
+<p>使用提示词：读取TASK.md中的内容，每一行是一个任务，依次执行这些任务</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

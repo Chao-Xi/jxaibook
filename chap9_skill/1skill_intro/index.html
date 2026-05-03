@@ -1,0 +1,3468 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Jacob AI学习笔记">
+      
+      
+        <meta name="author" content="Jacob Xi">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../images/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>1 Intro to Agent Skills （skill \ skills.sh \ Skills MP \ find-skills 入门) - Jacob AI Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-intro-to-agent-skills-skill-skillssh-skills-mp-find-skills" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Jacob AI Book" class="md-header__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Jacob AI Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1 Intro to Agent Skills （skill \ skills.sh \ Skills MP \ find-skills 入门)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Jacob AI Book" class="md-nav__button md-logo" aria-label="Jacob AI Book" data-md-component="logo">
+      
+  <img src="../../images/logo.png" alt="logo">
+
+    </a>
+    Jacob AI Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Chao-Xi/jxaibook.git" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    jxaibook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Welcome
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI大模型应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI大模型应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 大模型的理论与技术的演进
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/2embedding_openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 大模型开发基础：OpenAIEmbedding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/3OpenaiModels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 大模型实战--OpenAI开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/4chatgpt_translate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 基于 ChatGPT 开发智能翻译助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap1_ba/5AI_PM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 产品经理的 5 个 AI 知识点：LLM、Agent、RAG、向量数据库、知识图谱
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AWS AI 应用
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AWS AI 应用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/1aws_term/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AWS AI 词汇表
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/2langchain_dynamodb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 使用 LangChain搭建基于Amazon DynamoDB 的大语言模型应用
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/3AmazonBedrock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Amazon Bedrock 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2_aws/4ML/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 低代码机器学习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prompt Engineering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Prompt Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/4prompt_exp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Prompt Engineering 快速入门+实战案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/1prompt_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Prompts & Use ChatGPT as a Powerful Tool for Programming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/2prompt_design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 11个顶级设计案例
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap3_prompt/3promt_fin_anylysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Prompts for F-Analyst
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python GPT
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python GPT
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/1Meeting_minutes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating an automated meeting minutes generator with Whisper and GPT-4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap4_python/2API_Basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    chatGPT API basics.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI基础学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI基础学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/2Prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Prompt Engineering，提示工程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/3prommaming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI 编程简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/4assistantapi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 OpenAI 的 Function Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap2024_zh/5rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 RAG和Embeddings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deepseek 模型
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Deepseek 模型
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dp1/1dp1_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 DeepSeek 模型介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/0agent_qa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 AI Agent 十问十答
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/1agant_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agents入门教程之概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/2agent_buildout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 AI Agents入门教程之从零开始构建Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/3agent_frameworks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 AI Agents入门教程之代理框架介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/4agent_types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 AI Agents入门教程之不同类型的智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/5agentic_workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5 为什么行业焦点从AI Agents转向Agentic Workflows？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/6agent_school/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 《AI智能体入门》课程讲述内容
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/7agai_geai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7 Agentic AI vs Generative AI: 区别与对比
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/8agent_mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agents, and the Model Context Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap5_agents/9mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8 爆火的Model Context Protocol是什么？
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    MCP 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 MCP 介绍
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/1mcp_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 代码讲透MCP原理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap6_mcp/2mcp_construction_principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 一文讲透MCP的原理及实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A2A 学习
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    A2A 学习
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/1a2a_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 谷歌 A2A （Agent2Agent）架构设计深度剖析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/2a2a_intro2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 关于A2A、MCP、Agent、LLM的6条极简事实
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap7_a2a/3a2a_intro3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 谷歌 A2A 与 Anthropic MCP 协议深度解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic LLMs for Developers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agentic LLMs for Developers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0responseApi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 OpenAI Responses API 与 Agents SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/0agents_demo1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 从零构建一个多智能体旅行规划系统：基于 OpenAI Agents SDK 的工程化实践
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1ai_agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Introduction to Developing AI Agents
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/2ai_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一章 初识智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/3ai_agents_his/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二章 智能体发展史
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Agent Daily Blogs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    AI Agent Daily Blogs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/1agents_intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 AI Agent 技术栈全景图：LLM、MCP/Function Calling 与 A2A 协议实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/4agent_arg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Agentic RAG 七大架构范式深度解析：从单智能体到端到端自动化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/5Agent_google/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Google AI Agent 白皮书深度拆解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/7agents_skill/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 Equipping agents for the real world with Agent Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Anthropic Claude Code
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Anthropic Claude Code
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9_claude/0intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    0 Claude Code 全解析：终端 AI 编程助手的核心玩法与基础实战指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9_claude/1intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Claude Code基础使用教程：从安装到核心命令全掌握
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap8_agllm/8claude/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 基于 Claude Agent SDK 构建智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9_claude/3claude_adv1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Claude Code连接外部工具：MCP协议实战指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9_claude/5claude_certs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4 Claude Certification: Code in Action
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9_claude/6claude_certs2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6 Claude Certification: Claude Hooks and the SDKs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent skills
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Agent skills
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9/1skill_intro.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1 Intro to Agent Skills
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9/2skill_build.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2 Claude Skills 从使用到创建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chap9/3skills_first.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3 Agent Skills 完全指南：从概念到集成
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1 skill 入门
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1 skill 入门">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#skills" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        为什么需要 Skills？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skills_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Skills 是什么、长什么样？
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Skills 是什么、长什么样？">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        技能怎么被触发？ 有两种方式：
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        能拿来做哪些事？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        写好一个 Skill 的几条原则
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="写好一个 Skill 的几条原则">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        描述要具体：
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主文件别太长：
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多用示例：
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        用语统一：
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        怎么开始？
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-agent-skills-skillssh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2 Agent Skills 去哪找？ skills.sh 入门
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2 Agent Skills 去哪找？ skills.sh 入门">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、验证步骤（做完即可验证）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-agent-skills-skills-mp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3 Agent Skills 去哪找？Skills MP 入门
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3 Agent Skills 去哪找？Skills MP 入门">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        如何发现技能：分类浏览与 AI 语义搜索
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        安装方式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        验证步骤（做完即可验证）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-agent-skills-find-skills" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4 Agent Skills 去哪找：find-skills 入门
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4 Agent Skills 去哪找：find-skills 入门">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#find-skills" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、find-skills 是什么？
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、安装与触发
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skillssh-skillsmp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        和「先打开 skills.sh / SkillsMP 再手动装」的对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-anthropic-skills-ppt-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5 Anthropic 官方 Skills 仓库与 PPT Skill 拆解
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5 Anthropic 官方 Skills 仓库与 PPT Skill 拆解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1anthropicsskills" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1、anthropics/skills 仓库介绍
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="1-intro-to-agent-skills-skill-skillssh-skills-mp-find-skills">1 Intro to Agent Skills （skill \ skills.sh \ Skills MP \ find-skills 入门)</h1>
+<h2 id="1-skill">1 skill 入门</h2>
+<p><strong>Agent Skills 是写进 Markdown 的「任务指南」，告诉助手该怎么做、用什么格式、遵循什么规范</strong></p>
+<blockquote>
+<p>不用改模型或写代码，改几份文档就能让 AI 更懂你的项目</p>
+</blockquote>
+<h3 id="skills">为什么需要 Skills？</h3>
+<p>Skills 能解决三件事：</p>
+<ul>
+<li><strong>稳定</strong>：同一任务每次按同一套流程和格式，输出更可预期，不会因会话不同而画风突变。</li>
+<li><strong>可传承</strong>：把经验写成技能，新人、新会话都能复用，技能文件可随项目提交，全组共享规范。</li>
+<li><strong>省时间</strong>：复杂流程（PR 审查、数据库查询、报告生成等）写成技能后，助手按步骤执行，少费口舌，也减少漏步骤。</li>
+</ul>
+<h3 id="skills_1">Skills 是什么、长什么样？</h3>
+<p>本质上，一个 Skill 是以 SKILL.md 为核心的文件夹，内含指令（Markdown）与可选附录（脚本、参考文档等；可选子目录常用 scripts/、references/、assets/）。</p>
+<p>跨助手通用，在 Cursor、Claude Code 等里结构一致。以 Cursor 为例，目录结构如下：</p>
+<pre><code>.cursor/skills/
+└── my-skill/
+    ├── SKILL.md          # 必需：技能名称、描述和主要步骤
+    ├── scripts/          # 可选：可执行脚本
+    ├── references/       # 可选：参考文档（如 REFERENCE.md）
+    └── assets/           # 可选：模板、配置等静态资源
+</code></pre>
+<p>每个技能有两个必填信息（写在 SKILL.md 文件开头的 YAML 里）：</p>
+<p>name：技能的唯一标识，用英文、小写、连字符，如 code-review、commit-message；在 Cursor 中需与所在文件夹名一致。</p>
+<p>description：用第三人称写「做什么 + 什么时候用」，并带上对话里会提到的关键词（如 commit、code review、PDF），助手靠它决定是否选用该技能。</p>
+<h4 id="_1"><strong>技能怎么被触发？ 有两种方式</strong>：</h4>
+<p><strong>隐式触发</strong>：你正常提需求（如「帮我写条 commit」「review 这段代码」），助手会扫一遍已加载技能的 description，自动判断当前任务是否匹配某条技能，匹配上就按该技能的说明执行。description 里写清「什么时候用」并带关键词，隐式触发才容易生效。</p>
+<p><strong>显式调用</strong>：你也可以主动指定用某条技能。</p>
+<p>在 Cursor 的 Agent 对话里输入 <code>/</code> 再搜技能名（如 <code>/commit-message</code>），或直接说「用 commit-message 技能写提交信息」。适合要强制走某套流程、或有多条技能可能被误匹配时使用。</p>
+<p>技能放哪里？ 不同产品用各自配置目录。</p>
+<p>Cursor：个人用 ~/.cursor/skills/，项目用 <code>.cursor/skills/</code> 或 <code>.agents/skills/</code>（勿用 ~/.cursor/skills-cursor/ 内置目录）。</p>
+<p>Claude Code 用 <code>~/.claude/skills/</code> 与 <code>.claude/skills/</code></p>
+<h3 id="_2">能拿来做哪些事？</h3>
+<p>Skills 适合几乎所有「可重复」的工作：任务有相对固定的步骤、格式或规范即可写成技能，一次写好、多次调用。下面用 Cursor 举例，覆盖编程、文档、数据、流程等：</p>
+<ul>
+<li><strong>代码评审</strong>：写 code-review 技能，约定团队的评审标准（安全、可读性、测试等）和反馈格式（必须改/建议改/可选），说「帮我 review 这段代码」时 Cursor 就按技能里的清单输出。</li>
+<li><strong>Commit 信息</strong>：写 commit-message 技能，约定格式（如 Conventional Commits：feat:、fix:、docs: 等）并给示例，助手按当前改动生成风格统一的提交信息，历史更整洁，也便于做自动化。</li>
+<li><strong>文档/报表</strong>：写好报告模板（摘要+发现+建议），助手按结构填空，输出格式一致，便于汇总汇报。</li>
+<li><strong>API 文档与接口说明</strong>：把你们团队的接口描述规范（字段、示例、错误码等）写成技能，助手在写或补全 API 文档、README 时自动按同一套格式来。</li>
+<li><strong>单元测试与用例</strong>：约定测试框架、命名和结构（如 Given-When-Then），写成技能后，让助手按规范生成或补充单测、测试用例，风格统一。</li>
+<li><strong>数据库与发布流程</strong>：如查数据库 schema、按公司流程做发布或迁移，把「先查哪张表、再检查哪些配置」写成技能，在相关对话里助手会自动按步骤执行，减少遗漏。</li>
+<li><strong>数据清洗与分析</strong>：固定好数据源约定、清洗步骤和输出格式（如 CSV/报表结构），需要做类似分析时让助手按技能执行，结果格式一致。</li>
+<li><strong>需求与用户故事</strong>：把产品/团队的需求描述格式、用户故事模板写成技能，助手在协助写 PRD、拆 story 时按同一套结构输出，便于协作。</li>
+</ul>
+<h3 id="skill">写好一个 Skill 的几条原则</h3>
+<h4 id="_3"><strong>描述要具体</strong>：</h4>
+<p>description 写清「做什么」和「什么时候用」，带上关键词（如 PDF、Excel、commit、code review）；<strong>写得太泛（如「帮助处理文档」）不利于助手在众多技能里准确选中</strong>。</p>
+<h4 id="_4"><strong>主文件别太长</strong>：</h4>
+<p>核心步骤和模板放 SKILL.md，细节放 reference、examples，需要时再让助手读，方便日后维护。</p>
+<h4 id="_5"><strong>多用示例</strong>：</h4>
+<p>格式类技能（commit、报告）给一两个输入输出示例，助手会模仿风格。例如在 Cursor 的 commit 技能里写：「改动：加了登录接口」→ feat(auth): add login endpoint，比只写「用 Conventional Commits」更管用。</p>
+<h4 id="_6">用语统一：</h4>
+<p>技能里术语一致（如只叫「API 端点」不混用「URL」「路由」），减少歧义，方便多人维护。</p>
+<h3 id="_7">怎么开始？</h3>
+<p>第一步：选一个你或团队重复在做、且希望风格统一的事（如写 commit、做 code review、生成周报），从「小而具体」的任务开始，更容易成功</p>
+<p>第二步：在项目根或用户目录建 .cursor/skills/（或 ~/.cursor/skills/），新建以技能名命名的子目录（如 commit-message），写 SKILL.md，填好 name、description 和简要步骤。有现成示例可先抄再改。其他助手目录名不同，技能写法一致。</p>
+<p>第三步：在 Cursor 对话里触发任务——可以自然说需求（如「根据当前改动写一条 commit」）让助手隐式匹配技能，也可以显式说「用 commit-message 技能写一条提交信息」；看是否按技能执行，再根据效果补充示例或把细节拆到 reference 里，迭代几次就顺手了。</p>
+<h2 id="2-agent-skills-skillssh">2 Agent Skills 去哪找？ skills.sh 入门</h2>
+<p>skills.sh 是开放 Agent Skills 生态目录，可以理解为「技能的 npm / 应用商店」：上面列出一批符合规范的 Agent Skills，支持按安装量、趋势浏览与搜索，并用一条命令装到本地。</p>
+<p><a href="https://skills.sh/">https://skills.sh/</a></p>
+<p><img alt="Alt Image Text" src="../../images/chap9s_1_1.png" title="Body image" /></p>
+<pre><code>$ npx skills add anthropics/skills
+
+███████╗██╗  ██╗██╗██╗     ██╗     ███████╗
+██╔════╝██║ ██╔╝██║██║     ██║     ██╔════╝
+███████╗█████╔╝ ██║██║     ██║     ███████╗
+╚════██║██╔═██╗ ██║██║     ██║     ╚════██║
+███████║██║  ██╗██║███████╗███████╗███████║
+╚══════╝╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚══════╝
+
+┌   skills 
+│
+◇  Source: https://github.com/anthropics/skills.git
+│
+◇  Repository cloned
+│
+◇  Found 17 skills
+│
+◇  Select skills to install (space to toggle)
+│  docx, pdf, pptx, xlsx, algorithmic-art, brand-guidelines, canvas-design, doc-coauthoring,
+frontend-design, internal-comms, mcp-builder, skill-creator, slack-gif-creator, theme-factory,
+web-artifacts-builder, webapp-testing
+│
+◇  45 agents
+....
+
+│  One-time prompt - you won't be asked again if you dismiss.
+│
+◇  Install the find-skills skill? It helps your agent discover and suggest skills.
+│  Yes
+
+│
+◇  Installing find-skills skill...
+
+┌   skills 
+│
+◇  Source: https://github.com/vercel-labs/skills.git
+│
+◇  Falling back to clone...
+│
+◇  Repository cloned
+│
+◇  Found 1 skill
+│
+●  Selected 1 skill: find-skills
+
+│
+◇  Installation Summary ────────────────────────────────────╮
+│                                                           │
+│  ~/.agents/skills/find-skills                             │
+│    copy → Amp, Antigravity, Cline, Codex, Cursor +7 more  │
+│                                                           │
+├───────────────────────────────────────────────────────────╯
+│
+◇  Security Risk Assessments ─────────────────────────────────╮
+│                                                             │
+│               Gen               Socket            Snyk      │
+│  find-skills  Safe              0 alerts          Med Risk  │
+│                                                             │
+│  Details: https://skills.sh/vercel-labs/skills              │
+│                                                             │
+├─────────────────────────────────────────────────────────────╯
+│
+◇  Installation complete
+
+│
+◇  Installed 1 skill ────────────────╮
+│                                    │
+│  ✓ find-skills (copied)            │
+│    → ~/.agents/skills/find-skills  │
+│    → ~/.agents/skills/find-skills  │
+│    → ~/.agents/skills/find-skills  │
+│    → ~/.agents/skills/find-skills  │
+│    → ~/.agents/skills/find-skills  │
+│    → ~/.agents/skills/find-skills  │
+│    → ~/.agents/skills/find-skills  │
+│    → ~/.agents/skills/find-skills  │
+│    → ~/.agents/skills/find-skills  │
+│    → ~/.agents/skills/find-skills  │
+│    → ~/.agents/skills/find-skills  │
+│    → ~/.agents/skills/find-skills  │
+│                                    │
+├────────────────────────────────────╯
+
+│
+└  Done!  Review skills before use; they run with full agent permissions.
+</code></pre>
+<ul>
+<li>以<strong>下是根据您提供的信息整理而成的 Markdown 表格：</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">分类（用途）</th>
+<th style="text-align: left;">说明</th>
+<th style="text-align: left;">代表技能 / 仓库</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>前端 / React / UI</strong></td>
+<td style="text-align: left;">前端开发、React/Next 与设计规范</td>
+<td style="text-align: left;">vercel-react-best-practices, frontend-design, web-design-guidelines, vercel-composition-patterns, next-best-practices, tailwind-design-system, shadcn-ui, vue-best-practices</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>云 / Azure</strong></td>
+<td style="text-align: left;">Azure 与微软云相关</td>
+<td style="text-align: left;">microsoft/github-copilot-for-azure（azure-ai, azure-storage, azure-deploy 等 20+ 条）</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>文档 / Office</strong></td>
+<td style="text-align: left;">文档与办公格式处理</td>
+<td style="text-align: left;">pdf, pptx, docx, xlsx（anthropics/skills）</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>技能发现与元技能</strong></td>
+<td style="text-align: left;">找技能、写技能、模板</td>
+<td style="text-align: left;">find-skills, skill-creator, template-skill</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Agent 工作流 / 协作</strong></td>
+<td style="text-align: left;">规划、执行、Code Review、多 Agent</td>
+<td style="text-align: left;">obra/superpowers（brainstorming, writing-plans, executing-plans, code-review, test-driven-development 等）</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>营销 / SEO / 内容</strong></td>
+<td style="text-align: left;">营销、SEO、文案、转化</td>
+<td style="text-align: left;">coreyhaines31/marketingskills（seo-audit, copywriting, programmatic-seo, content-strategy 等）</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>设计 / 视觉 / 品牌</strong></td>
+<td style="text-align: left;">UI 设计、画布、主题、品牌</td>
+<td style="text-align: left;">canvas-design, algorithmic-art, theme-factory, brand-guidelines</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>测试与质量</strong></td>
+<td style="text-align: left;">自动化测试、TDD、调试</td>
+<td style="text-align: left;">webapp-testing, test-driven-development, systematic-debugging</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>移动 / Expo / React Native</strong></td>
+<td style="text-align: left;">移动端与跨平台</td>
+<td style="text-align: left;">vercel-react-native-skills, building-native-ui, expo/skills（building-native-ui, native-data-fetching 等）</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>视频 / 媒体</strong></td>
+<td style="text-align: left;">Remotion 等视频与媒体</td>
+<td style="text-align: left;">remotion-best-practices, remotion-render, remotion-video-production</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MCP / 工具 / 集成</strong></td>
+<td style="text-align: left;">MCP 服务器、浏览器、工具</td>
+<td style="text-align: left;">mcp-builder, agent-browser, agent-tools, firecrawl</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>数据库 / 后端 / Auth</strong></td>
+<td style="text-align: left;">数据库、认证、API</td>
+<td style="text-align: left;">supabase-postgres-best-practices, better-auth-best-practices, nodejs-backend-patterns</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>文档协作 / 沟通</strong></td>
+<td style="text-align: left;">协作文档、内部沟通</td>
+<td style="text-align: left;">doc-coauthoring, internal-comms</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>通用模板 / 多场景</strong></td>
+<td style="text-align: left;">多用途技能模板集合</td>
+<td style="text-align: left;">supercent-io/skills-template（code-review, api-design, deployment 等 40+ 条）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_8">三、验证步骤（做完即可验证）</h3>
+<ul>
+<li>打开 skills.sh，在排行榜或通过搜索选一个技能（例如 anthropics/skills，find-skills 或某个 commit/文档类技能）。</li>
+<li>在终端执行：npx skills add <owner/repo>（把 <owner/repo> 换成该技能页给出的仓库，如 anthropics/skills 或 vercel-labs/skills）。</li>
+<li>打开 Cursor（或你使用的 Agent），新建一个 Agent 对话，用自然语言触发该技能（例如装的是 find-skills 可以说「帮我找做 PPT 的技能」；装的是 commit 类可以说「根据当前改动写一条 commit」）。</li>
+<li>若助手按该技能的说明执行或给出预期结果，说明安装与触发成功。</li>
+</ul>
+<h2 id="3-agent-skills-skills-mp">3 Agent Skills 去哪找？Skills  MP 入门</h2>
+<p>如果你更习惯按领域浏览或用自然语言描述需求搜技能，可以试试 SkillsMP（https://skillsmp.com/）</p>
+<p>本篇将讲述 SkillsMP 是什么、怎么发现技能、怎么装。SkillsMP 非官方，数据来自公开 GitHub，使用前建议自行审查来源与许可。</p>
+<p><strong>SkillsMP 通过智能搜索、分类筛选和质量参考帮你更快找到所需</strong>。</p>
+<p>站内技能均采用开放的 SKILL.md 标准，兼容 Claude Code、OpenAI Codex CLI 等采用该格式的工具；无论做自动化开发、团队定制 AI 工具还是个人探索，都能按场景找到对应技能。</p>
+<p>和 skills.sh 的差异：</p>
+<ul>
+<li>skills.sh：偏一键安装（npx skills add <owner/repo>）和排行榜（按安装量、趋势、热度）。</li>
+<li>SkillsMP：偏浏览与发现—— 按分类筛选，或用 AI 语义搜索 以自然语言找技能，而不只靠关键词</li>
+</ul>
+<p><img alt="Alt Image Text" src="../../images/chap9s_1_2.png" title="Body image" /></p>
+<h3 id="ai">如何发现技能：分类浏览与 AI 语义搜索</h3>
+<p><img alt="Alt Image Text" src="../../images/chap9s_1_3.png" title="Body image" /></p>
+<p><a href="https://skillsmp.com/categories/devops">https://skillsmp.com/categories/devops</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">大类</th>
+<th style="text-align: left;">说明 / 子类举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Tools</td>
+<td style="text-align: left;">效率与集成、调试、系统管理、自动化工具、IDE 插件、CLI、域名与 DNS 等</td>
+</tr>
+<tr>
+<td style="text-align: left;">Development</td>
+<td style="text-align: left;">架构模式、CMS 与平台、前端 / 后端 / 全栈、游戏开发、脚本、移动端、包与分发等</td>
+</tr>
+<tr>
+<td style="text-align: left;">Business</td>
+<td style="text-align: left;">销售与市场、项目管理、财务与投资、健康与健身、地产与法律、支付、电商等</td>
+</tr>
+<tr>
+<td style="text-align: left;">Data &amp; AI</td>
+<td style="text-align: left;">LLM 与 AI、数据工程、机器学习、数据分析等</td>
+</tr>
+<tr>
+<td style="text-align: left;">Design</td>
+<td style="text-align: left;">UI/UX、原型与设计系统等</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_9">安装方式</h3>
+<p>SkillsMP 上的条目多数来自 GitHub，安装方式一般是：</p>
+<p>打开技能详情页，按页面说明操作；</p>
+<p>常见做法：把对应仓库克隆或复制到本地的 skills 目录，例如：</p>
+<p>Claude Code：<code>~/.claude/skills/</code> 或 <code>.claude/skills/</code></p>
+<p>具体以每个技能页的说明为准。部分 SkillsMP 技能页会提供与 skills.sh 相同的 <code>npx skills add &lt;owner/repo&gt;</code> 安装方式，也有不少只给「克隆或复制到目录」的说明，步骤因页而异；SkillsMP 聚合自大量公开仓库，能看到的技能数量与范围通常更广。若使用 Manus 等集成，SkillsMP 也支持一键运行。</p>
+<h3 id="_10">验证步骤（做完即可验证）</h3>
+<ol>
+<li>打开 skillsmp.com，在分类或搜索里选一个你需要的技能。</li>
+<li>点进技能页，按页面说明把该技能装到本地（如克隆到 ~/.cursor/skills/ 或项目对应目录）。</li>
+<li>打开 Cursor（或你使用的 Agent），新建 Agent 对话，用自然语言触发该技能（例如技能是「写 commit」，就说「根据当前改动写一条 commit」）。</li>
+<li>若助手按该技能的说明执行或给出预期结果，说明安装与触发成功。</li>
+</ol>
+<pre><code>npx skills add mukul975/Anthropic-Cybersecurity-Skills
+</code></pre>
+<pre><code>◇  Select skills to install (space to toggle)
+│  implementing-network-policies-for-kubernetes
+│
+◇  45 agents
+◆  Which agents do you want to install to?
+◆  Which agents do you want to install to?
+◆  Which agents do you want to install to?
+◇  Which agents do you want to install to?
+│  Amp, Antigravity, Cline, Codex, Cursor, Deep Agents, Firebender, Gemini CLI, GitHub Copilot, Kimi Code CLI, OpenCode, Warp
+│
+◇  Installation scope
+│  Project
+
+│
+◇  Installation Summary ───────────────────────────────────────────────────────────────╮
+│                                                                                      │
+│  ~/learnspace/ai/skills/.agents/skills/implementing-network-policies-for-kubernetes  │
+│    copy → Amp, Antigravity, Cline, Codex, Cursor +7 more                             │
+│                                                                                      │
+├──────────────────────────────────────────────────────────────────────────────────────╯
+│
+◇  Security Risk Assessments ──────────────────────────────────────────────────────────╮
+│                                                                                      │
+│                                        Gen               Socket            Snyk      │
+│  implementing-network-policies-for-k…  Safe              0 alerts          Low Risk  │
+│                                                                                      │
+│  Details: https://skills.sh/mukul975/Anthropic-Cybersecurity-Skills                  │
+│                                                                                      │
+├──────────────────────────────────────────────────────────────────────────────────────╯
+│
+◇  Proceed with installation?
+│  Yes
+│
+◇  Installation complete
+
+│
+◇  Installed 1 skill ──────────────────────────────────────────────────────────────────────╮
+│                                                                                          │
+│  ✓ implementing-network-policies-for-kubernetes (copied)                                 │
+│    → ~/learnspace/ai/skills/.agents/skills/implementing-network-policies-for-kubernetes  │
+│    → ~/learnspace/ai/skills/.agents/skills/implementing-network-policies-for-kubernetes  │
+│    → ~/learnspace/ai/skills/.agents/skills/implementing-network-policies-for-kubernetes  │
+│    → ~/learnspace/ai/skills/.agents/skills/implementing-network-policies-for-kubernetes  │
+│    → ~/learnspace/ai/skills/.agents/skills/implementing-network-policies-for-kubernetes  │
+│    → ~/learnspace/ai/skills/.agents/skills/implementing-network-policies-for-kubernetes  │
+│    → ~/learnspace/ai/skills/.agents/skills/implementing-network-policies-for-kubernetes  │
+│    → ~/learnspace/ai/skills/.agents/skills/implementing-network-policies-for-kubernetes  │
+│    → ~/learnspace/ai/skills/.agents/skills/implementing-network-policies-for-kubernetes  │
+│    → ~/learnspace/ai/skills/.agents/skills/implementing-network-policies-for-kubernetes  │
+│    → ~/learnspace/ai/skills/.agents/skills/implementing-network-policies-for-kubernetes  │
+│    → ~/learnspace/ai/skills/.agents/skills/implementing-network-policies-for-kubernetes  │
+│                                                                                          │
+├──────────────────────────────────────────────────────────────────────────────────────────╯
+
+│
+└  Done!  Review skills before use; they run with full agent permissions
+</code></pre>
+<h2 id="4-agent-skills-find-skills">4 Agent Skills 去哪找：find-skills 入门</h2>
+<p>前面两篇讲了「打开网页（skills.sh 或 SkillsMP）→ 选技能 → 复制/执行安装」的方式。</p>
+<p>有没有办法不离开对话，直接说「帮我找做 PPT 的技能」「有没有 React 最佳实践」就让助手帮你找并装？</p>
+<p>可以，用 find-skills 就行。</p>
+<h3 id="find-skills">一、find-skills 是什么？</h3>
+<p>find-skills 是一条「用来找其他技能」的技能，来自 vercel-labs/skills 仓库，在 skills.sh 排行榜上安装量长期位居前列。</p>
+<p>它的作用是：在对话中帮用户<strong>搜索、发现、筛选并安装</strong>技能。你只需用自然语言描述需求，例如：</p>
+<ul>
+<li>「帮我找做 PPT 的技能」</li>
+<li>「有没有 React 最佳实践相关的技能？」</li>
+<li>「适合 Cursor 的 code review 技能」</li>
+</ul>
+<p>助手会按 find-skills 的指引，从技能目录（如 skills.sh 前列）里检索、推荐，并可按你的选择执行安装命令。</p>
+<h3 id="_11">二、安装与触发</h3>
+<p><strong>如何装 find-skills？</strong></p>
+<ul>
+<li>在终端执行：<code>npx skills add vercel-labs/skills</code>（`会安装该仓库中的技能，当前主要为 find-skills）</li>
+<li>或打开 skills.sh，搜索「find-skills」，按页面说明安装。若只装这一条技能，可使用：<code>npx skills add vercel-labs/skills --skill find-skills</code>（具体以 skills.sh 页面为准）</li>
+</ul>
+<p><code>npx skills add vercel-labs/skills --skill find-skill</code></p>
+<p><strong>vercel-labs/skills 仓库里可能包含多条技能，find-skills 是其中专门用于「发现并安装技能」的那一条，装好整个仓库后，助手在对话里就能根据你的问题调用它。</strong></p>
+<pre><code>◇  Installation scope
+│  Project
+│
+◇  Installation method
+│  Symlink (Recommended)
+
+│
+◇  Installation Summary ────────────────────────────────────────╮
+│                                                               │
+│  ~/learnspace/ai/skills/.agents/skills/find-skills            │
+│    universal: Amp, Antigravity, Cline, Codex, Cursor +7 more  │
+│    symlink → Claude Code                                      │
+│                                                               │
+├───────────────────────────────────────────────────────────────╯
+│
+◇  Security Risk Assessments ─────────────────────────────────╮
+│                                                             │
+│               Gen               Socket            Snyk      │
+│  find-skills  Safe              0 alerts          Med Risk  │
+│                                                             │
+│  Details: https://skills.sh/vercel-labs/skills              │
+│                                                             │
+├─────────────────────────────────────────────────────────────╯
+│
+◇  Proceed with installation?
+│  Yes
+│
+◇  Installation complete
+
+│
+◇  Installed 1 skill ───────────────────────────────────────────╮
+│                                                               │
+│  ✓ ~/learnspace/ai/skills/.agents/skills/find-skills          │
+│    universal: Amp, Antigravity, Cline, Codex, Cursor +7 more  │
+│    symlinked: Claude Code                                     │
+│                                                               │
+├───────────────────────────────────────────────────────────────╯
+
+│
+└  Done!  Review skills before use; they run with full agent permissions.
+
+</code></pre>
+<p>选择 Project 时，技能会装到当前项目下的 <code>.agents/skills/find-skills</code> （或你环境对应的路径）；</p>
+<p>选择 Symlink 可让同一份技能被多个 Agent（如 Cursor、Claude Code、Windsurf）共用。安装完成后即可在对话中用「帮我找做 PPT 的技能」等话术触发 find-skills。</p>
+<h3 id="skillssh-skillsmp">和「先打开 skills.sh / SkillsMP 再手动装」的对比</h3>
+<pre><code>.agents/skills
+
+% tree find-skills 
+find-skills
+└── SKILL.md
+
+1 directory, 1 file
+
+</code></pre>
+<h2 id="5-anthropic-skills-ppt-skill">5 Anthropic 官方 Skills 仓库与 PPT Skill 拆解</h2>
+<p>anthropics/skills 是 Anthropic 官方维护的 Agent Skills 示例与规范仓库，既有可直接用的技能，也有写技能时可对照的 spec（规范）和 template（模板）。</p>
+<p>标准本身见 agentskills.io（https://agentskills.io/）。本篇先介绍仓库结构、怎么用，再以 pptx（PPT/演示文稿）技能为例拆解设计，并提炼可复用的原则。</p>
+<h3 id="1anthropicsskills">1、anthropics/skills 仓库介绍</h3>
+<p>是什么？</p>
+<ul>
+<li>仓库：github.com/anthropics/skills</li>
+<li>规范：Agent Skills 的格式与约定见 agentskills.io。</li>
+<li>内容：既有创意/设计类示例，也有技术类（如 Web 测试、MCP 生成）、企业流程（沟通、品牌）以及文档类技能（docx、pdf、pptx、xlsx）。文档类为 source-available（非开源），用于支撑 Claude 的文档能力，但可作为「复杂技能」的参考。</li>
+</ul>
+<p>目录结构</p>
+<ul>
+<li>skills/ ：   各条技能的文件夹，每条一个子目录，内含 SKILL.md 及可选子文档、脚本</li>
+<li>spec/： Agent Skills 规范，写技能时对照 （指向 https://agentskills.io/specification）</li>
+<li>template/  技能模板，新建技能可从这里复制再改</li>
+</ul>
+<p>安装方式（详见）：在终端执行 npx skills add anthropics/skills，按提示选择要安装的技能、目标 Agent（如 Cursor）、项目或全局、是否用符号链接等；CLI 会自动把技能放到当前环境支持的目录。</p>
+<p><strong>Claude Code</strong></p>
+<pre><code>~/.claude/skills/
+ 或项目 .claude/skills/；
+
+也可用插件：/plugin marketplace add anthropics/skills 后安装 document-skills / example-skills，或 /plugin install document-skills@anthropic-agent-skills
+</code></pre>
+<p><strong>文件组成</strong></p>
+<ul>
+<li>SKILL.md   主入口：YAML、Quick Reference、分场景路由、Design Ideas、QA 要求、依赖</li>
+<li>editing.md     基于已有模板编辑演示文稿的详细流程</li>
+<li>pptxgenjs.md   从零用 pptxgenjs 创建演示的步骤与 API</li>
+<li>scripts/   如 thumbnail、office（解包/打包、转 PDF 等）</li>
+<li>LICENSE.txt    许可说明（该技能为 source-available</li>
+</ul>
+<p><strong>YAML 与 description</strong></p>
+<ul>
+<li>name：pptx</li>
+<li>description：明确写清「任何涉及 .pptx 的场景」——作为输入、输出或两者；并列举触发词：deck、slides、presentation、.pptx 文件名等。这样用户一说「做一份 PPT」「改一下 deck」就容易被隐式匹配。</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023-9999 Jacob Xi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
